@@ -1,9 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/pages/LoginPage.vue'
 import MainLayout from '../components/templates/MainLayout.vue'
-import { recruitmentRoutes } from './routes/recruitment'
-import { studentRoutes } from './routes/student'
-import { extracurricularRoutes } from './routes/extracurricular'
+import { recruitmentRoutes } from './routes/recruitment/index'
+import { studentRoutes } from './routes/student/index'
+import { extracurricularRoutes } from './routes/extracurricular/index'
+import { trainingRoutes } from './routes/training/index'
+import { systemRoutes } from './routes/system/index'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,11 +24,13 @@ const router = createRouter({
           path: 'dashboard',
           name: 'dashboard',
           component: () => import('../components/pages/DashboardPage.vue'),
-          meta: { title: 'Dashboards', icon: 'Squares2X2Icon' }
+          meta: { title: 'Dashboards', icon: 'BxGridAlt' }
         },
         ...recruitmentRoutes,
         ...studentRoutes,
-        ...extracurricularRoutes
+        ...extracurricularRoutes,
+        ...trainingRoutes,
+        ...systemRoutes
       ]
     }
   ]

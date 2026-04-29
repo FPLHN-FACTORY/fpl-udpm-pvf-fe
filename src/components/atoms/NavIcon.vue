@@ -47,6 +47,12 @@
     <!-- BxsSchool -->
     <path v-if="name === 'BxsSchool'" d="M12 2 2 7v2h20V7L12 2zM4 11v8H2v2h20v-2h-2v-8h-2v8H6v-8H4zm6 8h4v-4h-4v4z" />
 
+    <!-- BxsKeyWrapper -->
+    <path v-if="name === 'BxsKeyWrapper'" d="M7 10a5 5 0 0 0 0 10 5 5 0 0 0 0-10zm0 8a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm10-5h-3v2h2v3h-2v2h3a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2zm-1-8a6.96 6.96 0 0 0-5.12 2.22L2 12.11V21h3v-2h2v-2h2v-2h3.11l2.11-2.11A6.94 6.94 0 0 0 12 5zm0 10a5 5 0 1 1 5-5 5 5 0 0 1-5 5z" />
+
+    <!-- BxExtensionWrapper -->
+    <path v-if="name === 'BxExtensionWrapper'" d="M21 13h-2v-2h2v-2h-2V7h-2V5h-2v2h-2V5H9v2H7v2H5v2h2v2H5v2h2v2h2v2h2v-2h2v2h2v-2h2v-2h2v-2zM9 13H7v-2h2v2zm0-4H7V7h2v2zm4 4h-2v-2h2v2zm0-4h-2V7h2v2zm4 4h-2v-2h2v2zm0-4h-2V7h2v2z" />
+
     <!-- Navigation Helpers -->
     <path v-if="name === 'ChevronRightIcon' || name === 'BxChevronRight'" d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z" />
     <path v-if="name === 'ChevronLeftIcon'" d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z" />

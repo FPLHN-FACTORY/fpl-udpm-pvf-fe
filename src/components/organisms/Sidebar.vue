@@ -1,6 +1,6 @@
 <template>
   <aside 
-    class="bg-white border-right border-gray-200 h-full flex flex-col transition-all duration-300 relative z-30"
+    class="bg-white border-r border-gray-200 h-full flex flex-col transition-all duration-300 relative z-30"
     :class="[collapsed ? 'w-20' : 'w-72']"
   >
     <!-- Logo Section -->
@@ -32,50 +32,18 @@
         />
       </div>
 
-      <!-- Recruitment Management -->
-      <div class="space-y-1">
-        <h3 v-if="!collapsed" class="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">
-          Quản lý tuyển sinh
+      <!-- Modular Sections -->
+      <div v-for="module in menuModules" :key="module[0].path" class="space-y-1">
+        <h3 v-if="!collapsed" class="px-4 text-[10px] font-bold text-[#b4bdc6] uppercase tracking-wider mb-2 mt-4">
+          {{ module[0].meta?.title }}
         </h3>
         <SidebarItem 
-          v-for="route in recruitmentRoutes" 
-          :key="route.name"
-          :title="route.meta?.title as string"
-          :icon="route.meta?.icon as string"
-          :to="route.path"
-          :has-submenu="route.meta?.hasSubmenu as boolean"
-          :collapsed="collapsed"
-        />
-      </div>
-
-      <!-- Student Management -->
-      <div class="space-y-1">
-        <h3 v-if="!collapsed" class="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">
-          Quản lý học viên
-        </h3>
-        <SidebarItem 
-          v-for="route in studentRoutes" 
-          :key="route.name"
-          :title="route.meta?.title as string"
-          :icon="route.meta?.icon as string"
-          :to="route.path"
-          :has-submenu="route.meta?.hasSubmenu as boolean"
-          :collapsed="collapsed"
-        />
-      </div>
-
-      <!-- Extracurricular Management -->
-      <div class="space-y-1">
-        <h3 v-if="!collapsed" class="px-4 text-[10px] font-bold text-gray-400 uppercase tracking-wider mb-2">
-          Quản lý học tập ngoại khóa
-        </h3>
-        <SidebarItem 
-          v-for="route in extracurricularRoutes" 
-          :key="route.name"
-          :title="route.meta?.title as string"
-          :icon="route.meta?.icon as string"
-          :to="route.path"
-          :has-submenu="route.meta?.hasSubmenu as boolean"
+          v-for="subRoute in module[0].children" 
+          :key="subRoute.name"
+          :title="subRoute.meta?.title as string"
+          :icon="subRoute.meta?.icon as string"
+          :to="module[0].path + '/' + subRoute.path"
+          :has-submenu="subRoute.meta?.hasSubmenu as boolean"
           :collapsed="collapsed"
         />
       </div>
@@ -84,16 +52,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import BaseLogo from '../atoms/BaseLogo.vue'
 import NavIcon from '../atoms/NavIcon.vue'
 import SidebarItem from '../molecules/SidebarItem.vue'
 import SidebarSearch from '../molecules/SidebarSearch.vue'
-import { recruitmentRoutes } from '../../router/routes/recruitment'
-import { studentRoutes } from '../../router/routes/student'
-import { extracurricularRoutes } from '../../router/routes/extracurricular'
+import { recruitmentRoutes } from '../../router/routes/recruitment/index'
+import { studentRoutes } from '../../router/routes/student/index'
+import { extracurricularRoutes } from '../../router/routes/extracurricular/index'
+import { trainingRoutes } from '../../router/routes/training/index'
+import { systemRoutes } from '../../router/routes/system/index'
 
 const collapsed = ref(false)
+
+const menuModules = computed(() => [
+  recruitmentRoutes,
+  studentRoutes,
+  extracurricularRoutes,
+  trainingRoutes,
+  systemRoutes
+])
 </script>
 
 <style scoped>
