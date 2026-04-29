@@ -12,7 +12,7 @@
       class="absolute top-6 -right-3 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center text-red-600 shadow-sm hover:bg-gray-50 z-40"
     >
       <NavIcon 
-        :name="collapsed ? 'ChevronRightIcon' : 'ChevronLeftIcon'" 
+        :name="collapsed ? 'BxChevronRight' : 'BxChevronLeft'" 
         class-name="w-4 h-4" 
       />
     </button>
@@ -42,8 +42,9 @@
           :key="subRoute.name"
           :title="subRoute.meta?.title as string"
           :icon="subRoute.meta?.icon as string"
-          :to="module[0].path + '/' + subRoute.path"
-          :has-submenu="subRoute.meta?.hasSubmenu as boolean"
+          :to="module[0].path + (subRoute.path ? '/' + subRoute.path : '')"
+          :has-submenu="!!subRoute.children"
+          :sub-items="subRoute.children"
           :collapsed="collapsed"
         />
       </div>
@@ -59,8 +60,14 @@ import SidebarItem from '../molecules/SidebarItem.vue'
 import SidebarSearch from '../molecules/SidebarSearch.vue'
 import { recruitmentRoutes } from '../../router/routes/recruitment/index'
 import { studentRoutes } from '../../router/routes/student/index'
+import { culturalRoutes } from '../../router/routes/cultural/index'
 import { extracurricularRoutes } from '../../router/routes/extracurricular/index'
 import { trainingRoutes } from '../../router/routes/training/index'
+import { expensesRoutes } from '../../router/routes/expenses/index'
+import { activitiesRoutes } from '../../router/routes/activities/index'
+import { gearRoutes } from '../../router/routes/gear/index'
+import { disciplineRoutes } from '../../router/routes/discipline/index'
+import { evaluationRoutes } from '../../router/routes/evaluation/index'
 import { systemRoutes } from '../../router/routes/system/index'
 
 const collapsed = ref(false)
@@ -68,8 +75,14 @@ const collapsed = ref(false)
 const menuModules = computed(() => [
   recruitmentRoutes,
   studentRoutes,
+  culturalRoutes,
   extracurricularRoutes,
   trainingRoutes,
+  expensesRoutes,
+  activitiesRoutes,
+  gearRoutes,
+  disciplineRoutes,
+  evaluationRoutes,
   systemRoutes
 ])
 </script>

@@ -3,6 +3,7 @@ import { subjectsRoute } from './subjects'
 import { roomsRoute } from './rooms'
 import { teachersRoute } from './teachers'
 import { classesRoute } from './classes'
+import { scoreTypesRoute } from './score-types'
 
 export const extracurricularRoutes: RouteRecordRaw[] = [
   {
@@ -12,7 +13,8 @@ export const extracurricularRoutes: RouteRecordRaw[] = [
       subjectsRoute,
       roomsRoute,
       teachersRoute,
-      classesRoute
+      classesRoute,
+      scoreTypesRoute
     ]
   }
 ]

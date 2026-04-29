@@ -37,8 +37,14 @@ src/
 │   └── routes/         # Feature-based route folders
 │       ├── recruitment/
 │       ├── student/
+│       ├── cultural/
 │       ├── extracurricular/
 │       ├── training/
+│       ├── expenses/
+│       ├── activities/
+│       ├── gear/
+│       ├── discipline/
+│       ├── evaluation/
 │       └── system/
 ├── stores/             # Pinia state stores
 ├── styles/             # Global CSS and Tailwind configurations
