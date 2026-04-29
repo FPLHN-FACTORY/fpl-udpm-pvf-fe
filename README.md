@@ -34,18 +34,23 @@ src/
 │   ├── templates/
 │   └── pages/
 ├── router/             # Modular routing configuration
-│   └── routes/         # Feature-based route modules
+│   └── routes/         # Feature-based route folders
+│       ├── recruitment/
+│       ├── student/
+│       ├── extracurricular/
+│       ├── training/
+│       └── system/
 ├── stores/             # Pinia state stores
 ├── styles/             # Global CSS and Tailwind configurations
 └── utils/              # Helper functions and constants
 ```
 
-## 🛠 Modular Routing
+## 🛠 Extreme Modular Routing
 
-Routes are divided into logical modules for better maintainability:
-- `recruitment.ts`: Handles all recruitment-related navigation.
-- `student.ts`: Manages student profiles and contract-related routes.
-- `extracurricular.ts`: Covers extracurricular activities and scheduling.
+Routes are meticulously divided into feature folders. Each menu item has its own dedicated `.ts` file, and each folder contains an `index.ts` to aggregate its respective routes. This ensures:
+- **Scalability**: Add new menus by simply creating a new file in the appropriate folder.
+- **Maintainability**: Locate and modify specific route logic without searching through large files.
+- **Clarity**: Each route file is clean and focused on a single responsibility.
 
 ## ⚙️ Getting Started
 
