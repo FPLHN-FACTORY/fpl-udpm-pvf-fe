@@ -5,6 +5,7 @@ A professional, modern training management system built for the **PVF Football A
 ## 🚀 Technologies
 
 - **Frontend Framework**: [Vue 3](https://vuejs.org/) (Composition API)
+- **UI Component Library**: [Ant Design Vue v4](https://www.antdv.com/)
 - **Build Tool**: [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **State Management**: [Pinia](https://pinia.vuejs.org/)
@@ -16,9 +17,9 @@ A professional, modern training management system built for the **PVF Football A
 
 The project is structured following **Atomic Design** principles:
 
-- **Atoms**: Basic building blocks (Buttons, Inputs, Icons, Logos).
+- **Atoms**: Basic building blocks (Buttons, Inputs, Icons, Logos). We wrap **Ant Design** components here to maintain a consistent style and centralize configuration.
 - **Molecules**: Groups of atoms working together (Search bars, Menu items).
-- **Organisms**: Complex components forming distinct sections (Sidebar, Header).
+- **Organisms**: Complex components forming distinct sections (Sidebar, Header, Data Tables).
 - **Templates**: Page-level skeletons (MainLayout).
 - **Pages**: Final products where templates are populated with data.
 

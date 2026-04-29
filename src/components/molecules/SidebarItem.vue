@@ -34,19 +34,23 @@
       leave-from-class="transform opacity-100 translate-y-0"
       leave-to-class="transform opacity-0 -translate-y-2"
     >
-      <div v-if="expanded && hasSubmenu && !collapsed" class="mt-1 ml-9 space-y-1">
+      <div v-if="expanded && hasSubmenu && !collapsed" class="mt-1 ml-6 space-y-1">
         <router-link
           v-for="sub in subItems"
           :key="sub.path"
           :to="to + '/' + sub.path"
-          class="block py-1.5 px-3 text-[13px] rounded-md transition-colors"
+          class="flex items-center gap-3 py-1.5 px-4 text-[13px] rounded-md transition-colors"
           :class="[
             currentPath === (to + '/' + sub.path)
               ? 'text-red-600 font-semibold'
               : 'text-gray-500 hover:text-gray-900'
           ]"
         >
-          {{ sub.meta?.title }}
+          <NavIcon 
+            :name="(sub.meta?.icon as string) || 'BxRadioCircle'" 
+            class-name="w-4 h-4 flex-shrink-0" 
+          />
+          <span class="truncate">{{ sub.meta?.title }}</span>
         </router-link>
       </div>
     </transition>
