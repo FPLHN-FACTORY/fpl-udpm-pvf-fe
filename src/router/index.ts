@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/pages/LoginPage.vue'
 import MainLayout from '../components/templates/MainLayout.vue'
+import TuyenSinhPage from '../components/pages/home/index.vue'
 import { recruitmentRoutes } from './routes/recruitment/index'
 import { studentRoutes } from './routes/student/index'
 import { culturalRoutes } from './routes/cultural/index'
@@ -20,6 +21,11 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginPage
+    },
+    {
+      path: '/tuyensinh',
+      name: 'tuyensinh',
+      component: TuyenSinhPage,
     },
     {
       path: '/',
