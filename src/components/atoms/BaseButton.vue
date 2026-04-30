@@ -9,7 +9,7 @@
     @click="$emit('click')"
   >
     <template #icon v-if="icon">
-      <NavIcon :name="icon" class-name="w-4 h-4" />
+      <NavIcon :name="icon" :class-name="iconClassName" :size="iconClassName ? undefined : 20" />
     </template>
     <slot />
   </a-button>
@@ -25,6 +25,7 @@ interface Props {
   loading?: boolean
   disabled?: boolean
   icon?: string
+  iconClassName?: string
   nativeType?: 'button' | 'submit' | 'reset'
 }
 
