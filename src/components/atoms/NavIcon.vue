@@ -4,6 +4,8 @@
     fill="currentColor"
     viewBox="0 0 24 24"
     :class="className"
+    :width="size"
+    :height="size"
   >
     <!-- BxGridAlt / Dashboard -->
     <path v-if="name === 'BxGridAlt' || name === 'Squares2X2Icon' || name === 'BxHomeSmile'" d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8zm-4-9a1.5 1.5 0 1 1 1.5 1.5A1.5 1.5 0 0 1 8 11zm8 0a1.5 1.5 0 1 1-1.5-1.5 1.5 1.5 0 0 1 1.5 1.5zm-4 7a4 4 0 0 1-3.44-2h6.88A4 4 0 0 1 12 18z" />
@@ -68,12 +70,43 @@
     <!-- BxLogInWrapper -->
     <path v-if="name === 'BxLogInWrapper'" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm4-9h-4V7l-5 5 5 5v-4h4v-2z" />
 
+    <!-- BxSearch -->
+    <path v-if="name === 'BxSearch'" d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" />
+
+    <!-- BxReset -->
+    <!-- BxReset (Custom for user requirement) -->
+    <path v-if="name === 'BxReset'" d="M12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm0-6a2 2 0 1 0 2 2 2 2 0 0 0-2-2z" />
+    <path v-if="name === 'BxReset'" d="M12 20a8.13 8.13 0 0 1-8-8 8 8 0 0 1 8-8c2.047 0 3.928.769 5.354 2.043l-2.047 2.03V10H20V5h-4.915l1.938 1.921C15.396 5.513 13.774 5 12 5c-3.859 0-7 3.141-7 7s3.141 7 7 7c1.778 0 3.4-.663 4.646-1.757l1.315 1.513C16.34 20.129 14.28 21 12 21z" />
+
+    <!-- BxCopy -->
+    <path v-if="name === 'BxCopy'" d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM14 20H4v-10h10v10zm6-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z" />
+
+    <!-- BxShow -->
+    <path v-if="name === 'BxShow'" d="M12 5c-7.633 0-9.927 6.617-9.948 6.684L1.946 12l.105.316C2.073 12.383 4.367 19 12 19s9.927-6.617 9.948-6.684l.106-.316-.105-.316C21.927 11.617 19.633 5 12 5zm0 12c-5.351 0-7.424-3.846-7.926-5C4.576 10.846 6.649 7 12 7s7.424 3.846 7.926 5c-.502 1.154-2.575 5-7.926 5z"/><circle v-if="name === 'BxShow'" cx="12" cy="12" r="3" />
+
+    <!-- BxEdit -->
+    <path v-if="name === 'BxEdit'" d="m18.988 2.012 3 3L19.701 7.3l-3-3zM8 16h3l7.287-7.287-3-3L8 13z"/><path v-if="name === 'BxEdit'" d="M19 19H5V5h7V3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2v-7h-2v7z" />
+
+    <!-- BxTrash -->
+    <path v-if="name === 'BxTrash'" d="M5 20a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8H5v12zM9 10h2v10H9V10zm4 0h2v10h-2V10zM18 4h-2.5l-1-1h-5l-1 1H5v2h13V4z" />
+
+    <!-- BxUser -->
+    <path v-if="name === 'BxUser'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z" />
+
+    <!-- BxPlus -->
+    <path v-if="name === 'BxPlus'" d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
+
   </svg>
 </template>
 
 <script setup lang="ts">
-defineProps<{
+interface Props {
   name?: string
   className?: string
-}>()
+  size?: string | number
+}
+
+withDefaults(defineProps<Props>(), {
+  size: '24'
+})
 </script>

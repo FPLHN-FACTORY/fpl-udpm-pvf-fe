@@ -1,6 +1,7 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { usersRoute } from './users'
-import { rolesRoute } from './roles'
+import { rolesRoutes } from './roles'
+import { permissionsRoutes } from './permissions'
 import { settingsRoute } from './settings'
 import { logsRoute } from './logs'
 
@@ -10,7 +11,14 @@ export const systemRoutes: RouteRecordRaw[] = [
     meta: { title: 'Hệ thống', icon: 'BxServer', isHeader: true },
     children: [
       usersRoute,
-      rolesRoute,
+      {
+        path: 'security',
+        meta: { title: 'Bảo mật & Phân quyền', icon: 'BxsKeyWrapper' },
+        children: [
+          ...rolesRoutes,
+          ...permissionsRoutes
+        ]
+      },
       settingsRoute,
       logsRoute
     ]
