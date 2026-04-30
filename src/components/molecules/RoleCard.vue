@@ -19,7 +19,7 @@
       <h3 class="text-lg font-bold text-[#566a7f]">{{ title }}</h3>
       <button 
         class="text-red-500 text-xs font-medium hover:underline text-left w-fit"
-        @click="$router.push(`/system/roles/edit/1`)"
+        @click="$router.push(`/system/security/roles/edit/1`)"
       >
         Sửa Nhóm quyền
       </button>

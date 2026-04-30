@@ -30,13 +30,13 @@
         <div v-else-if="column.key === 'actions'" class="flex items-center justify-center gap-2">
           <button 
             class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-            @click="$router.push(`/system/security/detail/${record.key}`)"
+            @click="$router.push(`/system/security/roles/detail/${record.key}`)"
           >
             <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
           </button>
           <button 
             class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-            @click="$router.push(`/system/security/edit/${record.key}`)"
+            @click="$router.push(`/system/security/roles/edit/${record.key}`)"
           >
             <NavIcon name="BxEdit" class-name="w-[18px] h-[18px]" />
           </button>

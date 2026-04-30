@@ -9,7 +9,7 @@
       </svg>
     </div>
     <div class="flex flex-col items-end text-right gap-2 flex-1">
-      <BaseButton variant="primary" size="small" @click="$router.push('/system/roles/add')">Thêm Nhóm Quyền</BaseButton>
+      <BaseButton variant="primary" size="small" @click="$router.push('/system/security/roles/add')">Thêm Nhóm Quyền</BaseButton>
       <p class="text-gray-400 text-[10px] leading-relaxed max-w-[120px]">
         Thêm nhóm quyền, nếu nhóm quyền đó chưa tồn tại
       </p>
