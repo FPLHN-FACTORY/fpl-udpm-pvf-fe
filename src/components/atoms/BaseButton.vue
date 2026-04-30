@@ -1,124 +1,63 @@
 <template>
-  <button
-    :class="[
-      'base-button',
-      `base-button--${variant}`,
-      `base-button--${size}`,
-      { 'base-button--disabled': disabled }
-    ]"
+  <a-button
+    :type="antType"
+    :size="size"
+    :loading="loading"
     :disabled="disabled"
-    @click="$emit('click', $event)"
+    :html-type="nativeType"
+    class="flex items-center justify-center gap-2 font-medium"
+    @click="$emit('click')"
   >
-    <slot name="icon-left" />
-    <span v-if="$slots.default" class="base-button__text">
-      <slot />
-    </span>
-    <slot name="icon-right" />
-  </button>
+    <template #icon v-if="icon">
+      <NavIcon :name="icon" class-name="w-4 h-4" />
+    </template>
+    <slot />
+  </a-button>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import NavIcon from './NavIcon.vue'
+
 interface Props {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost'
-  size?: 'small' | 'medium' | 'large'
+  variant?: 'primary' | 'secondary' | 'danger' | 'ghost' | 'link' | 'default'
+  size?: 'small' | 'middle' | 'large'
+  loading?: boolean
   disabled?: boolean
+  icon?: string
+  nativeType?: 'button' | 'submit' | 'reset'
 }
 
-withDefaults(defineProps<Props>(), {
-  variant: 'primary',
-  size: 'medium',
-  disabled: false
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'default',
+  size: 'middle',
+  loading: false,
+  disabled: false,
+  nativeType: 'button'
 })
 
-defineEmits<{
-  click: [event: MouseEvent]
-}>()
+defineEmits(['click'])
+
+// Map our custom variants to Ant Design types
+const antType = computed(() => {
+  switch (props.variant) {
+    case 'primary': return 'primary'
+    case 'danger': return 'primary' // Ant uses danger as a separate prop or specialized primary
+    case 'ghost': return 'ghost'
+    case 'link': return 'link'
+    default: return 'default'
+  }
+})
 </script>
 
 <style scoped>
-.base-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  border: none;
-  border-radius: 6px;
-  font-family: 'Public Sans', sans-serif;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-decoration: none;
-  outline: none;
+/* Bạn có thể ghi đè CSS của Ant ở đây nếu cần style cực kỳ đặc thù cho PVF */
+.ant-btn-primary {
+  background-color: #dc2626; /* Màu đỏ PVF */
+  border-color: #dc2626;
 }
-
-.base-button:focus-visible {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-/* Sizes */
-.base-button--small {
-  padding: 8px 12px;
-  font-size: 14px;
-  line-height: 20px;
-}
-
-.base-button--medium {
-  padding: 12px 16px;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-.base-button--large {
-  padding: 16px 24px;
-  font-size: 18px;
-  line-height: 28px;
-}
-
-/* Variants */
-.base-button--primary {
-  background-color: #ef4444;
-  color: white;
-}
-
-.base-button--primary:hover:not(:disabled) {
-  background-color: #dc2626;
-}
-
-.base-button--secondary {
-  background-color: #f3f4f6;
-  color: #374151;
-}
-
-.base-button--secondary:hover:not(:disabled) {
-  background-color: #e5e7eb;
-}
-
-.base-button--outline {
-  background-color: transparent;
-  color: #ef4444;
-  border: 1px solid #ef4444;
-}
-
-.base-button--outline:hover:not(:disabled) {
-  background-color: #fef2f2;
-}
-
-.base-button--ghost {
-  background-color: transparent;
-  color: #374151;
-}
-
-.base-button--ghost:hover:not(:disabled) {
-  background-color: #f3f4f6;
-}
-
-.base-button--disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.base-button__text {
-  white-space: nowrap;
+.ant-btn-primary:hover {
+  background-color: #b91c1c !important;
+  border-color: #b91c1c !important;
 }
 </style>
