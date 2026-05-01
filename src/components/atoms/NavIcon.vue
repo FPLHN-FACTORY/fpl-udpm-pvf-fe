@@ -96,6 +96,29 @@
     <!-- BxPlus -->
     <path v-if="name === 'BxPlus'" d="M19 11h-6V5h-2v6H5v2h6v6h2v-6h6z" />
 
+    <!-- BxBookContent (Custom for mockup) -->
+    <path v-if="name === 'BxBookContent'" d="M19 2H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 2v16H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h12z"/><path v-if="name === 'BxBookContent'" d="M8 7h8v2H8zm0 4h8v2H8zm0 4h5v2H8z"/>
+
+    <!-- BxsLayers (Custom for mockup) -->
+    <path v-if="name === 'BxsLayers'" d="M12 16a1 1 0 0 1-.64-.23l-8-7a1 1 0 0 1 0-1.54l8-7a1 1 0 0 1 1.28 0l8 7a1 1 0 0 1 0 1.54l-8 7a1 1 0 0 1-.64.23z"/><path v-if="name === 'BxsLayers'" d="m11.36 21.77-8-7a1 1 0 1 1 1.28-1.54l7.36 6.44 7.36-6.44a1 1 0 1 1 1.28 1.54l-8 7a1 1 0 0 1-1.28 0z"/><path v-if="name === 'BxsLayers'" d="m11.36 17.77-8-7a1 1 0 1 1 1.28-1.54l7.36 6.44 7.36-6.44a1 1 0 1 1 1.28 1.54l-8 7a1 1 0 0 1-1.28 0z"/>
+
+    <!-- BxsDatabaseMinus (Custom for mockup) -->
+    <path v-if="name === 'BxsDatabaseMinus'" d="M20 13c-1.103 0-2 .897-2 2v4c0 1.103.897 2 2 2h-16c-1.103 0-2-.897-2-2v-4c0-1.103.897-2 2-2h14zM4 19h16v-4h-16v4zm16-16c1.103 0 2 .897 2 2v4c0 1.103-.897 2-2 2h-16c-1.103 0-2-.897-2-2v-4c0-1.103.897-2 2-2h16zM4 9h16v-4h-16v4zm13-12h-2v2h2v-2zm-1 8h-4v2h4v-2z" />
+
+    <!-- BxArrowBack (Custom for mockup) -->
+    <path v-if="name === 'BxArrowBack'" d="M21 11H6.414l5.293-5.293-1.414-1.414L2.586 12l7.707 7.707 1.414-1.414L6.414 13H21z" />
+
+    <!-- BxsUserBadgeCheck (Custom for mockup) -->
+    <path v-if="name === 'BxsUserBadgeCheck'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm7 11H5v-2a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2z"/><path v-if="name === 'BxsUserBadgeCheck'" d="M14.293 12.293 11 15.586l-1.293-1.293-1.414 1.414L11 18.414l4.707-4.707z" />
+
+    <!-- BxsErrorCircle (Custom for mockup) -->
+    <path v-if="name === 'BxsErrorCircle'" d="M11.953 2C6.465 2 2 6.486 2 12s4.465 10 9.953 10c5.488 0 9.953-4.486 9.953-10S17.441 2 11.953 2zm.047 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm1-5h-2V7h2v6z" />
+
+    <!-- BxWaves (Custom for mockup) -->
+    <path v-if="name === 'BxWaves'" d="M12 16a1 1 0 0 1-.64-.23l-8-7a1 1 0 0 1 0-1.54l8-7a1 1 0 0 1 1.28 0l8 7a1 1 0 0 1 0 1.54l-8 7a1 1 0 0 1-.64.23z"/><path v-if="name === 'BxWaves'" d="m11.36 21.77-8-7a1 1 0 1 1 1.28-1.54l7.36 6.44 7.36-6.44a1 1 0 1 1 1.28 1.54l-8 7a1 1 0 0 1-1.28 0z" />
+
+
+
   </svg>
 </template>
 
