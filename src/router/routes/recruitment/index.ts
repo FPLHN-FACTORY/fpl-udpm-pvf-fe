@@ -11,7 +11,7 @@ export const recruitmentRoutes: RouteRecordRaw[] = [
     meta: { title: 'Quản lý tuyển sinh', icon: 'BxInfoCircle', isHeader: true },
     children: [
       facilityRoute,
-      centerRoute,
+      ...centerRoute,
       admissionRoute,
       evaluationRoute,
       candidateRoute

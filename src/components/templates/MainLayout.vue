@@ -15,6 +15,9 @@
           </transition>
         </router-view>
       </main>
+
+      <!-- Footer Organism -->
+      <AppFooter />
     </div>
   </div>
 </template>
@@ -22,6 +25,7 @@
 <script setup lang="ts">
 import Sidebar from '../organisms/Sidebar.vue'
 import AppHeader from '../organisms/AppHeader.vue'
+import AppFooter from '../organisms/AppFooter.vue'
 </script>
 
 <style scoped>
