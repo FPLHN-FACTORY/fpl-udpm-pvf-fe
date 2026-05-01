@@ -1,6 +1,10 @@
 <template>
-  <footer class="flex h-[50px] shrink-0 items-center justify-between border-t border-gray-100 bg-white px-7 text-[13px] text-[#697a8d]">
-    <span>2025 © PVF VN</span>
-    <span>Design & Develop by FPT POLYTECHNIC</span>
+  <footer class="bg-white border-t border-gray-100 py-4 px-6 flex justify-between items-center text-xs text-gray-400 font-medium">
+    <div>2025 © PVF VN</div>
+    <div>Design & Develop by FPT POLYTECHNIC</div>
   </footer>
 </template>
+
+<script setup lang="ts">
+// Footer component
+</script>
