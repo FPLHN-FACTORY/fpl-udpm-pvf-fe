@@ -5,7 +5,7 @@ export const permissionsRoutes: RouteRecordRaw[] = [
     path: 'permissions',
     name: 'system-permissions',
     component: () => import('../../../components/pages/PermissionsPage.vue'),
-    meta: { title: 'Quyền', icon: 'BxRadioCircle' }
+    meta: { title: 'Danh sách Quyền người dùng', icon: 'BxRadioCircle' }
   },
   {
     path: 'permissions/add',

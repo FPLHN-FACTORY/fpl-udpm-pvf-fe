@@ -8,15 +8,18 @@
 import { computed } from 'vue'
 
 const props = defineProps<{
-  type?: 'success' | 'warning' | 'error' | 'processing' | 'default'
+  type?: 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger'
 }>()
 
 const color = computed(() => {
   switch (props.type) {
     case 'success': return '#71dd37' // Saturated green
     case 'warning': return '#ffab00' // Saturated orange
+    case 'danger':
     case 'error': return '#ff3e1d'   // Saturated red
+    case 'primary':
     case 'processing': return '#696cff' // Saturated blue
+    case 'info': return '#03c3ec'
     default: return '#8592a3'        // Saturated gray
   }
 })
@@ -29,12 +32,3 @@ const color = computed(() => {
   opacity: 0.85;
 }
 </style>
-
-<script lang="ts">
-// Using a separate script block to calculate dynamic style values if needed
-import { computed as computedStyle } from 'vue'
-const textColor = computedStyle(() => {
-  // We'll just use the standard dark colors for these light backgrounds
-  return '#566a7f' // Standard text color in our theme
-})
-</script>

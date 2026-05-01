@@ -18,7 +18,7 @@
       </div>
     </div>
     <div class="flex items-center gap-2">
-      <BaseButton variant="primary" icon="BxSearch" class="!h-[38px]">Tìm Kiếm</BaseButton>
+      <BaseButton variant="primary" icon="BxSearch" class="!h-[38px] !bg-blue-600 hover:!bg-blue-700 !border-blue-600">Tìm Kiếm</BaseButton>
       <BaseButton 
         icon="BxReset" 
         class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !w-[38px] !h-[38px] !p-0 !min-w-0 flex items-center justify-center rounded-lg shadow-sm" 

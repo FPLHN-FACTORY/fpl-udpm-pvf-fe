@@ -1,30 +1,25 @@
 <template>
   <AdminPage>
-    <AdminCard title="Danh sách Quyền người dùng">
-      <template #actions>
-        <BaseButton
-          variant="primary"
-          icon="BxPlus"
-          icon-class-name="w-4 h-4"
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none"
-          @click="$router.push('/system/security/permissions/add')"
-        >
-          Thêm Mới
-        </BaseButton>
-      </template>
-
+    <AdminCard title="Nhật ký hệ thống">
       <div class="flex flex-wrap items-center gap-3 border-b border-gray-100 bg-[#fcfcfd] p-6">
-        <div class="min-w-[200px] flex-1">
-          <BaseInput v-model="searchQuery" placeholder="Tìm kiếm Quyền" class="!h-[38px] !border-[#d9dee3]" />
+        <div class="w-[200px]">
+          <BaseInput v-model="searchUser" placeholder="Tìm người dùng" class="!h-[38px] !border-[#d9dee3]" />
         </div>
         <div class="w-[200px]">
-          <a-select v-model:value="roleFilter" placeholder="Chọn quyền" class="w-full !h-[38px]">
-            <a-select-option value="admin">Administrator</a-select-option>
-            <a-select-option value="manager">Manager</a-select-option>
-            <a-select-option value="user">User</a-select-option>
+          <a-select v-model:value="objectType" placeholder="Chọn Loại đối tượng" class="w-full !h-[38px]">
+            <a-select-option value="USER">USER</a-select-option>
+            <a-select-option value="IP_POLICY">IP_POLICY</a-select-option>
+            <a-select-option value="AUTH">AUTH</a-select-option>
           </a-select>
         </div>
-        <div class="flex items-center gap-2">
+        <div class="w-[300px]">
+          <a-range-picker
+            v-model:value="timeRange"
+            class="w-full !h-[38px] !border-[#d9dee3]"
+            :placeholder="['Từ ngày', 'Đến ngày']"
+          />
+        </div>
+        <div class="ml-auto flex items-center gap-2">
           <BaseButton variant="primary" icon="BxSearch" class="!h-[38px] !border-none !bg-[#696cff] hover:!bg-[#5f61e6]">
             Tìm Kiếm
           </BaseButton>
@@ -38,7 +33,7 @@
       </div>
 
       <div class="overflow-x-auto">
-        <PermissionTable />
+        <LogTable />
       </div>
     </AdminCard>
   </AdminPage>
@@ -49,15 +44,17 @@ import { ref } from 'vue'
 import BaseButton from '../atoms/BaseButton.vue'
 import BaseInput from '../atoms/BaseInput.vue'
 import AdminCard from '../molecules/AdminCard.vue'
-import PermissionTable from '../organisms/PermissionTable.vue'
+import LogTable from '../organisms/LogTable.vue'
 import AdminPage from '../templates/AdminPage.vue'
 
-const searchQuery = ref('')
-const roleFilter = ref()
+const searchUser = ref('')
+const objectType = ref()
+const timeRange = ref([])
 
 const resetFilters = () => {
-  searchQuery.value = ''
-  roleFilter.value = undefined
+  searchUser.value = ''
+  objectType.value = undefined
+  timeRange.value = []
 }
 </script>
 
@@ -68,5 +65,9 @@ const resetFilters = () => {
   border-radius: 6px !important;
   display: flex;
   height: 38px !important;
+}
+
+:deep(.ant-picker) {
+  border-radius: 6px !important;
 }
 </style>

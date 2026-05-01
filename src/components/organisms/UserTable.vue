@@ -1,68 +1,63 @@
 <template>
-  <div class="bg-white rounded-b-xl border-x border-b border-gray-100 overflow-hidden">
-    <a-table 
-      :columns="columns" 
-      :data-source="dataSource" 
+  <div class="overflow-hidden rounded-b-xl border-x border-b border-gray-100 bg-white">
+    <AppTable
+      :columns="columns"
+      :data-source="dataSource"
       :pagination="false"
-      :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+      :row-selection="{ selectedRowKeys, onChange: onSelectChange }"
     >
       <template #bodyCell="{ column, record }">
-        <!-- NGƯỜI DÙNG -->
         <div v-if="column.key === 'user'" class="flex items-center gap-3">
-          <img :src="record.avatar" class="w-8 h-8 rounded-full object-cover" />
+          <img :src="record.avatar" class="h-8 w-8 rounded-full object-cover" />
           <div class="flex flex-col">
-            <span class="text-[13px] font-bold text-[#566a7f] leading-tight">{{ record.name }}</span>
+            <span class="text-[13px] font-bold leading-tight text-[#566a7f]">{{ record.name }}</span>
             <span class="text-[11px] text-gray-400">{{ record.email }}</span>
           </div>
         </div>
 
-        <!-- NHÓM QUYỀN -->
         <div v-else-if="column.key === 'role'" class="flex items-center gap-2">
-          <NavIcon :name="record.roleIcon" :class-name="`w-5 h-5 ${record.roleColor}`" />
-          <span class="text-[13px] text-gray-600 capitalize">{{ record.role }}</span>
+          <NavIcon :name="record.roleIcon" :class-name="`h-5 w-5 ${record.roleColor}`" />
+          <span class="text-[13px] capitalize text-gray-600">{{ record.role }}</span>
         </div>
 
-        <!-- TRẠNG THÁI -->
         <div v-else-if="column.key === 'status'">
           <BaseTag :type="record.statusType">{{ record.status }}</BaseTag>
         </div>
 
-        <div v-else-if="column.key === 'actions'" class="flex items-center justify-center gap-2">
-          <button 
-            class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-            @click="$router.push(`/system/security/roles/detail/${record.key}`)"
-          >
-            <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
-          </button>
-          <button 
-            class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-            @click="$router.push(`/system/security/roles/edit/${record.key}`)"
-          >
-            <NavIcon name="BxEdit" class-name="w-[18px] h-[18px]" />
-          </button>
-          <button class="p-1 text-[#a1acb8] hover:text-red-500 transition-colors">
-            <NavIcon name="BxTrash" class-name="w-[18px] h-[18px]" />
-          </button>
+        <div v-else-if="column.key === 'actions'">
+          <TableActions :actions="getActions(record.key)" />
         </div>
       </template>
-    </a-table>
 
-    <!-- Custom Pagination -->
-    <div class="p-4 flex justify-end border-t border-gray-100">
-      <a-pagination :total="50" :current="1" :page-size="10" show-less-items />
-    </div>
+      <template #pagination>
+        <div class="flex justify-end">
+          <a-pagination :total="50" :current="1" :page-size="10" show-less-items />
+        </div>
+      </template>
+    </AppTable>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import NavIcon from '../atoms/NavIcon.vue'
 import BaseTag from '../atoms/BaseTag.vue'
+import TableActions from '../molecules/TableActions.vue'
+import AppTable from './AppTable.vue'
 
-const selectedRowKeys = ref([])
-const onSelectChange = (keys: any) => {
+const router = useRouter()
+const selectedRowKeys = ref<string[]>([])
+
+const onSelectChange = (keys: string[]) => {
   selectedRowKeys.value = keys
 }
+
+const getActions = (id: string) => [
+  { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => router.push(`/system/security/roles/detail/${id}`) },
+  { label: 'Chỉnh sửa', icon: 'BxEdit', onClick: () => router.push(`/system/security/roles/edit/${id}`) },
+  { label: 'Xóa', icon: 'BxTrash', danger: true, onClick: () => undefined },
+]
 
 const columns = [
   { title: 'NGƯỜI DÙNG', key: 'user', dataIndex: 'name' },
@@ -70,12 +65,7 @@ const columns = [
   { title: 'NGÀY TẠO', key: 'created', dataIndex: 'created' },
   { title: 'NGÀY CẬP NHẬT', key: 'updated', dataIndex: 'updated' },
   { title: 'TRẠNG THÁI', key: 'status', dataIndex: 'status' },
-  {
-    title: 'HÀNH ĐỘNG',
-    key: 'actions',
-    width: '150px',
-    align: 'center',
-  },
+  { title: 'HÀNH ĐỘNG', key: 'actions', width: '150px', align: 'center' },
 ]
 
 const dataSource = [
@@ -85,7 +75,7 @@ const dataSource = [
     email: 'jordan@gmail.com',
     avatar: 'https://demos.themeselection.com/sneat-bootstrap-html-admin-template/assets/img/avatars/1.png',
     role: 'Admin',
-    roleIcon: 'BxLogInWrapper', // Using available icons
+    roleIcon: 'BxLogInWrapper',
     roleColor: 'text-red-500',
     created: '12/2/2024',
     updated: '12/2/2024',
@@ -185,28 +175,3 @@ const dataSource = [
   }
 ]
 </script>
-
-<style scoped>
-:deep(.ant-table-thead > tr > th) {
-  background-color: transparent !important;
-  color: #a1acb8 !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  text-transform: uppercase !important;
-  border-bottom: 1px solid #f0f2f4 !important;
-}
-:deep(.ant-table-row) {
-  cursor: pointer;
-}
-:deep(.ant-table-cell) {
-  padding: 12px 16px !important;
-  border-bottom: 1px solid #f0f2f4 !important;
-}
-:deep(.ant-pagination-item-active) {
-  background-color: #dc2626 !important;
-  border-color: #dc2626 !important;
-}
-:deep(.ant-pagination-item-active a) {
-  color: white !important;
-}
-</style>

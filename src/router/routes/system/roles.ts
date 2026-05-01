@@ -1,10 +1,11 @@
 import type { RouteRecordRaw } from 'vue-router'
+
 export const rolesRoutes: RouteRecordRaw[] = [
   {
     path: 'roles',
     name: 'system-roles',
     component: () => import('../../../components/pages/RolesPage.vue'),
-    meta: { title: 'Vai trò', icon: 'BxRadioCircle' }
+    meta: { title: 'Phân quyền người dùng', icon: 'BxRadioCircle' }
   },
   {
     path: 'roles/add',

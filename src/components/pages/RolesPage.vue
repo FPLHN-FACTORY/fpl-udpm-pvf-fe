@@ -1,33 +1,19 @@
 <template>
-  <div class="flex flex-col gap-6 p-6">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm">
-      <span class="text-gray-400">Bảo mật & Phân quyền</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Phân quyền người dùng</span>
-    </div>
-
-    <!-- Role Cards Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <RoleCard 
-        v-for="role in roles" 
-        :key="role.title"
-        v-bind="role"
-      />
+  <AdminPage>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <RoleCard v-for="role in roles" :key="role.title" v-bind="role" />
       <AddRoleCard />
     </div>
 
-    <!-- Table Section Header -->
-    <div class="mt-4 flex flex-col gap-1">
+    <div class="flex flex-col gap-1">
       <h2 class="text-xl font-bold text-[#566a7f]">Danh sách người dùng theo từng vai trò</h2>
     </div>
 
-    <!-- Table & Filters -->
     <div class="flex flex-col">
       <FilterBar />
       <UserTable />
     </div>
-  </div>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
@@ -35,6 +21,7 @@ import RoleCard from '../molecules/RoleCard.vue'
 import AddRoleCard from '../molecules/AddRoleCard.vue'
 import FilterBar from '../molecules/FilterBar.vue'
 import UserTable from '../organisms/UserTable.vue'
+import AdminPage from '../templates/AdminPage.vue'
 
 const roles = [
   {

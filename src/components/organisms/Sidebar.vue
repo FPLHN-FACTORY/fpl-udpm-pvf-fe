@@ -9,11 +9,11 @@
     <!-- Collapse Toggle Button -->
     <button 
       @click="collapsed = !collapsed"
-      class="absolute top-6 -right-3 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center text-red-600 shadow-sm hover:bg-gray-50 z-40"
+      class="absolute top-10 -right-[13px] w-[26px] h-[26px] bg-[#ff3e1d] rounded-full flex items-center justify-center text-white shadow-md hover:bg-[#e6381a] z-40 border-[3px] border-white transition-all"
     >
       <NavIcon 
-        :name="collapsed ? 'BxChevronRight' : 'BxChevronLeft'" 
-        class-name="w-4 h-4" 
+        :name="collapsed ? 'BxChevronRight' : 'BxChevronLeft'"
+        class-name="w-3.5 h-3.5" 
       />
     </button>
 

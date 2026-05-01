@@ -19,8 +19,8 @@ export const systemRoutes: RouteRecordRaw[] = [
           ...permissionsRoutes
         ]
       },
-      settingsRoute,
-      logsRoute
+      ...logsRoute,
+      settingsRoute
     ]
   }
 ]
