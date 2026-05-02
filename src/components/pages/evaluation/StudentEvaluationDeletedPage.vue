@@ -268,17 +268,16 @@ import { useRouter } from "vue-router";
 import EvaluationIcon from "./EvaluationIcon.vue";
 import {
   deletedEvaluationRows,
+  permanentlyDeleteEvaluationById,
+  restoreDeletedEvaluationById,
   stageOptions,
   statusOptions,
-  type DeletedEvaluationRecord,
 } from "./evaluationData";
 
 const pageSize = 5;
-const defaultPage = 3;
+const defaultPage = 1;
 
 const router = useRouter();
-
-const allRows = ref<DeletedEvaluationRecord[]>([...deletedEvaluationRows]);
 
 const filters = reactive({
   keyword: "",
@@ -292,7 +291,7 @@ const selectedIds = ref<number[]>([]);
 const filteredRows = computed(() => {
   const keyword = filters.keyword.trim().toLowerCase();
 
-  return allRows.value.filter((row) => {
+  return deletedEvaluationRows.filter((row) => {
     const matchKeyword =
       keyword.length === 0 ||
       row.studentName.toLowerCase().includes(keyword) ||
@@ -382,17 +381,48 @@ const toggleSelectVisible = () => {
   selectedIds.value = Array.from(nextSelected);
 };
 
-const removeRow = (id: number) => {
-  allRows.value = allRows.value.filter((row) => row.id !== id);
+const restoreRow = (id: number) => {
+  const record = deletedEvaluationRows.find((row) => row.id === id);
+
+  if (!record) {
+    return;
+  }
+
+  const shouldRestore = window.confirm(
+    `Ban co chac muon khoi phuc ban danh gia cua ${record.studentName}?`,
+  );
+
+  if (!shouldRestore) {
+    return;
+  }
+
+  if (!restoreDeletedEvaluationById(id)) {
+    return;
+  }
+
   selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id);
 };
 
-const restoreRow = (id: number) => {
-  removeRow(id);
-};
-
 const permanentlyDeleteRow = (id: number) => {
-  removeRow(id);
+  const record = deletedEvaluationRows.find((row) => row.id === id);
+
+  if (!record) {
+    return;
+  }
+
+  const shouldDelete = window.confirm(
+    `Ban co chac muon xoa vinh vien ban danh gia cua ${record.studentName}?`,
+  );
+
+  if (!shouldDelete) {
+    return;
+  }
+
+  if (!permanentlyDeleteEvaluationById(id)) {
+    return;
+  }
+
+  selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id);
 };
 
 const goToDetail = (sourceId: number) => {
