@@ -60,7 +60,7 @@ const onSelectChange = (keys: string[]) => {
 }
 
 const goToDetail = (id: string) => {
-  router.push(`/system/logs/detail/${id}`)
+  router.push(`/system/log/detail/${id}`)
 }
 
 const columns = [

@@ -1,15 +1,15 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-export const logsRoute: RouteRecordRaw[] = [
+export const logRoute: RouteRecordRaw[] = [
   {
-    path: 'logs',
-    name: 'system-logs',
-    component: () => import('../../../components/pages/system/log/LogsPage.vue'),
+    path: 'log',
+    name: 'system-log',
+    component: () => import('../../../components/pages/system/log/LogPage.vue'),
     meta: { title: 'Nhật ký hệ thống', icon: 'BxHistory' }
   },
   {
-    path: 'logs/detail/:id',
-    name: 'system-logs-detail',
+    path: 'log/detail/:id',
+    name: 'system-log-detail',
     component: () => import('../../../components/pages/system/log/LogDetailPage.vue'),
     meta: { title: 'Chi tiết Nhật ký', hidden: true }
   }
