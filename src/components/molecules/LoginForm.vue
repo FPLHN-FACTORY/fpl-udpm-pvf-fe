@@ -34,7 +34,7 @@
       <BaseButton
         type="submit"
         variant="primary"
-        size="medium"
+        size="middle"
         :disabled="loading"
         class="login-form__submit"
       >
@@ -48,14 +48,12 @@
       </div>
 
       <BaseButton
-        variant="outline"
-        size="medium"
+        variant="default"
+        size="middle"
         class="login-form__google"
         @click="handleGoogleLogin"
       >
-        <template #icon-left>
-          <BaseIcon name="google" size="20" />
-        </template>
+        <BaseIcon name="google" size="20" />
         Đăng nhập với Google
       </BaseButton>
     </div>
