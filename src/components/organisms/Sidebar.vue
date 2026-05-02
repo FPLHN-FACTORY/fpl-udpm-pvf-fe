@@ -38,13 +38,13 @@
           {{ module[0].meta?.title }}
         </h3>
         <SidebarItem 
-          v-for="subRoute in (module[0].children || []).filter(r => !r.meta?.hidden)" 
+          v-for="subRoute in (module[0].children || []).filter((r: any) => !r.meta?.hidden)" 
           :key="subRoute.name"
           :title="subRoute.meta?.title as string"
           :icon="subRoute.meta?.icon as string"
           :to="module[0].path + (subRoute.path ? '/' + subRoute.path : '')"
           :has-submenu="!!subRoute.children"
-          :sub-items="(subRoute.children || []).filter(r => !r.meta?.hidden)"
+          :sub-items="(subRoute.children || []).filter((r: any) => !r.meta?.hidden)"
           :collapsed="collapsed"
         />
       </div>
@@ -54,8 +54,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import BaseLogo from '../atoms/BaseLogo.vue'
-import NavIcon from '../atoms/NavIcon.vue'
+import BaseLogo from '../atoms/icons/BaseLogo.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
 import SidebarItem from '../molecules/SidebarItem.vue'
 import SidebarSearch from '../molecules/SidebarSearch.vue'
 import { recruitmentRoutes } from '../../router/routes/recruitment/index'

@@ -8,7 +8,7 @@ export const evaluationRoute: RouteRecordRaw = {
     {
       path: 'master-criteria',
       name: 'master-criteria',
-      component: () => import('../../../components/pages/DashboardPage.vue'),
+      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
       meta: { title: 'Bộ tiêu chí gốc' }
     }
   ]

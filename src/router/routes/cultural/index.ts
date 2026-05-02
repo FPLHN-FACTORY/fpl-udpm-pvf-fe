@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { schoolYearRoute } from './year'
+import { schoolYearRoutes } from './year'
 import { gradeRoute } from './grade'
 import { subjectRoute } from './subject'
 import { classRoute } from './class'
@@ -10,7 +10,7 @@ export const culturalRoutes: RouteRecordRaw[] = [
     path: '/cultural',
     meta: { title: 'Quản lý học tập văn hóa', icon: 'BxBookAlt', isHeader: true },
     children: [
-      schoolYearRoute,
+      ...schoolYearRoutes,
       gradeRoute,
       subjectRoute,
       classRoute,

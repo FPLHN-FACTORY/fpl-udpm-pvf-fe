@@ -1,5 +1,5 @@
 <template>
-  <div class="overflow-hidden rounded-b-xl border-x border-b border-gray-100 bg-white">
+  <div class="overflow-hidden bg-white">
     <AppTable
       :columns="columns"
       :data-source="dataSource"
@@ -7,12 +7,8 @@
       :row-selection="{ selectedRowKeys, onChange: onSelectChange }"
     >
       <template #bodyCell="{ column, record }">
-        <div v-if="column.key === 'user'" class="flex items-center gap-3">
-          <img :src="record.avatar" class="h-8 w-8 rounded-full object-cover" />
-          <div class="flex flex-col">
-            <span class="text-[13px] font-bold leading-tight text-[#566a7f]">{{ record.name }}</span>
-            <span class="text-[11px] text-gray-400">{{ record.email }}</span>
-          </div>
+        <div v-if="column.key === 'user'">
+          <UserAvatar :name="record.name" :email="record.email" :avatar="record.avatar" />
         </div>
 
         <div v-else-if="column.key === 'role'" class="flex items-center gap-2">
@@ -30,8 +26,13 @@
       </template>
 
       <template #pagination>
-        <div class="flex justify-end">
-          <a-pagination :total="50" :current="1" :page-size="10" show-less-items />
+        <div class="flex justify-end p-4">
+          <BasePagination 
+            :total="dataSource.length" 
+            :current="1" 
+            :page-size="10" 
+            @change="(p) => console.log('Page change', p)" 
+          />
         </div>
       </template>
     </AppTable>
@@ -41,9 +42,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import NavIcon from '../atoms/NavIcon.vue'
-import BaseTag from '../atoms/BaseTag.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
+import BaseTag from '../atoms/display/BaseTag.vue'
+import BasePagination from '../atoms/display/BasePagination.vue'
 import TableActions from '../molecules/TableActions.vue'
+import UserAvatar from '../molecules/UserAvatar.vue'
 import AppTable from './AppTable.vue'
 
 const router = useRouter()

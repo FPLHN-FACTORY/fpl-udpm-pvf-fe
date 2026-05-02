@@ -1,25 +1,37 @@
 <template>
-  <AppTable :columns="columns" :data-source="dataSource" :pagination="paginationConfig">
-    <template #bodyCell="{ column, record }">
-      <template v-if="column.key === 'roles'">
-        <div class="flex flex-wrap gap-2">
-          <BaseTag v-for="role in record.roles" :key="role.name" :type="role.type">
-            {{ role.name }}
-          </BaseTag>
-        </div>
-      </template>
+  <div class="permission-table-container">
+    <AppTable :columns="columns" :data-source="dataSource" :pagination="false">
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'roles'">
+          <div class="flex flex-wrap gap-2">
+            <BaseTag v-for="role in record.roles" :key="role.name" :type="role.type">
+              {{ role.name }}
+            </BaseTag>
+          </div>
+        </template>
 
-      <template v-else-if="column.key === 'actions'">
-        <TableActions :actions="getActions(record.key)" />
+        <template v-else-if="column.key === 'actions'">
+          <TableActions :actions="getActions(record.key)" />
+        </template>
       </template>
-    </template>
-  </AppTable>
+    </AppTable>
+    
+    <div class="flex justify-end p-4 border-t border-gray-50">
+      <BasePagination 
+        :total="dataSource.length" 
+        :current="1" 
+        :page-size="10" 
+        @change="(p) => console.log('Page change', p)" 
+      />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import BaseTag from '../atoms/BaseTag.vue'
+import BaseTag from '../atoms/display/BaseTag.vue'
+import BasePagination from '../atoms/display/BasePagination.vue'
 import TableActions from '../molecules/TableActions.vue'
 import AppTable from './AppTable.vue'
 

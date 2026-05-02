@@ -293,7 +293,7 @@ export default {
   },
 
   // Gán permission cho role
-  async assignPermissionToRole(permissionId: number, roleId: number, roleName: string, roleType: string) {
+  async assignPermissionToRole(permissionId: number, _roleId: number, roleName: string, roleType: string) {
     await delay(DELAY)
     const permission = mockPermissions.find(p => p.id === permissionId)
     if (!permission) {

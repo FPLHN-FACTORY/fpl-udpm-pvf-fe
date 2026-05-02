@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import IconButton from '../atoms/IconButton.vue'
+import IconButton from '../atoms/buttons/IconButton.vue'
 
 export interface TableAction {
   label: string

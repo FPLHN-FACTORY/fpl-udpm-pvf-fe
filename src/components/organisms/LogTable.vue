@@ -48,7 +48,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import BaseTag from '../atoms/BaseTag.vue'
+import BaseTag from '../atoms/display/BaseTag.vue'
 import TableActions from '../molecules/TableActions.vue'
 import AppTable from './AppTable.vue'
 
