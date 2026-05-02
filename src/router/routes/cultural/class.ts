@@ -40,4 +40,7 @@ export const classHiddenRoute: RouteRecordRaw = {
       meta: { title: 'Chi ti\u1ebft l\u1edbp h\u1ecdc v\u0103n h\u00f3a', hidden: true }
     }
   ]
+
+  component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
+  meta: { title: 'Lớp học văn hóa', icon: 'BxsSchool' }
 }
