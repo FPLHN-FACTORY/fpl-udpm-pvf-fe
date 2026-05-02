@@ -7,8 +7,11 @@
   </div>
   <template v-else>
     <TopBar :contact="siteConfig.contact" />
-    <Header :brand="siteConfig.brand" :contact="siteConfig.contact" />
+    <div class="sticky-wrapper">
+        <Header :brand="siteConfig.brand" :contact="siteConfig.contact" />
     <NavBar :links="siteConfig.navLinks" @location-change="onLocationChange" />
+    </div>
+    
     <Hero :hero="siteConfig.hero" />
     <CardSection
       :cards="cards"
@@ -123,6 +126,13 @@ body {
    font-family: 'Public Sans', sans-serif;
   color: var(--text);
   background: #fff;
+}
+
+.sticky-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: white;
 }
 
 /* Animation keyframes */

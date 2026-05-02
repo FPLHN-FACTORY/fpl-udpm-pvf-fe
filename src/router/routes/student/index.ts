@@ -11,7 +11,7 @@ export const studentRoutes: RouteRecordRaw[] = [
     path: '/student',
     meta: { title: 'Quản lý học viên', icon: 'BxsUserDetail', isHeader: true },
     children: [
-      equipmentRoute,
+      ...equipmentRoute,
       contractTypeRoute,
       contractVersionRoute,
       signedContractRoute,
