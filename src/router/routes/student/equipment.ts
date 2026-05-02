@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+<<<<<<< HEAD
 
 export const equipmentRoute: RouteRecordRaw[] = [
   {
@@ -32,3 +33,11 @@ export const equipmentRoute: RouteRecordRaw[] = [
     meta: { title: 'Dụng cụ đã xóa', hidden: true }
   }
 ]
+=======
+export const equipmentRoute: RouteRecordRaw = {
+  path: 'equipment',
+  name: 'student-equipment',
+  component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
+  meta: { title: 'Dụng cụ', icon: 'BxsCategoryAlt' }
+}
+>>>>>>> 503c94267d2c4648469fae267e450d7b7a1576cf

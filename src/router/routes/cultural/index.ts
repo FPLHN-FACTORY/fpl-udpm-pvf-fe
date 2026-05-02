@@ -1,20 +1,27 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { schoolYearRoute } from './year'
+import { schoolYearRoutes } from './year'
 import { gradeRoute } from './grade'
 import { subjectRoute } from './subject'
-import { classRoute } from './class'
+import { classHiddenRoute, classRoute } from './class'
 import { absenceRoute } from './absence'
 
 export const culturalRoutes: RouteRecordRaw[] = [
   {
     path: '/cultural',
-    meta: { title: 'Quản lý học tập văn hóa', icon: 'BxBookAlt', isHeader: true },
+    meta: { title: 'Qu\u1ea3n l\u00fd h\u1ecdc t\u1eadp v\u0103n h\u00f3a', icon: 'BxBookAlt', isHeader: true },
     children: [
-      schoolYearRoute,
+      ...schoolYearRoutes,
       gradeRoute,
       subjectRoute,
       classRoute,
       absenceRoute
     ]
+  }
+]
+
+export const culturalHiddenRoutes: RouteRecordRaw[] = [
+  {
+    path: '/cultural',
+    children: [classHiddenRoute]
   }
 ]

@@ -9,11 +9,11 @@
     <!-- Collapse Toggle Button -->
     <button 
       @click="collapsed = !collapsed"
-      class="absolute top-6 -right-3 w-6 h-6 bg-white border border-gray-200 rounded-full flex items-center justify-center text-red-600 shadow-sm hover:bg-gray-50 z-40"
+      class="absolute top-10 -right-[13px] w-[26px] h-[26px] bg-[#ff3e1d] rounded-full flex items-center justify-center text-white shadow-md hover:bg-[#e6381a] z-40 border-[3px] border-white transition-all"
     >
       <NavIcon 
-        :name="collapsed ? 'BxChevronRight' : 'BxChevronLeft'" 
-        class-name="w-4 h-4" 
+        :name="collapsed ? 'BxChevronRight' : 'BxChevronLeft'"
+        class-name="w-3.5 h-3.5" 
       />
     </button>
 
@@ -38,13 +38,13 @@
           {{ module[0].meta?.title }}
         </h3>
         <SidebarItem 
-          v-for="subRoute in (module[0].children || []).filter(r => !r.meta?.hidden)" 
+          v-for="subRoute in (module[0].children || []).filter((r: any) => !r.meta?.hidden)" 
           :key="subRoute.name"
           :title="subRoute.meta?.title as string"
           :icon="subRoute.meta?.icon as string"
           :to="module[0].path + (subRoute.path ? '/' + subRoute.path : '')"
           :has-submenu="!!subRoute.children"
-          :sub-items="(subRoute.children || []).filter(r => !r.meta?.hidden)"
+          :sub-items="(subRoute.children || []).filter((r: any) => !r.meta?.hidden)"
           :collapsed="collapsed"
         />
       </div>
@@ -54,8 +54,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import BaseLogo from '../atoms/BaseLogo.vue'
-import NavIcon from '../atoms/NavIcon.vue'
+import BaseLogo from '../atoms/icons/BaseLogo.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
 import SidebarItem from '../molecules/SidebarItem.vue'
 import SidebarSearch from '../molecules/SidebarSearch.vue'
 import { recruitmentRoutes } from '../../router/routes/recruitment/index'
