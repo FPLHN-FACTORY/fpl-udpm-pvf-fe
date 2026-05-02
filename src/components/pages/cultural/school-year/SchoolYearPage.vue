@@ -161,7 +161,7 @@ const handleViewDetail = (record: SchoolYear) => {
   router.push(`/cultural/school-year/detail/${record.id}`)
 }
 
-const handleRestore = async (id: string) => {
+const handleRestore = async (_id: string) => {
   try {
     message.success('Khôi phục năm học thành công')
     fetchData()

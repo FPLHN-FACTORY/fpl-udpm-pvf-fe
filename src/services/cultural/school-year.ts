@@ -83,6 +83,8 @@ class SchoolYearService {
     const newYear: SchoolYear = {
       ...data,
       id: Math.random().toString(36).substr(2, 9),
+      isCurrent: false,
+      isDeleted: false,
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     };
