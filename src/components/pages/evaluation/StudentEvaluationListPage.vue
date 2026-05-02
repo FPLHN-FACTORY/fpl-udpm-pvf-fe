@@ -248,7 +248,13 @@
                     >
                       <EvaluationIcon name="BxEditAlt" class-name="h-4 w-4" />
                     </button>
-                    <button type="button" class="transition hover:text-red-500">
+                    <button
+                      type="button"
+                      class="transition hover:text-red-500"
+                      title="Xoa"
+                      aria-label="Xoa"
+                      @click="deleteRow(row.id)"
+                    >
                       <EvaluationIcon name="BxTrash" class-name="h-4 w-4" />
                     </button>
                   </div>
@@ -320,6 +326,7 @@ import { useRouter } from "vue-router";
 import EvaluationIcon from "./EvaluationIcon.vue";
 import {
   evaluationRows,
+  softDeleteEvaluationById,
   stageOptions,
   statusOptions,
   type EvaluationStatus,
@@ -509,6 +516,28 @@ const goToEdit = (id: number) => {
     name: "evaluation-student-edit",
     params: { id },
   });
+};
+
+const deleteRow = (id: number) => {
+  const record = evaluationRows.find((row) => row.id === id);
+
+  if (!record) {
+    return;
+  }
+
+  const shouldDelete = window.confirm(
+    `Ban co chac muon xoa ban danh gia cua ${record.studentName}?`,
+  );
+
+  if (!shouldDelete) {
+    return;
+  }
+
+  if (!softDeleteEvaluationById(id)) {
+    return;
+  }
+
+  selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id);
 };
 
 watch(filteredRows, () => {

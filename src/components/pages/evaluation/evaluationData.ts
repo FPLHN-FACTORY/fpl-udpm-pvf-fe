@@ -1,3 +1,5 @@
+import { reactive } from "vue";
+
 export type EvaluationKind = "student" | "course";
 
 export type EvaluationStatus = "Đã khóa" | "Đang mở" | "Chưa đánh giá";
@@ -61,6 +63,7 @@ export interface DeletedEvaluationRecord {
   totalScore: number;
   deletedAt: string;
   status: EvaluationStatus;
+  snapshot: EvaluationRecord;
 }
 
 const baseRows = [
@@ -409,7 +412,7 @@ const buildCriteria = (
   });
 };
 
-export const evaluationRows: EvaluationRecord[] = baseRows.map((row, index) => {
+const initialEvaluationRows: EvaluationRecord[] = baseRows.map((row, index) => {
   const course = extractCourse(row.stage);
   const createdDay = 5 + (index % 20);
   const lockedDay = 15 + (index % 10);
@@ -434,8 +437,22 @@ export const evaluationRows: EvaluationRecord[] = baseRows.map((row, index) => {
   };
 });
 
+const cloneCriteria = (criteria: EvaluationCriterion[]) =>
+  criteria.map((criterion) => ({
+    ...criterion,
+  }));
+
+const cloneEvaluationRecord = (record: EvaluationRecord): EvaluationRecord => ({
+  ...record,
+  criteria: cloneCriteria(record.criteria),
+});
+
+export const evaluationRows = reactive<EvaluationRecord[]>(
+  initialEvaluationRows.map(cloneEvaluationRecord),
+);
+
 export const stageOptions = Array.from(
-  new Set(evaluationRows.map((row) => row.stage)),
+  new Set(initialEvaluationRows.map((row) => row.stage)),
 );
 
 export const statusOptions: EvaluationStatus[] = [
@@ -446,7 +463,7 @@ export const statusOptions: EvaluationStatus[] = [
 
 export const studentOptions = Array.from(
   new Map(
-    evaluationRows.map((row) => [
+    initialEvaluationRows.map((row) => [
       row.studentCode,
       {
         code: row.studentCode,
@@ -457,36 +474,115 @@ export const studentOptions = Array.from(
 );
 
 export const reviewerOptions = Array.from(
-  new Set(evaluationRows.map((row) => row.reviewer)),
+  new Set(initialEvaluationRows.map((row) => row.reviewer)),
 );
 
 export const formOptions = Array.from(
-  new Set(evaluationRows.map((row) => row.formName)),
+  new Set(initialEvaluationRows.map((row) => row.formName)),
 );
 
-export const deletedEvaluationRows: DeletedEvaluationRecord[] = Array.from(
-  { length: 30 },
-  (_, index) => {
-    const sourceRow = evaluationRows[index % evaluationRows.length];
-    const deletedDay = (index % 5) + 1;
+export const deletedEvaluationRows = reactive<DeletedEvaluationRecord[]>([]);
 
-    return {
-      id: 500 + index + 1,
-      order: index + 1,
-      sourceId: sourceRow.id,
-      studentName: sourceRow.studentName,
-      studentCode: sourceRow.studentCode,
-      stage: sourceRow.stage,
-      reviewer: sourceRow.reviewer,
-      totalScore: sourceRow.totalScore,
-      deletedAt: `${deletedDay}/1/2025 8:00`,
-      status: sourceRow.status,
-    };
-  },
-);
+const syncEvaluationOrdering = () => {
+  evaluationRows.forEach((row, index) => {
+    const nextOrder = index + 1;
+    row.order = nextOrder;
+    row.rank = nextOrder;
+  });
+};
+
+const syncDeletedOrdering = () => {
+  deletedEvaluationRows.forEach((row, index) => {
+    row.order = index + 1;
+  });
+};
+
+const createDeletedEvaluationRecord = (
+  record: EvaluationRecord,
+): DeletedEvaluationRecord => ({
+  id:
+    deletedEvaluationRows.reduce(
+      (maxId, deletedRecord) => Math.max(maxId, deletedRecord.id),
+      500,
+    ) + 1,
+  order: 0,
+  sourceId: record.id,
+  studentName: record.studentName,
+  studentCode: record.studentCode,
+  stage: record.stage,
+  reviewer: record.reviewer,
+  totalScore: record.totalScore,
+  deletedAt: formatTimestamp(new Date()),
+  status: record.status,
+  snapshot: cloneEvaluationRecord(record),
+});
 
 export const getEvaluationById = (id: number) =>
   evaluationRows.find((row) => row.id === id);
+
+export const getEvaluationSnapshotById = (id: number) => {
+  const activeRecord = getEvaluationById(id);
+
+  if (activeRecord) {
+    return activeRecord;
+  }
+
+  return deletedEvaluationRows.find((row) => row.sourceId === id)?.snapshot;
+};
+
+export const softDeleteEvaluationById = (id: number) => {
+  const rowIndex = evaluationRows.findIndex((row) => row.id === id);
+
+  if (rowIndex === -1) {
+    return false;
+  }
+
+  const [deletedRecord] = evaluationRows.splice(rowIndex, 1);
+  deletedEvaluationRows.unshift(createDeletedEvaluationRecord(deletedRecord));
+  syncEvaluationOrdering();
+  syncDeletedOrdering();
+
+  return true;
+};
+
+export const restoreDeletedEvaluationById = (id: number) => {
+  const rowIndex = deletedEvaluationRows.findIndex((row) => row.id === id);
+
+  if (rowIndex === -1) {
+    return false;
+  }
+
+  const [deletedRecord] = deletedEvaluationRows.splice(rowIndex, 1);
+  const restoredRecord = cloneEvaluationRecord(deletedRecord.snapshot);
+
+  if (!evaluationRows.some((row) => row.id === restoredRecord.id)) {
+    const insertAt = evaluationRows.findIndex((row) => row.id > restoredRecord.id);
+
+    if (insertAt === -1) {
+      evaluationRows.push(restoredRecord);
+    } else {
+      evaluationRows.splice(insertAt, 0, restoredRecord);
+    }
+  }
+
+  syncEvaluationOrdering();
+  syncDeletedOrdering();
+
+  return true;
+};
+
+export const permanentlyDeleteEvaluationById = (id: number) => {
+  const rowIndex = deletedEvaluationRows.findIndex((row) => row.id === id);
+
+  if (rowIndex === -1) {
+    return false;
+  }
+
+  deletedEvaluationRows.splice(rowIndex, 1);
+  syncDeletedOrdering();
+
+  return true;
+};
 
 export const updateEvaluationById = (
   id: number,

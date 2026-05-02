@@ -4,7 +4,7 @@ import MainLayout from '../components/templates/MainLayout.vue'
 import TuyenSinhPage from '../components/pages/home/index.vue'
 import { recruitmentHiddenRoutes, recruitmentRoutes } from './routes/recruitment/index'
 import { studentRoutes } from './routes/student/index'
-import { culturalRoutes } from './routes/cultural/index'
+import { culturalHiddenRoutes, culturalRoutes } from './routes/cultural/index'
 import { extracurricularRoutes } from './routes/extracurricular/index'
 import { trainingRoutes } from './routes/training/index'
 import { expensesRoutes } from './routes/expenses/index'
@@ -42,6 +42,7 @@ const router = createRouter({
         ...recruitmentHiddenRoutes,
         ...studentRoutes,
         ...culturalRoutes,
+        ...culturalHiddenRoutes,
         ...extracurricularRoutes,
         ...trainingRoutes,
         ...expensesRoutes,
