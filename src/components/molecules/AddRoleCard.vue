@@ -9,7 +9,7 @@
       </svg>
     </div>
     <div class="flex flex-col items-end text-right gap-2 flex-1">
-      <BaseButton variant="primary" size="small" @click="$router.push('/system/security/roles/add')">Thêm Nhóm Quyền</BaseButton>
+      <ButtonAdd text="Thêm Nhóm Quyền" @click="$router.push('/system/security/roles/add')" />
       <p class="text-gray-400 text-[10px] leading-relaxed max-w-[120px]">
         Thêm nhóm quyền, nếu nhóm quyền đó chưa tồn tại
       </p>
@@ -18,5 +18,5 @@
 </template>
 
 <script setup lang="ts">
-import BaseButton from '../atoms/BaseButton.vue'
+import ButtonAdd from '../atoms/buttons/ButtonAdd.vue'
 </script>

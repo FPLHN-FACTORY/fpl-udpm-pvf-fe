@@ -8,13 +8,14 @@ export const candidateRoute: RouteRecordRaw = {
     {
       path: 'list',
       name: 'candidate-list',
-      component: () => import('../../../components/pages/DashboardPage.vue'),
+      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
       meta: { title: 'Danh sách hồ sơ' }
     },
     {
       path: 'evaluation',
       name: 'candidate-evaluation',
       component: () => import('../../../components/pages/recruitment/CandidateEvaluationPage.vue'),
+      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
       meta: { title: 'Đánh giá thí sinh' }
     }
   ]

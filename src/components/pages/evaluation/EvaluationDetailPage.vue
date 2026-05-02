@@ -125,7 +125,10 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import NavIcon from "../../atoms/NavIcon.vue";
+
+import NavIcon from "../../atoms/icons/NavIcon.vue";
+import { getEvaluationSnapshotById, type EvaluationKind } from "./evaluationData";
+import NavIcon from "../../atoms/icons/NavIcon.vue";
 import { getEvaluationById, type EvaluationKind } from "./evaluationData";
 
 const moduleTitle = "Đánh giá học viên";
@@ -169,7 +172,7 @@ const record = computed(() => {
     return undefined;
   }
 
-  return getEvaluationById(recordId.value);
+  return getEvaluationSnapshotById(recordId.value);
 });
 
 const detailFields = computed(() => {
