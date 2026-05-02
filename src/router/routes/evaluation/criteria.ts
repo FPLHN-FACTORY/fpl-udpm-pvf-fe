@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+
 export const criteriaRoute: RouteRecordRaw = {
   path: 'criteria',
   name: 'evaluation-criteria-list',

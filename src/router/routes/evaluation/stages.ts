@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+
 export const stageRoute: RouteRecordRaw = {
   path: 'stages',
   name: 'evaluation-stages',

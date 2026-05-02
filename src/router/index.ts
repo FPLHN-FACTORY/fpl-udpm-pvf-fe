@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/pages/auth/LoginPage.vue'
 import MainLayout from '../components/templates/MainLayout.vue'
 import TuyenSinhPage from '../components/pages/home/index.vue'
-import { recruitmentRoutes } from './routes/recruitment/index'
+import { recruitmentHiddenRoutes, recruitmentRoutes } from './routes/recruitment/index'
 import { studentRoutes } from './routes/student/index'
 import { culturalRoutes } from './routes/cultural/index'
 import { extracurricularRoutes } from './routes/extracurricular/index'
@@ -11,7 +11,7 @@ import { expensesRoutes } from './routes/expenses/index'
 import { activitiesRoutes } from './routes/activities/index'
 import { gearRoutes } from './routes/gear/index'
 import { disciplineRoutes } from './routes/discipline/index'
-import { evaluationRoutes } from './routes/evaluation/index'
+import { evaluationHiddenRoutes, evaluationRoutes } from './routes/evaluation/index'
 import { systemRoutes } from './routes/system/index'
 
 const router = createRouter({
@@ -39,6 +39,7 @@ const router = createRouter({
           meta: { title: 'Dashboards', icon: 'BxGridAlt' }
         },
         ...recruitmentRoutes,
+        ...recruitmentHiddenRoutes,
         ...studentRoutes,
         ...culturalRoutes,
         ...extracurricularRoutes,
@@ -48,6 +49,7 @@ const router = createRouter({
         ...gearRoutes,
         ...disciplineRoutes,
         ...evaluationRoutes,
+        ...evaluationHiddenRoutes,
         ...systemRoutes
       ]
     }
