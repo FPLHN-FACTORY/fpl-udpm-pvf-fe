@@ -40,7 +40,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import BaseTag from '@/components/atoms/display/BaseTag.vue'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import TableIndex from '@/components/atoms/display/TableIndex.vue'
 import BasePagination from '@/components/atoms/display/BasePagination.vue'
 import TableActions from '@/components/molecules/TableActions.vue'

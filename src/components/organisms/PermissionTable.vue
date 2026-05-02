@@ -113,11 +113,7 @@ const dataSource = ref([
   },
 ])
 
-const paginationConfig = {
-  pageSize: 10,
-  showSizeChanger: false,
-  position: ['bottomRight'],
-}
+
 
 const getActions = (id: string) => [
   {
