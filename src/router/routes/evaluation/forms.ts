@@ -1,4 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
+
 export const formRoute: RouteRecordRaw = {
   path: 'forms',
   name: 'evaluation-forms',
