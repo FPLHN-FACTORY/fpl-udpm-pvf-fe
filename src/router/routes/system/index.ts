@@ -5,6 +5,8 @@ import { permissionsRoutes } from './permissions'
 import { settingsRoute } from './settings'
 import { logsRoute } from './logs'
 
+import { securityPoliciesRoutes } from './security'
+
 export const systemRoutes: RouteRecordRaw[] = [
   {
     path: '/system',
@@ -16,7 +18,8 @@ export const systemRoutes: RouteRecordRaw[] = [
         meta: { title: 'Bảo mật & Phân quyền', icon: 'BxsKeyWrapper' },
         children: [
           ...rolesRoutes,
-          ...permissionsRoutes
+          ...permissionsRoutes,
+          ...securityPoliciesRoutes
         ]
       },
       settingsRoute,
