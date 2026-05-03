@@ -12,22 +12,8 @@
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-lg font-bold text-[#566a7f]">Chi tiết <span class="bg-[#fcf3d7] px-1 rounded">Mẫu biên bản</span></h1>
         <div class="flex items-center gap-3">
-          <BaseButton 
-            variant="default" 
-            size="small" 
-            class="!bg-[#eceef1] hover:!bg-[#daddf1] !border-none !text-[#8592a3] !text-[13px] !px-4 flex items-center gap-1"
-            @click="$router.back()"
-          >
-            <span class="text-lg">←</span> Quay Lại
-          </BaseButton>
-          <BaseButton 
-            variant="primary" 
-            size="small" 
-            class="!bg-[#ffab00] hover:!bg-[#e69a00] !border-none !text-white !text-[13px] !px-4 flex items-center gap-1"
-            @click="$router.push(`/discipline/templates/edit/${$route.params.id}`)"
-          >
-            Chỉnh Sửa
-          </BaseButton>
+          <ButtonBack @click="$router.back()" />
+          <ButtonEdit @click="$router.push(`/discipline/templates/edit/${$route.params.id}`)" />
         </div>
       </div>
 
@@ -55,23 +41,15 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách trường mẫu</h2>
-        <BaseButton 
-          variant="primary" 
-          icon="BxPlus" 
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !text-white !text-[13px] !px-4"
-        >
-          Thêm Mới
-        </BaseButton>
+        <ButtonAdd text="Thêm Mới" @click="() => {}" />
       </div>
 
       <!-- Filter Bar -->
       <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
         <div class="flex-1 min-w-[200px]">
-          <BaseInput 
+          <InputSearch 
             v-model="searchQuery" 
             placeholder="Tìm kiếm" 
-            class="!h-[38px] !border-[#d9dee3]"
-            icon="BxSearch"
           />
         </div>
         <div class="w-[200px]">
@@ -85,19 +63,8 @@
           </a-select>
         </div>
         <div class="flex items-center gap-2">
-          <BaseButton 
-            variant="primary" 
-            icon="BxSearch" 
-            class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-[38px]"
-          >
-            Tìm Kiếm
-          </BaseButton>
-          <BaseButton 
-            icon="BxReset" 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !w-[38px] !h-[38px] !p-0 !min-w-0 flex items-center justify-center rounded-lg" 
-            icon-class-name="w-6 h-6 text-white" 
-            @click="resetFilters" 
-          />
+          <ButtonSearch @click="() => {}" />
+          <ButtonReset @click="resetFilters" />
         </div>
       </div>
 
@@ -149,10 +116,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import BaseButton from '../../atoms/BaseButton.vue'
-import BaseInput from '../../atoms/BaseInput.vue'
-import BaseTag from '../../atoms/BaseTag.vue'
-import NavIcon from '../../atoms/NavIcon.vue'
+import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
+import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
+import ButtonEdit from '../../atoms/buttons/ButtonEdit.vue'
+import ButtonSearch from '../../atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
+import InputSearch from '../../atoms/inputs/InputSearch.vue'
+import BaseTag from '../../atoms/display/BaseTag.vue'
+import NavIcon from '../../atoms/icons/NavIcon.vue'
 
 const searchQuery = ref('')
 const statusFilter = ref(undefined)

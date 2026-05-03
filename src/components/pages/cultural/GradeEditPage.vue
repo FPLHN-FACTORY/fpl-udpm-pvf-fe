@@ -12,14 +12,7 @@
       <!-- Card Header -->
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-xl font-bold text-[#566a7f]">Điều chỉnh <span class="bg-[#fcf3d7] px-1 rounded">Khối lớp</span></h1>
-        <BaseButton 
-          variant="default" 
-          size="small" 
-          class="!bg-[#eceef1] hover:!bg-[#daddf1] !border-none !text-[#8592a3] !text-[13px] !px-4 flex items-center gap-1"
-          @click="$router.back()"
-        >
-          <span class="text-lg">←</span> Quay Lại
-        </BaseButton>
+        <ButtonBack @click="$router.back()" />
       </div>
 
       <!-- Form -->
@@ -59,20 +52,8 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 mt-4">
-          <BaseButton 
-            variant="primary" 
-            class="!h-[42px] !px-8 !bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none shadow-md shadow-red-200"
-            @click="handleSubmit"
-          >
-            Cập Nhật
-          </BaseButton>
-          <BaseButton 
-            variant="default"
-            class="!h-[42px] !px-8 !bg-[#ffab00] hover:!bg-[#e69a00] !border-none !text-white shadow-md shadow-orange-200"
-            @click="resetForm"
-          >
-            Đặt Lại
-          </BaseButton>
+          <ButtonSave text="Cập Nhật" @click="handleSubmit" />
+          <ButtonReset @click="resetForm" />
         </div>
       </div>
     </div>
@@ -88,7 +69,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import BaseButton from '../../atoms/BaseButton.vue'
+import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
+import ButtonSave from '../../atoms/buttons/ButtonSave.vue'
+import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 const route = useRoute()

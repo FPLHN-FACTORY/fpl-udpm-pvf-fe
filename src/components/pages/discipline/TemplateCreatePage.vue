@@ -12,23 +12,15 @@
       <!-- Card Header -->
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-xl font-bold text-[#566a7f]">Thêm mới <span class="bg-[#fcf3d7] px-1 rounded">Mẫu biên bản</span></h1>
-        <BaseButton 
-          variant="default" 
-          size="small" 
-          class="!bg-[#eceef1] hover:!bg-[#daddf1] !border-none !text-[#8592a3] !text-[13px] !px-4 flex items-center gap-1"
-          @click="$router.back()"
-        >
-          <span class="text-lg">←</span> Quay Lại
-        </BaseButton>
+        <ButtonBack @click="$router.back()" />
       </div>
 
       <!-- Form -->
       <div class="flex flex-col gap-6 max-w-full">
         <div>
-          <BaseInput 
+          <InputForm 
             v-model="formData.name"
             placeholder="Tên mẫu biên bản"
-            class="!h-[42px] !border-[#d9dee3] rounded-md"
           />
         </div>
 
@@ -73,28 +65,21 @@
             <h3 class="text-lg font-bold text-[#566a7f]">
               Trường (key) của <span class="bg-[#fcf3d7] px-1 rounded">mẫu biên bản</span>
             </h3>
-            <BaseButton 
-              class="!bg-[#71dd37] hover:!bg-[#65c731] !border-none !text-white !text-[13px] !px-4"
-              @click="addField"
-            >
-              Thêm Trường
-            </BaseButton>
+            <ButtonAdd text="Thêm Trường" @click="addField" />
           </div>
           
           <div class="flex flex-col gap-4">
             <div v-for="(field, index) in templateFields" :key="index" class="flex gap-4 items-center animate-fadeIn">
               <div class="flex-1">
-                <BaseInput 
+                <InputForm 
                   v-model="field.key" 
                   placeholder="Tên trường (key) của mẫu biên bản" 
-                  class="!h-[42px] !border-[#d9dee3]"
                 />
               </div>
               <div class="flex-[1.5]">
-                <BaseInput 
+                <InputForm 
                   v-model="field.content" 
                   placeholder="Nội dung trường (plain text)" 
-                  class="!h-[42px] !border-[#d9dee3]"
                 />
               </div>
               <button 
@@ -110,20 +95,8 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-gray-100">
-          <BaseButton 
-            variant="primary" 
-            class="!h-[42px] !px-12 !bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none shadow-md shadow-red-200"
-            @click="handleSubmit"
-          >
-            Thêm Mới
-          </BaseButton>
-          <BaseButton 
-            variant="default"
-            class="!h-[42px] !px-12 !bg-[#ffab00] hover:!bg-[#e69a00] !border-none !text-white shadow-md shadow-orange-200"
-            @click="resetForm"
-          >
-            Đặt Lại
-          </BaseButton>
+          <ButtonSave text="Thêm Mới" @click="handleSubmit" />
+          <ButtonReset @click="resetForm" />
         </div>
       </div>
     </div>
@@ -139,9 +112,12 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import BaseInput from '../../atoms/BaseInput.vue'
-import BaseButton from '../../atoms/BaseButton.vue'
-import NavIcon from '../../atoms/NavIcon.vue'
+import InputForm from '../../atoms/inputs/InputForm.vue'
+import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
+import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
+import ButtonSave from '../../atoms/buttons/ButtonSave.vue'
+import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
+import NavIcon from '../../atoms/icons/NavIcon.vue'
 
 const router = useRouter()
 
