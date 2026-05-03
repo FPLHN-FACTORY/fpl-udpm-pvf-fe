@@ -12,21 +12,8 @@
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-lg font-bold text-[#566a7f] bg-[#fcf3d7] px-2 py-1 rounded inline-block">Chi tiết Khối lớp</h1>
         <div class="flex items-center gap-3">
-          <BaseButton 
-            variant="default" 
-            size="small" 
-            class="!bg-[#eceef1] hover:!bg-[#daddf1] !border-none !text-[#8592a3] !text-[13px] !px-4 flex items-center gap-1"
-            @click="$router.back()"
-          >
-            <span class="text-lg">←</span> Quay Lại
-          </BaseButton>
-          <BaseButton 
-            variant="primary" 
-            size="small" 
-            class="!bg-[#ffab00] hover:!bg-[#e69a00] !border-none !text-white !text-[13px] !px-4 flex items-center gap-1"
-          >
-            Chỉnh Sửa
-          </BaseButton>
+          <ButtonBack @click="$router.back()" />
+          <ButtonEdit @click="$router.push(`/cultural/grade/edit/${$route.params.id}`)" />
         </div>
       </div>
 
@@ -71,8 +58,9 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import BaseButton from '../../atoms/BaseButton.vue'
-import NavIcon from '../../atoms/NavIcon.vue'
+import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
+import ButtonEdit from '../../atoms/buttons/ButtonEdit.vue'
+import NavIcon from '../../atoms/icons/NavIcon.vue'
 
 const gradeDetails = ref([
   { label: 'ID Khối lớp', value: 'HS001' },
