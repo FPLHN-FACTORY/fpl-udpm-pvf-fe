@@ -3,6 +3,6 @@ import type { RouteRecordRaw } from 'vue-router'
 export const scoreTypesRoute: RouteRecordRaw = {
   path: 'score-types',
   name: 'extracurricular-score-types',
-  component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
+  component: () => import('../../../components/pages/ScoreTypesPage.vue'),
   meta: { title: 'Quản lý loại điểm', icon: 'BxSpreadsheet' }
 }
