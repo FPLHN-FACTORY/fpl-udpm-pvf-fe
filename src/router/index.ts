@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import LoginPage from '../components/pages/LoginPage.vue'
+import LoginPage from '../components/pages/auth/LoginPage.vue'
 import MainLayout from '../components/templates/MainLayout.vue'
 import TuyenSinhPage from '../components/pages/home/index.vue'
 import { recruitmentHiddenRoutes, recruitmentRoutes } from './routes/recruitment/index'
@@ -35,7 +35,7 @@ const router = createRouter({
         {
           path: 'dashboard',
           name: 'dashboard',
-          component: () => import('../components/pages/DashboardPage.vue'),
+          component: () => import('../components/pages/dashboard/DashboardPage.vue'),
           meta: { title: 'Dashboards', icon: 'BxGridAlt' }
         },
         ...recruitmentRoutes,

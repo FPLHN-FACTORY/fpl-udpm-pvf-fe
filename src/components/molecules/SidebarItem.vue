@@ -60,7 +60,7 @@
 <script setup lang="ts">
 import { ref, computed, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import NavIcon from '../atoms/NavIcon.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
 
 const props = defineProps<{
   title: string

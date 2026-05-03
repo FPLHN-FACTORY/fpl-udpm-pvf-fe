@@ -237,7 +237,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import MasterCriteriaIcon from "./MasterCriteriaIcon.vue";
 import {
@@ -272,6 +272,8 @@ const pagination = reactive<PaginationMeta>({
   totalItems: 0,
   itemsPerPage: 9,
 });
+
+let filterSyncTimer: ReturnType<typeof setTimeout> | undefined;
 
 const isAllVisibleSelected = computed(
   () =>
@@ -314,20 +316,24 @@ const loadRows = async () => {
   selectedIds.value = [];
 };
 
-const applyFilters = async () => {
+const syncFiltersAndReload = async () => {
   queryFilters.keyword = draftFilters.keyword;
   queryFilters.status = draftFilters.status;
   pagination.currentPage = 1;
   await loadRows();
 };
 
-const resetFilters = async () => {
+const applyFilters = async () => {
+  if (filterSyncTimer) {
+    clearTimeout(filterSyncTimer);
+  }
+
+  await syncFiltersAndReload();
+};
+
+const resetFilters = () => {
   draftFilters.keyword = "";
   draftFilters.status = "all";
-  queryFilters.keyword = "";
-  queryFilters.status = "all";
-  pagination.currentPage = 1;
-  await loadRows();
 };
 
 const changePage = async (page: number) => {
@@ -388,4 +394,17 @@ const hardDeleteRow = async (id: number) => {
 onMounted(async () => {
   await loadRows();
 });
+
+watch(
+  () => [draftFilters.keyword, draftFilters.status],
+  () => {
+    if (filterSyncTimer) {
+      clearTimeout(filterSyncTimer);
+    }
+
+    filterSyncTimer = setTimeout(() => {
+      void syncFiltersAndReload();
+    }, 250);
+  },
+);
 </script>
