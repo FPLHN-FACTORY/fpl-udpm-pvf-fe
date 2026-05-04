@@ -10,7 +10,7 @@ import { trainingRoutes } from './routes/training/index'
 import { expensesRoutes } from './routes/expenses/index'
 import { activitiesRoutes } from './routes/activities/index'
 import { gearRoutes } from './routes/gear/index'
-import { disciplineRoutes } from './routes/discipline/index'
+import { disciplineHiddenRoutes, disciplineRoutes } from './routes/discipline/index'
 import { evaluationHiddenRoutes, evaluationRoutes } from './routes/evaluation/index'
 import { systemRoutes } from './routes/system/index'
 
@@ -49,6 +49,7 @@ const router = createRouter({
         ...activitiesRoutes,
         ...gearRoutes,
         ...disciplineRoutes,
+        ...disciplineHiddenRoutes,
         ...evaluationRoutes,
         ...evaluationHiddenRoutes,
         ...systemRoutes

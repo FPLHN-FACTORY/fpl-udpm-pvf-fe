@@ -1,13 +1,5 @@
 <template>
-  <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ pageTitle }}</span>
-      </p>
-    </div>
-
+  <AdminPage :breadcrumbs="breadcrumbs">
     <MasterCriteriaForm
       v-if="initialValue"
       title="Điều chỉnh Bộ tiêu chí gốc"
@@ -17,52 +9,43 @@
       @submit="handleSubmit"
     />
 
-    <section
-      v-else
-      class="rounded-2xl border border-slate-200 bg-white px-5 py-14 text-center shadow-sm"
-    >
-      <p class="text-base font-semibold text-slate-700">
-        Không tìm thấy bộ tiêu chí để chỉnh sửa.
-      </p>
-      <button
-        type="button"
-        class="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#ff1f1f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b]"
-        @click="goBack"
-      >
-        Quay lại danh sách
-      </button>
-    </section>
-  </div>
+    <div v-else-if="!loading" class="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-14 text-center">
+      <p class="text-base font-semibold text-gray-700">Không tìm thấy bộ tiêu chí để chỉnh sửa.</p>
+      <p class="mt-2 text-sm text-gray-400">Bản ghi có thể đã bị xóa hoặc đường dẫn không còn hợp lệ.</p>
+      <ButtonBack class="mt-6" @click="goBack" text="Quay lại danh sách" />
+    </div>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { message } from 'ant-design-vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
 import MasterCriteriaForm from "./MasterCriteriaForm.vue";
 import {
   masterCriteriaService,
   type MasterCriteriaRecord,
   type SaveMasterCriteriaInput,
-} from "../../../../services/recruitment/masterCriteria";
-
-const moduleTitle = "Quản lý tuyển sinh";
-const pageTitle = "Bộ tiêu chí gốc";
+} from "@/services/recruitment/masterCriteria";
 
 const route = useRoute();
 const router = useRouter();
 
+const loading = ref(true)
 const record = ref<MasterCriteriaRecord>();
 
-const recordId = computed(() => {
-  const rawId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
-  return Number(rawId);
-});
+const recordId = computed(() => Number(route.params.id));
+
+const breadcrumbs = [
+  { title: 'Quản lý tuyển sinh', path: '#' },
+  { title: 'Bộ tiêu chí gốc', path: '/recruitment/evaluation-criteria/master-criteria' },
+  { title: 'Chỉnh sửa', path: '' }
+]
 
 const initialValue = computed(() => {
-  if (!record.value) {
-    return undefined;
-  }
-
+  if (!record.value) return undefined;
   return {
     name: record.value.name,
     description: record.value.description,
@@ -76,36 +59,32 @@ const initialValue = computed(() => {
 });
 
 const loadRecord = async () => {
-  if (!Number.isFinite(recordId.value)) {
+  loading.value = true
+  try {
+    const response = await masterCriteriaService.getById(recordId.value);
+    record.value = response.data;
+  } catch (error) {
     record.value = undefined;
-    return;
+  } finally {
+    loading.value = false
   }
-
-  const response = await masterCriteriaService.getById(recordId.value);
-  record.value = response.data;
 };
 
-const goBack = () => {
-  router.push({ name: "master-criteria" });
-};
+const goBack = () => router.push({ name: "master-criteria" });
 
 const handleSubmit = async (payload: SaveMasterCriteriaInput) => {
-  if (!record.value) {
-    return;
+  if (!record.value) return;
+  try {
+    const response = await masterCriteriaService.update(record.value.id, payload);
+    message.success('Cập nhật thành công')
+    router.push({
+      name: "master-criteria-detail",
+      params: { id: response.data.id },
+    });
+  } catch (error) {
+    message.error('Cập nhật thất bại')
   }
-
-  const response = await masterCriteriaService.update(record.value.id, payload);
-  if (!response.data) {
-    return;
-  }
-
-  router.push({
-    name: "master-criteria-detail",
-    params: { id: response.data.id },
-  });
 };
 
-onMounted(async () => {
-  await loadRecord();
-});
+onMounted(loadRecord);
 </script>

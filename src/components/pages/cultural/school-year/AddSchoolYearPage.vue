@@ -34,6 +34,7 @@ import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
 import AdminCard from '@/components/molecules/AdminCard.vue'
 import AdminPage from '@/components/templates/AdminPage.vue'
 import { schoolYearService } from '@/services/cultural/school-year'
+import type { CreateSchoolYearRequest } from '@/types/school-year'
 
 const router = useRouter()
 
@@ -43,15 +44,10 @@ const breadcrumbs = [
   { title: 'Thêm mới Năm học', path: '#' }
 ]
 
-const formData = ref<{
-  name: string
-  status: 'active' | 'inactive'
-  startDate: string
-  endDate: string
-}>({
+const formData = ref<CreateSchoolYearRequest>({
   name: '',
   status: 'active',
-  startDate: '2024-01-01', // Default or handle via picker
+  startDate: '2024-01-01',
   endDate: '2024-12-31'
 })
 
@@ -78,4 +74,3 @@ const resetForm = () => {
   }
 }
 </script>
-

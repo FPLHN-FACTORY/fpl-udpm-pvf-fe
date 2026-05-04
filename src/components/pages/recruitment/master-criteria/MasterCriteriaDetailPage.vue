@@ -1,357 +1,148 @@
 <template>
-  <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ pageTitle }}</span>
-      </p>
-    </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <!-- Main Content Card -->
+    <AdminCard title="Chi tiết Bộ tiêu chí gốc">
+      <template #actions>
+        <ButtonBack @click="goBack" />
+        <ButtonEdit v-if="record" @click="goToEdit" />
+      </template>
 
-    <section
-      class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
-    >
-      <div
-        class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between"
-      >
-        <h2 class="text-lg font-bold text-slate-800">
-          Chi tiết Bộ tiêu chí gốc
-        </h2>
+      <div v-if="record" class="space-y-8">
+        <!-- Info Table -->
+        <div class="border border-gray-100 rounded-lg overflow-hidden">
+          <div v-for="field in detailFields" :key="field.label" class="flex border-b border-gray-100 last:border-0 min-h-[50px]">
+            <div class="w-1/3 bg-[#fcfcfd] p-4 text-[13px] font-bold text-[#566a7f] border-r border-gray-100 flex items-center">
+              {{ field.label }}
+            </div>
+            <div class="w-2/3 p-4 text-[13px] text-[#697a8d] flex items-center">
+              <template v-if="field.type === 'status'">
+                <BaseTag :type="record.status === 'ACTIVE' ? 'success' : 'default'">
+                  {{ field.value }}
+                </BaseTag>
+              </template>
+              <template v-else>
+                {{ field.value }}
+              </template>
+            </div>
+          </div>
+        </div>
 
-        <div class="flex flex-wrap items-center gap-3">
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-            @click="goBack"
-          >
-            <MasterCriteriaIcon name="BxChevronLeft" class-name="h-4 w-4" />
-            Quay lại
-          </button>
-          <button
-            v-if="record"
-            type="button"
-            class="inline-flex items-center gap-2 rounded-lg bg-amber-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-600"
-            @click="goToEdit"
-          >
-            <MasterCriteriaIcon name="BxEditAlt" class-name="h-4 w-4" />
-            Chỉnh sửa
-          </button>
+        <!-- Criteria Table -->
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-bold text-[#566a7f]">Các tiêu chí</h3>
+          </div>
+          <AppTable :columns="criteriaColumns" :data-source="record.criteria" :pagination="false">
+            <template #bodyCell="{ column, record: criterion, index }">
+              <template v-if="column.key === 'index'">
+                <TableIndex :index="index + 1" />
+              </template>
+              <template v-else-if="column.key === 'weight'">
+                {{ criterion.weight }}%
+              </template>
+            </template>
+          </AppTable>
+        </div>
+
+        <!-- Usage Table -->
+        <div class="space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="text-lg font-bold text-[#566a7f]">Các kỳ tuyển sinh đang sử dụng</h3>
+          </div>
+          <AppTable :columns="usageColumns" :data-source="record.usages" :pagination="false">
+            <template #bodyCell="{ column, record: usage, index }">
+              <template v-if="column.key === 'index'">
+                <TableIndex :index="index + 1" />
+              </template>
+              <template v-else-if="column.key === 'status'">
+                <BaseTag :type="usage.status === 'ACTIVE' ? 'success' : 'default'">
+                  {{ getMasterCriteriaStatusLabel(usage.status) }}
+                </BaseTag>
+              </template>
+            </template>
+            <template #emptyText>
+              <div class="py-10 text-center text-sm text-gray-400">
+                Bộ tiêu chí này hiện chưa được áp dụng cho kỳ tuyển sinh nào.
+              </div>
+            </template>
+          </AppTable>
         </div>
       </div>
 
-      <div v-if="record" class="space-y-6 px-5 py-5">
-        <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div class="border-b border-slate-200 px-5 py-4">
-            <h3 class="text-lg font-bold text-slate-800">
-              Thông tin bộ tiêu chí
-            </h3>
-          </div>
-
-          <div class="overflow-hidden rounded-b-2xl">
-            <div
-              v-for="field in detailFields"
-              :key="field.label"
-              class="grid grid-cols-1 border-b border-slate-200 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)]"
-            >
-              <div class="bg-white px-4 py-3 text-sm font-semibold text-slate-700">
-                {{ field.label }}
-              </div>
-              <div class="px-4 py-3 text-sm text-slate-600">
-                <span
-                  v-if="field.type === 'status'"
-                  class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
-                  :class="statusClassMap[record.status]"
-                >
-                  {{ field.value }}
-                </span>
-                <template v-else>
-                  {{ field.value }}
-                </template>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div
-            class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between"
-          >
-            <h3 class="text-lg font-bold text-slate-800">
-              Các tiêu chí
-            </h3>
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-lg bg-[#ff1f1f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#e31b1b]"
-              @click="goToCreate"
-            >
-              <MasterCriteriaIcon name="BxPlus" class-name="h-4 w-4" />
-              Thêm mới
-            </button>
-          </div>
-
-          <div class="overflow-x-auto px-4 py-4 md:px-5">
-            <table class="min-w-full border-separate border-spacing-0">
-              <thead>
-                <tr
-                  class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400"
-                >
-                  <th class="border-b border-slate-200 px-4 py-3">#</th>
-                  <th class="border-b border-slate-200 px-4 py-3">Tên tiêu chí</th>
-                  <th class="border-b border-slate-200 px-4 py-3 text-center">
-                    Trọng số
-                  </th>
-                  <th class="border-b border-slate-200 px-4 py-3">Mô tả</th>
-                  <th class="border-b border-slate-200 px-4 py-3 text-center">
-                    Hành động
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="criterion in record.criteria"
-                  :key="criterion.id"
-                  class="text-sm text-slate-600 transition hover:bg-slate-50/70"
-                >
-                  <td class="border-b border-slate-100 px-4 py-3 text-[#6c63ff]">
-                    {{ criterion.id }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3 font-medium text-slate-700">
-                    {{ criterion.name }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3 text-center">
-                    {{ criterion.weight }}%
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3">
-                    {{ criterion.description }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3">
-                    <div class="flex items-center justify-center gap-3 text-slate-400">
-                      <button
-                        type="button"
-                        class="transition hover:text-amber-500"
-                        title="Chỉnh sửa tiêu chí"
-                        aria-label="Chỉnh sửa tiêu chí"
-                        @click="goToEditCriterion(criterion.id)"
-                      >
-                        <MasterCriteriaIcon name="BxEditAlt" class-name="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-
-        <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
-          <div class="border-b border-slate-200 px-5 py-4">
-            <h3 class="text-lg font-bold text-slate-800">
-              Các kỳ tuyển sinh đang sử dụng bộ tiêu chí
-            </h3>
-          </div>
-
-          <div class="overflow-x-auto px-4 py-4 md:px-5">
-            <table class="min-w-full border-separate border-spacing-0">
-              <thead>
-                <tr
-                  class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400"
-                >
-                  <th class="border-b border-slate-200 px-4 py-3">#</th>
-                  <th class="border-b border-slate-200 px-4 py-3">
-                    Cơ sở đào tạo
-                  </th>
-                  <th class="border-b border-slate-200 px-4 py-3">
-                    Tên kỳ tuyển sinh
-                  </th>
-                  <th class="border-b border-slate-200 px-4 py-3 text-center">
-                    Ngày tuyển
-                  </th>
-                  <th class="border-b border-slate-200 px-4 py-3 text-center">
-                    Ngày kết thúc
-                  </th>
-                  <th class="border-b border-slate-200 px-4 py-3 text-center">
-                    Trạng thái
-                  </th>
-                  <th class="border-b border-slate-200 px-4 py-3 text-center">
-                    Hành động
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr
-                  v-for="usage in record.usages"
-                  :key="usage.id"
-                  class="text-sm text-slate-600 transition hover:bg-slate-50/70"
-                >
-                  <td class="border-b border-slate-100 px-4 py-3 text-[#6c63ff]">
-                    {{ usage.id }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3">
-                    {{ usage.facilityName }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3">
-                    {{ usage.admissionName }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3 text-center">
-                    {{ usage.admissionDate }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3 text-center">
-                    {{ usage.endDate }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3 text-center">
-                    <span
-                      class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
-                      :class="statusClassMap[usage.status]"
-                    >
-                      {{ getMasterCriteriaStatusLabel(usage.status) }}
-                    </span>
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3">
-                    <div class="flex items-center justify-center gap-3 text-slate-400">
-                      <button
-                        type="button"
-                        class="transition hover:text-[#6c63ff]"
-                        title="Xem kỳ tuyển sinh"
-                        aria-label="Xem kỳ tuyển sinh"
-                        @click="goToAdmissionUsage(usage.id)"
-                      >
-                        <MasterCriteriaIcon name="BxShow" class-name="h-4 w-4" />
-                      </button>
-                    </div>
-                  </td>
-                </tr>
-
-                <tr v-if="record.usages.length === 0">
-                  <td
-                    colspan="7"
-                    class="px-4 py-10 text-center text-sm text-slate-400"
-                  >
-                    Bộ tiêu chí này hiện chưa được áp dụng cho kỳ tuyển sinh nào.
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
-
       <div v-else class="px-5 py-14 text-center">
-        <p class="text-base font-semibold text-slate-700">
-          Không tìm thấy bộ tiêu chí cần xem.
-        </p>
-        <button
-          type="button"
-          class="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#ff1f1f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b]"
-          @click="goBack"
-        >
-          <MasterCriteriaIcon name="BxChevronLeft" class-name="h-4 w-4" />
-          Về danh sách
-        </button>
+        <p class="text-base font-semibold text-gray-700">Không tìm thấy bộ tiêu chí cần xem.</p>
+        <ButtonBack class="mt-6" @click="goBack" text="Về danh sách" />
       </div>
-    </section>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import MasterCriteriaIcon from "./MasterCriteriaIcon.vue";
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonEdit from '@/components/atoms/buttons/ButtonEdit.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import TableIndex from '@/components/atoms/display/TableIndex.vue'
+import AppTable from '@/components/organisms/AppTable.vue'
 import {
   getMasterCriteriaStatusLabel,
   masterCriteriaService,
   type MasterCriteriaRecord,
-  type MasterCriteriaStatus,
-} from "../../../../services/recruitment/masterCriteria";
-
-const moduleTitle = "Quản lý tuyển sinh";
-const pageTitle = "Bộ tiêu chí gốc";
+} from "@/services/recruitment/masterCriteria";
 
 const route = useRoute();
 const router = useRouter();
-
 const record = ref<MasterCriteriaRecord>();
 
-const activeStatusClass =
-  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
-const inactiveStatusClass =
-  "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
-const statusClassMap: Record<MasterCriteriaStatus, string> = {
-  ACTIVE: activeStatusClass,
-  INACTIVE: inactiveStatusClass,
-};
+const recordId = computed(() => Number(route.params.id));
 
-const recordId = computed(() => {
-  const rawId = Array.isArray(route.params.id) ? route.params.id[0] : route.params.id;
-  return Number(rawId);
-});
+const breadcrumbs = [
+  { title: 'Quản lý tuyển sinh', path: '#' },
+  { title: 'Bộ tiêu chí gốc', path: '/recruitment/evaluation-criteria/master-criteria' },
+  { title: 'Chi tiết', path: '' }
+]
 
 const detailFields = computed(() => {
-  if (!record.value) {
-    return [];
-  }
-
+  if (!record.value) return [];
   return [
     { label: "Tên bộ tiêu chí", value: record.value.name, type: "text" },
-    {
-      label: "Trạng thái",
-      value: getMasterCriteriaStatusLabel(record.value.status),
-      type: "status",
-    },
+    { label: "Trạng thái", value: getMasterCriteriaStatusLabel(record.value.status), type: "status" },
     { label: "Mô tả", value: record.value.description, type: "text" },
     { label: "Thời gian tạo", value: record.value.createdAt, type: "text" },
     { label: "Thời gian cập nhật", value: record.value.updatedAt, type: "text" },
   ];
 });
 
+const criteriaColumns = [
+  { title: '#', key: 'index', width: '60px', align: 'center' },
+  { title: 'TÊN TIÊU CHÍ', key: 'name', dataIndex: 'name' },
+  { title: 'TRỌNG SỐ', key: 'weight', align: 'center' },
+  { title: 'MÔ TẢ', key: 'description', dataIndex: 'description' },
+]
+
+const usageColumns = [
+  { title: '#', key: 'index', width: '60px', align: 'center' },
+  { title: 'CƠ SỞ ĐÀO TẠO', key: 'facilityName', dataIndex: 'facilityName' },
+  { title: 'TÊN KỲ TUYỂN SINH', key: 'admissionName', dataIndex: 'admissionName' },
+  { title: 'NGÀY TUYỂN', key: 'admissionDate', dataIndex: 'admissionDate', align: 'center' },
+  { title: 'NGÀY KẾT THÚC', key: 'endDate', dataIndex: 'endDate', align: 'center' },
+  { title: 'TRẠNG THÁI', key: 'status', align: 'center' },
+]
+
 const loadRecord = async () => {
-  if (!Number.isFinite(recordId.value)) {
+  try {
+    const response = await masterCriteriaService.getById(recordId.value);
+    record.value = response.data;
+  } catch (error) {
     record.value = undefined;
-    return;
   }
-
-  const response = await masterCriteriaService.getById(recordId.value);
-  record.value = response.data;
 };
 
-const goBack = () => {
-  router.push({ name: "master-criteria" });
-};
+const goBack = () => router.push({ name: "master-criteria" });
+const goToEdit = () => record.value && router.push({ name: "master-criteria-edit", params: { id: record.value.id } });
 
-const goToEdit = () => {
-  if (!record.value) {
-    return;
-  }
-
-  router.push({ name: "master-criteria-edit", params: { id: record.value.id } });
-};
-
-const goToEditCriterion = (criterionId: number) => {
-  if (!record.value) {
-    return;
-  }
-
-  router.push({
-    name: "master-criteria-edit",
-    params: { id: record.value.id },
-    query: { criterionId: String(criterionId) },
-  });
-};
-
-const goToAdmissionUsage = (usageId: number) => {
-  router.push({
-    name: "admission-sessions",
-    query: {
-      masterCriteriaId: String(recordId.value),
-      usageId: String(usageId),
-    },
-  });
-};
-
-const goToCreate = () => {
-  router.push({ name: "master-criteria-create" });
-};
-
-onMounted(async () => {
-  await loadRecord();
-});
+onMounted(loadRecord);
 </script>
