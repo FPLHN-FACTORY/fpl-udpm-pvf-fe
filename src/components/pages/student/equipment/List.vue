@@ -79,8 +79,8 @@
                 <input type="checkbox" :value="item.id" v-model="dsChon" />
               </td>
               <td class="col-stt" style="color: rgba(105, 108, 255, 1); ">{{ item.id }}</td>
-              <td class="col-ten">{{ item.ten }}</td>
-              <td class="col-mota">{{ item.moTa }}</td>
+              <td class="col-ten" style="color: rgba(34, 48, 62, 0.9); font-size: 13px; font-weight: 500; line-height: 22px;">{{ item.ten }}</td>
+              <td class="col-mota" style="color: rgba(34, 48, 62, 0.7); font-size: 15px; font-weight: 400; line-height: 16px;">{{ item.moTa }}</td>
               <td class="col-trangthai">
                 <span :class="['badge', badgeClass(item.trangThai)]">{{ item.trangThai }}</span>
               </td>
@@ -583,7 +583,7 @@ letter-spacing: 0px;
   padding: 12px 16px;
   font-size: 12px;
   font-weight: 600;
-  color: #8a92a6;
+  color: rgba(34, 48, 62, 0.9);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   border-bottom: 1.5px solid #f0f2f7;
@@ -595,7 +595,7 @@ letter-spacing: 0px;
   padding: 13px 16px;
   border-bottom: 1px solid #f7f8fb;
   vertical-align: middle;
-  color: #2d3748;
+  color: rgba(34, 48, 62, 0.7);
 }
 .table tr:last-child td { border-bottom: none; }
 .table tr.selected td { background: #eef2ff; }
@@ -618,14 +618,18 @@ letter-spacing: 0px;
 /* === BADGES === */
 .badge {
   display: inline-block;
-  padding: 3px 12px;
-  border-radius: 20px;
+  padding: 2px 10px;
+  border-radius: 5px;
   font-size: 12.5px;
   font-weight: 500;
 }
 .badge-active {
-  background: #c6f6d5;
-  color: #276749;
+  background: rgba(113, 221, 55, 0.16);
+  color: rgba(113, 221, 55, 1);
+  font-size: 13px;
+  line-height: 20px;
+  font-weight: 500;
+  
 }
 .badge-inactive {
   background: #fed7d7;
