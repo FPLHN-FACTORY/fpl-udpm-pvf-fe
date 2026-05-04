@@ -9,7 +9,9 @@
         {{ item.label }}
       </div>
       <div class="flex w-2/3 items-center p-4 text-[13px] text-[#697a8d]">
-        {{ item.value }}
+        <slot :name="`value-${item.key}`" :item="item">
+          {{ item.value }}
+        </slot>
       </div>
     </div>
   </div>
@@ -17,8 +19,9 @@
 
 <script setup lang="ts">
 export interface DetailItem {
+  key?: string
   label: string
-  value: string | number
+  value?: string | number
 }
 
 defineProps<{
