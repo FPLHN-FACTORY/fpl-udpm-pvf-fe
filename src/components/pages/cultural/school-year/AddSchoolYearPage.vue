@@ -43,7 +43,12 @@ const breadcrumbs = [
   { title: 'Thêm mới Năm học', path: '#' }
 ]
 
-const formData = ref({
+const formData = ref<{
+  name: string
+  status: 'active' | 'inactive'
+  startDate: string
+  endDate: string
+}>({
   name: '',
   status: 'active',
   startDate: '2024-01-01', // Default or handle via picker

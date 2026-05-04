@@ -44,7 +44,7 @@
         <div class="space-y-4">
           <div
             ref="studentSearchRef"
-            class="relative rounded-md border border-slate-200 px-3 py-2"
+            class="relative rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10"
           >
             <p class="text-[11px] text-slate-400">Học viên</p>
             <input
@@ -79,7 +79,7 @@
             </div>
           </div>
 
-          <div class="relative rounded-md border border-slate-200 px-3 py-2">
+          <div class="relative rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Giai đoạn</p>
             <select
               v-model="form.stage"
@@ -100,7 +100,7 @@
             />
           </div>
 
-          <div class="relative rounded-md border border-slate-200 px-3 py-2">
+          <div class="relative rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Form áp dụng</p>
             <select
               v-model="form.formName"
@@ -121,7 +121,7 @@
             />
           </div>
 
-          <div class="relative rounded-md border border-slate-200 px-3 py-2">
+          <div class="relative rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Người đánh giá</p>
             <select
               v-model="form.reviewer"
@@ -142,7 +142,7 @@
             />
           </div>
 
-          <div class="rounded-md border border-slate-200 px-3 py-2">
+          <div class="rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Tổng điểm (nếu có)</p>
             <input
               v-model="form.totalScore"
@@ -152,7 +152,7 @@
             />
           </div>
 
-          <div class="rounded-md border border-slate-200 px-3 py-2">
+          <div class="rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Nhận xét tổng quan</p>
             <textarea
               v-model="form.overview"
@@ -161,7 +161,7 @@
             />
           </div>
 
-          <div class="relative rounded-md border border-slate-200 px-3 py-2">
+          <div class="relative rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Trạng thái</p>
             <select
               v-model="form.status"
@@ -178,7 +178,7 @@
             />
           </div>
 
-          <div class="relative rounded-md border border-slate-200 px-3 py-2">
+          <div class="relative rounded-md border border-slate-200 px-3 py-2 transition focus-within:border-[#696cff] focus-within:ring-2 focus-within:ring-[#696cff]/10">
             <p class="text-[11px] text-slate-400">Thời điểm khóa đánh giá</p>
             <input
               v-model="form.lockedAt"
@@ -254,7 +254,7 @@
                       min="0"
                       max="10"
                       step="0.1"
-                      class="h-9 w-full rounded-md border border-slate-200 px-3 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+                      class="h-9 w-full rounded-md border border-slate-200 px-3 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
                     />
                   </td>
                   <td class="border-b border-slate-100 px-4 py-3 text-center">
@@ -277,9 +277,6 @@
       <div v-else class="px-5 py-14 text-center">
         <p class="text-base font-semibold text-slate-700">
           Không tìm thấy bản đánh giá cần chỉnh sửa.
-        </p>
-        <p class="mt-2 text-sm text-slate-400">
-          Bản ghi có thể đã bị xóa hoặc đường dẫn không còn hợp lệ.
         </p>
       </div>
     </section>

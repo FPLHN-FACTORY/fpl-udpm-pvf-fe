@@ -26,9 +26,9 @@
     </template>
 
     <template v-else-if="name === 'BxEditAlt'">
-      <path d="M3 21h4.5L19 9.5 14.5 5 3 16.5V21Z" />
-      <path d="m13.5 6 4.5 4.5" />
-      <path d="M15 4.5 17 2.5a1.8 1.8 0 0 1 2.5 0l2 2a1.8 1.8 0 0 1 0 2.5l-2 2" />
+      <path d="m16.5 3.5 4 4-2.25 2.25-4-4z" />
+      <path d="M8 14.25h2.75L18 7l-2-2-7.25 7.25z" />
+      <path d="M19 13v6a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h6" />
     </template>
 
     <template v-else-if="name === 'BxTrash'">
@@ -61,6 +61,13 @@
       <path d="M4 19h16" />
     </template>
 
+    <template v-else-if="name === 'BxPanelSplit'">
+      <rect x="4" y="4" width="16" height="16" rx="3" />
+      <path d="M11.5 4v16" />
+      <path d="M14.5 9.25h2" />
+      <path d="M14.5 12.75h2" />
+    </template>
+
     <template v-else-if="name === 'BxPanelStats'">
       <rect x="4" y="4" width="16" height="16" rx="3" />
       <path d="M8 15v-3" />
@@ -76,10 +83,32 @@
       <path d="m9.5 14 1.8 1.8 3.7-4" />
     </template>
 
+    <template v-else-if="name === 'BxCalendar'">
+      <rect x="3.75" y="5.75" width="16.5" height="14.5" rx="2" />
+      <path d="M7.5 3.75v4" />
+      <path d="M16.5 3.75v4" />
+      <path d="M3.75 9.5h16.5" />
+    </template>
+
     <template v-else-if="name === 'BxLayersStacked'">
       <path d="m12 4 8 4-8 4-8-4 8-4Z" />
       <path d="m4 12 8 4 8-4" />
       <path d="m4 16 8 4 8-4" />
+    </template>
+
+    <template v-else-if="name === 'BxLayersPlus'">
+      <path d="m11 5 6.5 3.25L11 11.5 4.5 8.25 11 5Z" />
+      <path d="m4.5 11.75 6.5 3.25 6.5-3.25" />
+      <path d="m4.5 15.25 6.5 3.25 6.5-3.25" />
+      <path d="M19.75 4v3.5" />
+      <path d="M18 5.75h3.5" />
+    </template>
+
+    <template v-else-if="name === 'BxLayersMinus'">
+      <path d="m11 5 6.5 3.25L11 11.5 4.5 8.25 11 5Z" />
+      <path d="m4.5 11.75 6.5 3.25 6.5-3.25" />
+      <path d="m4.5 15.25 6.5 3.25 6.5-3.25" />
+      <path d="M18 5.75h3.5" />
     </template>
 
     <template v-else-if="name === 'BxChevronStep'">

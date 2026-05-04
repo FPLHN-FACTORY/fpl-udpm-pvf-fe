@@ -18,9 +18,6 @@
           <h2 class="text-lg font-bold text-slate-800">
             Danh sách Bộ tiêu chí gốc đã xóa
           </h2>
-          <p class="mt-1 text-sm text-slate-400">
-            Theo dõi các bộ tiêu chí đã bị xóa mềm và khôi phục khi cần.
-          </p>
         </div>
 
         <button
@@ -35,51 +32,55 @@
 
       <div class="space-y-5 px-5 py-5">
         <div
-          class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_auto_auto]"
+          class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between"
         >
-          <input
-            v-model="draftFilters.keyword"
-            type="text"
-            placeholder="Tìm kiếm"
-            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          />
-
-          <div class="relative">
-            <select
-              v-model="draftFilters.status"
-              class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-            >
-              <option value="all">Chọn trạng thái</option>
-              <option
-                v-for="option in masterCriteriaStatusOptions"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.label }}
-              </option>
-            </select>
-            <MasterCriteriaIcon
-              name="BxChevronRight"
-              class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+          <div class="flex flex-col gap-3 md:flex-row md:items-center">
+            <input
+              v-model="draftFilters.keyword"
+              type="text"
+              placeholder="Tìm kiếm"
+              class="h-11 w-full rounded-md border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10 md:w-[228px]"
             />
+
+            <div class="relative w-full md:w-[184px]">
+              <select
+                v-model="draftFilters.status"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              >
+                <option value="all">Chọn trạng thái</option>
+                <option
+                  v-for="option in masterCriteriaStatusOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+              <MasterCriteriaIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
           </div>
 
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
-            @click="applyFilters"
-          >
-            <MasterCriteriaIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm kiếm
-          </button>
+          <div class="flex items-center gap-3 self-end xl:self-auto">
+            <button
+              type="button"
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#696cff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f63f2]"
+              @click="applyFilters"
+            >
+              <MasterCriteriaIcon name="BxSearch" class-name="h-4 w-4" />
+              Tìm Kiếm
+            </button>
 
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-            @click="resetFilters"
-          >
-            <MasterCriteriaIcon name="BxRefresh" class-name="h-4 w-4" />
-          </button>
+            <button
+              type="button"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-[#8592a3] text-white shadow-sm transition hover:bg-[#748094]"
+              @click="resetFilters"
+            >
+              <MasterCriteriaIcon name="BxRefresh" class-name="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -190,12 +191,8 @@
         </div>
 
         <div
-          class="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between"
+          class="flex justify-end border-t border-slate-100 pt-4"
         >
-          <p class="text-sm text-slate-400">
-            Đã chọn {{ selectedIds.length }} bộ tiêu chí.
-          </p>
-
           <div class="flex items-center gap-2 self-end">
             <button
               type="button"

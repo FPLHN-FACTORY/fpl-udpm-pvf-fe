@@ -103,7 +103,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, h } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import BaseTag from '@/components/atoms/display/BaseTag.vue'

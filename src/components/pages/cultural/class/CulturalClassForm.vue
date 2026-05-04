@@ -23,7 +23,7 @@
             v-model="form.name"
             type="text"
             placeholder="Nhập tên lớp học"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           />
         </label>
 
@@ -31,7 +31,7 @@
           <span class="text-sm font-medium text-slate-600">Khối lớp</span>
           <select
             v-model="form.gradeName"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           >
             <option value="">Chọn khối lớp</option>
             <option v-for="grade in gradeOptions" :key="grade" :value="grade">
@@ -44,7 +44,7 @@
           <span class="text-sm font-medium text-slate-600">Năm học</span>
           <select
             v-model="form.schoolYear"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           >
             <option value="">Chọn năm học</option>
             <option v-for="year in schoolYearOptions" :key="year" :value="year">
@@ -57,7 +57,7 @@
           <span class="text-sm font-medium text-slate-600">Giáo viên chủ nhiệm</span>
           <select
             v-model="form.homeroomTeacher"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           >
             <option value="">Chọn giáo viên chủ nhiệm</option>
             <option
@@ -74,7 +74,7 @@
           <span class="text-sm font-medium text-slate-600">Trạng thái</span>
           <select
             v-model="form.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           >
             <option
               v-for="status in statusOptions"

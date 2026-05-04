@@ -44,7 +44,13 @@ const breadcrumbs = [
   { title: 'Điều chỉnh Năm học', path: '#' }
 ]
 
-const formData = ref({
+const formData = ref<{
+  id: string
+  name: string
+  status: 'active' | 'inactive'
+  startDate: string
+  endDate: string
+}>({
   id: '',
   name: '',
   status: 'active',

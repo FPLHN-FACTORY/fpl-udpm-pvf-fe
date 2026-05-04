@@ -12,19 +12,19 @@
       <article
         v-for="card in summaryCards"
         :key="card.label"
-        class="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-6 py-5 shadow-sm"
       >
         <div class="min-w-0 flex-1">
-          <p class="text-[13px] font-semibold leading-5 text-slate-500">
+          <p class="text-[13px] font-semibold leading-5 text-slate-400">
             {{ card.label }}
           </p>
-          <div class="mt-3 inline-flex items-center gap-2 whitespace-nowrap">
-            <p class="text-3xl font-bold leading-none text-slate-800">
+          <div class="mt-2.5 inline-flex items-baseline gap-1.5 whitespace-nowrap">
+            <p class="text-[22px] font-bold leading-none text-[#566a7f]">
               {{ card.value }}
             </p>
             <span
               v-if="card.hint"
-              class="pb-0.5 text-xs font-semibold leading-none whitespace-nowrap"
+              class="text-[12px] font-medium leading-none whitespace-nowrap"
               :class="card.hintClass"
             >
               {{ card.hint }}
@@ -33,10 +33,10 @@
         </div>
 
         <div
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
           :class="card.iconWrapperClass"
         >
-          <MasterCriteriaIcon :name="card.icon" class-name="h-6 w-6" />
+          <MasterCriteriaIcon :name="card.icon" class-name="h-5 w-5" />
         </div>
       </article>
     </section>
@@ -51,10 +51,6 @@
           <h2 class="text-lg font-bold text-slate-800">
             Danh sách Bộ tiêu chí gốc
           </h2>
-          <p class="mt-1 text-sm text-slate-400">
-            Theo dõi trạng thái sử dụng, mở chi tiết và quản lý toàn bộ bộ tiêu
-            chí gốc.
-          </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -79,51 +75,55 @@
 
       <div class="space-y-5 px-5 py-5">
         <div
-          class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_auto_auto]"
+          class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between"
         >
-          <input
-            v-model="draftFilters.keyword"
-            type="text"
-            placeholder="Tìm kiếm"
-            class="h-11 rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          />
-
-          <div class="relative">
-            <select
-              v-model="draftFilters.status"
-              class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-            >
-              <option value="all">Chọn trạng thái</option>
-              <option
-                v-for="option in masterCriteriaStatusOptions"
-                :key="option.value"
-                :value="option.value"
-              >
-                {{ option.label }}
-              </option>
-            </select>
-            <MasterCriteriaIcon
-              name="BxChevronRight"
-              class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+          <div class="flex flex-col gap-3 md:flex-row md:items-center">
+            <input
+              v-model="draftFilters.keyword"
+              type="text"
+              placeholder="Tìm kiếm"
+              class="h-11 w-full rounded-md border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10 md:w-[228px]"
             />
+
+            <div class="relative w-full md:w-[184px]">
+              <select
+                v-model="draftFilters.status"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              >
+                <option value="all">Chọn trạng thái</option>
+                <option
+                  v-for="option in masterCriteriaStatusOptions"
+                  :key="option.value"
+                  :value="option.value"
+                >
+                  {{ option.label }}
+                </option>
+              </select>
+              <MasterCriteriaIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
           </div>
 
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
-            @click="applyFilters"
-          >
-            <MasterCriteriaIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm kiếm
-          </button>
+          <div class="flex items-center gap-3 self-end xl:self-auto">
+            <button
+              type="button"
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#696cff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f63f2]"
+              @click="applyFilters"
+            >
+              <MasterCriteriaIcon name="BxSearch" class-name="h-4 w-4" />
+              Tìm Kiếm
+            </button>
 
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-            @click="resetFilters"
-          >
-            <MasterCriteriaIcon name="BxRefresh" class-name="h-4 w-4" />
-          </button>
+            <button
+              type="button"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-[#8592a3] text-white shadow-sm transition hover:bg-[#748094]"
+              @click="resetFilters"
+            >
+              <MasterCriteriaIcon name="BxRefresh" class-name="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -185,7 +185,7 @@
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <span
-                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                    class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                     :class="statusClassMap[row.status]"
                   >
                     {{ row.statusLabel }}
@@ -213,7 +213,7 @@
                     >
                       <MasterCriteriaIcon name="BxEditAlt" class-name="h-4 w-4" />
                     </button>
-                    <button v-if="false"
+                    <button
                       type="button"
                       class="transition hover:text-sky-500"
                       title="Nhân bản"
@@ -248,46 +248,14 @@
         </div>
 
         <div
-          class="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between"
+          class="flex justify-end border-t border-slate-100 pt-4"
         >
-          <p class="text-sm text-slate-400">
-            Đã chọn {{ selectedIds.length }} bộ tiêu chí.
-          </p>
-
-          <div class="flex items-center gap-2 self-end">
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === 1"
-              @click="changePage(pagination.currentPage - 1)"
-            >
-              <MasterCriteriaIcon name="BxChevronLeft" class-name="h-4 w-4" />
-            </button>
-
-            <button
-              v-for="page in visiblePages"
-              :key="page"
-              type="button"
-              class="flex h-9 min-w-9 items-center justify-center rounded-lg px-3 text-sm font-semibold transition"
-              :class="
-                page === pagination.currentPage
-                  ? 'bg-[#ff1f1f] text-white shadow-sm'
-                  : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
-              "
-              @click="changePage(page)"
-            >
-              {{ page }}
-            </button>
-
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === pagination.totalPages"
-              @click="changePage(pagination.currentPage + 1)"
-            >
-              <MasterCriteriaIcon name="BxChevronRight" class-name="h-4 w-4" />
-            </button>
-          </div>
+          <BasePagination
+            :current="pagination.currentPage"
+            :page-size="pagination.itemsPerPage"
+            :total="pagination.totalItems"
+            @change="changePage"
+          />
         </div>
       </div>
     </section>
@@ -297,6 +265,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref, watch } from "vue";
 import { useRouter } from "vue-router";
+import BasePagination from "../../../atoms/display/BasePagination.vue";
 import MasterCriteriaIcon from "./MasterCriteriaIcon.vue";
 import {
   masterCriteriaService,
@@ -341,10 +310,16 @@ const summary = reactive<MasterCriteriaSummary>({
   active: 0,
 });
 
+const activeStatusClass =
+  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const inactiveStatusClass =
+  "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
 const statusClassMap: Record<MasterCriteriaStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  INACTIVE: "bg-amber-100 text-amber-600",
+  ACTIVE: activeStatusClass,
+  INACTIVE: inactiveStatusClass,
 };
+
+const summaryHintClass = "text-[rgba(113,221,55,1)]";
 
 const summaryCards = computed(() => [
   {
@@ -352,32 +327,32 @@ const summaryCards = computed(() => [
     value: summary.total,
     hint: "",
     hintClass: "",
-    icon: "BxPanelStats",
-    iconWrapperClass: "bg-violet-50 text-violet-500",
+    icon: "BxPanelSplit",
+    iconWrapperClass: "bg-[#e7e7ff] text-[#696cff]",
   },
   {
     label: "Số bộ đang sử dụng",
     value: summary.inUse,
     hint: summary.total ? `(${Math.round((summary.inUse / summary.total) * 100)}%)` : "",
-    hintClass: "text-emerald-500",
+    hintClass: summaryHintClass,
     icon: "BxCalendarCheck",
-    iconWrapperClass: "bg-rose-50 text-rose-500",
+    iconWrapperClass: "bg-[#ffe0db] text-[#ff3e1d]",
   },
   {
     label: "Số bộ chưa sử dụng",
     value: summary.unused,
     hint: summary.total ? `(${Math.round((summary.unused / summary.total) * 100)}%)` : "",
-    hintClass: "text-lime-500",
-    icon: "BxLayersStacked",
-    iconWrapperClass: "bg-amber-50 text-amber-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersMinus",
+    iconWrapperClass: "bg-[#fff2d6] text-[#ffab00]",
   },
   {
     label: "Số bộ đang active",
     value: summary.active,
     hint: summary.total ? `(${Math.round((summary.active / summary.total) * 100)}%)` : "",
-    hintClass: "text-lime-500",
-    icon: "BxChevronStep",
-    iconWrapperClass: "bg-yellow-50 text-yellow-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersPlus",
+    iconWrapperClass: "bg-[#fff2d6] text-[#ffab00]",
   },
 ]);
 
@@ -386,25 +361,6 @@ const isAllVisibleSelected = computed(
     rows.value.length > 0 &&
     rows.value.every((row) => selectedIds.value.includes(row.id)),
 );
-
-const visiblePages = computed(() => {
-  const total = pagination.totalPages;
-  const page = pagination.currentPage;
-
-  if (total <= 5) {
-    return Array.from({ length: total }, (_, index) => index + 1);
-  }
-
-  if (page <= 3) {
-    return [1, 2, 3, 4, 5];
-  }
-
-  if (page >= total - 2) {
-    return [total - 4, total - 3, total - 2, total - 1, total];
-  }
-
-  return [page - 2, page - 1, page, page + 1, page + 2];
-});
 
 const loadRows = async () => {
   const response = await masterCriteriaService.list({

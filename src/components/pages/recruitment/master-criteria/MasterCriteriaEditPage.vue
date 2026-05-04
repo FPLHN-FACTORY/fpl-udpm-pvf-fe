@@ -24,9 +24,6 @@
       <p class="text-base font-semibold text-slate-700">
         Không tìm thấy bộ tiêu chí để chỉnh sửa.
       </p>
-      <p class="mt-2 text-sm text-slate-400">
-        Bản ghi có thể đã bị xóa hoặc đường dẫn không còn hợp lệ.
-      </p>
       <button
         type="button"
         class="mt-6 inline-flex items-center gap-2 rounded-xl bg-[#ff1f1f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b]"

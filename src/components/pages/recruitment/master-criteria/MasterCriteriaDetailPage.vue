@@ -59,7 +59,7 @@
               <div class="px-4 py-3 text-sm text-slate-600">
                 <span
                   v-if="field.type === 'status'"
-                  class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                  class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                   :class="statusClassMap[record.status]"
                 >
                   {{ field.value }}
@@ -101,6 +101,9 @@
                     Trọng số
                   </th>
                   <th class="border-b border-slate-200 px-4 py-3">Mô tả</th>
+                  <th class="border-b border-slate-200 px-4 py-3 text-center">
+                    Hành động
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -120,6 +123,19 @@
                   </td>
                   <td class="border-b border-slate-100 px-4 py-3">
                     {{ criterion.description }}
+                  </td>
+                  <td class="border-b border-slate-100 px-4 py-3">
+                    <div class="flex items-center justify-center gap-3 text-slate-400">
+                      <button
+                        type="button"
+                        class="transition hover:text-amber-500"
+                        title="Chỉnh sửa tiêu chí"
+                        aria-label="Chỉnh sửa tiêu chí"
+                        @click="goToEditCriterion(criterion.id)"
+                      >
+                        <MasterCriteriaIcon name="BxEditAlt" class-name="h-4 w-4" />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               </tbody>
@@ -156,6 +172,9 @@
                   <th class="border-b border-slate-200 px-4 py-3 text-center">
                     Trạng thái
                   </th>
+                  <th class="border-b border-slate-200 px-4 py-3 text-center">
+                    Hành động
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -181,17 +200,30 @@
                   </td>
                   <td class="border-b border-slate-100 px-4 py-3 text-center">
                     <span
-                      class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                      class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                       :class="statusClassMap[usage.status]"
                     >
                       {{ getMasterCriteriaStatusLabel(usage.status) }}
                     </span>
                   </td>
+                  <td class="border-b border-slate-100 px-4 py-3">
+                    <div class="flex items-center justify-center gap-3 text-slate-400">
+                      <button
+                        type="button"
+                        class="transition hover:text-[#6c63ff]"
+                        title="Xem kỳ tuyển sinh"
+                        aria-label="Xem kỳ tuyển sinh"
+                        @click="goToAdmissionUsage(usage.id)"
+                      >
+                        <MasterCriteriaIcon name="BxShow" class-name="h-4 w-4" />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
 
                 <tr v-if="record.usages.length === 0">
                   <td
-                    colspan="6"
+                    colspan="7"
                     class="px-4 py-10 text-center text-sm text-slate-400"
                   >
                     Bộ tiêu chí này hiện chưa được áp dụng cho kỳ tuyển sinh nào.
@@ -206,9 +238,6 @@
       <div v-else class="px-5 py-14 text-center">
         <p class="text-base font-semibold text-slate-700">
           Không tìm thấy bộ tiêu chí cần xem.
-        </p>
-        <p class="mt-2 text-sm text-slate-400">
-          Bản ghi có thể đã bị xóa hoặc đường dẫn không còn hợp lệ.
         </p>
         <button
           type="button"
@@ -242,9 +271,13 @@ const router = useRouter();
 
 const record = ref<MasterCriteriaRecord>();
 
+const activeStatusClass =
+  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const inactiveStatusClass =
+  "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
 const statusClassMap: Record<MasterCriteriaStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  INACTIVE: "bg-amber-100 text-amber-600",
+  ACTIVE: activeStatusClass,
+  INACTIVE: inactiveStatusClass,
 };
 
 const recordId = computed(() => {
@@ -290,6 +323,28 @@ const goToEdit = () => {
   }
 
   router.push({ name: "master-criteria-edit", params: { id: record.value.id } });
+};
+
+const goToEditCriterion = (criterionId: number) => {
+  if (!record.value) {
+    return;
+  }
+
+  router.push({
+    name: "master-criteria-edit",
+    params: { id: record.value.id },
+    query: { criterionId: String(criterionId) },
+  });
+};
+
+const goToAdmissionUsage = (usageId: number) => {
+  router.push({
+    name: "admission-sessions",
+    query: {
+      masterCriteriaId: String(recordId.value),
+      usageId: String(usageId),
+    },
+  });
 };
 
 const goToCreate = () => {
