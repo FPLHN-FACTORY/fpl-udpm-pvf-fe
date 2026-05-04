@@ -4,14 +4,14 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Kỷ luật khen thưởng</span>
       <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Mẫu biên bản</span>
+      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Mức độ khen thưởng/kỷ luật</span>
     </div>
 
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start">
         <div>
-          <p class="text-sm text-gray-500 mb-1">Tổng số <span class="bg-[#fcf3d7] px-1 rounded">mẫu biên bản</span></p>
+          <p class="text-sm text-gray-500 mb-1">Tổng số</p>
           <h3 class="text-2xl font-bold text-[#566a7f]">21</h3>
         </div>
         <div class="w-10 h-10 bg-[#e7e7ff] rounded-lg flex items-center justify-center text-[#696cff]">
@@ -20,22 +20,31 @@
       </div>
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start">
         <div>
-          <p class="text-sm text-gray-500 mb-1">Số <span class="bg-[#fcf3d7] px-1 rounded">mẫu biên bản</span> đang sử dụng</p>
-          <div class="flex items-baseline gap-2">
-            <h3 class="text-2xl font-bold text-[#566a7f]">20</h3>
-            <span class="text-[#71dd37] text-sm">(95%)</span>
-          </div>
+          <p class="text-sm text-gray-500 mb-1">Tổng số biên bản</p>
+          <h3 class="text-2xl font-bold text-[#566a7f]">50</h3>
         </div>
-        <div class="w-10 h-10 bg-[#e8fadf] rounded-lg flex items-center justify-center text-[#71dd37]">
-          <NavIcon name="BxCalendarCheck" class-name="w-6 h-6" />
+        <div class="w-10 h-10 bg-[#ffe1e1] rounded-lg flex items-center justify-center text-[#ff3e1d]">
+          <NavIcon name="BxCalendar" class-name="w-6 h-6" />
         </div>
       </div>
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start">
         <div>
-          <p class="text-sm text-gray-500 mb-1">Số <span class="bg-[#fcf3d7] px-1 rounded">mẫu biên bản</span> ngừng sử dụng</p>
+          <p class="text-sm text-gray-500 mb-1">Đang sử dụng</p>
           <div class="flex items-baseline gap-2">
-            <h3 class="text-2xl font-bold text-[#566a7f]">1</h3>
-            <span class="text-[#ff3e1d] text-sm">(5%)</span>
+            <h3 class="text-2xl font-bold text-[#566a7f]">20</h3>
+            <span class="text-[#71dd37] text-sm">(5%)</span>
+          </div>
+        </div>
+        <div class="w-10 h-10 bg-[#fff2e2] rounded-lg flex items-center justify-center text-[#fdac41]">
+          <NavIcon name="BxLayers" class-name="w-6 h-6" />
+        </div>
+      </div>
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start">
+        <div>
+          <p class="text-sm text-gray-500 mb-1">Ngừng sử dụng</p>
+          <div class="flex items-baseline gap-2">
+            <h3 class="text-2xl font-bold text-[#566a7f]">11</h3>
+            <span class="text-[#71dd37] text-sm">(5%)</span>
           </div>
         </div>
         <div class="w-10 h-10 bg-[#fff2e2] rounded-lg flex items-center justify-center text-[#fdac41]">
@@ -48,32 +57,20 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <!-- Header with Action Buttons -->
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Biên bản</h2>
+        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Mức độ khen thưởng/kỷ luật</h2>
         <div class="flex gap-3">
-          <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !text-white !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
-            @click="$router.push('/discipline/templates/deleted')"
-          >
-            <template #icon><NavIcon name="BxTrash" size="18" /></template>
-            Danh Sách Đã Xóa
-          </a-button>
-          <ButtonAdd text="Thêm Mới" @click="$router.push('/discipline/templates/create')" />
+          <ButtonDeleteList @click="$router.push('/discipline/levels/deleted')" />
+          <ButtonAdd text="Thêm Mới" @click="$router.push('/discipline/levels/create')" />
         </div>
       </div>
 
       <!-- Filter Bar -->
-      <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
-        <div class="flex-1 min-w-[200px]">
+      <div class="p-6 flex flex-wrap items-center justify-between gap-3 bg-[#fcfcfd] border-b border-gray-100">
+        <div class="flex items-center gap-3">
+        <div class="w-[250px]">
           <InputSearch 
             v-model="searchQuery" 
             placeholder="Tìm kiếm" 
-          />
-        </div>
-        <div class="w-[200px]">
-          <a-date-picker 
-            v-model:value="dateFilter" 
-            placeholder="Chọn thời gian" 
-            class="w-full !h-[38px]"
           />
         </div>
         <div class="w-[200px]">
@@ -85,6 +82,7 @@
             <a-select-option value="active">Đang hoạt động</a-select-option>
             <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
           </a-select>
+        </div>
         </div>
         <div class="flex items-center gap-2">
           <ButtonSearch @click="() => {}" />
@@ -116,13 +114,13 @@
               <div class="flex items-center gap-2">
                 <button 
                   class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-                  @click="$router.push(`/discipline/templates/detail/${record.key}`)"
+                  @click="$router.push(`/discipline/levels/detail/${record.key}`)"
                 >
                   <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
                 </button>
                 <button 
                   class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-                  @click="$router.push(`/discipline/templates/edit/${record.key}`)"
+                  @click="$router.push(`/discipline/levels/edit/${record.key}`)"
                 >
                   <NavIcon name="BxEdit" class-name="w-[18px] h-[18px]" />
                 </button>
@@ -137,41 +135,34 @@
 
       <!-- Pagination -->
       <div class="p-6 flex justify-end">
-        <a-pagination 
-          v-model:current="currentPage" 
+        <BasePagination 
+          :current="currentPage" 
           :total="50" 
-          :show-size-changer="false"
-          class="custom-pagination"
+          :page-size="10"
+          @change="(page) => currentPage = page"
         />
       </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
-import ButtonSearch from '../../atoms/buttons/ButtonSearch.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
-import InputSearch from '../../atoms/inputs/InputSearch.vue'
-import BaseTag from '../../atoms/display/BaseTag.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
-
+import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
+import ButtonDeleteList from '../../../atoms/buttons/ButtonDeleteList.vue'
+import ButtonSearch from '../../../atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '../../../atoms/buttons/ButtonReset.vue'
+import InputSearch from '../../../atoms/inputs/InputSearch.vue'
+import BaseTag from '../../../atoms/display/BaseTag.vue'
+import NavIcon from '../../../atoms/icons/NavIcon.vue'
+import BasePagination from '../../../atoms/display/BasePagination.vue'
 const searchQuery = ref('')
 const statusFilter = ref(undefined)
-const dateFilter = ref(undefined)
 const currentPage = ref(3)
 
 const resetFilters = () => {
   searchQuery.value = ''
   statusFilter.value = undefined
-  dateFilter.value = undefined
 }
 
 const onSelectChange = (selectedRowKeys: any) => {
@@ -188,9 +179,9 @@ const getStatusType = (status: string) => {
 
 const columns = [
   { title: '#', key: 'stt', width: 60 },
-  { title: 'TÊN MẪU', dataIndex: 'name', key: 'name' },
-  { title: 'LOẠI', dataIndex: 'type', key: 'type' },
-  { title: 'MỨC ĐỘ', dataIndex: 'level', key: 'level' },
+  { title: 'TÊN MỨC', dataIndex: 'name', key: 'name' },
+  { title: 'KHIỂN TRÁCH', dataIndex: 'type', key: 'type' },
+  { title: 'CẤP ĐỘ', dataIndex: 'level', key: 'level' },
   { title: 'TRẠNG THÁI', key: 'status', width: 150 },
   { title: 'HÀNH ĐỘNG', key: 'actions', width: 120, align: 'center' },
 ]
@@ -198,22 +189,22 @@ const columns = [
 const dataSource = ref([
   {
     key: '1',
-    name: 'BB Kỷ luật nhẹ',
-    type: 'Khiển trách',
+    name: 'Khiển trách',
+    type: 'Kỷ luật',
     level: '1',
     status: 'Đang hoạt động',
   },
   {
     key: '2',
-    name: 'BB Kỷ luật nhẹ',
-    type: 'Khiển trách',
+    name: 'Khiển trách',
+    type: 'Kỷ luật',
     level: '1',
     status: 'Đang hoạt động',
   },
   {
     key: '3',
-    name: 'BB Kỷ luật nhẹ',
-    type: 'Khiển trách',
+    name: 'Khiển trách',
+    type: 'Kỷ luật',
     level: '1',
     status: 'Đang hoạt động',
   },

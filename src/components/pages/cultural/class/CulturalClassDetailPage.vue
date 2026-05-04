@@ -41,7 +41,7 @@
               :key="field.label"
               class="grid grid-cols-1 border-b border-slate-200 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)]"
             >
-              <div class="bg-white px-4 py-3 text-sm font-semibold text-slate-700">
+              <div class="bg-slate-50 px-4 py-3 text-sm font-semibold text-slate-700">
                 {{ field.label }}
               </div>
               <div class="px-4 py-3 text-sm text-slate-600">
@@ -135,8 +135,8 @@
               class="rounded-lg px-5 py-2 text-sm font-semibold transition"
               :class="
                 activeTab === tab.value
-                  ? 'bg-[#6c63ff] text-white shadow-sm'
-                  : 'border border-slate-200 bg-slate-100 text-slate-500 hover:border-slate-300 hover:bg-slate-200'
+                  ? 'bg-[#4f6ef7] text-white shadow-sm'
+                  : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
               "
               @click="activeTab = tab.value"
             >

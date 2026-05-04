@@ -73,64 +73,90 @@
       </div>
 
       <div class="space-y-5 px-5 py-5">
-        <div class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_220px_auto_auto]">
-          <div class="relative">
-            <CulturalClassIcon
-              name="BxSearch"
-              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-            />
+        <div class="flex items-center justify-between gap-3">
+          <!-- Nhóm trái: input + dropdowns -->
+          <div class="flex items-center gap-2">
             <input
               v-model="draftFilters.keyword"
               type="text"
               placeholder="Tìm kiếm"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+              class="h-9 w-[200px] rounded border border-[#d9d9d9] bg-white px-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 hover:border-[#6c63ff] focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.1)]"
             />
+
+            <!-- Chọn thời gian -->
+            <div class="relative">
+              <select
+                v-model="draftFilters.schoolYear"
+                class="h-9 appearance-none rounded border border-[#d9d9d9] bg-white pl-3 pr-9 text-sm text-slate-500 outline-none transition hover:border-[#6c63ff] focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.1)] cursor-pointer"
+              >
+                <option value="all">Chọn thời gian</option>
+                <option v-for="year in schoolYearOptions" :key="year" :value="year">
+                  {{ year }}
+                </option>
+              </select>
+              <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
+                  <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
+                </svg>
+              </span>
+            </div>
+
+            <!-- Chọn trạng thái -->
+            <div class="relative">
+              <select
+                v-model="draftFilters.status"
+                class="h-9 appearance-none rounded border border-[#d9d9d9] bg-white pl-3 pr-9 text-sm text-slate-500 outline-none transition hover:border-[#6c63ff] focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.1)] cursor-pointer"
+              >
+                <option value="all">Chọn trạng thái</option>
+                <option
+                  v-for="status in statusOptions"
+                  :key="status.value"
+                  :value="status.value"
+                >
+                  {{ status.label }}
+                </option>
+              </select>
+              <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M7 10l5 5 5-5z"/>
+                </svg>
+              </span>
+            </div>
           </div>
 
-          <select
-            v-model="draftFilters.schoolYear"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          >
-            <option value="all">Chọn thời gian</option>
-            <option v-for="year in schoolYearOptions" :key="year" :value="year">
-              {{ year }}
-            </option>
-          </select>
-
-          <select
-            v-model="draftFilters.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          >
-            <option value="all">Chọn trạng thái</option>
-            <option
-              v-for="status in statusOptions"
-              :key="status.value"
-              :value="status.value"
+          <!-- Nhóm phải: buttons -->
+          <div class="flex items-center gap-2">
+            <!-- Button tìm kiếm -->
+            <button
+              type="button"
+              class="inline-flex h-9 items-center gap-1.5 rounded bg-[#6c63ff] px-4 text-sm font-medium text-white shadow-sm transition hover:bg-[#5b53e6] active:bg-[#4a43d4] focus:outline-none focus:shadow-[0_0_0_2px_rgba(108,99,255,0.3)]"
+              @click="applyFilters"
             >
-              {{ status.label }}
-            </option>
-          </select>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+              </svg>
+              Tìm Kiếm
+            </button>
 
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
-            @click="applyFilters"
+            <!-- Button reset -->
+            <button
+              type="button"
+              class="inline-flex h-9 w-9 items-center justify-center rounded border border-[#d9d9d9] bg-white text-slate-500 transition hover:border-[#6c63ff] hover:text-[#6c63ff]"
+              title="Làm mới"
+              @click="resetFilters"
           >
-            <CulturalClassIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm kiếm
-          </button>
-
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-            @click="resetFilters"
-          >
-            <CulturalClassIcon name="BxRefresh" class-name="h-4 w-4" />
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+              <path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+            </svg>
           </button>
         </div>
+      </div>
 
-        <div class="overflow-x-auto">
-          <table class="min-w-full border-separate border-spacing-0">
+      <div class="overflow-x-auto">
+        <table class="min-w-full border-separate border-spacing-0">
             <thead>
               <tr class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
                 <th class="w-14 border-y border-slate-200 px-4 py-3">
@@ -168,7 +194,7 @@
                 <td class="border-b border-slate-100 px-2 py-4 font-semibold text-[#6c63ff]">
                   {{ row.order }}
                 </td>
-                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-slate-700">
+                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-[#6c63ff] cursor-pointer hover:underline" @click="goToDetail(row.id)">
                   {{ row.code }}
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4">
@@ -235,14 +261,24 @@
             Đã chọn {{ selectedIds.length }} lớp học.
           </p>
 
-          <div class="flex items-center gap-2 self-end">
+          <div class="flex items-center gap-1 self-end">
+            <!-- First page -->
             <button
               type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              :disabled="pagination.currentPage === 1"
+              @click="changePage(1)"
+            >
+              «
+            </button>
+            <!-- Prev page -->
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               :disabled="pagination.currentPage === 1"
               @click="changePage(pagination.currentPage - 1)"
             >
-              <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
+              ‹
             </button>
 
             <button
@@ -260,13 +296,23 @@
               {{ page }}
             </button>
 
+            <!-- Next page -->
             <button
               type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               :disabled="pagination.currentPage === pagination.totalPages"
               @click="changePage(pagination.currentPage + 1)"
             >
-              <CulturalClassIcon name="BxChevronRight" class-name="h-4 w-4" />
+              ›
+            </button>
+            <!-- Last page -->
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              :disabled="pagination.currentPage === pagination.totalPages"
+              @click="changePage(pagination.totalPages)"
+            >
+              »
             </button>
           </div>
         </div>

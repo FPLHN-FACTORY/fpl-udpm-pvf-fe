@@ -6,7 +6,7 @@
     <template #icon>
       <NavIcon name="BxTrash" size="18" />
     </template>
-    <span class="font-bold text-[13px]">Danh Sách Đã Xóa</span>
+    <span class="font-bold text-[13px]">Danh Sách Kỳ Tuyển Sinh Đã Xóa</span>
   </a-button>
 </template>
 

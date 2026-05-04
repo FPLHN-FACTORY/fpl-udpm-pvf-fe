@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
+  <div class="flex flex-col gap-6">
     <!-- Breadcrumbs -->
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Kỷ luật khen thưởng</span>

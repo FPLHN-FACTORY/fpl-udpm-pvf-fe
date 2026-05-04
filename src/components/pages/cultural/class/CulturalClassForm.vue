@@ -15,92 +15,80 @@
       </button>
     </div>
 
-    <form class="space-y-5 px-5 py-5" @submit.prevent="handleSubmit">
-      <div class="grid grid-cols-1 gap-4">
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Tên lớp học</span>
-          <input
-            v-model="form.name"
-            type="text"
-            placeholder="Nhập tên lớp học"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          />
-        </label>
+    <form class="space-y-4 px-5 py-5" @submit.prevent="handleSubmit">
+      <div class="grid grid-cols-1 gap-3">
+        <input
+          v-model="form.name"
+          type="text"
+          placeholder="Tên lớp học"
+          class="h-11 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+        />
 
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Khối lớp</span>
-          <select
-            v-model="form.gradeName"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          >
-            <option value="">Chọn khối lớp</option>
-            <option v-for="grade in gradeOptions" :key="grade" :value="grade">
-              {{ grade }}
-            </option>
-          </select>
-        </label>
+        <select
+          v-model="form.gradeName"
+          class="h-11 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+          :class="form.gradeName ? 'text-slate-700' : 'text-slate-400'"
+        >
+          <option value="" disabled hidden>Khối lớp</option>
+          <option v-for="grade in gradeOptions" :key="grade" :value="grade">
+            {{ grade }}
+          </option>
+        </select>
 
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Năm học</span>
-          <select
-            v-model="form.schoolYear"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          >
-            <option value="">Chọn năm học</option>
-            <option v-for="year in schoolYearOptions" :key="year" :value="year">
-              {{ year }}
-            </option>
-          </select>
-        </label>
+        <select
+          v-model="form.schoolYear"
+          class="h-11 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+          :class="form.schoolYear ? 'text-slate-700' : 'text-slate-400'"
+        >
+          <option value="" disabled hidden>Năm học</option>
+          <option v-for="year in schoolYearOptions" :key="year" :value="year">
+            {{ year }}
+          </option>
+        </select>
 
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Giáo viên chủ nhiệm</span>
-          <select
-            v-model="form.homeroomTeacher"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+        <select
+          v-model="form.homeroomTeacher"
+          class="h-11 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+          :class="form.homeroomTeacher ? 'text-slate-700' : 'text-slate-400'"
+        >
+          <option value="" disabled hidden>Giáo viên chủ nhiệm</option>
+          <option
+            v-for="teacher in teacherOptions"
+            :key="teacher"
+            :value="teacher"
           >
-            <option value="">Chọn giáo viên chủ nhiệm</option>
-            <option
-              v-for="teacher in teacherOptions"
-              :key="teacher"
-              :value="teacher"
-            >
-              {{ teacher }}
-            </option>
-          </select>
-        </label>
+            {{ teacher }}
+          </option>
+        </select>
 
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Trạng thái</span>
-          <select
-            v-model="form.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+        <select
+          v-model="form.status"
+          class="h-11 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+        >
+          <option
+            v-for="status in statusOptions"
+            :key="status.value"
+            :value="status.value"
           >
-            <option
-              v-for="status in statusOptions"
-              :key="status.value"
-              :value="status.value"
-            >
-              {{ status.label }}
-            </option>
-          </select>
-        </label>
+            {{ status.label }}
+          </option>
+        </select>
       </div>
 
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
         <button
           type="submit"
-          class="inline-flex items-center justify-center rounded-lg bg-[#ff1f1f] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b] disabled:cursor-not-allowed disabled:opacity-60"
+          class="inline-flex items-center justify-center rounded-lg bg-[#ff1f1f] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b] disabled:cursor-not-allowed disabled:opacity-60"
           :disabled="!canSubmit"
         >
           {{ submitLabel }}
         </button>
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-500"
+          class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-500"
           @click="resetForm"
         >
-          Đặt lại
+          Đặt Lại
         </button>
       </div>
     </form>

@@ -125,7 +125,7 @@
                 <td class="border-b border-slate-100 px-2 py-4 font-semibold text-[#6c63ff]">
                   {{ row.order }}
                 </td>
-                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-slate-700">
+                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-[#6c63ff] cursor-pointer hover:underline" @click="goToDetail(row.id)">
                   {{ row.code }}
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4">
@@ -187,14 +187,24 @@
             Đã chọn {{ selectedIds.length }} lớp học.
           </p>
 
-          <div class="flex items-center gap-2 self-end">
+          <div class="flex items-center gap-1 self-end">
+            <!-- First page -->
             <button
               type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              :disabled="pagination.currentPage === 1"
+              @click="changePage(1)"
+            >
+              «
+            </button>
+            <!-- Prev page -->
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               :disabled="pagination.currentPage === 1"
               @click="changePage(pagination.currentPage - 1)"
             >
-              <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
+              ‹
             </button>
 
             <button
@@ -212,13 +222,23 @@
               {{ page }}
             </button>
 
+            <!-- Next page -->
             <button
               type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               :disabled="pagination.currentPage === pagination.totalPages"
               @click="changePage(pagination.currentPage + 1)"
             >
-              <CulturalClassIcon name="BxChevronRight" class-name="h-4 w-4" />
+              ›
+            </button>
+            <!-- Last page -->
+            <button
+              type="button"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              :disabled="pagination.currentPage === pagination.totalPages"
+              @click="changePage(pagination.totalPages)"
+            >
+              »
             </button>
           </div>
         </div>
