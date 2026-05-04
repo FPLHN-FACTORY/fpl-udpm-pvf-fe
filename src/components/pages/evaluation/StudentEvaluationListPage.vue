@@ -354,54 +354,6 @@ const openingStatusClass =
   "bg-[rgba(3,195,236,0.16)] text-[rgba(3,195,236,1)]";
 const summaryHintClass = "text-[rgba(113,221,55,1)]";
 
-const legacySummaryCards = computed(() => {
-  const total = evaluationRows.length;
-  const evaluated = evaluationRows.filter(
-    (row) => row.status !== "Chưa đánh giá",
-  ).length;
-  const pending = total - evaluated;
-  const outstanding = evaluationRows.filter(
-    (row) => row.classification === "Xuất sắc",
-  ).length;
-
-  return [
-    {
-      label: "Tổng học viên hoàn thành",
-      value: total,
-      hint: "",
-      hintClass: "",
-      icon: "BxPanelSplit",
-      iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
-    },
-    {
-      label: "Điểm trung bình toàn khóa",
-      value: evaluated,
-      hint: total ? `(${Math.round((evaluated / total) * 100)}%)` : "",
-      hintClass: summaryHintClass,
-      icon: "BxCalendarCheck",
-      iconWrapperClass: "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]",
-    },
-    {
-      label: "Tỷ lệ đạt / không đạt",
-      value: pending,
-      hint: total ? `(${Math.round((pending / total) * 100)}%)` : "",
-      hintClass: summaryHintClass,
-      icon: "BxLayersMinus",
-      iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
-    },
-    {
-      label: "Số học viên xuất sắc",
-      value: outstanding,
-      hint: "",
-      hintClass: "",
-      icon: "BxAverageAngle",
-      iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
-    },
-  ];
-});
-
-void legacySummaryCards;
-
 const summaryCards = computed(() => {
   const total = evaluationRows.length;
   const evaluated = evaluationRows.filter(
@@ -413,38 +365,41 @@ const summaryCards = computed(() => {
         evaluationRows.reduce((sum, row) => sum + row.totalScore, 0) / total,
       )
     : 0;
+  const outstanding = evaluationRows.filter(
+    (row) => row.classification === "Xuất sắc",
+  ).length;
 
   return [
     {
-      label: "Tổng số lượt đánh giá",
+      label: "Tổng học viên hoàn thành",
       value: total,
       hint: "",
       hintClass: "",
-      icon: "BxPanelSplit",
+      icon: "BxGridAlt",
       iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
     },
     {
-      label: "Số học viên đã đánh giá",
-      value: evaluated,
+      label: "Điểm trung bình toàn khóa",
+      value: averageScore,
       hint: total ? `(${Math.round((evaluated / total) * 100)}%)` : "",
       hintClass: summaryHintClass,
       icon: "BxCalendarCheck",
       iconWrapperClass: "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]",
     },
     {
-      label: "Số chưa đánh giá",
+      label: "Tỷ lệ đạt / không đạt",
       value: pending,
       hint: total ? `(${Math.round((pending / total) * 100)}%)` : "",
       hintClass: summaryHintClass,
-      icon: "BxLayersMinus",
+      icon: "BxLayersStacked",
       iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
     },
     {
-      label: "Điểm trung bình",
-      value: averageScore,
+      label: "Số học viên xuất sắc",
+      value: outstanding,
       hint: "",
       hintClass: "",
-      icon: "BxAverageAngle",
+      icon: "BxChevronRight",
       iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
     },
   ];
