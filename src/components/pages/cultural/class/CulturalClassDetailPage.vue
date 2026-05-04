@@ -47,7 +47,7 @@
               <div class="px-4 py-3 text-sm text-slate-600">
                 <span
                   v-if="field.type === 'status'"
-                  class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                  class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                   :class="statusClassMap[record.status]"
                 >
                   {{ field.value }}
@@ -65,19 +65,19 @@
         <article
           v-for="card in summaryCards"
           :key="card.label"
-          class="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-6 py-5 shadow-sm"
         >
           <div class="min-w-0 flex-1">
-            <p class="text-[13px] font-semibold leading-5 text-slate-500">
+            <p class="text-[13px] font-semibold leading-5 text-slate-400">
               {{ card.label }}
             </p>
-            <div class="mt-3 inline-flex items-center gap-2 whitespace-nowrap">
-              <p class="text-3xl font-bold leading-none text-slate-800">
+            <div class="mt-2.5 inline-flex items-baseline gap-1.5 whitespace-nowrap">
+              <p class="text-[22px] font-bold leading-none text-[#566a7f]">
                 {{ card.value }}
               </p>
               <span
                 v-if="card.hint"
-                class="pb-0.5 text-xs font-semibold leading-none whitespace-nowrap"
+                class="text-[12px] font-semibold leading-none whitespace-nowrap"
                 :class="card.hintClass"
               >
                 {{ card.hint }}
@@ -86,10 +86,10 @@
           </div>
 
           <div
-            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
             :class="card.iconWrapperClass"
           >
-            <CulturalClassIcon :name="card.icon" class-name="h-6 w-6" />
+            <CulturalClassIcon :name="card.icon" class-name="h-5 w-5" />
           </div>
         </article>
       </section>
@@ -256,7 +256,7 @@
                     </td>
                     <td class="border-b border-slate-100 px-4 py-3 text-center">
                       <span
-                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                        class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                         :class="studentStatusClassMap[student.status]"
                       >
                         {{ student.statusLabel }}
@@ -288,11 +288,11 @@
                   <template v-if="activeTab === 'attendance'">
                     <td class="border-b border-slate-100 px-4 py-3 text-center">
                       <span
-                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                        class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                         :class="
                           getAttendanceForStudent(student).present
-                            ? 'bg-emerald-100 text-emerald-600'
-                            : 'bg-rose-100 text-rose-600'
+                            ? attendancePresentClass
+                            : attendanceAbsentClass
                         "
                       >
                         {{ getAttendanceForStudent(student).present ? "Có mặt" : "Vắng" }}
@@ -364,14 +364,23 @@ const tabs = [
   { value: "scores", label: "Bảng điểm" },
 ] as const;
 
+const activeStatusClass =
+  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const pausedStatusClass =
+  "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
+const attendancePresentClass =
+  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const attendanceAbsentClass =
+  "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]";
+
 const statusClassMap: Record<CulturalClassStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  PAUSED: "bg-amber-100 text-amber-600",
+  ACTIVE: activeStatusClass,
+  PAUSED: pausedStatusClass,
 };
 
 const studentStatusClassMap: Record<CulturalStudentStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  BREAK: "bg-amber-100 text-amber-600",
+  ACTIVE: activeStatusClass,
+  BREAK: pausedStatusClass,
 };
 
 const detailFields = computed(() => {

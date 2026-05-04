@@ -1,30 +1,22 @@
 <template>
   <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ breadcrumbTitle }}</span>
-      </p>
-    </div>
-
     <section class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
       <article
         v-for="card in summaryCards"
         :key="card.label"
-        class="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-6 py-5 shadow-sm"
       >
         <div class="min-w-0 flex-1">
-          <p class="text-[13px] font-semibold leading-5 text-slate-500">
+          <p class="text-[13px] font-semibold leading-5 text-slate-400">
             {{ card.label }}
           </p>
-          <div class="mt-3 inline-flex items-center gap-2 whitespace-nowrap">
-            <p class="text-3xl font-bold leading-none text-slate-800">
+          <div class="mt-2.5 inline-flex items-baseline gap-1.5 whitespace-nowrap">
+            <p class="text-[22px] font-bold leading-none text-[#566a7f]">
               {{ card.value }}
             </p>
             <span
               v-if="card.hint"
-              class="pb-0.5 text-xs font-semibold leading-none whitespace-nowrap"
+              class="text-[14px] font-medium leading-none whitespace-nowrap"
               :class="card.hintClass"
             >
               {{ card.hint }}
@@ -33,28 +25,24 @@
         </div>
 
         <div
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
           :class="card.iconWrapperClass"
         >
-          <EvaluationIcon :name="card.icon" class-name="h-6 w-6" />
+          <EvaluationIcon :name="card.icon" class-name="h-5 w-5" />
         </div>
       </article>
     </section>
 
     <section
-      class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+      class="overflow-hidden rounded border border-slate-200 bg-white shadow-sm"
     >
       <div
         class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between"
       >
         <div>
           <h2 class="text-lg font-bold text-slate-800">
-            {{ listTitle }}
+            {{ resolvedListTitle }}
           </h2>
-          <p class="mt-1 text-sm text-slate-400">
-            Theo dõi trạng thái, điểm số và truy cập nhanh vào màn chi tiết của
-            từng bản đánh giá.
-          </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -68,7 +56,7 @@
           </button>
           <button
             type="button"
-            class="inline-flex items-center gap-2 rounded-xl bg-[#ff4d4f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#f43f44]"
+            class="inline-flex items-center gap-2 rounded bg-[#ff4d4f] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#f43f44]"
             @click="goToCreate"
           >
             <EvaluationIcon name="BxPlus" class-name="h-4 w-4" />
@@ -79,72 +67,71 @@
 
       <div class="space-y-5 px-5 py-5">
         <div
-          class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.2fr)_220px_220px_auto_auto]"
+          class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between"
         >
-          <div class="relative">
-            <EvaluationIcon
-              name="BxSearch"
-              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-            />
+          <div class="flex flex-col gap-3 md:flex-row md:items-center">
             <input
-              v-model="filters.keyword"
+              v-model="draftFilters.keyword"
               type="text"
               placeholder="Tìm kiếm"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-11 w-full rounded-md border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10 md:w-[180px]"
             />
-          </div>
 
-          <div class="relative">
-            <select
-              v-model="filters.stage"
-              class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-            >
-              <option value="all">Chọn giai đoạn</option>
-              <option v-for="stage in stageOptions" :key="stage" :value="stage">
-                {{ stage }}
-              </option>
-            </select>
-            <EvaluationIcon
-              name="BxChevronRight"
-              class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
-            />
-          </div>
-
-          <div class="relative">
-            <select
-              v-model="filters.status"
-              class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-            >
-              <option value="all">Chọn trạng thái</option>
-              <option
-                v-for="status in statusOptions"
-                :key="status"
-                :value="status"
+            <div class="relative w-full md:w-[176px]">
+              <select
+                v-model="draftFilters.stage"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
               >
-                {{ status }}
-              </option>
-            </select>
-            <EvaluationIcon
-              name="BxChevronRight"
-              class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
-            />
+                <option value="all">Chọn giai đoạn</option>
+                <option v-for="stage in stageOptions" :key="stage" :value="stage">
+                  {{ stage }}
+                </option>
+              </select>
+              <EvaluationIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
+
+            <div class="relative w-full md:w-[176px]">
+              <select
+                v-model="draftFilters.status"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              >
+                <option value="all">Chọn trạng thái</option>
+                <option
+                  v-for="status in statusOptions"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ status }}
+                </option>
+              </select>
+              <EvaluationIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
           </div>
 
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#ff4d4f] px-5 text-sm font-semibold text-white opacity-70 transition"
-          >
-            <EvaluationIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm kiếm
-          </button>
+          <div class="flex items-center gap-3 self-end xl:self-auto">
+            <button
+              type="button"
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#696cff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f63f2]"
+              @click="applyFilters"
+            >
+              <EvaluationIcon name="BxSearch" class-name="h-4 w-4" />
+              Tìm Kiếm
+            </button>
 
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:bg-slate-50"
-            @click="resetFilters"
-          >
-            <EvaluationIcon name="BxRefresh" class-name="h-4 w-4" />
-          </button>
+            <button
+              type="button"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-[#8592a3] text-white shadow-sm transition hover:bg-[#748094]"
+              @click="resetFilters"
+            >
+              <EvaluationIcon name="BxRefresh" class-name="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -165,18 +152,10 @@
                 <th class="border-y border-slate-200 px-4 py-3">Học viên</th>
                 <th class="border-y border-slate-200 px-4 py-3">Mã học viên</th>
                 <th class="border-y border-slate-200 px-4 py-3">Giai đoạn</th>
-                <th class="border-y border-slate-200 px-4 py-3">
-                  Người đánh giá
-                </th>
-                <th class="border-y border-slate-200 px-4 py-3 text-center">
-                  Tổng điểm
-                </th>
-                <th class="border-y border-slate-200 px-4 py-3 text-center">
-                  Trạng thái
-                </th>
-                <th class="border-y border-slate-200 px-4 py-3 text-center">
-                  Hành động
-                </th>
+                <th class="border-y border-slate-200 px-4 py-3">Người đánh giá</th>
+                <th class="border-y border-slate-200 px-4 py-3 text-center">Tổng điểm</th>
+                <th class="border-y border-slate-200 px-4 py-3 text-center">Trạng thái</th>
+                <th class="border-y border-slate-200 px-4 py-3 text-center">Hành động</th>
               </tr>
             </thead>
 
@@ -220,7 +199,7 @@
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <span
-                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                    class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
                     :class="statusClassMap[row.status]"
                   >
                     {{ row.status }}
@@ -274,46 +253,14 @@
         </div>
 
         <div
-          class="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between"
+          class="flex justify-end border-t border-slate-100 pt-4"
         >
-          <p class="text-sm text-slate-400">
-            Đã chọn {{ selectedIds.length }} học viên.
-          </p>
-
-          <div class="flex items-center gap-2 self-end">
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="currentPage === 1"
-              @click="changePage(currentPage - 1)"
-            >
-              <EvaluationIcon name="BxChevronLeft" class-name="h-4 w-4" />
-            </button>
-
-            <button
-              v-for="page in visiblePages"
-              :key="page"
-              type="button"
-              class="flex h-9 min-w-9 items-center justify-center rounded-lg px-3 text-sm font-semibold transition"
-              :class="
-                page === currentPage
-                  ? 'bg-[#ff4d4f] text-white shadow-sm'
-                  : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
-              "
-              @click="changePage(page)"
-            >
-              {{ page }}
-            </button>
-
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="currentPage === totalPages"
-              @click="changePage(currentPage + 1)"
-            >
-              <EvaluationIcon name="BxChevronRight" class-name="h-4 w-4" />
-            </button>
-          </div>
+          <BasePagination
+            :current="currentPage"
+            :page-size="pageSize"
+            :total="filteredRows.length"
+            @change="changePage"
+          />
         </div>
       </div>
     </section>
@@ -322,7 +269,8 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+import BasePagination from "../../atoms/display/BasePagination.vue";
 import EvaluationIcon from "./EvaluationIcon.vue";
 import {
   evaluationRows,
@@ -334,13 +282,26 @@ import {
 
 const pageSize = 5;
 const defaultPage = 1;
-const moduleTitle = "Đánh giá học viên";
-const breadcrumbTitle = "Danh sách đánh giá học viên";
-const listTitle = "Danh sách đánh giá học viên";
+const listTitle = "Danh sách đánh giá toàn khóa";
 
+const route = useRoute();
 const router = useRouter();
 
-const filters = reactive({
+const resolvedListTitle = computed(() =>
+  route.meta.evaluationKind === "course"
+    ? "Danh sách đánh giá toàn khóa"
+    : "Danh sách Đánh giá học viên",
+);
+
+void listTitle;
+
+const draftFilters = reactive({
+  keyword: "",
+  stage: "all",
+  status: "all",
+});
+
+const queryFilters = reactive({
   keyword: "",
   stage: "all",
   status: "all",
@@ -350,7 +311,7 @@ const currentPage = ref(defaultPage);
 const selectedIds = ref<number[]>([]);
 
 const filteredRows = computed(() => {
-  const keyword = filters.keyword.trim().toLowerCase();
+  const keyword = queryFilters.keyword.trim().toLowerCase();
 
   return evaluationRows.filter((row) => {
     const matchKeyword =
@@ -360,9 +321,10 @@ const filteredRows = computed(() => {
       row.reviewer.toLowerCase().includes(keyword) ||
       row.course.toLowerCase().includes(keyword);
 
-    const matchStage = filters.stage === "all" || row.stage === filters.stage;
+    const matchStage =
+      queryFilters.stage === "all" || row.stage === queryFilters.stage;
     const matchStatus =
-      filters.status === "all" || row.status === filters.status;
+      queryFilters.status === "all" || row.status === queryFilters.status;
 
     return matchKeyword && matchStage && matchStatus;
   });
@@ -384,82 +346,86 @@ const isAllVisibleSelected = computed(
     paginatedRows.value.every((row) => selectedIds.value.includes(row.id)),
 );
 
+const activeStatusClass =
+  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const pendingStatusClass =
+  "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
+const openingStatusClass =
+  "bg-[rgba(3,195,236,0.16)] text-[rgba(3,195,236,1)]";
+const summaryHintClass = "text-[rgba(113,221,55,1)]";
+
 const summaryCards = computed(() => {
   const total = evaluationRows.length;
   const evaluated = evaluationRows.filter(
     (row) => row.status !== "Chưa đánh giá",
   ).length;
   const pending = total - evaluated;
-  const scoredRows = evaluationRows.filter((row) => row.totalScore > 0);
-  const average =
-    scoredRows.reduce((sum, row) => sum + row.totalScore, 0) /
-    (scoredRows.length || 1);
+  const averageScore = total
+    ? Math.round(
+        evaluationRows.reduce((sum, row) => sum + row.totalScore, 0) / total,
+      )
+    : 0;
+  const outstanding = evaluationRows.filter(
+    (row) => row.classification === "Xuất sắc",
+  ).length;
 
   return [
     {
-      label: "Tổng số lượt đánh giá",
+      label: "Tổng học viên hoàn thành",
       value: total,
       hint: "",
       hintClass: "",
-      icon: "BxPanelStats",
-      iconWrapperClass: "bg-rose-50 text-rose-500",
+      icon: "BxGridAlt",
+      iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
     },
     {
-      label: "Số học viên đã đánh giá",
-      value: evaluated,
-      hint: `(${Math.round((evaluated / total) * 100)}%)`,
-      hintClass: "text-emerald-500",
+      label: "Điểm trung bình toàn khóa",
+      value: averageScore,
+      hint: total ? `(${Math.round((evaluated / total) * 100)}%)` : "",
+      hintClass: summaryHintClass,
       icon: "BxCalendarCheck",
-      iconWrapperClass: "bg-emerald-50 text-emerald-500",
+      iconWrapperClass: "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]",
     },
     {
-      label: "Số chưa đánh giá",
+      label: "Tỷ lệ đạt / không đạt",
       value: pending,
-      hint: `(${Math.round((pending / total) * 100)}%)`,
-      hintClass: "text-amber-500",
+      hint: total ? `(${Math.round((pending / total) * 100)}%)` : "",
+      hintClass: summaryHintClass,
       icon: "BxLayersStacked",
-      iconWrapperClass: "bg-amber-50 text-amber-500",
+      iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
     },
     {
-      label: "Điểm trung bình",
-      value: average.toFixed(1),
+      label: "Số học viên xuất sắc",
+      value: outstanding,
       hint: "",
       hintClass: "",
-      icon: "BxChevronStep",
-      iconWrapperClass: "bg-sky-50 text-sky-500",
+      icon: "BxChevronRight",
+      iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
     },
   ];
 });
 
-const visiblePages = computed(() => {
-  const total = totalPages.value;
-  const page = currentPage.value;
-
-  if (total <= 5) {
-    return Array.from({ length: total }, (_, index) => index + 1);
-  }
-
-  if (page <= 3) {
-    return [1, 2, 3, 4, 5];
-  }
-
-  if (page >= total - 2) {
-    return [total - 4, total - 3, total - 2, total - 1, total];
-  }
-
-  return [page - 2, page - 1, page, page + 1, page + 2];
-});
-
 const statusClassMap: Record<EvaluationStatus, string> = {
-  "Đã khóa": "bg-emerald-100 text-emerald-600",
-  "Đang mở": "bg-sky-100 text-sky-600",
-  "Chưa đánh giá": "bg-amber-100 text-amber-600",
+  "Đã khóa": activeStatusClass,
+  "Đang mở": openingStatusClass,
+  "Chưa đánh giá": pendingStatusClass,
+};
+
+const applyFilters = () => {
+  queryFilters.keyword = draftFilters.keyword;
+  queryFilters.stage = draftFilters.stage;
+  queryFilters.status = draftFilters.status;
+  selectedIds.value = [];
+  currentPage.value = 1;
 };
 
 const resetFilters = () => {
-  filters.keyword = "";
-  filters.stage = "all";
-  filters.status = "all";
+  draftFilters.keyword = "";
+  draftFilters.stage = "all";
+  draftFilters.status = "all";
+  queryFilters.keyword = "";
+  queryFilters.stage = "all";
+  queryFilters.status = "all";
   selectedIds.value = [];
   currentPage.value = 1;
 };
@@ -546,11 +512,4 @@ watch(filteredRows, () => {
   }
 });
 
-watch(
-  () => [filters.keyword, filters.stage, filters.status],
-  () => {
-    selectedIds.value = [];
-    currentPage.value = 1;
-  },
-);
 </script>

@@ -35,7 +35,7 @@
               v-model="form.studentKeyword"
               type="text"
               placeholder="Học viên"
-              class="h-10 w-full rounded-md border border-slate-200 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-10 w-full rounded-md border border-slate-200 px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
               @focus="showStudentDropdown = true"
               @input="handleStudentInput"
             />
@@ -67,7 +67,7 @@
           <div class="relative">
             <select
               v-model="form.stage"
-              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
             >
               <option value="">Giai đoạn</option>
               <option
@@ -87,7 +87,7 @@
           <div class="relative">
             <select
               v-model="form.formName"
-              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
             >
               <option value="">Form áp dụng</option>
               <option
@@ -107,7 +107,7 @@
           <div class="relative">
             <select
               v-model="form.reviewer"
-              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
             >
               <option value="">Người đánh giá</option>
               <option
@@ -127,7 +127,7 @@
           <div class="relative">
             <select
               v-model="form.status"
-              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-10 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
             >
               <option value="">Trạng thái</option>
               <option v-for="status in statusOptions" :key="status" :value="status">
@@ -145,7 +145,7 @@
               v-model="form.lockedAt"
               type="text"
               placeholder="Thời điểm khóa đánh giá"
-              class="h-10 w-full rounded-md border border-slate-200 px-4 pr-11 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+              class="h-10 w-full rounded-md border border-slate-200 px-4 pr-11 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
             />
             <span
               class="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-slate-400"
@@ -214,7 +214,7 @@
                       min="0"
                       max="10"
                       step="0.1"
-                      class="h-9 w-full rounded-md border border-slate-200 px-3 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
+                      class="h-9 w-full rounded-md border border-slate-200 px-3 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
                     />
                   </td>
                   <td class="border-b border-slate-100 px-4 py-3 text-center">
