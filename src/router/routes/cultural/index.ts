@@ -1,9 +1,9 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { schoolYearRoutes } from './year'
+import { absenceRoute } from './absence'
+import { classHiddenRoute, classRoute } from './class'
 import { gradeHiddenRoute, gradeRoute } from './grade'
 import { subjectRoute } from './subject'
-import { classHiddenRoute, classRoute } from './class'
-import { absenceRoute } from './absence'
+import { schoolYearRoutes } from './year'
 
 export const culturalRoutes: RouteRecordRaw[] = [
   {
