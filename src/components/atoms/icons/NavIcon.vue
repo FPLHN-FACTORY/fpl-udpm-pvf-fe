@@ -1,3 +1,4 @@
+// fpl-udpm-pvf-fe/src/components/atoms/icons/NavIcon.vue
 <template>
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -64,6 +65,7 @@
     <path v-if="name === 'BxGlobe' || name === 'LanguageIcon'" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm7.931 9h-2.764a14.67 14.67 0 0 0-1.792-6.243A8.013 8.013 0 0 1 19.931 11zM12.53 4.07c1.517 1.896 2.431 4.455 2.431 6.93h-5.922c0-2.475.914-5.034 2.431-6.93a3.749 3.749 0 0 1 1.06 0zM4.069 11a8.013 8.013 0 0 1 4.556-6.243 14.67 14.67 0 0 0-1.792 6.243H4.069zm0 2h2.764a14.67 14.67 0 0 0 1.792 6.243A8.013 8.013 0 0 1 4.069 13zm4.556 6.243a14.67 14.67 0 0 0 1.792-6.243h5.922a14.67 14.67 0 0 0-1.792 6.243 8.013 8.013 0 0 1-4.556 6.243zm5.922-6.243c0 2.475-.914 5.034-2.431 6.93a3.749 3.749 0 0 1-1.06 0c-1.517-1.896-2.431-4.455-2.431-6.93h5.922zm2.764 6.243a14.67 14.67 0 0 0 1.792-6.243h2.764a8.013 8.013 0 0 1-4.556 6.243z" />
     <path v-if="name === 'BxMoon' || name === 'MoonIcon'" d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.91-.11-1.35a1 1 0 0 0-1.03-.84 1 1 0 0 0-.82.63 7 7 0 1 1-6.52-6.52 1 1 0 0 0 .63-.82 1 1 0 0 0-.84-1.03C12.91 3.04 12.46 3 12 3z" />
     <path v-if="name === 'BxBell' || name === 'BellIcon'" d="M12 22a2.98 2.98 0 0 0 2.818-2H9.182A2.98 2.98 0 0 0 12 22zm7-6v-6a7 7 0 0 0-14 0v6l-2 2v1h18v-1l-2-2zM7 17v-7a5 5 0 0 1 10 0v7H7z" />
+    
     <!-- BxRadioCircle -->
     <circle v-if="name === 'BxRadioCircle'" cx="12" cy="12" r="3" />
 
@@ -74,7 +76,6 @@
     <path v-if="name === 'BxSearch'" d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" />
 
     <!-- BxReset -->
-    <!-- BxReset (Custom for user requirement) -->
     <path v-if="name === 'BxReset'" d="M12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm0-6a2 2 0 1 0 2 2 2 2 0 0 0-2-2z" />
     <path v-if="name === 'BxReset'" d="M12 20a8.13 8.13 0 0 1-8-8 8 8 0 0 1 8-8c2.047 0 3.928.769 5.354 2.043l-2.047 2.03V10H20V5h-4.915l1.938 1.921C15.396 5.513 13.774 5 12 5c-3.859 0-7 3.141-7 7s3.141 7 7 7c1.778 0 3.4-.663 4.646-1.757l1.315 1.513C16.34 20.129 14.28 21 12 21z" />
 
@@ -119,6 +120,16 @@
 
     <!-- BxCalendar -->
     <path v-if="name === 'BxCalendar'" d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z" /><path v-if="name === 'BxCalendar'" d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v4H9V2H7v4H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8v12H5V8h14z" />
+    
+    <!-- BxUpload -->
+    <path v-if="name === 'BxUpload'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline v-if="name === 'BxUpload'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="17 8 12 3 7 8" />
+    <line v-if="name === 'BxUpload'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="12" y1="3" x2="12" y2="15" />
+
+    <!-- BxDownload -->
+    <path v-if="name === 'BxDownload'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+    <polyline v-if="name === 'BxDownload'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" points="7 10 12 15 17 10" />
+    <line v-if="name === 'BxDownload'" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" x1="12" y1="15" x2="12" y2="3" />
 
   </svg>
 </template>
