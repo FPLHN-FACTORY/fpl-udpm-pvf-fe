@@ -16,8 +16,9 @@
     </template>
 
     <template v-else-if="name === 'BxRefresh'">
-      <path d="M20 11a8 8 0 1 0 2 5.3" />
-      <path d="M20 4v7h-7" />
+      <path d="M8.5 6.25A7 7 0 1 1 5 12.75" />
+      <path d="M8.5 3.75 4.75 6.25 8.5 8.75" />
+      <circle cx="12" cy="13" r="1.35" fill="currentColor" stroke="none" />
     </template>
 
     <template v-else-if="name === 'BxShow'">
