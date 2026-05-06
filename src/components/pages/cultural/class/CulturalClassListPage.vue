@@ -14,17 +14,17 @@
         :key="card.label"
         class="flex items-start justify-between gap-6 rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm"
       >
-        <div class="min-w-0 flex-1">
-          <p class="text-[14px] font-medium leading-6 text-[#566a7f]">
+        <div class="app-summary-stat-copy">
+          <p class="app-summary-stat-label">
             {{ card.label }}
           </p>
-          <div class="mt-5 inline-flex items-baseline gap-1.5 whitespace-nowrap">
-            <p class="text-[22px] font-bold leading-none text-[#3c4a5d]">
+          <div class="app-summary-stat-row">
+            <p class="app-summary-stat-value">
               {{ card.value }}
             </p>
             <span
               v-if="card.hint"
-              class="text-[14px] font-medium leading-none whitespace-nowrap"
+              class="app-summary-stat-hint"
               :class="card.hintClass"
             >
               {{ card.hint }}
@@ -130,10 +130,10 @@
 
           <button
             type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-[#8592a3] text-white shadow-sm transition hover:bg-[#748094]"
+            class="app-filter-reset-button"
             @click="resetFilters"
           >
-            <CulturalClassIcon name="BxRefresh" class-name="h-4 w-4" />
+            <CulturalClassIcon name="BxRefresh" class-name="app-filter-reset-icon" />
           </button>
         </div>
         </div>
@@ -191,7 +191,7 @@
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <span
-                    class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
+                    class="inline-flex whitespace-nowrap rounded-md px-3 py-1 text-xs font-semibold"
                     :class="statusClassMap[row.status]"
                   >
                     {{ row.statusLabel }}

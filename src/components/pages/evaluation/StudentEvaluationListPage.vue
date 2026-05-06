@@ -6,17 +6,17 @@
         :key="card.label"
         class="flex items-center justify-between gap-4 rounded-xl border border-slate-200 bg-white px-6 py-5 shadow-sm"
       >
-        <div class="min-w-0 flex-1">
-          <p class="text-[13px] font-semibold leading-5 text-slate-400">
+        <div class="app-summary-stat-copy">
+          <p class="app-summary-stat-label">
             {{ card.label }}
           </p>
-          <div class="mt-2.5 inline-flex items-baseline gap-1.5 whitespace-nowrap">
-            <p class="text-[22px] font-bold leading-none text-[#566a7f]">
+          <div class="app-summary-stat-row">
+            <p class="app-summary-stat-value">
               {{ card.value }}
             </p>
             <span
               v-if="card.hint"
-              class="text-[14px] font-medium leading-none whitespace-nowrap"
+              class="app-summary-stat-hint"
               :class="card.hintClass"
             >
               {{ card.hint }}
@@ -126,10 +126,10 @@
 
             <button
               type="button"
-              class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-[#8592a3] text-white shadow-sm transition hover:bg-[#748094]"
+              class="app-filter-reset-button"
               @click="resetFilters"
             >
-              <EvaluationIcon name="BxRefresh" class-name="h-4 w-4" />
+              <EvaluationIcon name="BxRefresh" class-name="app-filter-reset-icon" />
             </button>
           </div>
         </div>
@@ -199,7 +199,7 @@
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <span
-                    class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
+                    class="inline-flex whitespace-nowrap rounded-md px-3 py-1 text-xs font-semibold"
                     :class="statusClassMap[row.status]"
                   >
                     {{ row.status }}
@@ -369,13 +369,13 @@ const summaryCards = computed(() => {
     (row) => row.classification === "Xuất sắc",
   ).length;
 
-  return [
+  const cards = [
     {
       label: "Tổng học viên hoàn thành",
       value: total,
       hint: "",
       hintClass: "",
-      icon: "BxGridAlt",
+      icon: "BxPanelSplit",
       iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
     },
     {
@@ -399,10 +399,20 @@ const summaryCards = computed(() => {
       value: outstanding,
       hint: "",
       hintClass: "",
-      icon: "BxChevronRight",
+      icon: "BxAverageAngle",
       iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
     },
   ];
+
+  cards[0].label = "Tổng số lượt đánh giá";
+  cards[1].label = "Số học viên đã đánh giá";
+  cards[1].value = evaluated;
+  cards[2].label = "Số chưa đánh giá";
+  cards[3].label = "Điểm trung bình";
+  cards[3].value = averageScore;
+  cards[3].hint = "";
+
+  return cards;
 });
 
 const statusClassMap: Record<EvaluationStatus, string> = {
