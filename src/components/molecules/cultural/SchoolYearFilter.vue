@@ -38,9 +38,10 @@ const props = defineProps<{
 
 const emit = defineEmits(['search', 'reset', 'update:filters'])
 
-const filters = reactive({
-  search: props.initialFilters.search ?? '',
-  status: props.initialFilters.status
+const filters = reactive({ 
+  search: '',
+  status: undefined,
+  ...props.initialFilters 
 })
 
 // Đồng bộ ngược lại nếu prop thay đổi
