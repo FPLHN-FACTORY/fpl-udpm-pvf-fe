@@ -3,17 +3,16 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Quản lý tuyển sinh</span>
       <span class="text-gray-400">/</span>
-      <span class="text-gray-400">Kỳ tuyển sinh</span>
+      <span class="text-gray-500 font-medium">Kỳ tuyển sinh</span>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Kỳ tuyển sinh đã xoá</h2>
         <a-button 
-          class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
+          class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2 rounded-md font-medium"
           @click="$router.push('/recruitment/admission-periods')"
         >
-          <template #icon>←</template>
           Quay Lại
         </a-button>
       </div>
@@ -50,10 +49,11 @@
               <span class="text-[#6c63ff] font-medium">{{ index + 1 }}</span>
             </template>
             <template v-else-if="column.key === 'actions'">
-              <div class="flex items-center gap-2 justify-center">
-                <button class="p-1 text-[#a1acb8] hover:text-[#566a7f]"><NavIcon name="BxShow" class-name="w-[18px] h-[18px]" /></button>
-                <button class="p-1 text-[#a1acb8] hover:text-[#566a7f]"><NavIcon name="BxRevision" class-name="w-[18px] h-[18px]" /></button>
-                <button class="p-1 text-[#a1acb8] hover:text-[#566a7f]"><NavIcon name="BxTrash" class-name="w-[18px] h-[18px]" /></button>
+              <div class="flex items-center gap-3 justify-center">
+                <button class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"><NavIcon name="BxShow" class-name="w-[18px] h-[18px]" /></button>
+                <!-- SỬA: Đổi thành BxReset -->
+                <button class="p-1 text-[#a1acb8] hover:text-green-500 transition-colors"><NavIcon name="BxReset" class-name="w-[18px] h-[18px]" /></button>
+                <button class="p-1 text-[#a1acb8] hover:text-red-500 transition-colors"><NavIcon name="BxTrash" class-name="w-[18px] h-[18px]" /></button>
               </div>
             </template>
           </template>
@@ -88,7 +88,7 @@ const columns = [
   { title: 'TÊN KỲ TUYỂN SINH', dataIndex: 'name', key: 'name' },
   { title: 'NGÀY TUYỂN', dataIndex: 'startDate', key: 'startDate' },
   { title: 'NGÀY XÓA', dataIndex: 'deletedAt', key: 'deletedAt' },
-  { title: 'HÀNH ĐỘNG', key: 'actions', width: 120, align: 'center' },
+  { title: 'HÀNH ĐỘNG', key: 'actions', width: 140, align: 'center' },
 ]
 
 const dataSource = ref([

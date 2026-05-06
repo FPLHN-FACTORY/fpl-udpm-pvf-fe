@@ -1,85 +1,105 @@
 <template>
   <div class="flex flex-col gap-6">
+    <!-- Breadcrumbs -->
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Quản lý tuyển sinh</span>
       <span class="text-gray-400">/</span>
       <span class="text-gray-400">Kỳ tuyển sinh</span>
     </div>
 
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden max-w-5xl">
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Thêm mới Kỳ tuyển sinh</h2>
+    <!-- Main Card: Đã bỏ max-w-5xl để co giãn rộng sang 2 bên như trang Edit -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden w-full">
+      <!-- Card Header -->
+      <div class="flex justify-between items-center p-8 border-b border-gray-100">
+        <h2 class="text-2xl font-bold text-[#566a7f]">Thêm mới Kỳ tuyển sinh</h2>
         <a-button 
-          class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
+          class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2 rounded-md font-medium"
           @click="$router.push('/recruitment/admission-periods')"
         >
-          <template #icon>←</template>
+          <template #icon>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+          </template>
           Quay Lại
         </a-button>
       </div>
 
-      <div class="p-8">
-        <div class="flex flex-col gap-6">
+      <!-- Form Body -->
+      <div class="p-10">
+        <div class="flex flex-col gap-8">
+          
+          <!-- Field: Cơ sở đào tạo -->
           <div class="relative w-full">
-            <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-400 z-50 font-medium">Cơ sở đào tạo</label>
+            <label class="absolute -top-2 left-3 bg-white px-1 text-[13px] text-gray-400 z-50 font-medium">Cơ sở</label>
             <a-select 
               v-model:value="formData.facility" 
-              placeholder="Cơ sở đào tạo" 
-              class="w-full !h-[42px]"
+              placeholder="Cơ sở" 
+              class="w-full !h-[48px]"
             >
               <a-select-option value="hn">Cơ sở đào tạo FPT Hà Nội</a-select-option>
               <a-select-option value="hcm">Cơ sở đào tạo FPT TP.HCM</a-select-option>
             </a-select>
           </div>
 
+          <!-- Field: Tên kỳ tuyển sinh -->
           <div class="relative w-full">
-            <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-400 z-50 font-medium">Tên kỳ tuyển sinh</label>
+            <label class="absolute -top-2 left-3 bg-white px-1 text-[13px] text-gray-400 z-50 font-medium">Tên kỳ tuyển sinh</label>
             <a-input 
               v-model:value="formData.name" 
               placeholder="Tên kỳ tuyển sinh" 
-              class="w-full !h-[42px] !border-[#d9dee3] rounded-md transition-all text-[#566a7f]"
+              class="w-full !h-[48px] !border-[#d9dee3] rounded-md transition-all text-[#566a7f]"
             />
           </div>
 
-          <div class="grid grid-cols-2 gap-6">
+          <!-- Grid: Ngày bắt đầu & Ngày kết thúc -->
+          <div class="grid grid-cols-2 gap-8">
             <div class="relative w-full">
-            <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-400 z-50 font-medium">Ngày bắt đầu kỳ tuyển sinh</label>
-            <a-date-picker 
+              <label class="absolute -top-2 left-3 bg-white px-1 text-[13px] text-gray-400 z-50 font-medium">Ngày bắt đầu kỳ tuyển sinh</label>
+              <a-date-picker 
                 v-model:value="formData.startDate" 
-                placeholder="Ngày bắt đầu kỳ tuyển sinh" 
-                class="w-full !h-[42px]"
+                placeholder="YYYY-MM-DD" 
+                class="w-full !h-[48px]"
               />
-          </div>
+            </div>
+
             <div class="relative w-full">
-            <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-400 z-50 font-medium">Ngày kết thúc kỳ tuyển sinh</label>
-            <a-date-picker 
+              <label class="absolute -top-2 left-3 bg-white px-1 text-[13px] text-gray-400 z-50 font-medium">Ngày kết thúc kỳ tuyển sinh</label>
+              <a-date-picker 
                 v-model:value="formData.endDate" 
-                placeholder="Ngày kết thúc kỳ tuyển sinh" 
-                class="w-full !h-[42px]"
+                placeholder="YYYY-MM-DD" 
+                class="w-full !h-[48px]"
               />
-          </div>
+            </div>
           </div>
 
+          <!-- Field: Trạng thái -->
           <div class="relative w-full">
-            <label class="absolute -top-2 left-3 bg-white px-1 text-[12px] text-gray-400 z-50 font-medium">Trạng thái</label>
+            <label class="absolute -top-2 left-3 bg-white px-1 text-[13px] text-gray-400 z-50 font-medium">Trạng thái</label>
             <a-select 
               v-model:value="formData.status" 
               placeholder="Trạng thái" 
-              class="w-full !h-[42px]"
+              class="w-full !h-[48px]"
             >
               <a-select-option value="active">Đang hoạt động</a-select-option>
-              <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
+              <a-select-option value="inactive">Ngưng hoạt động</a-select-option>
             </a-select>
           </div>
 
-          <div class="flex justify-center gap-3 mt-6">
-            <a-button class="!bg-[#ff1f1f] hover:!bg-[#e31b1b] !border-none !text-white !h-[42px] !px-8 font-medium rounded-md" @click="handleSubmit">
+          <!-- Action Buttons -->
+          <div class="flex justify-center gap-4 mt-8">
+            <a-button 
+              class="!bg-[#ff1f1f] hover:!bg-[#e31b1b] !border-none !text-white !h-[48px] !px-12 !text-[15px] font-medium rounded-md" 
+              @click="handleSubmit"
+            >
               Thêm Mới
             </a-button>
-            <a-button class="!bg-[#eab308] hover:!bg-[#ca8a04] !border-none !text-white !h-[42px] !px-8 font-medium rounded-md" @click="resetForm">
+            <a-button 
+              class="!bg-[#eab308] hover:!bg-[#ca8a04] !border-none !text-white !h-[48px] !px-12 !text-[15px] font-medium rounded-md" 
+              @click="resetForm"
+            >
               Đặt Lại
             </a-button>
           </div>
+
         </div>
       </div>
     </div>
@@ -89,21 +109,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import InputForm from '../../../atoms/inputs/InputForm.vue'
-import ButtonSave from '../../../atoms/buttons/ButtonSave.vue'
-import ButtonReset from '../../../atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
-
-interface FormData {
-  facility: string | undefined
-  name: string
-  startDate: any
-  endDate: any
-  status: string | undefined
-}
-
-const formData = ref<FormData>({
+const formData = ref({
   facility: undefined,
   name: '',
   startDate: undefined,
@@ -128,38 +136,30 @@ const resetForm = () => {
 </script>
 
 <style scoped>
-:deep(.ant-input),
-:deep(.ant-select-selector), 
-:deep(.ant-picker) {
-  height: 42px !important;
+/* CSS đồng bộ tuyệt đối với AdmissionPeriodEditPage.vue */
+:deep(.ant-input), :deep(.ant-select-selector), :deep(.ant-picker) {
+  height: 48px !important;
   border-radius: 6px !important;
   border-color: #d9dee3 !important;
   display: flex;
   align-items: center;
   color: #566a7f !important;
   box-shadow: none !important;
+  font-size: 14px !important;
 }
 
-:deep(.ant-input:hover),
-:deep(.ant-input:focus),
-:deep(.ant-select-selector:hover), 
-:deep(.ant-picker:hover),
-:deep(.ant-select-focused .ant-select-selector), 
-:deep(.ant-picker-focused) {
+:deep(.ant-input:hover), :deep(.ant-input:focus), 
+:deep(.ant-select-selector:hover), :deep(.ant-picker:hover), 
+:deep(.ant-select-focused .ant-select-selector), :deep(.ant-picker-focused) {
   border-color: #696cff !important;
   box-shadow: none !important;
 }
 
-:deep(.ant-select-selection-item), 
-:deep(.ant-picker-input > input) {
+:deep(.ant-select-selection-item), :deep(.ant-picker-input > input) {
   color: #566a7f !important;
 }
 
-:deep(.ant-select-arrow) {
-  color: #a1acb8 !important;
-}
-
-:deep(.ant-picker-suffix) {
+:deep(.ant-select-arrow), :deep(.ant-picker-suffix) {
   color: #a1acb8 !important;
 }
 </style>
