@@ -179,11 +179,7 @@
           </table>
         </div>
 
-        <div class="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
-          <p class="text-sm text-slate-400">
-            Đã chọn {{ selectedIds.length }} lớp học.
-          </p>
-
+        <div class="flex justify-end border-t border-slate-100 pt-4">
           <div class="flex items-center gap-2 self-end">
             <button
               type="button"

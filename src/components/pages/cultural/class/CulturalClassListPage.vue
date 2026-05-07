@@ -70,31 +70,36 @@
       </div>
 
       <div class="space-y-5 px-5 py-5">
-        <div class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_220px_auto_auto]">
-          <div class="relative">
-            <CulturalClassIcon
-              name="BxSearch"
-              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-            />
+        <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+          <div class="flex flex-col gap-3 md:flex-row md:items-center">
+            <div>
             <input
               v-model="draftFilters.keyword"
               type="text"
               placeholder="Tìm kiếm"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+              class="h-11 w-full rounded-md border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10 md:w-[180px]"
             />
-          </div> <select
+          </div>
+
+          <select
             v-model="draftFilters.schoolYear"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+            class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           >
             <option value="all">Chọn thời gian</option>
             <option v-for="year in schoolYearOptions" :key="year" :value="year">
               {{ year }}
             </option>
           </select>
+              <CulturalClassIcon
+                name="BxCalendar"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              />
+            </div>
 
+            <div class="relative w-full md:w-[176px]">
           <select
             v-model="draftFilters.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+            class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
           >
             <option value="all">Chọn trạng thái</option>
             <option
@@ -105,10 +110,17 @@
               {{ status.label }}
             </option>
           </select>
+              <CulturalClassIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
+          </div>
 
+          <div class="flex items-center gap-3 self-end xl:self-auto">
           <button
             type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
+            class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#696cff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f63f2]"
             @click="applyFilters"
           >
             <CulturalClassIcon name="BxSearch" class-name="h-4 w-4" />
@@ -117,11 +129,12 @@
 
           <button
             type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
+            class="app-filter-reset-button"
             @click="resetFilters"
           >
-            <CulturalClassIcon name="BxRefresh" class-name="h-4 w-4" />
+            <CulturalClassIcon name="BxRefresh" class-name="app-filter-reset-icon" />
           </button>
+        </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -222,45 +235,13 @@
           </table>
         </div>
 
-        <div class="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
-          <p class="text-sm text-slate-400">
-            Đã chọn {{ selectedIds.length }} lớp học.
-          </p>
-
-          <div class="flex items-center gap-2 self-end">
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === 1"
-              @click="changePage(pagination.currentPage - 1)"
-            >
-              <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
-            </button>
-
-            <button
-              v-for="page in visiblePages"
-              :key="page"
-              type="button"
-              class="flex h-9 min-w-9 items-center justify-center rounded-lg px-3 text-sm font-semibold transition"
-              :class="
-                page === pagination.currentPage
-                  ? 'bg-[#ff1f1f] text-white shadow-sm'
-                  : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
-              "
-              @click="changePage(page)"
-            >
-              {{ page }}
-            </button>
-
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === pagination.totalPages"
-              @click="changePage(pagination.currentPage + 1)"
-            >
-              <CulturalClassIcon name="BxChevronRight" class-name="h-4 w-4" />
-            </button>
-          </div>
+        <div class="flex justify-end border-t border-slate-100 pt-4">
+          <BasePagination
+            :current="pagination.currentPage"
+            :page-size="pagination.itemsPerPage"
+            :total="pagination.totalItems"
+            @change="changePage"
+          />
         </div>
       </div>
     </section>
@@ -270,7 +251,6 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
-// ĐÃ FIX: Xóa import dư thừa BasePagination
 import CulturalClassIcon from "./CulturalClassIcon.vue";
 import {
   culturalClassSchoolYearOptions,
@@ -318,30 +298,10 @@ const summary = reactive<CulturalClassSummary>({
 const statusOptions = culturalClassStatusOptions;
 const schoolYearOptions = culturalClassSchoolYearOptions;
 
-const activeStatusClass = "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
-const pausedStatusClass = "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
-const summaryHintClass = "text-[rgba(113,221,55,1)]";
 const statusClassMap: Record<CulturalClassStatus, string> = {
-  ACTIVE: activeStatusClass,
-  PAUSED: pausedStatusClass,
+  ACTIVE: "bg-emerald-100 text-emerald-600",
+  PAUSED: "bg-amber-100 text-amber-600",
 };
-
-// ĐÃ FIX: Bổ sung computed visiblePages
-const visiblePages = computed(() => {
-  const pages: number[] = [];
-  const maxVisible = 5;
-  let start = Math.max(1, pagination.currentPage - 2);
-  let end = Math.min(pagination.totalPages, start + maxVisible - 1);
-  
-  if (end - start < maxVisible - 1) {
-    start = Math.max(1, end - maxVisible + 1);
-  }
-
-  for (let i = start; i <= end; i++) {
-    pages.push(i);
-  }
-  return pages;
-});
 
 const summaryCards = computed(() => [
   {

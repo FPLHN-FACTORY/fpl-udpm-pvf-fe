@@ -14,17 +14,14 @@ export const culturalRoutes: RouteRecordRaw[] = [
       gradeRoute,
       subjectRoute,
       classRoute,
-      absenceRoute,
-    ],
-  },
+      absenceRoute
+    ]
+  }
 ]
 
 export const culturalHiddenRoutes: RouteRecordRaw[] = [
   {
     path: '/cultural',
-    children: [
-      gradeHiddenRoute, 
-      classHiddenRoute
-    ],
-  },
+    children: [gradeHiddenRoute, classHiddenRoute]
+  }
 ]
