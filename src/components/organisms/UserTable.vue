@@ -56,7 +56,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import NavIcon from '../atoms/NavIcon.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
 import BaseTag from '../atoms/BaseTag.vue'
 
 const selectedRowKeys = ref([])
