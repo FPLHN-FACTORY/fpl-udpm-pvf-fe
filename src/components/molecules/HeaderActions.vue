@@ -11,7 +11,7 @@
     </button>
     <button class="hover:bg-gray-100 p-2 rounded-full transition-colors relative">
       <NavIcon name="BxBell" class-name="w-[22px] h-[22px]" />
-      <span class="absolute top-2 right-2 w-2 h-2 bg-[#ff3e1d] border-2 border-white rounded-full"></span>
+      <span class="absolute top-2 right-2 w-2 h-2 bg-[#E81919] border-2 border-white rounded-full"></span>
     </button>
     
     <div class="relative cursor-pointer ml-2">

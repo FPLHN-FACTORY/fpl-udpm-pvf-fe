@@ -13,7 +13,7 @@
       <div class="bg-white p-5 rounded-lg shadow-sm flex items-center justify-between h-[150px]">
         <div class="flex flex-col h-full justify-between py-1">
           <span class="text-[#566a7f] text-[13px] font-bold">Tổng số</span>
-          <span class="text-[26px] font-bold text-[#566a7f]">21</span>
+          <span class="text-[26px] font-bold text-[#566a7f]">{{ totalSubjects }}</span>
           <span class="text-[#566a7f] text-[12px] font-semibold">Môn học văn hóa</span>
         </div>
         <div class="w-10 h-10 rounded-lg bg-[#f0f0ff] flex items-center justify-center">
@@ -26,13 +26,13 @@
         <div class="flex flex-col h-full justify-between py-1">
           <span class="text-[#566a7f] text-[13px] font-bold">Tổng số đang sử dụng</span>
           <div class="flex items-baseline gap-2">
-            <span class="text-[26px] font-bold text-[#566a7f]">20</span>
-            <span class="text-[#71dd37] text-[12px] font-bold">(95%)</span>
+            <span class="text-[26px] font-bold text-[#566a7f]">{{ activeSubjects }}</span>
+            <span class="text-[#71dd37] text-[12px] font-bold">({{ activePercentage }}%)</span>
           </div>
           <span class="text-[#566a7f] text-[12px] font-semibold">Môn học văn hóa</span>
         </div>
         <div class="w-10 h-10 rounded-lg bg-[#ffebe6] flex items-center justify-center">
-          <NavIcon name="BxsLayers" class-name="w-6 h-6 text-[#ff3e1d]" />
+          <NavIcon name="BxsLayers" class-name="w-6 h-6 text-[#E81919]" />
         </div>
       </div>
 
@@ -41,8 +41,8 @@
         <div class="flex flex-col h-full justify-between py-1">
           <span class="text-[#566a7f] text-[13px] font-bold">Tổng số tạm ngưng</span>
           <div class="flex items-baseline gap-2">
-            <span class="text-[26px] font-bold text-[#566a7f]">1</span>
-            <span class="text-[#71dd37] text-[12px] font-bold">(5%)</span>
+            <span class="text-[26px] font-bold text-[#566a7f]">{{ suspendedSubjects }}</span>
+            <span class="text-[#71dd37] text-[12px] font-bold">({{ suspendedPercentage }}%)</span>
           </div>
           <span class="text-[#566a7f] text-[12px] font-semibold">Môn học văn hóa</span>
         </div>
@@ -62,7 +62,7 @@
             <NavIcon name="BxTrash" class-name="w-4 h-4" />
             Danh Sách Đã Xóa
           </button>
-          <button @click="goToCreate" class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#ff3e1d] text-white text-[13px] font-medium hover:bg-[#e6381a] transition-colors shadow-sm">
+          <button @click="goToCreate" class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#E81919] text-white text-[13px] font-medium hover:bg-[#d11616] transition-colors shadow-sm">
             <NavIcon name="BxPlus" class-name="w-4 h-4" />
             Thêm Mới
           </button>
@@ -120,15 +120,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '../atoms/NavIcon.vue'
 import SubjectTable from '../organisms/SubjectTable.vue'
+import { mockSubjects } from '../../services/home/api'
 
 const router = useRouter()
 const searchQuery = ref('')
 const dateFilter = ref(null)
-const selectedGrade = ref(undefined)
+
+const totalSubjects = computed(() => mockSubjects.length)
+const activeSubjects = computed(() => mockSubjects.filter(s => s.status === 'Đang hoạt động').length)
+const suspendedSubjects = computed(() => mockSubjects.filter(s => s.status === 'Tạm ngưng').length)
+
+const activePercentage = computed(() => totalSubjects.value ? Math.round((activeSubjects.value / totalSubjects.value) * 100) : 0)
+const suspendedPercentage = computed(() => totalSubjects.value ? Math.round((suspendedSubjects.value / totalSubjects.value) * 100) : 0)
 
 const goToCreate = () => {
   router.push({ name: 'cultural-subject-create' })

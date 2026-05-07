@@ -18,7 +18,7 @@
             <NavIcon name="BxArrowBack" class-name="w-4 h-4" />
             Quay Lại
           </button>
-          <button @click="goToEdit" class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#ffab00] text-white text-[13px] font-medium hover:bg-[#e69a00] transition-colors shadow-sm">
+          <button @click="goToEdit" class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#E69A00] text-white text-[13px] font-medium hover:bg-[#d18b00] transition-colors shadow-sm">
             Chỉnh Sửa
           </button>
         </div>
@@ -30,33 +30,36 @@
             <tbody>
               <tr class="border-b border-[#d9dee3]">
                 <td class="px-6 py-4 w-[25%] font-bold text-[#566a7f]">Mã môn</td>
-                <td class="px-6 py-4 text-[#566a7f]">MH001</td>
+                <td class="px-6 py-4 text-[#566a7f]">{{ subject.code }}</td>
               </tr>
               <tr class="border-b border-[#d9dee3]">
                 <td class="px-6 py-4 font-bold text-[#566a7f]">Tên môn</td>
-                <td class="px-6 py-4 text-[#566a7f]">Tin học</td>
+                <td class="px-6 py-4 text-[#566a7f]">{{ subject.name }}</td>
               </tr>
               <tr class="border-b border-[#d9dee3]">
                 <td class="px-6 py-4 font-bold text-[#566a7f]">Khối học</td>
-                <td class="px-6 py-4 text-[#566a7f]">12</td>
+                <td class="px-6 py-4 text-[#566a7f]">{{ subject.grade }}</td>
               </tr>
               <tr class="border-b border-[#d9dee3]">
                 <td class="px-6 py-4 font-bold text-[#566a7f]">Ghi chú</td>
-                <td class="px-6 py-4 text-[#566a7f]">Môn tin học lớp 12</td>
+                <td class="px-6 py-4 text-[#566a7f]">{{ subject.note || 'N/A' }}</td>
               </tr>
               <tr class="border-b border-[#d9dee3]">
                 <td class="px-6 py-4 font-bold text-[#566a7f]">Thời gian tạo</td>
-                <td class="px-6 py-4 text-[#566a7f]">2025-01-05 08:30:00</td>
+                <td class="px-6 py-4 text-[#566a7f]">{{ subject.createdAt || 'N/A' }}</td>
               </tr>
               <tr class="border-b border-[#d9dee3]">
                 <td class="px-6 py-4 font-bold text-[#566a7f]">Thời gian cập nhật</td>
-                <td class="px-6 py-4 text-[#566a7f]">2026-01-20 10:15:45</td>
+                <td class="px-6 py-4 text-[#566a7f]">{{ subject.updatedAt || 'N/A' }}</td>
               </tr>
               <tr>
                 <td class="px-6 py-4 font-bold text-[#566a7f]">Trạng thái</td>
                 <td class="px-6 py-4">
-                  <span class="px-3 py-1 rounded bg-[#e8fadf] text-[#71dd37] text-[11px] font-bold">
-                    Đang hoạt động
+                  <span 
+                    class="px-3 py-1 rounded text-[11px] font-bold"
+                    :class="subject.status === 'Đang hoạt động' ? 'bg-[#e8fadf] text-[#71dd37]' : 'bg-[#fff2d6] text-[#ffab00]'"
+                  >
+                    {{ subject.status }}
                   </span>
                 </td>
               </tr>
@@ -86,7 +89,7 @@
           </div>
         </div>
         <div class="w-10 h-10 rounded-md bg-[#ffebe6] flex items-center justify-center">
-          <NavIcon name="BxsUserBadgeCheck" class-name="w-6 h-6 text-[#ff3e1d]" />
+          <NavIcon name="BxsUserBadgeCheck" class-name="w-6 h-6 text-[#E81919]" />
         </div>
       </div>
 
@@ -122,7 +125,7 @@
       <div class="flex justify-between items-center px-6 py-4 border-b border-[#d9dee3]">
         <h2 class="text-[18px] font-bold text-[#566a7f] m-0">Danh sách Lớp học</h2>
         <div class="flex gap-2">
-          <button class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#ff3e1d] text-white text-[13px] font-medium hover:bg-[#e6381a] shadow-sm transition-colors">
+          <button class="flex items-center gap-2 px-4 py-2 rounded-md bg-[#E81919] text-white text-[13px] font-medium hover:bg-[#d11616] shadow-sm transition-colors">
             <NavIcon name="BxPlus" class-name="w-4 h-4" />
             Thêm Mới
           </button>
@@ -174,20 +177,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import NavIcon from '../atoms/NavIcon.vue'
 import ClassTable from '../organisms/ClassTable.vue'
+import { mockSubjects } from '../../services/home/api'
 
 const router = useRouter()
+const route = useRoute()
 const searchQuery = ref('')
+
+const subjectId = route.params.id as string
+const subject = computed(() => mockSubjects.find(s => s.key === subjectId) || mockSubjects[0])
 
 const goBack = () => {
   router.back()
 }
 
 const goToEdit = () => {
-  router.push({ name: 'cultural-subject-edit', params: { id: 'MH001' } }) // Example ID
+  router.push({ name: 'cultural-subject-edit', params: { id: subject.value.key } })
 }
 </script>
 
