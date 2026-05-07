@@ -90,17 +90,17 @@
       <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
         <button
           type="submit"
-          class="inline-flex items-center justify-center rounded-lg bg-[#ff1f1f] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b] disabled:cursor-not-allowed disabled:opacity-60"
+          class="inline-flex items-center justify-center rounded-lg bg-[#ff1f1f] px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b] disabled:cursor-not-allowed disabled:opacity-60"
           :disabled="!canSubmit"
         >
           {{ submitLabel }}
         </button>
         <button
           type="button"
-          class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-500"
+          class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-8 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-500"
           @click="resetForm"
         >
-          Đặt lại
+          Đặt Lại
         </button>
       </div>
     </form>
