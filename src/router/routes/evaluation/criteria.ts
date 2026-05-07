@@ -1,34 +1,39 @@
 import type { RouteRecordRaw } from 'vue-router'
+import { stageRoute } from './stages'
+import {
+  studentEvaluationCreateRoute,
+  studentEvaluationDeletedRoute,
+  studentEvaluationEditRoute,
+  studentEvaluationDetailRoute,
+  studentEvaluationRoute
+} from './student'
+import { courseEvaluationDetailRoute, courseEvaluationRoute } from './full-course'
 
-export const criteriaRoutes: RouteRecordRaw[] = [
+const evaluationVisibleChildren: RouteRecordRaw[] = [
+  stageRoute,
+  studentEvaluationRoute,
+  courseEvaluationRoute
+]
+
+const evaluationHiddenChildren: RouteRecordRaw[] = [
+  studentEvaluationCreateRoute,
+  studentEvaluationDeletedRoute,
+  studentEvaluationEditRoute,
+  studentEvaluationDetailRoute,
+  courseEvaluationDetailRoute
+]
+
+export const evaluationRoutes: RouteRecordRaw[] = [
   {
-    path: 'criteria',
-    name: 'evaluation-criteria-list',
-    component: () => import('../../../components/pages/evaluation/criteria/List.vue'),
-    meta: { title: 'Tiêu chí đánh giá', icon: 'BxSpreadsheet' }
-  },
+    path: '/evaluation',
+    meta: { title: 'Quản lý đánh giá học viên', icon: 'BxSpreadsheet', isHeader: true },
+    children: evaluationVisibleChildren
+  }
+]
+
+export const evaluationHiddenRoutes: RouteRecordRaw[] = [
   {
-    path: 'criteria/create',
-    name: 'evaluation-criteria-create',
-    component: () => import('../../../components/pages/evaluation/criteria/Create.vue'),
-    meta: { title: 'Thêm mới Tiêu chí đánh giá', hidden: true }
-  },
-  {
-    path: 'criteria/edit/:id',
-    name: 'evaluation-criteria-edit',
-    component: () => import('../../../components/pages/evaluation/criteria/Edit.vue'),
-    meta: { title: 'Điều chỉnh Tiêu chí đánh giá', hidden: true }
-  },
-  {
-    path: 'criteria/detail/:id',
-    name: 'evaluation-criteria-detail',
-    component: () => import('../../../components/pages/evaluation/criteria/Detail.vue'),
-    meta: { title: 'Chi tiết Tiêu chí đánh giá', hidden: true }
-  },
-  {
-    path: 'criteria/deleted',
-    name: 'evaluation-criteria-deleted',
-    component: () => import('../../../components/pages/evaluation/criteria/Deleted.vue'),
-    meta: { title: 'Danh sách Tiêu chí đánh giá đã xóa', hidden: true }
+    path: '/evaluation',
+    children: evaluationHiddenChildren
   }
 ]

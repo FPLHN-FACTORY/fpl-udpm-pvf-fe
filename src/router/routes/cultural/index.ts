@@ -14,7 +14,7 @@ export const culturalRoutes: RouteRecordRaw[] = [
       gradeRoute,
       subjectRoute,
       classRoute,
-      absenceRoute, // Thêm dấu phẩy ở đây để dễ mở rộng sau này
+      absenceRoute,
     ],
   },
 ]
@@ -22,12 +22,9 @@ export const culturalRoutes: RouteRecordRaw[] = [
 export const culturalHiddenRoutes: RouteRecordRaw[] = [
   {
     path: '/cultural',
-    children: [gradeHiddenRoute, classHiddenRoute]
-  }
-]
     children: [
       gradeHiddenRoute, 
-      classHiddenRoute,
+      classHiddenRoute
     ],
   },
 ]
