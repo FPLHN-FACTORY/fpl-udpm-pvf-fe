@@ -63,11 +63,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import InputForm from '../../atoms/inputs/InputForm.vue'
-import TextareaForm from '../../atoms/inputs/TextareaForm.vue'
-import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
-import ButtonSave from '../../atoms/buttons/ButtonSave.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import TextareaForm from '@/components/atoms/inputs/TextareaForm.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonSave from '@/components/atoms/buttons/ButtonSave.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 

@@ -69,9 +69,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
-import ButtonSave from '../../atoms/buttons/ButtonSave.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonSave from '@/components/atoms/buttons/ButtonSave.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 const route = useRoute()
