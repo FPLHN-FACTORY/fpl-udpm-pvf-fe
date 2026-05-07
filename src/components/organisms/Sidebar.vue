@@ -38,14 +38,14 @@
           {{ module[0].meta?.title }}
         </h3>
         <SidebarItem 
-          v-for="subRoute in (module[0].children || []).filter((r: any) => !r.meta?.hidden)" 
-          :key="subRoute.name"
-          :title="subRoute.meta?.title as string"
-          :icon="subRoute.meta?.icon as string"
-          :to="module[0].path + (subRoute.path ? '/' + subRoute.path : '')"
-          :has-submenu="!!subRoute.children"
-          :sub-items="(subRoute.children || []).filter((r: any) => !r.meta?.hidden)"
-          :collapsed="collapsed"
+        v-for="subRoute in (module[0].children || []).filter(r => !r.meta?.hidden)" 
+        :key="subRoute.name"
+        :title="subRoute.meta?.title as string"
+        :icon="subRoute.meta?.icon as string"
+        :to="module[0].path + (subRoute.path ? '/' + subRoute.path : '')"
+        :has-submenu="(subRoute.children || []).filter(r => !r.meta?.hidden).length > 0"
+        :sub-items="(subRoute.children || []).filter(r => !r.meta?.hidden)"
+        :collapsed="collapsed"
         />
       </div>
     </nav>

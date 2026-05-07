@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-1 custom-pagination">
+  <div class="custom-pagination flex items-center gap-2">
     <!-- First Page -->
     <button 
       class="pagination-btn" 
@@ -61,7 +61,7 @@ const itemRender = ({ type, originalElement }: any) => {
 .custom-pagination :deep(.ant-pagination) {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 8px;
 }
 
 .custom-pagination :deep(.ant-pagination-prev),
@@ -70,33 +70,33 @@ const itemRender = ({ type, originalElement }: any) => {
 .custom-pagination :deep(.ant-pagination-jump-prev),
 .custom-pagination :deep(.ant-pagination-jump-next) {
   margin: 0;
-  min-width: 32px;
-  height: 32px;
+  min-width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4f4f4;
-  border: none;
-  border-radius: 6px;
+  background: #f5f5f9;
+  border: 1px solid transparent;
+  border-radius: 8px;
   transition: all 0.3s;
 }
 
 .pagination-btn {
-  width: 32px;
-  height: 32px;
+  width: 36px;
+  height: 36px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f4f4f4;
-  border: none;
-  border-radius: 6px;
+  background: #f5f5f9;
+  border: 1px solid transparent;
+  border-radius: 8px;
   cursor: pointer;
   color: #566a7f;
   transition: all 0.3s;
 }
 
 .pagination-btn:disabled {
-  opacity: 0.4;
+  opacity: 0.45;
   cursor: not-allowed;
 }
 
@@ -104,25 +104,34 @@ const itemRender = ({ type, originalElement }: any) => {
 .custom-pagination :deep(.ant-pagination-item:not(.ant-pagination-item-active):hover),
 .custom-pagination :deep(.ant-pagination-prev:hover),
 .custom-pagination :deep(.ant-pagination-next:hover) {
-  background-color: #e9ecef !important;
+  background-color: #eceef5 !important;
 }
 
 :deep(.ant-pagination-item-active) {
-  background-color: #ff3e1d !important;
-  box-shadow: 0 2px 4px rgba(255, 62, 29, 0.3);
+  background-color: #ff1f1f !important;
+  border-color: #ff1f1f !important;
+  box-shadow: 0 6px 12px rgba(255, 31, 31, 0.22);
 }
 
 :deep(.ant-pagination-item-active a) {
   color: white !important;
 }
 
+:deep(.ant-pagination-item a),
+:deep(.ant-pagination-prev .ant-pagination-item-link),
+:deep(.ant-pagination-next .ant-pagination-item-link) {
+  color: #566a7f !important;
+}
+
 :deep(.ant-pagination-disabled) {
-  opacity: 0.4;
+  opacity: 0.45;
 }
 
 :deep(.ant-pagination-item-link) {
   display: flex !important;
   align-items: center;
   justify-content: center;
+  background: transparent !important;
+  border: none !important;
 }
 </style>

@@ -39,7 +39,16 @@
               {{ field.label }}
             </div>
             <div class="px-4 py-3 text-sm text-slate-600">
-              {{ field.value }}
+              <span
+                v-if="field.label === 'Trạng thái'"
+                class="inline-flex rounded-md px-3 py-1 text-xs font-semibold"
+                :class="getStatusClass(field.value)"
+              >
+                {{ field.value }}
+              </span>
+              <template v-else>
+                {{ field.value }}
+              </template>
             </div>
           </div>
         </div>
@@ -48,9 +57,6 @@
       <div v-else class="px-5 py-14 text-center">
         <p class="text-base font-semibold text-slate-700">
           Không tìm thấy bản đánh giá cần xem.
-        </p>
-        <p class="mt-2 text-sm text-slate-400">
-          Bản ghi có thể đã bị xóa hoặc đường dẫn không còn hợp lệ.
         </p>
         <button
           type="button"
@@ -172,6 +178,26 @@ const record = computed(() => {
 
   return getEvaluationSnapshotById(recordId.value);
 });
+
+const activeStatusClass =
+  "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const pendingStatusClass =
+  "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
+const openingStatusClass =
+  "bg-[rgba(3,195,236,0.16)] text-[rgba(3,195,236,1)]";
+
+const getStatusClass = (status: string) => {
+  switch (status) {
+    case "Đã khóa":
+      return activeStatusClass;
+    case "Đang mở":
+      return openingStatusClass;
+    case "Chưa đánh giá":
+      return pendingStatusClass;
+    default:
+      return "bg-slate-100 text-slate-500";
+  }
+};
 
 const detailFields = computed(() => {
   if (!record.value) {
