@@ -23,6 +23,7 @@
         <path d="M28 28h10v10H28z" />
       </svg>
     </button>
+<<<<<<< Updated upstream
 
     <button class="header-icon-button relative" aria-label="Notifications">
       <svg class="header-icon" viewBox="0 0 48 48" aria-hidden="true">
@@ -30,6 +31,11 @@
         <path d="M20.5 38a4 4 0 0 0 7 0" />
       </svg>
       <span class="absolute right-[5px] top-[5px] h-[10px] w-[10px] rounded-full border-[2px] border-white bg-[#ff3e1d]"></span>
+=======
+    <button class="hover:bg-gray-100 p-2 rounded-full transition-colors relative">
+      <NavIcon name="BxBell" class-name="w-[22px] h-[22px]" />
+      <span class="absolute top-2 right-2 w-2 h-2 bg-[#E81919] border-2 border-white rounded-full"></span>
+>>>>>>> Stashed changes
     </button>
 
     <div class="relative ml-[4px] cursor-pointer">
