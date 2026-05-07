@@ -65,7 +65,6 @@ const normalizedItems = computed(() => routeBreadcrumbs.value.filter((item) => i
 .app-breadcrumb {
   color: #a1acb8;
   font-size: 13px;
-  margin: 0 !important;
 }
 
 :deep(.ant-breadcrumb-link),
