@@ -1,12 +1,18 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { withdrawalRoute } from './withdrawal'
+import { expensesManagementRoutes } from './expenses-management' 
 
 export const expensesRoutes: RouteRecordRaw[] = [
   {
     path: '/expenses',
     meta: { title: 'Quản lý sinh hoạt phí', icon: 'BxsContact', isHeader: true },
     children: [
-      withdrawalRoute
+      {
+        path: 'withdrawal',
+        // Lưu ý: Không dùng 'component' ở đây nếu không có layout cha
+        children: [
+          ...expensesManagementRoutes
+        ]
+      }
     ]
   }
 ]
