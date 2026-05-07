@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from 'vue-router'
 
 export const signedContractRoute: RouteRecordRaw = {
   path: 'signed-contract',
-  meta: { title: 'Hợp đồng đã ký', icon: 'BxFile' },
+  meta: { title: 'Hợp đồng đã ký', icon: 'BxsPen' },
   component: () => import('../../../components/pages/contract/SignedContractPage.vue'),
   children: [
     {

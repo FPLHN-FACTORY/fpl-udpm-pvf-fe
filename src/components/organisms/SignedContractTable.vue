@@ -13,113 +13,113 @@
         </template>
 
         <template v-if="column.key === 'actions'">
-          <div class="flex items-center justify-end gap-3">
-            <i class='bx bx-show text-xl text-[#a1acb8] cursor-pointer hover:text-[#696cff]' 
-               @click="router.push(`/student/signed-contract/detail/${record.key}`)"></i>
-            <i class='bx bx-edit text-xl text-[#a1acb8] cursor-pointer hover:text-[#ffab00]' 
-               @click="router.push(`/student/signed-contract/edit/${record.key}`)"></i>
-            <i class='bx bx-trash text-xl text-[#a1acb8] cursor-pointer hover:text-[#ff3e1d]'
-               @click="confirmDelete(record)"></i>
+          <div class="flex justify-center items-center gap-4 text-[#64748B]">
+            <i class="bx bx-show cursor-pointer text-xl hover:text-[#696CFF]" @click="router.push(`/student/signed-contract/detail/${record.key}`)"></i>
+            <i class="bx bx-edit cursor-pointer text-xl hover:text-[#696CFF]" @click="router.push(`/student/signed-contract/edit/${record.key}`)"></i>
+            <!-- Sửa: Truyền cả record vào để lấy đủ thông tin đẩy sang danh sách xóa -->
+            <i class="bx bx-trash cursor-pointer text-xl hover:text-[#696CFF]" @click="goToDelete(record)"></i>
           </div>
         </template>
       </template>
     </a-table>
 
-    <div class="p-6 flex justify-end items-center border-t border-[#f0f2f4]">
-      <div class="flex gap-1.5">
-        <button class="p-nav-btn" @click="currentPage = 1"><i class='bx bx-chevrons-left'></i></button>
-        <button class="p-nav-btn" @click="currentPage > 1 ? currentPage-- : null"><i class='bx bx-chevron-left'></i></button>
-        
-        <button 
-          v-for="p in [1, 2, 3, 4, 5, 6]" 
-          :key="p" 
-          :class="['p-num-btn', { active: p === currentPage }]"
-          @click="currentPage = p"
-        >
-          {{ p }}
+    <!-- Pagination -->
+    <div class="px-[24px] py-[24px] flex justify-end border-t border-[#f0f2f4]">
+      <div class="flex items-center gap-[8px]">
+        <button class="pagin-btn" @click="changePage(1)" :disabled="currentPage === 1">
+          <i class="bx bx-chevrons-left"></i>
+        </button>
+        <button class="pagin-btn" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
+          <i class="bx bx-chevron-left"></i>
         </button>
         
-        <button class="p-nav-btn" @click="currentPage < 6 ? currentPage++ : null"><i class='bx bx-chevron-right'></i></button>
-        <button class="p-nav-btn" @click="currentPage = 6"><i class='bx bx-chevrons-right'></i></button>
+        <button 
+          v-for="page in totalPages" 
+          :key="page" 
+          class="pagin-btn"
+          :class="{ 'active': currentPage === page }"
+          @click="changePage(page)"
+        >
+          {{ page }}
+        </button>
+
+        <button class="pagin-btn" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
+          <i class="bx bx-chevron-right"></i>
+        </button>
+        <button class="pagin-btn" @click="changePage(totalPages)" :disabled="currentPage === totalPages">
+          <i class="bx bx-chevrons-right"></i>
+        </button>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed} from 'vue'
+import { ref, createVNode } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal, message } from 'ant-design-vue'
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 const router = useRouter()
-const currentPage = ref(1)
 
-// Nhận dữ liệu từ component cha[cite: 6]
+// Logic phân trang
+const currentPage = ref(1)
+const totalPages = ref(6) 
+
+const changePage = (page: number) => {
+  if (page >= 1 && page <= totalPages.value) {
+    currentPage.value = page
+  }
+}
+
 const props = defineProps({
   data: { type: Array, default: () => [] }
 })
-const emit = defineEmits(['update-data'])
 
-const columns = computed(() => [
+// Sửa: Thêm emit để gửi dữ liệu cần xóa về component cha
+const emit = defineEmits(['delete-item'])
+
+const columns = ref([
   { title: 'ID HỢP ĐỒNG', key: 'id', dataIndex: 'id', width: '15%' },
   { title: 'HỌC VIÊN', key: 'student', dataIndex: 'student', width: '30%' },
   { title: 'NGÀY ÁP DỤNG', key: 'startDate', dataIndex: 'startDate', width: '18%' },
   { title: 'NGÀY KẾT THÚC', key: 'endDate', dataIndex: 'endDate', width: '18%' },
-  { title: 'HÀNH ĐỘNG', key: 'actions', align: 'right', width: '15%' }
+  { title: 'HÀNH ĐỘNG', key: 'actions', align: 'center', width: '15%' }
 ])
 
-const confirmDelete = (record: any) => {
+const goToDelete = (record: any) => {
   Modal.confirm({
     title: 'Xác nhận xóa?',
-    content: `Hợp đồng ${record.id} sẽ được chuyển vào danh sách đã xóa.`,
+    icon: createVNode(ExclamationCircleOutlined, { style: 'color: #ffab00' }),
+    content: `Bạn có muốn xóa biên bản ${record.id} không?`,
     okText: 'Xóa',
     okType: 'danger',
+    cancelText: 'Cancel',
+    centered: true,
     onOk() {
-      // Lưu vào localStorage[cite: 6]
-      const deletedList = JSON.parse(localStorage.getItem('deletedContracts') || '[]')
-      const newDeletedItem = { 
-        ...record, 
-        key: Date.now().toString() + Math.random().toString(36).substr(2, 5), 
-        balance: new Date().toLocaleString() 
-      }
-      deletedList.push(newDeletedItem)
-      localStorage.setItem('deletedContracts', JSON.stringify(deletedList))
-      
-      // Phát tín hiệu báo cho file Page xóa dữ liệu để cập nhật Card[cite: 6, 7]
-      const newData = props.data.filter((item: any) => item.key !== record.key)
-      emit('update-data', newData)
-      
-      message.success('Đã chuyển vào danh sách đã xóa')
-    }
-  })
-}
+      // Gửi toàn bộ record lên cha để xử lý lưu trữ và xóa[cite: 2]
+      emit('delete-item', record);
+      message.success(`Đã xóa biên bản ${record.id}`);
+    },
+  });
+};
 </script>
 
 <style scoped>
+/* Giữ nguyên CSS cũ của bạn */
 :deep(.ant-table-thead > tr > th) {
-  background-color: #f5f5f9 !important;
-  color: #a1acb8 !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
+  background-color: #F8FAFC !important;
+  color: #64748B !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
   text-transform: uppercase;
-  border-bottom: 1px solid #d9dee3 !important;
+  border-bottom: 1px solid #F1F5F9 !important;
+  border-right: 1px solid #F1F5F9 !important;
 }
-
-:deep(.ant-table-tbody > tr > td) {
-  font-size: 14px;
-  color: #566a7f !important;
-  padding: 12px 16px !important;
-}
-
-.p-nav-btn {
-  @apply w-8 h-8 flex items-center justify-center rounded bg-[#f0f2f4] text-[#8592a3] hover:bg-[#e1e4e8] border-none cursor-pointer;
-}
-
-.p-num-btn {
-  @apply w-8 h-8 flex items-center justify-center rounded bg-[#f0f2f4] text-[#566a7f] text-xs font-medium hover:bg-[#e1e4e8] border-none cursor-pointer;
-}
-
-.p-num-btn.active {
-  @apply bg-[#ff3e1d] text-white shadow-[0_2px_4px_0_rgba(255,62,29,0.4)];
-}
+:deep(.ant-table-thead > tr > th:last-child) { border-right: none !important; }
+.pagin-btn { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: #F2F2F2; color: #475569; font-weight: 500; border: none; cursor: pointer; }
+.pagin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.pagin-btn.active { background-color: #EE2D24; color: white; box-shadow: 0 4px 10px rgba(238, 45, 36, 0.25); }
+.pagin-btn.active i { color: white; }
+.pagin-btn i { font-size: 18px; color: #A1ACB8; }
 </style>
