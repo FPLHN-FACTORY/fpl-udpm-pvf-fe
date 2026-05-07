@@ -19,31 +19,31 @@
           {{ index + 1 }}
         </div>
 
-        <!-- MÃ MÔN -->
+        <!-- ID GIÁO VIÊN -->
         <div v-else-if="column.key === 'code'" class="text-[13px] font-bold text-[#566a7f]">
           {{ record.code }}
         </div>
 
-        <!-- TÊN MÔN HỌC -->
+        <!-- HỌ TÊN GIÁO VIÊN -->
         <div v-else-if="column.key === 'name'" class="text-[13px] text-[#566a7f]">
           {{ record.name }}
         </div>
 
-        <!-- KHỐI HỌC -->
-        <div v-else-if="column.key === 'grade'" class="text-[13px] text-[#566a7f]">
-          {{ record.grade }}
+        <!-- SĐT GIÁO VIÊN -->
+        <div v-else-if="column.key === 'phone'" class="text-[13px] text-[#566a7f]">
+          {{ record.phone }}
         </div>
 
-        <!-- NGÀY KẾT THÚC -->
-        <div v-else-if="column.key === 'endDate'" class="text-[13px] text-[#566a7f]">
-          {{ record.endDate }}
+        <!-- EMAIL -->
+        <div v-else-if="column.key === 'email'" class="text-[13px] text-[#566a7f]">
+          {{ record.email }}
         </div>
 
         <!-- TRẠNG THÁI -->
         <div v-else-if="column.key === 'status'">
           <span 
-            class="px-3 py-1 rounded-md text-[11px] font-bold"
-            :class="record.status === 'Đang hoạt động' ? 'bg-[#e8fadf] text-[#71dd37]' : 'bg-[#fff2d6] text-[#ffab00]'"
+            class="px-2 py-1 rounded-md text-[11px] font-bold whitespace-nowrap"
+            :class="record.status === 'Đang giảng dạy' ? 'bg-[#e7f9ed] text-[#71dd37]' : 'bg-[#fff2e6] text-[#ffab00]'"
           >
             {{ record.status }}
           </span>
@@ -64,7 +64,6 @@
       </template>
     </a-table>
 
-    <!-- Custom Pagination matching mockup -->
     <div class="py-2 px-6 flex justify-end">
       <div class="flex items-center gap-1.5">
         <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#8592a3] hover:bg-[#e1e4e8] transition-colors">
@@ -97,7 +96,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '../atoms/NavIcon.vue'
 
-import { mockSubjects } from '../../services/home/api'
+import { mockTeachers } from '../../services/home/api'
 
 const router = useRouter()
 const selectedRowKeys = ref([])
@@ -106,19 +105,19 @@ const onSelectChange = (keys: any) => {
 }
 
 const goToDetail = (id: string) => {
-  router.push({ name: 'cultural-subject-detail', params: { id } })
+  router.push({ name: 'extracurricular-teacher-detail', params: { id } })
 }
 
 const goToEdit = (id: string) => {
-  router.push({ name: 'cultural-subject-edit', params: { id } })
+  router.push({ name: 'extracurricular-teacher-edit', params: { id } })
 }
 
 const columns = [
   { title: '#', key: 'index', width: '60px', align: 'center' },
-  { title: 'MÃ MÔN', key: 'code', dataIndex: 'code' },
-  { title: 'TÊN MÔN HỌC', key: 'name', dataIndex: 'name' },
-  { title: 'KHỐI HỌC', key: 'grade', dataIndex: 'grade' },
-  { title: 'NGÀY KẾT THÚC', key: 'endDate', dataIndex: 'endDate' },
+  { title: 'ID GIÁO VIÊN', key: 'code', dataIndex: 'code' },
+  { title: 'HỌ TÊN GIÁO VIÊN', key: 'name', dataIndex: 'name' },
+  { title: 'SĐT GIÁO VIÊN', key: 'phone', dataIndex: 'phone' },
+  { title: 'EMAIL', key: 'email', dataIndex: 'email' },
   { title: 'TRẠNG THÁI', key: 'status', dataIndex: 'status' },
   {
     title: 'HÀNH ĐỘNG',
@@ -128,7 +127,7 @@ const columns = [
   },
 ]
 
-const dataSource = ref(mockSubjects)
+const dataSource = ref(mockTeachers)
 </script>
 
 <style scoped>
@@ -139,7 +138,6 @@ const dataSource = ref(mockSubjects)
   position: relative;
 }
 
-/* Vertical separators in header */
 .custom-table :deep(.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column)::after) {
   content: "";
   position: absolute;
@@ -150,14 +148,6 @@ const dataSource = ref(mockSubjects)
   background-color: #e1e4e8;
 }
 
-.custom-table :deep(.ant-table-row) {
-  transition: background-color 0.2s;
-}
-
-.custom-table :deep(.ant-table-row:hover) {
-  background-color: #fcfcfd;
-}
-
 .custom-table :deep(.ant-table-cell) {
   padding: 12px 16px !important;
   border-bottom: 1px solid #d9dee3 !important;
@@ -165,11 +155,5 @@ const dataSource = ref(mockSubjects)
 
 .custom-table :deep(.ant-checkbox-inner) {
   border-radius: 4px;
-  border-color: #d9dee3;
-}
-
-.custom-table :deep(.ant-checkbox-checked .ant-checkbox-inner) {
-  background-color: #696cff;
-  border-color: #696cff;
 }
 </style>

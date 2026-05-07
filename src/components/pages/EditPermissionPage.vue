@@ -58,7 +58,7 @@
         <div class="flex items-center justify-center gap-4 mt-4">
           <BaseButton 
             variant="primary" 
-            class="!h-[42px] !px-8 !bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none shadow-md shadow-red-200"
+            class="!h-[42px] !px-8 !bg-[#E81919] hover:!bg-[#d11616] !border-none shadow-md shadow-red-200"
             @click="handleUpdate"
           >
             Lưu Thay Đổi

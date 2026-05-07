@@ -16,7 +16,7 @@
           variant="primary" 
           icon="BxPlus" 
           icon-class-name="w-4 h-4"
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none"
+          class="!bg-[#E81919] hover:!bg-[#d11616] !border-none"
           @click="$router.push('/system/security/permissions/add')"
         >
           Thêm Mới

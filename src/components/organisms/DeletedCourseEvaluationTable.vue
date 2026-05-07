@@ -19,31 +19,31 @@
           {{ index + 1 }}
         </div>
 
-        <!-- MÃ MÔN -->
-        <div v-else-if="column.key === 'code'" class="text-[13px] font-bold text-[#566a7f]">
-          {{ record.code }}
+        <!-- HỌC VIÊN -->
+        <div v-else-if="column.key === 'studentName'" class="text-[13px] text-[#566a7f]">
+          {{ record.studentName }}
         </div>
 
-        <!-- TÊN MÔN HỌC -->
-        <div v-else-if="column.key === 'name'" class="text-[13px] text-[#566a7f]">
-          {{ record.name }}
+        <!-- MÃ HỌC VIÊN -->
+        <div v-else-if="column.key === 'studentCode'" class="text-[13px] text-[#566a7f]">
+          {{ record.studentCode }}
         </div>
 
-        <!-- KHỐI HỌC -->
-        <div v-else-if="column.key === 'grade'" class="text-[13px] text-[#566a7f]">
-          {{ record.grade }}
+        <!-- KHÓA -->
+        <div v-else-if="column.key === 'course'" class="text-[13px] text-[#566a7f]">
+          {{ record.course }}
         </div>
 
-        <!-- NGÀY KẾT THÚC -->
-        <div v-else-if="column.key === 'endDate'" class="text-[13px] text-[#566a7f]">
-          {{ record.endDate }}
+        <!-- THỜI GIAN XÓA -->
+        <div v-else-if="column.key === 'deletedAt'" class="text-[13px] text-[#566a7f]">
+          {{ record.deletedAt }}
         </div>
 
         <!-- TRẠNG THÁI -->
         <div v-else-if="column.key === 'status'">
           <span 
             class="px-3 py-1 rounded-md text-[11px] font-bold"
-            :class="record.status === 'Đang hoạt động' ? 'bg-[#e8fadf] text-[#71dd37]' : 'bg-[#fff2d6] text-[#ffab00]'"
+            :class="record.status === 'Đã khóa' ? 'bg-[#e8fadf] text-[#71dd37]' : 'bg-[#fff2d6] text-[#ffab00]'"
           >
             {{ record.status }}
           </span>
@@ -51,20 +51,16 @@
 
         <!-- HÀNH ĐỘNG -->
         <div v-else-if="column.key === 'actions'" class="flex items-center justify-center gap-3">
-          <button @click="goToDetail(record.key)" class="text-[#8592a3] hover:text-[#566a7f] transition-colors">
-            <NavIcon name="BxShow" class-name="w-[20px] h-[20px]" />
+          <button class="text-[#8592a3] hover:text-[#71dd37] transition-colors" title="Khôi phục">
+            <NavIcon name="BxUndo" class-name="w-[20px] h-[20px]" />
           </button>
-          <button @click="goToEdit(record.key)" class="text-[#8592a3] hover:text-[#566a7f] transition-colors">
-            <NavIcon name="BxEdit" class-name="w-[20px] h-[20px]" />
-          </button>
-          <button class="text-[#8592a3] hover:text-[#E81919] transition-colors">
+          <button class="text-[#8592a3] hover:text-[#E81919] transition-colors" title="Xóa vĩnh viễn">
             <NavIcon name="BxTrash" class-name="w-[20px] h-[20px]" />
           </button>
         </div>
       </template>
     </a-table>
 
-    <!-- Custom Pagination matching mockup -->
     <div class="py-2 px-6 flex justify-end">
       <div class="flex items-center gap-1.5">
         <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#8592a3] hover:bg-[#e1e4e8] transition-colors">
@@ -73,15 +69,8 @@
         <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#8592a3] hover:bg-[#e1e4e8] transition-colors">
           <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M13.293 6.293 7.586 12l5.707 5.707 1.414-1.414L10.414 12l4.293-4.293z"/></svg>
         </button>
-        
         <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#E81919] text-white shadow-sm text-[13px] font-bold">1</button>
-        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#566a7f] hover:bg-[#e1e4e8] text-[13px] transition-colors">2</button>
-        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#566a7f] hover:bg-[#e1e4e8] text-[13px] transition-colors">3</button>
-        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#566a7f] hover:bg-[#e1e4e8] text-[13px] transition-colors">4</button>
-        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#566a7f] hover:bg-[#e1e4e8] text-[13px] transition-colors">5</button>
-        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#566a7f] hover:bg-[#e1e4e8] text-[13px] transition-colors">6</button>
-        
-        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#a1acb8] hover:bg-[#e1e4e8] transition-colors">
+        <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#8592a3] hover:bg-[#e1e4e8] transition-colors">
           <svg viewBox="0 0 24 24" class="w-4 h-4 fill-current"><path d="M10.707 17.707 16.414 12l-5.707-5.707-1.414 1.414L13.586 12l-4.293 4.293z"/></svg>
         </button>
         <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#a1acb8] hover:bg-[#e1e4e8] transition-colors">
@@ -94,31 +83,20 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import NavIcon from '../atoms/NavIcon.vue'
+import { mockDeletedCourseEvaluations } from '../../services/home/api'
 
-import { mockSubjects } from '../../services/home/api'
-
-const router = useRouter()
 const selectedRowKeys = ref([])
 const onSelectChange = (keys: any) => {
   selectedRowKeys.value = keys
 }
 
-const goToDetail = (id: string) => {
-  router.push({ name: 'cultural-subject-detail', params: { id } })
-}
-
-const goToEdit = (id: string) => {
-  router.push({ name: 'cultural-subject-edit', params: { id } })
-}
-
 const columns = [
   { title: '#', key: 'index', width: '60px', align: 'center' },
-  { title: 'MÃ MÔN', key: 'code', dataIndex: 'code' },
-  { title: 'TÊN MÔN HỌC', key: 'name', dataIndex: 'name' },
-  { title: 'KHỐI HỌC', key: 'grade', dataIndex: 'grade' },
-  { title: 'NGÀY KẾT THÚC', key: 'endDate', dataIndex: 'endDate' },
+  { title: 'HỌC VIÊN', key: 'studentName', dataIndex: 'studentName' },
+  { title: 'MÃ HỌC VIÊN', key: 'studentCode', dataIndex: 'studentCode' },
+  { title: 'KHÓA', key: 'course', dataIndex: 'course' },
+  { title: 'THỜI GIAN XÓA', key: 'deletedAt', dataIndex: 'deletedAt' },
   { title: 'TRẠNG THÁI', key: 'status', dataIndex: 'status' },
   {
     title: 'HÀNH ĐỘNG',
@@ -128,7 +106,7 @@ const columns = [
   },
 ]
 
-const dataSource = ref(mockSubjects)
+const dataSource = ref(mockDeletedCourseEvaluations)
 </script>
 
 <style scoped>
@@ -139,7 +117,6 @@ const dataSource = ref(mockSubjects)
   position: relative;
 }
 
-/* Vertical separators in header */
 .custom-table :deep(.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column)::after) {
   content: "";
   position: absolute;
@@ -150,26 +127,8 @@ const dataSource = ref(mockSubjects)
   background-color: #e1e4e8;
 }
 
-.custom-table :deep(.ant-table-row) {
-  transition: background-color 0.2s;
-}
-
-.custom-table :deep(.ant-table-row:hover) {
-  background-color: #fcfcfd;
-}
-
 .custom-table :deep(.ant-table-cell) {
   padding: 12px 16px !important;
   border-bottom: 1px solid #d9dee3 !important;
-}
-
-.custom-table :deep(.ant-checkbox-inner) {
-  border-radius: 4px;
-  border-color: #d9dee3;
-}
-
-.custom-table :deep(.ant-checkbox-checked .ant-checkbox-inner) {
-  background-color: #696cff;
-  border-color: #696cff;
 }
 </style>

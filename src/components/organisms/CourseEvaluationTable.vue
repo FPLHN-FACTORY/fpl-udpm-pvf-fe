@@ -19,31 +19,36 @@
           {{ index + 1 }}
         </div>
 
-        <!-- MÃ MÔN -->
-        <div v-else-if="column.key === 'code'" class="text-[13px] font-bold text-[#566a7f]">
-          {{ record.code }}
+        <!-- HỌC VIÊN -->
+        <div v-else-if="column.key === 'studentName'" class="text-[13px] text-[#566a7f]">
+          {{ record.studentName }}
         </div>
 
-        <!-- TÊN MÔN HỌC -->
-        <div v-else-if="column.key === 'name'" class="text-[13px] text-[#566a7f]">
-          {{ record.name }}
+        <!-- MÃ HỌC VIÊN -->
+        <div v-else-if="column.key === 'studentCode'" class="text-[13px] text-[#566a7f]">
+          {{ record.studentCode }}
         </div>
 
-        <!-- KHỐI HỌC -->
-        <div v-else-if="column.key === 'grade'" class="text-[13px] text-[#566a7f]">
-          {{ record.grade }}
+        <!-- KHÓA -->
+        <div v-else-if="column.key === 'course'" class="text-[13px] text-[#566a7f]">
+          {{ record.course }}
         </div>
 
-        <!-- NGÀY KẾT THÚC -->
-        <div v-else-if="column.key === 'endDate'" class="text-[13px] text-[#566a7f]">
-          {{ record.endDate }}
+        <!-- XẾP HẠNG -->
+        <div v-else-if="column.key === 'rank'" class="text-[13px] text-[#566a7f]">
+          {{ record.rank }}
+        </div>
+
+        <!-- XẾP LOẠI -->
+        <div v-else-if="column.key === 'classification'" class="text-[13px] text-[#566a7f]">
+          {{ record.classification }}
         </div>
 
         <!-- TRẠNG THÁI -->
         <div v-else-if="column.key === 'status'">
           <span 
             class="px-3 py-1 rounded-md text-[11px] font-bold"
-            :class="record.status === 'Đang hoạt động' ? 'bg-[#e8fadf] text-[#71dd37]' : 'bg-[#fff2d6] text-[#ffab00]'"
+            :class="record.status === 'Đã khóa' ? 'bg-[#e8fadf] text-[#71dd37]' : 'bg-[#fff2d6] text-[#ffab00]'"
           >
             {{ record.status }}
           </span>
@@ -64,7 +69,6 @@
       </template>
     </a-table>
 
-    <!-- Custom Pagination matching mockup -->
     <div class="py-2 px-6 flex justify-end">
       <div class="flex items-center gap-1.5">
         <button class="w-[38px] h-[38px] flex items-center justify-center rounded-md bg-[#f0f2f4] text-[#8592a3] hover:bg-[#e1e4e8] transition-colors">
@@ -96,8 +100,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '../atoms/NavIcon.vue'
-
-import { mockSubjects } from '../../services/home/api'
+import { mockCourseEvaluations } from '../../services/home/api'
 
 const router = useRouter()
 const selectedRowKeys = ref([])
@@ -106,19 +109,20 @@ const onSelectChange = (keys: any) => {
 }
 
 const goToDetail = (id: string) => {
-  router.push({ name: 'cultural-subject-detail', params: { id } })
+  router.push({ name: 'evaluation-full-course-detail', params: { id } })
 }
 
 const goToEdit = (id: string) => {
-  router.push({ name: 'cultural-subject-edit', params: { id } })
+  router.push({ name: 'evaluation-full-course-edit', params: { id } })
 }
 
 const columns = [
   { title: '#', key: 'index', width: '60px', align: 'center' },
-  { title: 'MÃ MÔN', key: 'code', dataIndex: 'code' },
-  { title: 'TÊN MÔN HỌC', key: 'name', dataIndex: 'name' },
-  { title: 'KHỐI HỌC', key: 'grade', dataIndex: 'grade' },
-  { title: 'NGÀY KẾT THÚC', key: 'endDate', dataIndex: 'endDate' },
+  { title: 'HỌC VIÊN', key: 'studentName', dataIndex: 'studentName' },
+  { title: 'MÃ HỌC VIÊN', key: 'studentCode', dataIndex: 'studentCode' },
+  { title: 'KHÓA', key: 'course', dataIndex: 'course' },
+  { title: 'XẾP HẠNG', key: 'rank', dataIndex: 'rank' },
+  { title: 'XẾP LOẠI', key: 'classification', dataIndex: 'classification' },
   { title: 'TRẠNG THÁI', key: 'status', dataIndex: 'status' },
   {
     title: 'HÀNH ĐỘNG',
@@ -128,7 +132,7 @@ const columns = [
   },
 ]
 
-const dataSource = ref(mockSubjects)
+const dataSource = ref(mockCourseEvaluations)
 </script>
 
 <style scoped>
@@ -139,7 +143,6 @@ const dataSource = ref(mockSubjects)
   position: relative;
 }
 
-/* Vertical separators in header */
 .custom-table :deep(.ant-table-thead > tr > th:not(:last-child):not(.ant-table-selection-column)::after) {
   content: "";
   position: absolute;

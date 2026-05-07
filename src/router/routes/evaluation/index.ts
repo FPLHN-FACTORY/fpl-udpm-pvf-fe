@@ -14,7 +14,7 @@ export const evaluationRoutes: RouteRecordRaw[] = [
       formRoute,
       stageRoute,
       studentEvaluationRoute,
-      courseEvaluationRoute
+      ...courseEvaluationRoute
     ]
   }
 ]
