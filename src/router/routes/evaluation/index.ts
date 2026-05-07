@@ -38,6 +38,7 @@ export const evaluationRoutes: RouteRecordRaw[] = [
   {
     path: '/evaluation',
     meta: { title: 'Quản lý đánh giá học viên', icon: 'BxSpreadsheet', isHeader: true },
+<<<<<<< Updated upstream
     children: evaluationVisibleChildren
   }
 ]
@@ -46,5 +47,14 @@ export const evaluationHiddenRoutes: RouteRecordRaw[] = [
   {
     path: '/evaluation',
     children: evaluationHiddenChildren
+=======
+    children: [
+      criteriaRoute,
+      formRoute,
+      stageRoute,
+      studentEvaluationRoute,
+      ...courseEvaluationRoute
+    ]
+>>>>>>> Stashed changes
   }
 ]
