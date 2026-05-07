@@ -8,19 +8,19 @@ export const classesRoute: RouteRecordRaw = {
     {
       path: 'list',
       name: 'extracurricular-classes-list',
-      component: () => import('../../../components/pages/DashboardPage.vue'),
+      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
       meta: { title: 'Danh sách' }
     },
     {
       path: 'attendance',
       name: 'extracurricular-classes-attendance',
-      component: () => import('../../../components/pages/DashboardPage.vue'),
+      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
       meta: { title: 'Điểm danh' }
     },
     {
       path: 'grades',
       name: 'extracurricular-classes-grades',
-      component: () => import('../../../components/pages/DashboardPage.vue'),
+      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
       meta: { title: 'Bảng điểm' }
     }
   ]
