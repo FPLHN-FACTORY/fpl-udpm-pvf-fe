@@ -12,7 +12,7 @@ export const culturalRoutes: RouteRecordRaw[] = [
     children: [
       ...schoolYearRoutes,
       gradeRoute,
-      subjectRoute,
+      ...subjectRoute,
       classRoute,
       absenceRoute
     ]

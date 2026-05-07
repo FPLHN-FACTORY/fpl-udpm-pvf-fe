@@ -12,7 +12,7 @@ export const extracurricularRoutes: RouteRecordRaw[] = [
     children: [
       subjectsRoute,
       ...roomsRoutes,
-      teachersRoute,
+      ...teachersRoute,
       classesRoute,
       scoreTypesRoute
     ]

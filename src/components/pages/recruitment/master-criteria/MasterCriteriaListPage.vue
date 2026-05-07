@@ -15,8 +15,6 @@
         </div>
       </div>
     </div>
-
-
     <!-- Main Content Card -->
     <AdminCard title="Danh sách Bộ tiêu chí gốc">
       <template #actions>
@@ -30,8 +28,6 @@
         @search="handleSearch"
         @reset="handleReset"
       />
-
-
       <!-- Table Section -->
       <MasterCriteriaTable
         :data-source="rows"
