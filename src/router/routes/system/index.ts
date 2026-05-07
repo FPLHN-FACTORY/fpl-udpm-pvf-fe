@@ -3,7 +3,7 @@ import { usersRoute } from './users'
 import { rolesRoutes } from './roles'
 import { permissionsRoutes } from './permissions'
 import { settingsRoute } from './settings'
-import { logRoute } from './log'
+import { logsRoute } from './logs'
 
 export const systemRoutes: RouteRecordRaw[] = [
   {
@@ -19,8 +19,8 @@ export const systemRoutes: RouteRecordRaw[] = [
           ...permissionsRoutes
         ]
       },
-      ...logRoute,
-      settingsRoute
+      settingsRoute,
+      logsRoute
     ]
   }
 ]

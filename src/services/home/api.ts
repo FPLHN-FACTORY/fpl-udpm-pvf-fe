@@ -300,7 +300,7 @@ const mockTieuChi = {
   ]
 }
 
-function delay(ms: number) {
+function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 

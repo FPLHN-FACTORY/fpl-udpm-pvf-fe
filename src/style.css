@@ -4,52 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
-  .app-summary-stat-copy {
-    @apply min-w-0 flex-1;
-  }
-
-  .app-summary-stat-label {
-    @apply text-[14px] font-normal leading-5;
-    color: #697a8d;
-  }
-
-  .app-summary-stat-row {
-    @apply mt-4 flex items-baseline gap-1.5 whitespace-nowrap;
-  }
-
-  .app-summary-stat-value {
-    color: #3c4a5d;
-    font-size: 1.75rem;
-    font-weight: 700;
-    letter-spacing: -0.03em;
-    line-height: 1;
-  }
-
-  .app-summary-stat-hint {
-    font-size: 0.95rem;
-    font-weight: 500;
-    letter-spacing: -0.01em;
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  .app-filter-reset-button {
-    @apply inline-flex h-11 w-11 items-center justify-center rounded-xl text-white transition;
-    background: #8592a3;
-    box-shadow: 0 8px 18px rgba(133, 146, 163, 0.28);
-  }
-
-  .app-filter-reset-button:hover {
-    background: #7a8798;
-    box-shadow: 0 10px 22px rgba(133, 146, 163, 0.34);
-  }
-
-  .app-filter-reset-icon {
-    @apply h-5 w-5;
-  }
-}
-
 html, body {
   margin: 0;
   padding: 0;

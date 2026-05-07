@@ -32,4 +32,3 @@ export const teachersRoute: RouteRecordRaw[] = [
     meta: { title: 'Danh sách Giáo viên phụ trách đã xóa', hidden: true }
   }
 ]
-

@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        'public-sans': ['Public Sans', 'sans-serif'],
+        'inter': ['Inter', 'sans-serif'],
         'oswald': ['Oswald', 'sans-serif'],
       },
       colors: {

@@ -131,7 +131,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import NavIcon from '../atoms/NavIcon.vue'
 import CourseEvaluationTable from '../organisms/CourseEvaluationTable.vue'
 
 const router = useRouter()

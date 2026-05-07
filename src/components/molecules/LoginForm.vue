@@ -5,18 +5,20 @@
     </div>
 
     <div class="login-form__fields">
-      <InputForm
+      <FormField
         v-model="formData.username"
         label="Tài khoản"
         placeholder="Nhập tài khoản"
+        required
         :error="errors.username"
       />
 
-      <InputForm
+      <FormField
         v-model="formData.password"
         type="password"
         label="Mật khẩu"
         placeholder="Nhập mật khẩu"
+        required
         :error="errors.password"
       />
     </div>
@@ -29,14 +31,15 @@
     </div>
 
     <div class="login-form__actions">
-      <a-button
-        type="primary"
-        html-type="submit"
-        :loading="loading"
-        class="!w-full !h-[42px] !bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md font-bold shadow-md shadow-red-100"
+      <BaseButton
+        type="submit"
+        variant="primary"
+        size="medium"
+        :disabled="loading"
+        class="login-form__submit"
       >
         {{ loading ? 'Đang đăng nhập...' : 'Đăng Nhập' }}
-      </a-button>
+      </BaseButton>
 
       <div class="login-form__divider">
         <span class="login-form__divider-line"></span>
@@ -44,23 +47,27 @@
         <span class="login-form__divider-line"></span>
       </div>
 
-      <a-button
-        class="!w-full !h-[42px] !bg-white hover:!bg-gray-50 !border-[#d9dee3] !rounded-md font-medium text-gray-600 flex items-center justify-center gap-2 shadow-sm"
+      <BaseButton
+        variant="outline"
+        size="medium"
+        class="login-form__google"
         @click="handleGoogleLogin"
       >
-        <template #icon>
-          <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" class="w-5 h-5" alt="Google" />
+        <template #icon-left>
+          <BaseIcon name="google" size="20" />
         </template>
         Đăng nhập với Google
-      </a-button>
+      </BaseButton>
     </div>
   </form>
 </template>
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import BaseCheckbox from '../atoms/inputs/BaseCheckbox.vue'
-import InputForm from '../atoms/inputs/InputForm.vue'
+import BaseButton from '../atoms/BaseButton.vue'
+import BaseCheckbox from '../atoms/BaseCheckbox.vue'
+import BaseIcon from '../atoms/BaseIcon.vue'
+import FormField from './FormField.vue'
 
 interface LoginData {
   username: string

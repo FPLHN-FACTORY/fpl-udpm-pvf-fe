@@ -89,7 +89,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import NavIcon from '../atoms/NavIcon.vue'
 
 const router = useRouter()
 const route = useRoute()
