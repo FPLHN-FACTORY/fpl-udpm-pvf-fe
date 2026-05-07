@@ -47,5 +47,6 @@ export const classesRoute: RouteRecordRaw = {
       component: () => import('../../../components/pages/extracurricular/ExtracurricularGradesListPage.vue'),
       meta: { title: 'Bảng điểm' }
     }
+
   ]
 }

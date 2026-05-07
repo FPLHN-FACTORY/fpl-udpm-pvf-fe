@@ -35,4 +35,5 @@ export const facilityRoute: RouteRecordRaw = {
       meta: { title: 'Danh sách đã xóa', icon: 'BxTrash' }
     }
   ]
+
 }
