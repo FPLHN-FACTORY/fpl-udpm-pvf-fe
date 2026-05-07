@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
+  <div class="flex flex-col gap-6">
     <!-- Breadcrumbs -->
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Kỷ luật khen thưởng</span>
@@ -121,7 +121,14 @@ import NavIcon from '../../atoms/icons/NavIcon.vue'
 
 const router = useRouter()
 
-const formData = ref({
+interface FormData {
+  name: string
+  type: string | undefined
+  level: string | undefined
+  status: string | undefined
+}
+
+const formData = ref<FormData>({
   name: '',
   type: undefined,
   level: undefined,
@@ -147,13 +154,7 @@ const handleSubmit = () => {
   router.push('/discipline/templates')
 }
 
-const getStatusType = (status: string) => {
-  switch (status) {
-    case 'Đang hoạt động': return 'success'
-    case 'Ngừng hoạt động': return 'default'
-    default: return 'default'
-  }
-}
+
 
 const resetForm = () => {
   formData.value = {

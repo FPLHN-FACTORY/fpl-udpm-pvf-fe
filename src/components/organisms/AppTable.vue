@@ -40,10 +40,21 @@ withDefaults(defineProps<{
   font-size: 11px !important;
   font-weight: 700 !important;
   text-transform: uppercase !important;
+  position: relative;
+}
+
+:deep(.ant-table-thead > tr > th:not(:last-child)::after) {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background-color: #d9dee3;
 }
 
 :deep(.ant-table-tbody > tr > td) {
-  border-bottom: 1px solid #f0f2f5 !important;
+  border-bottom: 1px solid #e4e6e7 !important;
   color: #697a8d;
   font-size: 13px;
   padding: 12px 16px !important;
