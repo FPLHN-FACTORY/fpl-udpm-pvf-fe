@@ -64,7 +64,6 @@ import { culturalRoutes } from '../../router/routes/cultural/index'
 import { extracurricularRoutes } from '../../router/routes/extracurricular/index'
 import { trainingRoutes } from '../../router/routes/training/index'
 import { expensesRoutes } from '../../router/routes/expenses/index'
-import { activitiesRoutes } from '../../router/routes/activities/index'
 import { gearRoutes } from '../../router/routes/gear/index'
 import { disciplineRoutes } from '../../router/routes/discipline/index'
 import { evaluationRoutes } from '../../router/routes/evaluation/index'
@@ -80,7 +79,6 @@ const menuModules = computed(() => [
   extracurricularRoutes,
   trainingRoutes,
   expensesRoutes,
-  activitiesRoutes,
   gearRoutes,
   disciplineRoutes,
   evaluationRoutes,

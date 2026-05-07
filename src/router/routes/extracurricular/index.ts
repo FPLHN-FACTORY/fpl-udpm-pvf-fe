@@ -4,6 +4,7 @@ import { roomsRoutes } from './rooms'
 import { teachersRoute } from './teachers'
 import { classesRoute } from './classes'
 import { scoreTypesRoute } from './score-types'
+import { activitiesRoute } from './activities'
 
 export const extracurricularRoutes: RouteRecordRaw[] = [
   {
@@ -14,7 +15,8 @@ export const extracurricularRoutes: RouteRecordRaw[] = [
       ...roomsRoutes,
       ...teachersRoute,
       classesRoute,
-      scoreTypesRoute
+      scoreTypesRoute,
+      activitiesRoute
     ]
   }
 ]
