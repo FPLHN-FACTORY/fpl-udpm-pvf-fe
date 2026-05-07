@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import BaseLogo from '../atoms/BaseLogo.vue'
-import NavIcon from '../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import SidebarItem from '../molecules/SidebarItem.vue'
 import SidebarSearch from '../molecules/SidebarSearch.vue'
 import { recruitmentRoutes } from '../../router/routes/recruitment/index'
