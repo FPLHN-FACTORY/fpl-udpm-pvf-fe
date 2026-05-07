@@ -1,4 +1,116 @@
 import imageLogo from '../../assets/logo.png'
+
+// Mock data for Teachers
+export const mockTeachers = [
+  { 
+    key: '1', 
+    code: 'GV002', 
+    name: 'Trần Minh Tuấn', 
+    phone: '0912 456 789', 
+    email: 'tuan.tran@pvf.com.vn', 
+    status: 'Đang giảng dạy',
+    createdAt: '2025-01-05 08:30:00',
+    updatedAt: '2026-01-20 10:15:45'
+  },
+  { 
+    key: '2', 
+    code: 'GV003', 
+    name: 'Lê Hoàng Nam', 
+    phone: '0912 456 789', 
+    email: 'nam.le@pvf.com.vn', 
+    status: 'Đang giảng dạy',
+    createdAt: '2025-01-10 09:00:00',
+    updatedAt: '2026-01-22 14:20:00'
+  },
+  { key: '3', code: 'GV004', name: 'Nguyễn Thị Hương', phone: '0912 456 789', email: 'huong.nguyen@pvf.com.vn', status: 'Đang giảng dạy' },
+  { key: '4', code: 'GV001', name: 'Nguyễn Văn Hùng', phone: '0903 123 456', email: 'hung.nguyen@pvf.com.vn', status: 'Đang giảng dạy' },
+  { key: '5', code: 'GV005', name: 'Phạm Thanh Sơn', phone: '0912 456 789', email: 'son.pham@pvf.com.vn', status: 'Đang giảng dạy' },
+  { key: '6', code: 'GV006', name: 'Vũ Minh Đức', phone: '0912 456 789', email: 'duc.vu@pvf.com.vn', status: 'Ngừng hợp tác' },
+  { key: '7', code: 'GV007', name: 'Đặng Thùy Chi', phone: '0912 456 789', email: 'chi.dang@pvf.com.vn', status: 'Ngừng hợp tác' },
+  { key: '8', code: 'GV008', name: 'Bùi Anh Tuấn', phone: '0912 456 789', email: 'tuan.bui@pvf.com.vn', status: 'Ngừng hợp tác' },
+]
+
+export const mockDeletedTeachers = [
+  { key: '1', code: 'GV009', name: 'Trần Minh Tuấn', phone: '0912 456 789', email: 'tuan.tran@pvf.com.vn', deletedAt: '2025-02-01 12:12' },
+  { key: '2', code: 'GV010', name: 'Lê Hoàng Nam', phone: '0912 456 789', email: 'nam.le@pvf.com.vn', deletedAt: '2025-02-01 12:12' },
+  { key: '3', code: 'GV011', name: 'Hoàng Văn Bách', phone: '0912 456 789', email: 'bach.hoang@pvf.com.vn', deletedAt: '2025-02-01 12:12' },
+]
+
+// Mock data for Subjects
+export const mockSubjects = [
+  { 
+    key: '1', 
+    code: 'MH001', 
+    name: 'Tin học', 
+    grade: '12', 
+    endDate: '2025-02-10', 
+    status: 'Đang hoạt động',
+    note: 'Môn tin học lớp 12',
+    createdAt: '2025-01-05 08:30:00',
+    updatedAt: '2026-01-20 10:15:45'
+  },
+  { 
+    key: '2', 
+    code: 'MH002', 
+    name: 'Toán học', 
+    grade: '12', 
+    endDate: '2025-02-10', 
+    status: 'Đang hoạt động',
+    note: 'Môn toán học lớp 12',
+    createdAt: '2025-01-06 09:15:00',
+    updatedAt: '2026-01-21 11:30:00'
+  },
+  { key: '3', code: 'MH003', name: 'Văn học', grade: '12', endDate: '2025-02-10', status: 'Tạm ngưng', note: 'Môn văn học lớp 12' },
+  { key: '4', code: 'MH004', name: 'Lịch sử', grade: '12', endDate: '2025-02-10', status: 'Đang hoạt động', note: 'Môn lịch sử lớp 12' },
+]
+
+export const mockDeletedSubjects = [
+  { key: '1', code: 'MH005', name: 'Kỹ thuật bóng đá cơ bản', grade: '12', balance: '25-02-01 8:30' },
+  { key: '2', code: 'MH006', name: 'Chiến thuật bóng đá', grade: '12', balance: '25-02-01 8:30' },
+]
+
+export const mockClasses = [
+  { key: '1', subject: 'Tâm lý thi đấu', className: 'UT1301', teacher: 'Nguyễn Văn Hùng', location: 'Phòng thể lực PVF', capacity: '32', status: 'Đang giảng dạy' },
+  { key: '2', subject: 'Chiến thuật bóng đá', className: 'UT1302', teacher: 'Nguyễn Văn Hùng', location: 'Sân bóng PVF', capacity: '25', status: 'Đang giảng dạy' },
+]
+
+export const mockMainClasses = [
+  {
+    key: '1',
+    className: 'Lớp U12-A',
+    grade: 'Khối 10',
+    year: '2024-2025',
+    teacher: 'Nguyễn Đức Anh',
+    status: 'Đang hoạt động'
+  },
+  {
+    key: '2',
+    className: 'Lớp U12-B',
+    grade: 'Khối 10',
+    year: '2024-2025',
+    teacher: 'Lê Thu Trang',
+    status: 'Đang hoạt động'
+  }
+]
+
+export const mockCourseEvaluations = [
+  { key: '1', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '2', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '3', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '4', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '5', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '6', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '7', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '8', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '9', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+  { key: '10', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa' },
+]
+
+export const mockDeletedCourseEvaluations = [
+  { key: 'd1', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa', deletedAt: '2025-01-05 08:30:00' },
+  { key: 'd2', studentName: 'Nguyễn Văn An', studentCode: 'HV124', course: 'PVF 2025', rank: '1', classification: 'Xuất sắc', status: 'Đã khóa', deletedAt: '2025-01-05 08:30:00' },
+]
+
 // Mock API service
 const DELAY = 300
 
@@ -188,7 +300,7 @@ const mockTieuChi = {
   ]
 }
 
-function delay(ms: number) {
+function delay(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
 }
 
