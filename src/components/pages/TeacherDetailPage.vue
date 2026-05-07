@@ -171,7 +171,7 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { computed } from 'vue'
-import NavIcon from '../atoms/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import TeacherClassTable from '../organisms/TeacherClassTable.vue'
 import { mockTeachers } from '../../services/home/api'
 

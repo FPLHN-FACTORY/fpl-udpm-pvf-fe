@@ -82,7 +82,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import NavIcon from '../atoms/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 import { mockDeletedTeachers } from '../../services/home/api'
 
