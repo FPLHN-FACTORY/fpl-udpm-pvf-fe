@@ -132,7 +132,7 @@
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
-import NavIcon from "../../atoms/icons/NavIcon.vue";
+import NavIcon from "@/components/atoms/icons/NavIcon.vue";
 import { getEvaluationSnapshotById, type EvaluationKind } from "./evaluationData";
 
 const moduleTitle = "Đánh giá học viên";

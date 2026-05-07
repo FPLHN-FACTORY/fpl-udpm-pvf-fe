@@ -117,7 +117,7 @@ import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
 import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
 import ButtonSave from '../../atoms/buttons/ButtonSave.vue'
 import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const router = useRouter()
 

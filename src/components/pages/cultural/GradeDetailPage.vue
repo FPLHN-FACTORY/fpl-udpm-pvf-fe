@@ -60,7 +60,7 @@
 import { ref } from 'vue'
 import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
 import ButtonEdit from '../../atoms/buttons/ButtonEdit.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const gradeDetails = ref([
   { label: 'ID Khối lớp', value: 'HS001' },

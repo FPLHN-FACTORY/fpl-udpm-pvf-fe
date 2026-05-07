@@ -113,7 +113,7 @@ import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
 import ButtonSearch from '../../atoms/buttons/ButtonSearch.vue'
 import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
 import InputSearch from '../../atoms/inputs/InputSearch.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const searchQuery = ref('')
 const statusFilter = ref(undefined)
