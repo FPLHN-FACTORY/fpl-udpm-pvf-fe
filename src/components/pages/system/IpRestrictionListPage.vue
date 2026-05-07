@@ -12,7 +12,7 @@
       <!-- Header with Add Button -->
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Giới hạn địa chỉ IP</h2>
-        <BaseButton 
+        <a-button 
           variant="primary" 
           icon="BxPlus" 
           icon-class-name="w-4 h-4"
@@ -20,7 +20,7 @@
           @click="$router.push('/system/security/ip-restriction/add')"
         >
           Thêm Mới
-        </BaseButton>
+        </a-button>
       </div>
 
       <!-- Filter Bar -->
@@ -47,14 +47,14 @@
           </a-select>
         </div>
         <div class="flex items-center gap-2">
-          <BaseButton 
+          <a-button 
             variant="primary" 
             icon="BxSearch" 
             class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10"
           >
             Tìm Kiếm
-          </BaseButton>
-          <BaseButton 
+          </a-button>
+          <a-button 
             icon="BxReset" 
             class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !w-10 !h-10 !p-0 !min-w-0 flex items-center justify-center rounded-lg shadow-sm" 
             icon-class-name="w-6 h-6 text-white" 
@@ -114,9 +114,8 @@
 
 <script setup lang="ts">
 import { ref, h } from 'vue'
-import BaseButton from '../../atoms/BaseButton.vue'
-import BaseTag from '../../atoms/BaseTag.vue'
-import NavIcon from '../../atoms/NavIcon.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const searchQuery = ref('')
 const rangeFilter = ref(undefined)

@@ -12,18 +12,18 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Thông tin chi tiết địa chỉ IP</h2>
         <div class="flex gap-3">
-          <BaseButton 
+          <a-button 
             class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none !h-9"
             icon="BxChevronLeft"
             @click="$router.back()"
           >
             Quay Lại
-          </BaseButton>
-          <BaseButton 
+          </a-button>
+          <a-button 
             class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !h-9"
           >
             Chỉnh Sửa
-          </BaseButton>
+          </a-button>
         </div>
       </div>
 
@@ -52,8 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import BaseButton from '../../atoms/BaseButton.vue'
-import BaseTag from '../../atoms/BaseTag.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
 </script>
 
 <style scoped>

@@ -11,24 +11,24 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Điều chỉnh Địa chỉ IP được cấp phép truy cập</h2>
-        <BaseButton 
+        <a-button 
           class="!bg-[#e7e7ff] !text-[#696cff] !border-none !h-9"
           icon="BxChevronLeft"
           @click="$router.back()"
         >
           Quay Lại
-        </BaseButton>
+        </a-button>
       </div>
 
       <div class="p-8 flex flex-col gap-6">
-        <BaseInput 
+        <a-input 
           v-model="form.ip" 
           label="Địa chỉ IP" 
           placeholder="Địa chỉ IP"
           class="!h-10"
         />
         
-        <BaseTextarea 
+        <a-textarea 
           v-model="form.description" 
           label="Mô tả" 
           placeholder="Mô tả"
@@ -45,19 +45,19 @@
         </div>
 
         <div class="flex justify-center gap-4 mt-4">
-          <BaseButton 
+          <a-button 
             variant="primary" 
             class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-10 !h-10"
             @click="handleSubmit"
           >
             Cập Nhật
-          </BaseButton>
-          <BaseButton 
+          </a-button>
+          <a-button 
             class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !px-10 !h-10"
             @click="handleReset"
           >
             Đặt Lại
-          </BaseButton>
+          </a-button>
         </div>
       </div>
     </div>
@@ -66,9 +66,6 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import BaseButton from '../../atoms/BaseButton.vue'
-import BaseInput from '../../atoms/BaseInput.vue'
-import BaseTextarea from '../../atoms/BaseTextarea.vue'
 import { message } from 'ant-design-vue'
 import { useRouter, useRoute } from 'vue-router'
 

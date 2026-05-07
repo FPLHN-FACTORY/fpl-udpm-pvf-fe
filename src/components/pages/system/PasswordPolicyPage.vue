@@ -52,31 +52,31 @@
       </div>
 
       <div class="mb-8">
-        <BaseCheckbox v-model="policy.notifyExpiry">
+        <a-checkbox v-model="policy.notifyExpiry">
           <span class="text-[#697a8d]">Gửi thông báo hết hạn mật khẩu tới người dùng</span>
-        </BaseCheckbox>
+        </a-checkbox>
       </div>
 
       <div class="flex justify-center gap-4">
-        <BaseButton 
+        <a-button 
           variant="primary" 
           class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-8 !h-10"
           @click="handleUpdate"
         >
           Cập Nhật
-        </BaseButton>
-        <BaseButton 
+        </a-button>
+        <a-button 
           class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !px-8 !h-10"
           @click="handleReset"
         >
           Đặt Lại
-        </BaseButton>
-        <BaseButton 
+        </a-button>
+        <a-button 
           class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !px-8 !h-10"
           @click="handleResetDefault"
         >
           Đặt Lại Mặc Định
-        </BaseButton>
+        </a-button>
       </div>
     </div>
   </div>
@@ -84,9 +84,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import BaseButton from '../../atoms/BaseButton.vue'
-import BaseCheckbox from '../../atoms/BaseCheckbox.vue'
-import NavIcon from '../../atoms/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import { message } from 'ant-design-vue'
 
 const policy = ref({

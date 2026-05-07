@@ -6,9 +6,24 @@
         <h2 class="text-xl font-semibold text-[#566a7f]">Chi tiết Hợp đồng đã ký</h2>
       </div>
       <div class="flex gap-2">
-        <button @click="router.back()" class="px-4 py-2 bg-[#8592a3] text-white rounded-md hover:bg-[#717d8c] transition flex items-center gap-2 shadow-sm">
-          <i class='bx bx-left-arrow-alt'></i> Quay Lại
-        </button>
+        <button 
+            @click="$router.back()" 
+            class="group flex items-center gap-2 px-4 py-2 bg-[#f1f3f5] text-[#748293] rounded-lg font-medium hover:bg-[#e9ecef] transition-all duration-200"
+            >
+                <!-- Icon mũi tên thanh mảnh giống ảnh -->
+                <svg 
+                    xmlns="http://www.w3.org/2000/svg" 
+                    class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor" 
+                    stroke-width="2"
+                >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+  
+                <span class="text-[15px]">Quay Lại</span>
+            </button>
         <button @click="router.push(`/student/signed-contract/edit/${contractId}`)" class="px-4 py-2 bg-[#ffab00] text-white rounded-md hover:bg-[#e69a00] transition shadow-sm font-medium">
           Chỉnh Sửa
         </button>
