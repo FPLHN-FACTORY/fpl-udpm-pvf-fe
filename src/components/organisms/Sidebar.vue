@@ -68,6 +68,7 @@ import { activitiesRoutes } from '../../router/routes/activities/index'
 import { gearRoutes } from '../../router/routes/gear/index'
 import { disciplineRoutes } from '../../router/routes/discipline/index'
 import { evaluationRoutes } from '../../router/routes/evaluation/index'
+import { equipmentRoutes } from '../../router/routes/equipment/index'
 import { systemRoutes } from '../../router/routes/system/index'
 
 const collapsed = ref(false)
@@ -83,6 +84,7 @@ const menuModules = computed(() => [
   gearRoutes,
   disciplineRoutes,
   evaluationRoutes,
+  equipmentRoutes,
   systemRoutes
 ])
 </script>
