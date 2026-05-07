@@ -117,6 +117,27 @@
     <!-- BxChevronsRight -->
     <path v-if="name === 'BxChevronsRight'" d="m6.293 7.707 4.293 4.293-4.293 4.293 1.414 1.414L13.414 12 7.707 6.293z" /><path v-if="name === 'BxChevronsRight'" d="m12.293 7.707 4.293 4.293-4.293 4.293 1.414 1.414L19.414 12l-5.707-5.707z" />
 
+    <!-- BxExport -->
+    <path v-if="name === 'BxExport'" d="M18 7H6V3H4v18h2v-2h12v2h2V3h-2v4zM6 9h12v8H6V9zm4 2v2h4v-2h-4z" />
+
+    <!-- BxImport -->
+    <path v-if="name === 'BxImport'" d="M18 7H6V3H4v18h2v-2h12v2h2V3h-2v4zM6 9h12v8H6V9zm4 4v-2h4v2h-4z" />
+
+    <!-- BxBookOpen -->
+    <path v-if="name === 'BxBookOpen'" d="M13 13.5h6v-2h-6v2zm0-4h6v-2h-6v2zm-2 5h-6v-2h6v2zm0-4h-6v-2h6v2zm10-5v14.5c0 .828-.672 1.5-1.5 1.5h-15c-.828 0-1.5-.672-1.5-1.5v-14.5c0-.828.672-1.5 1.5-1.5h6c.414 0 .75.336.75.75s-.336.75-.75.75h-5.25v13h13.5v-13h-5.25c-.414 0-.75-.336-.75-.75s.336-.75.75-.75h6c.828 0 1.5.672 1.5 1.5z" />
+
+    <!-- BxRadioCircleMarked -->
+    <path v-if="name === 'BxRadioCircleMarked'" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z" /><circle v-if="name === 'BxRadioCircleMarked'" cx="12" cy="12" r="4" />
+
+    <!-- BxUserCheck -->
+    <path v-if="name === 'BxUserCheck'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1zM15.412 12.342l-4.574 4.574-1.838-1.838-1.414 1.414 3.252 3.252 5.988-5.988z" />
+
+    <!-- BxUserMinus -->
+    <path v-if="name === 'BxUserMinus'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1zm-7-3h6v2h-6z" />
+
+    <!-- BxRefresh -->
+    <path v-if="name === 'BxRefresh'" d="M19 11h-1.071c-.482-3.415-3.39-6-6.929-6-3.859 0-7 3.141-7 7s3.141 7 7 7c2.047 0 3.928-.769 5.354-2.043l-2.047-2.03V10H20v5h-4.915l1.938 1.921C15.396 18.487 13.774 19 12 19c-3.859 0-7-3.141-7-7s3.141-7 7-7c1.778 0 3.4.663 4.646 1.757L18 5.243V11z" />
+
     <!-- BxCalendar -->
     <path v-if="name === 'BxCalendar'" d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z" /><path v-if="name === 'BxCalendar'" d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v4H9V2H7v4H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8v12H5V8h14z" />
 

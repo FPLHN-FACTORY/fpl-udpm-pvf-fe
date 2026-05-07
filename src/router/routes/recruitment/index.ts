@@ -20,9 +20,11 @@ export const recruitmentRoutes: RouteRecordRaw[] = [
   }
 ]
 
+import { admissionPeriodsHiddenRoute } from './admission-periods'
+
 export const recruitmentHiddenRoutes: RouteRecordRaw[] = [
   {
     path: '/recruitment',
-    children: [evaluationHiddenRoute]
+    children: [evaluationHiddenRoute, admissionPeriodsHiddenRoute]
   }
 ]

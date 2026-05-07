@@ -6,10 +6,10 @@
     <header
       v-if="title || $slots.actions"
       class="flex items-center justify-between gap-4 border-gray-100"
-      :class="padded ? 'mb-8' : 'border-b p-6'"
+      :class="padded ? 'mb-8' : 'border-b p-4'"
     >
       <h1 :class="titleClass">{{ title }}</h1>
-      <div v-if="$slots.actions" class="flex items-center gap-3">
+      <div v-if="$slots.actions" class="flex items-center gap-2">
         <slot name="actions" />
       </div>
     </header>
