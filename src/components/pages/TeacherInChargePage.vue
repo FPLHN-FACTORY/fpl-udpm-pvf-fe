@@ -62,7 +62,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import NavIcon from '../atoms/NavIcon.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
 import TeacherTable from '../organisms/TeacherTable.vue'
 
 const router = useRouter()
