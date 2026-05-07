@@ -141,6 +141,15 @@
     <!-- BxCalendar -->
     <path v-if="name === 'BxCalendar'" d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z" /><path v-if="name === 'BxCalendar'" d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v4H9V2H7v4H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8v12H5V8h14z" />
 
+    <!-- BxBookContent -->
+    <path v-if="name === 'BxBookContent'" d="M20 2H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h14V2zm-2 18H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h12v16zM7 7h10v2H7V7zm0 4h10v2H7v-2zm0 4h7v2H7v-2z" />
+
+    <!-- BxLayers -->
+    <path v-if="name === 'BxLayers'" d="m12 16.48-7.53-4.31-1.47.83 9 5.15 9-5.15-1.47-.83L12 16.48zM12 14l7.53-4.3-1.47-.84L12 12.31 5.94 8.86 4.47 9.7 12 14zM12 4.15l7.53 4.31 1.47-.84L12 2.47l-9 5.15 1.47.84L12 4.15z" />
+
+    <!-- BxAward -->
+    <path v-if="name === 'BxAward'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm7 11H5v-2a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2z" />
+
   </svg>
 </template>
 
