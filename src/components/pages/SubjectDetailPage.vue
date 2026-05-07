@@ -179,7 +179,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
-import NavIcon from '../atoms/NavIcon.vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
 import ClassTable from '../organisms/ClassTable.vue'
 import { mockSubjects } from '../../services/home/api'
 
