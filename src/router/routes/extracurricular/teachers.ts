@@ -1,13 +1,4 @@
 import type { RouteRecordRaw } from 'vue-router'
-<<<<<<< Updated upstream
-export const teachersRoute: RouteRecordRaw = {
-  path: 'teachers',
-  name: 'extracurricular-teachers',
-  component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
-  meta: { title: 'Giáo viên phụ trách', icon: 'BxsUserBadge' }
-}
-=======
-
 export const teachersRoute: RouteRecordRaw[] = [
   {
     path: 'teachers',
@@ -40,4 +31,3 @@ export const teachersRoute: RouteRecordRaw[] = [
     meta: { title: 'Danh sách Giáo viên phụ trách đã xóa', hidden: true }
   }
 ]
->>>>>>> Stashed changes

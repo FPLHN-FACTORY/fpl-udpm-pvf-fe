@@ -11,13 +11,8 @@ export const extracurricularRoutes: RouteRecordRaw[] = [
     meta: { title: 'Quản lý học tập ngoại khóa', icon: 'BxBookAlt', isHeader: true },
     children: [
       subjectsRoute,
-<<<<<<< Updated upstream
       ...roomsRoutes,
-      teachersRoute,
-=======
-      roomsRoute,
       ...teachersRoute,
->>>>>>> Stashed changes
       classesRoute,
       scoreTypesRoute
     ]
