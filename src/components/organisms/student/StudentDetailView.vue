@@ -35,7 +35,7 @@
 
     <template v-else-if="activeTab === 'activities'">
       <!-- Placeholder for activities -->
-      <div class="bg-white rounded-[6px] border border-[#E4E6E7] p-12 text-center text-[#394552] text-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
+      <div class="bg-white rounded-[6px] border border-[#E4E6E7] p-4 text-center text-[#394552] text-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)]">
         Nội dung đang được phát triển...
       </div>
     </template>
@@ -52,7 +52,7 @@
     <!-- Placeholder cho các tab khác -->
     <div
       v-else
-      class="bg-white rounded-[6px] border border-[#E4E6E7] p-12 text-center text-[#394552] text-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
+      class="bg-white rounded-[6px] border border-[#E4E6E7] p-4 text-center text-[#394552] text-sm shadow-[0_2px_8px_rgba(0,0,0,0.08)]"
     >
       Nội dung đang được phát triển...
     </div>

@@ -3,7 +3,7 @@ import { equipmentRoute } from './equipment'
 import { contractTypeRoute } from './contract-type'
 import { contractVersionRoute } from './contract-version'
 import { signedContractRoute } from './signed-contract'
-import { infoRoute } from './info'
+import { studentInfoRoutes } from './info'
 import { transferRoute } from './transfer'
 
 export const studentRoutes: RouteRecordRaw[] = [
@@ -15,7 +15,7 @@ export const studentRoutes: RouteRecordRaw[] = [
       contractTypeRoute,
       contractVersionRoute,
       signedContractRoute,
-      infoRoute,
+      ...studentInfoRoutes,
       transferRoute
     ]
   }
