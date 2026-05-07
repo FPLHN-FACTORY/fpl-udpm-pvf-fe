@@ -14,9 +14,6 @@
           <h2 class="text-lg font-bold text-slate-800">
             Danh sách Lớp học văn hóa đã xóa
           </h2>
-          <p class="mt-1 text-sm text-slate-400">
-            Theo dõi các lớp đã xóa mềm và khôi phục khi cần.
-          </p>
         </div>
 
         <button
@@ -187,17 +184,7 @@
             Đã chọn {{ selectedIds.length }} lớp học.
           </p>
 
-          <div class="flex items-center gap-1 self-end">
-            <!-- First page -->
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === 1"
-              @click="changePage(1)"
-            >
-              «
-            </button>
-            <!-- Prev page -->
+          <div class="flex items-center gap-2 self-end">
             <button
               type="button"
               class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"

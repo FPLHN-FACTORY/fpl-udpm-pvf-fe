@@ -30,72 +30,71 @@
 
       <div class="space-y-5 px-4 py-4 md:px-5">
         <div
-          class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1.2fr)_220px_220px_auto_auto]"
+          class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between"
         >
-          <div class="relative">
-            <EvaluationIcon
-              name="BxSearch"
-              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-            />
+          <div class="flex flex-col gap-3 md:flex-row md:items-center">
             <input
-              v-model="filters.keyword"
+              v-model="draftFilters.keyword"
               type="text"
               placeholder="Tìm kiếm"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+              class="h-11 w-full rounded-md border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10 md:w-[180px]"
             />
-          </div>
 
-          <div class="relative">
-            <select
-              v-model="filters.stage"
-              class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-            >
-              <option value="all">Chọn giai đoạn</option>
-              <option v-for="stage in stageOptions" :key="stage" :value="stage">
-                {{ stage }}
-              </option>
-            </select>
-            <EvaluationIcon
-              name="BxChevronRight"
-              class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
-            />
-          </div>
-
-          <div class="relative">
-            <select
-              v-model="filters.status"
-              class="h-11 w-full appearance-none rounded-xl border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-            >
-              <option value="all">Chọn trạng thái</option>
-              <option
-                v-for="status in statusOptions"
-                :key="status"
-                :value="status"
+            <div class="relative w-full md:w-[176px]">
+              <select
+                v-model="draftFilters.stage"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
               >
-                {{ status }}
-              </option>
-            </select>
-            <EvaluationIcon
-              name="BxChevronRight"
-              class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
-            />
+                <option value="all">Chọn giai đoạn</option>
+                <option v-for="stage in stageOptions" :key="stage" :value="stage">
+                  {{ stage }}
+                </option>
+              </select>
+              <EvaluationIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
+
+            <div class="relative w-full md:w-[176px]">
+              <select
+                v-model="draftFilters.status"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-600 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              >
+                <option value="all">Chọn trạng thái</option>
+                <option
+                  v-for="status in statusOptions"
+                  :key="status"
+                  :value="status"
+                >
+                  {{ status }}
+                </option>
+              </select>
+              <EvaluationIcon
+                name="BxChevronRight"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 rotate-90 text-slate-400"
+              />
+            </div>
           </div>
 
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white opacity-70 transition"
-          >
-            <EvaluationIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm Kiếm
-          </button>
+          <div class="flex items-center gap-3 self-end xl:self-auto">
+            <button
+              type="button"
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#696cff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f63f2]"
+              @click="applyFilters"
+            >
+              <EvaluationIcon name="BxSearch" class-name="h-4 w-4" />
+              Tìm Kiếm
+            </button>
 
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-500 transition hover:border-slate-300 hover:bg-slate-50"
-            @click="resetFilters"
-          >
-            <EvaluationIcon name="BxRefresh" class-name="h-4 w-4" />
-          </button>
+            <button
+              type="button"
+              class="inline-flex h-11 w-11 items-center justify-center rounded-md bg-[#8592a3] text-white shadow-sm transition hover:bg-[#748094]"
+              @click="resetFilters"
+            >
+              <EvaluationIcon name="BxRefresh" class-name="h-4 w-4" />
+            </button>
+          </div>
         </div>
 
         <div class="overflow-x-auto">
@@ -279,7 +278,13 @@ const defaultPage = 1;
 
 const router = useRouter();
 
-const filters = reactive({
+const draftFilters = reactive({
+  keyword: "",
+  stage: "all",
+  status: "all",
+});
+
+const queryFilters = reactive({
   keyword: "",
   stage: "all",
   status: "all",
@@ -289,7 +294,7 @@ const currentPage = ref(defaultPage);
 const selectedIds = ref<number[]>([]);
 
 const filteredRows = computed(() => {
-  const keyword = filters.keyword.trim().toLowerCase();
+  const keyword = queryFilters.keyword.trim().toLowerCase();
 
   return deletedEvaluationRows.filter((row) => {
     const matchKeyword =
@@ -298,9 +303,10 @@ const filteredRows = computed(() => {
       row.studentCode.toLowerCase().includes(keyword) ||
       row.reviewer.toLowerCase().includes(keyword);
 
-    const matchStage = filters.stage === "all" || row.stage === filters.stage;
+    const matchStage =
+      queryFilters.stage === "all" || row.stage === queryFilters.stage;
     const matchStatus =
-      filters.status === "all" || row.status === filters.status;
+      queryFilters.status === "all" || row.status === queryFilters.status;
 
     return matchKeyword && matchStage && matchStatus;
   });
@@ -341,10 +347,21 @@ const visiblePages = computed(() => {
   return [page - 2, page - 1, page, page + 1, page + 2];
 });
 
+const applyFilters = () => {
+  queryFilters.keyword = draftFilters.keyword;
+  queryFilters.stage = draftFilters.stage;
+  queryFilters.status = draftFilters.status;
+  selectedIds.value = [];
+  currentPage.value = 1;
+};
+
 const resetFilters = () => {
-  filters.keyword = "";
-  filters.stage = "all";
-  filters.status = "all";
+  draftFilters.keyword = "";
+  draftFilters.stage = "all";
+  draftFilters.status = "all";
+  queryFilters.keyword = "";
+  queryFilters.stage = "all";
+  queryFilters.status = "all";
   selectedIds.value = [];
   currentPage.value = 1;
 };
@@ -441,12 +458,4 @@ watch(filteredRows, () => {
     currentPage.value = totalPages.value;
   }
 });
-
-watch(
-  () => [filters.keyword, filters.stage, filters.status],
-  () => {
-    selectedIds.value = [];
-    currentPage.value = 1;
-  },
-);
 </script>

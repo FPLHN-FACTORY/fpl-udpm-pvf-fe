@@ -12,19 +12,19 @@
       <article
         v-for="card in summaryCards"
         :key="card.label"
-        class="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        class="flex items-start justify-between gap-6 rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm"
       >
-        <div class="min-w-0 flex-1">
-          <p class="text-[13px] font-semibold leading-5 text-slate-500">
+        <div class="app-summary-stat-copy">
+          <p class="app-summary-stat-label">
             {{ card.label }}
           </p>
-          <div class="mt-3 inline-flex items-center gap-2 whitespace-nowrap">
-            <p class="text-3xl font-bold leading-none text-slate-800">
+          <div class="app-summary-stat-row">
+            <p class="app-summary-stat-value">
               {{ card.value }}
             </p>
             <span
               v-if="card.hint"
-              class="pb-0.5 text-xs font-semibold leading-none whitespace-nowrap"
+              class="app-summary-stat-hint"
               :class="card.hintClass"
             >
               {{ card.hint }}
@@ -33,10 +33,10 @@
         </div>
 
         <div
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
           :class="card.iconWrapperClass"
         >
-          <CulturalClassIcon :name="card.icon" class-name="h-6 w-6" />
+          <CulturalClassIcon :name="card.icon" class-name="h-5 w-5" />
         </div>
       </article>
     </section>
@@ -47,9 +47,6 @@
           <h2 class="text-lg font-bold text-slate-800">
             Danh sách Lớp học văn hóa
           </h2>
-          <p class="mt-1 text-sm text-slate-400">
-            Theo dõi trạng thái hoạt động, thông tin lớp và truy cập nhanh vào màn chi tiết từng lớp.
-          </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -73,90 +70,62 @@
       </div>
 
       <div class="space-y-5 px-5 py-5">
-        <div class="flex items-center justify-between gap-3">
-          <!-- Nhóm trái: input + dropdowns -->
-          <div class="flex items-center gap-2">
+        <div class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_220px_auto_auto]">
+          <div class="relative">
+            <CulturalClassIcon
+              name="BxSearch"
+              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+            />
             <input
               v-model="draftFilters.keyword"
               type="text"
               placeholder="Tìm kiếm"
-              class="h-9 w-[200px] rounded border border-[#d9d9d9] bg-white px-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 hover:border-[#6c63ff] focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.1)]"
+              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
             />
-
-            <!-- Chọn thời gian -->
-            <div class="relative">
-              <select
-                v-model="draftFilters.schoolYear"
-                class="h-9 appearance-none rounded border border-[#d9d9d9] bg-white pl-3 pr-9 text-sm text-slate-500 outline-none transition hover:border-[#6c63ff] focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.1)] cursor-pointer"
-              >
-                <option value="all">Chọn thời gian</option>
-                <option v-for="year in schoolYearOptions" :key="year" :value="year">
-                  {{ year }}
-                </option>
-              </select>
-              <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect x="3" y="4" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-                  <line x1="16" y1="2" x2="16" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="8" y1="2" x2="8" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <line x1="3" y1="10" x2="21" y2="10" stroke="currentColor" stroke-width="2"/>
-                </svg>
-              </span>
-            </div>
-
-            <!-- Chọn trạng thái -->
-            <div class="relative">
-              <select
-                v-model="draftFilters.status"
-                class="h-9 appearance-none rounded border border-[#d9d9d9] bg-white pl-3 pr-9 text-sm text-slate-500 outline-none transition hover:border-[#6c63ff] focus:border-[#6c63ff] focus:shadow-[0_0_0_2px_rgba(108,99,255,0.1)] cursor-pointer"
-              >
-                <option value="all">Chọn trạng thái</option>
-                <option
-                  v-for="status in statusOptions"
-                  :key="status.value"
-                  :value="status.value"
-                >
-                  {{ status.label }}
-                </option>
-              </select>
-              <span class="pointer-events-none absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400">
-                <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M7 10l5 5 5-5z"/>
-                </svg>
-              </span>
-            </div>
-          </div>
-
-          <!-- Nhóm phải: buttons -->
-          <div class="flex items-center gap-2">
-            <!-- Button tìm kiếm -->
-            <button
-              type="button"
-              class="inline-flex h-9 items-center gap-1.5 rounded bg-[#6c63ff] px-4 text-sm font-medium text-white shadow-sm transition hover:bg-[#5b53e6] active:bg-[#4a43d4] focus:outline-none focus:shadow-[0_0_0_2px_rgba(108,99,255,0.3)]"
-              @click="applyFilters"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                <path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-              </svg>
-              Tìm Kiếm
-            </button>
-
-            <!-- Button reset -->
-            <button
-              type="button"
-              class="inline-flex h-9 w-9 items-center justify-center rounded border border-[#d9d9d9] bg-white text-slate-500 transition hover:border-[#6c63ff] hover:text-[#6c63ff]"
-              title="Làm mới"
-              @click="resetFilters"
+          </div> <select
+            v-model="draftFilters.schoolYear"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
-            </svg>
+            <option value="all">Chọn thời gian</option>
+            <option v-for="year in schoolYearOptions" :key="year" :value="year">
+              {{ year }}
+            </option>
+          </select>
+
+          <select
+            v-model="draftFilters.status"
+            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+          >
+            <option value="all">Chọn trạng thái</option>
+            <option
+              v-for="status in statusOptions"
+              :key="status.value"
+              :value="status.value"
+            >
+              {{ status.label }}
+            </option>
+          </select>
+
+          <button
+            type="button"
+            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
+            @click="applyFilters"
+          >
+            <CulturalClassIcon name="BxSearch" class-name="h-4 w-4" />
+            Tìm kiếm
+          </button>
+
+          <button
+            type="button"
+            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
+            @click="resetFilters"
+          >
+            <CulturalClassIcon name="BxRefresh" class-name="h-4 w-4" />
           </button>
         </div>
-      </div>
 
-      <div class="overflow-x-auto">
-        <table class="min-w-full border-separate border-spacing-0">
+        <div class="overflow-x-auto">
+          <table class="min-w-full border-separate border-spacing-0">
             <thead>
               <tr class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
                 <th class="w-14 border-y border-slate-200 px-4 py-3">
@@ -208,7 +177,7 @@
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <span
-                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                    class="inline-flex whitespace-nowrap rounded-md px-3 py-1 text-xs font-semibold"
                     :class="statusClassMap[row.status]"
                   >
                     {{ row.statusLabel }}
@@ -220,7 +189,6 @@
                       type="button"
                       class="transition hover:text-[#6c63ff]"
                       title="Xem chi tiết"
-                      aria-label="Xem chi tiết"
                       @click="goToDetail(row.id)"
                     >
                       <CulturalClassIcon name="BxShow" class-name="h-4 w-4" />
@@ -229,7 +197,6 @@
                       type="button"
                       class="transition hover:text-amber-500"
                       title="Chỉnh sửa"
-                      aria-label="Chỉnh sửa"
                       @click="goToEdit(row.id)"
                     >
                       <CulturalClassIcon name="BxEditAlt" class-name="h-4 w-4" />
@@ -238,7 +205,6 @@
                       type="button"
                       class="transition hover:text-red-500"
                       title="Xóa"
-                      aria-label="Xóa"
                       @click="deleteRow(row.id)"
                     >
                       <CulturalClassIcon name="BxTrash" class-name="h-4 w-4" />
@@ -261,24 +227,14 @@
             Đã chọn {{ selectedIds.length }} lớp học.
           </p>
 
-          <div class="flex items-center gap-1 self-end">
-            <!-- First page -->
+          <div class="flex items-center gap-2 self-end">
             <button
               type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === 1"
-              @click="changePage(1)"
-            >
-              «
-            </button>
-            <!-- Prev page -->
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               :disabled="pagination.currentPage === 1"
               @click="changePage(pagination.currentPage - 1)"
             >
-              ‹
+              <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
             </button>
 
             <button
@@ -296,23 +252,13 @@
               {{ page }}
             </button>
 
-            <!-- Next page -->
             <button
               type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
+              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
               :disabled="pagination.currentPage === pagination.totalPages"
               @click="changePage(pagination.currentPage + 1)"
             >
-              ›
-            </button>
-            <!-- Last page -->
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === pagination.totalPages"
-              @click="changePage(pagination.totalPages)"
-            >
-              »
+              <CulturalClassIcon name="BxChevronRight" class-name="h-4 w-4" />
             </button>
           </div>
         </div>
@@ -322,8 +268,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
+// ĐÃ FIX: Xóa import dư thừa BasePagination
 import CulturalClassIcon from "./CulturalClassIcon.vue";
 import {
   culturalClassSchoolYearOptions,
@@ -362,8 +309,6 @@ const pagination = reactive<PaginationMeta>({
   itemsPerPage: 5,
 });
 
-let filterSyncTimer: ReturnType<typeof setTimeout> | undefined;
-
 const summary = reactive<CulturalClassSummary>({
   total: 0,
   active: 0,
@@ -373,10 +318,30 @@ const summary = reactive<CulturalClassSummary>({
 const statusOptions = culturalClassStatusOptions;
 const schoolYearOptions = culturalClassSchoolYearOptions;
 
+const activeStatusClass = "bg-[rgba(113,221,55,0.16)] text-[rgba(113,221,55,1)]";
+const pausedStatusClass = "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]";
+const summaryHintClass = "text-[rgba(113,221,55,1)]";
 const statusClassMap: Record<CulturalClassStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  PAUSED: "bg-amber-100 text-amber-600",
+  ACTIVE: activeStatusClass,
+  PAUSED: pausedStatusClass,
 };
+
+// ĐÃ FIX: Bổ sung computed visiblePages
+const visiblePages = computed(() => {
+  const pages: number[] = [];
+  const maxVisible = 5;
+  let start = Math.max(1, pagination.currentPage - 2);
+  let end = Math.min(pagination.totalPages, start + maxVisible - 1);
+  
+  if (end - start < maxVisible - 1) {
+    start = Math.max(1, end - maxVisible + 1);
+  }
+
+  for (let i = start; i <= end; i++) {
+    pages.push(i);
+  }
+  return pages;
+});
 
 const summaryCards = computed(() => [
   {
@@ -384,24 +349,24 @@ const summaryCards = computed(() => [
     value: summary.total,
     hint: "",
     hintClass: "",
-    icon: "BxPanelStats",
-    iconWrapperClass: "bg-indigo-50 text-indigo-500",
+    icon: "BxPanelSplit",
+    iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
   },
   {
     label: "Tổng số đang sử dụng",
     value: summary.active,
     hint: summary.total ? `(${Math.round((summary.active / summary.total) * 100)}%)` : "",
-    hintClass: "text-emerald-500",
-    icon: "BxCalendarCheck",
-    iconWrapperClass: "bg-rose-50 text-rose-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersPlus",
+    iconWrapperClass: "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]",
   },
   {
     label: "Tổng số tạm ngưng",
     value: summary.paused,
     hint: summary.total ? `(${Math.round((summary.paused / summary.total) * 100)}%)` : "",
-    hintClass: "text-lime-500",
-    icon: "BxLayersStacked",
-    iconWrapperClass: "bg-amber-50 text-amber-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersMinus",
+    iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
   },
 ]);
 
@@ -410,25 +375,6 @@ const isAllVisibleSelected = computed(
     rows.value.length > 0 &&
     rows.value.every((row) => selectedIds.value.includes(row.id)),
 );
-
-const visiblePages = computed(() => {
-  const total = pagination.totalPages;
-  const page = pagination.currentPage;
-
-  if (total <= 5) {
-    return Array.from({ length: total }, (_, index) => index + 1);
-  }
-
-  if (page <= 3) {
-    return [1, 2, 3, 4, 5];
-  }
-
-  if (page >= total - 2) {
-    return [total - 4, total - 3, total - 2, total - 1, total];
-  }
-
-  return [page - 2, page - 1, page, page + 1, page + 2];
-});
 
 const loadRows = async () => {
   const response = await culturalClassService.list({
@@ -440,13 +386,8 @@ const loadRows = async () => {
   });
 
   rows.value = response.data;
-  pagination.currentPage = response.meta.currentPage;
-  pagination.totalPages = response.meta.totalPages;
-  pagination.totalItems = response.meta.totalItems;
-  pagination.itemsPerPage = response.meta.itemsPerPage;
-  summary.total = response.summary.total;
-  summary.active = response.summary.active;
-  summary.paused = response.summary.paused;
+  Object.assign(pagination, response.meta);
+  Object.assign(summary, response.summary);
   selectedIds.value = [];
 };
 
@@ -459,35 +400,31 @@ const syncFiltersAndReload = async () => {
 };
 
 const applyFilters = async () => {
-  if (filterSyncTimer) {
-    clearTimeout(filterSyncTimer);
-  }
-
   await syncFiltersAndReload();
 };
 
-const resetFilters = () => {
+const resetFilters = async () => {
   draftFilters.keyword = "";
   draftFilters.schoolYear = "all";
   draftFilters.status = "all";
+  await syncFiltersAndReload();
 };
 
 const changePage = async (page: number) => {
   if (page < 1 || page > pagination.totalPages) {
     return;
   }
-
   pagination.currentPage = page;
   await loadRows();
 };
 
 const toggleRowSelection = (id: number) => {
-  if (selectedIds.value.includes(id)) {
-    selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id);
-    return;
+  const index = selectedIds.value.indexOf(id);
+  if (index > -1) {
+    selectedIds.value.splice(index, 1);
+  } else {
+    selectedIds.value.push(id);
   }
-
-  selectedIds.value = [...selectedIds.value, id];
 };
 
 const toggleSelectVisible = () => {
@@ -497,27 +434,15 @@ const toggleSelectVisible = () => {
     );
     return;
   }
-
   const nextSelected = new Set(selectedIds.value);
   rows.value.forEach((row) => nextSelected.add(row.id));
   selectedIds.value = Array.from(nextSelected);
 };
 
-const goToDeleted = () => {
-  router.push({ name: "cultural-class-deleted" });
-};
-
-const goToCreate = () => {
-  router.push({ name: "cultural-class-create" });
-};
-
-const goToDetail = (id: number) => {
-  router.push({ name: "cultural-class-detail", params: { id } });
-};
-
-const goToEdit = (id: number) => {
-  router.push({ name: "cultural-class-edit", params: { id } });
-};
+const goToDeleted = () => router.push({ name: "cultural-class-deleted" });
+const goToCreate = () => router.push({ name: "cultural-class-create" });
+const goToDetail = (id: number) => router.push({ name: "cultural-class-detail", params: { id } });
+const goToEdit = (id: number) => router.push({ name: "cultural-class-edit", params: { id } });
 
 const deleteRow = async (id: number) => {
   await culturalClassService.softDelete(id);
@@ -530,17 +455,4 @@ const deleteRow = async (id: number) => {
 onMounted(async () => {
   await loadRows();
 });
-
-watch(
-  () => [draftFilters.keyword, draftFilters.schoolYear, draftFilters.status],
-  () => {
-    if (filterSyncTimer) {
-      clearTimeout(filterSyncTimer);
-    }
-
-    filterSyncTimer = setTimeout(() => {
-      void syncFiltersAndReload();
-    }, 250);
-  },
-);
 </script>
