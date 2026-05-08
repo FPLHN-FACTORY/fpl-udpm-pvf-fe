@@ -1,4 +1,5 @@
 <template>
+  <div>
     <!-- Breadcrumb -->
     <nav class="breadcrumb">
       <span>Quản lý học viên</span>
@@ -180,6 +181,7 @@
         </div>
       </div>
     </div>
+  </div>
 </template>
 
 <script lang="ts">
