@@ -1,5 +1,11 @@
 <template>
   <div class="space-y-6">
+    <!-- Breadcrumb -->
+    <a-breadcrumb class="text-sm">
+      <a-breadcrumb-item>Quản lý học tập ngoại khóa</a-breadcrumb-item>
+      <a-breadcrumb-item>Quản lý loại điểm</a-breadcrumb-item>
+    </a-breadcrumb>
+
     <!-- Statistic Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
       <a-card v-for="(stat, index) in stats" :key="index" :bordered="false" class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow">
@@ -22,9 +28,9 @@
 
     <!-- Main Table Card -->
     <a-card :bordered="false" class="shadow-sm rounded-xl">
-      <!-- Card Header -->
+      <!-- Card Header: Title and Add Button -->
       <div class="flex items-center justify-between pb-4">
-        <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách loại điểm</h2>
+        <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách Loại điểm</h2>
         <div class="flex items-center gap-3">
           <ButtonDeleteList @click="handleDeletedList" />
           <ButtonAdd @click="handleAdd" />
@@ -35,13 +41,12 @@
       <div class="flex flex-wrap items-center justify-between gap-4 p-6 bg-[#fcfcfd] border-b border-gray-100">
         <div class="flex flex-wrap items-center gap-4 flex-1">
           <div class="w-[240px]">
-            <InputSearch v-model="searchText" placeholder="Tìm kiếm" />
+            <InputSearch v-model="filters.keyword" placeholder="Tìm kiếm" />
           </div>
           <div class="w-[220px]">
-            <SelectFilter v-model:value="statusFilter" placeholder="Chọn trạng thái">
-              <a-select-option value="">Tất cả</a-select-option>
-              <a-select-option value="active">Đang áp dụng</a-select-option>
-              <a-select-option value="inactive">Ngừng áp dụng</a-select-option>
+            <SelectFilter v-model:value="filters.status" placeholder="Chọn trạng thái">
+              <a-select-option value="active">Đang hoạt động</a-select-option>
+              <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
             </SelectFilter>
           </div>
         </div>
@@ -55,14 +60,13 @@
       <!-- Data Table -->
       <a-table 
         :columns="columns" 
-        :data-source="filteredData" 
+        :data-source="dataSource" 
         :pagination="false"
-        :row-selection="rowSelection"
-        row-key="id"
+        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
         class="custom-table"
       >
         <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === 'stt'">
+          <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
           
@@ -71,27 +75,27 @@
           </template>
 
           <template v-if="column.key === 'status'">
-            <BaseTag :type="record.status === 'active' ? 'success' : 'default'">
-              {{ record.status === 'active' ? 'Đang áp dụng' : 'Ngừng áp dụng' }}
+            <BaseTag :type="record.status === 'Đang hoạt động' ? 'success' : 'warning'">
+              {{ record.status }}
             </BaseTag>
           </template>
 
-          <template v-if="column.key === 'action'">
+          <template v-if="column.key === 'actions'">
             <div class="flex items-center space-x-3">
               <button 
-                @click="handleView(record)"
+                @click="handleView(record.key)"
                 class="text-gray-400 hover:text-blue-500 transition-colors"
               >
                 <NavIcon name="BxShow" size="18" />
               </button>
               <button 
-                @click="handleEdit(record)"
+                @click="handleEdit(record.key)"
                 class="text-gray-400 hover:text-green-500 transition-colors"
               >
                 <NavIcon name="BxEdit" size="18" />
               </button>
               <button 
-                @click="handleDelete(record)"
+                @click="handleDelete(record.key)"
                 class="text-gray-400 hover:text-red-500 transition-colors"
               >
                 <NavIcon name="BxTrash" size="18" />
@@ -104,10 +108,10 @@
       <!-- Custom Pagination -->
       <div class="flex justify-end mt-4">
         <BasePagination 
-          :total="filteredData.length" 
-          :current="1" 
-          :page-size="10" 
-          @change="() => {}" 
+          :total="pagination.total" 
+          :current="pagination.current" 
+          :page-size="pagination.pageSize" 
+          @change="(p) => pagination.current = p" 
         />
       </div>
     </a-card>
@@ -115,10 +119,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { message } from 'ant-design-vue'
-import type { TableProps } from 'ant-design-vue'
-import type { ScoreTypeRecord } from '../pages/ScoreTypesPage.vue'
+import { ref, reactive } from 'vue'
+import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import BaseTag from '@/components/atoms/display/BaseTag.vue'
 import BasePagination from '@/components/atoms/display/BasePagination.vue'
@@ -129,113 +131,130 @@ import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
 import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
+const router = useRouter()
+
 // Stats Data
 const stats = [
   { 
     title: 'Tổng số loại điểm', 
-    value: '5', 
+    value: '12', 
     icon: 'BxBookAlt', 
     iconBg: 'bg-blue-500' 
   },
   { 
-    title: 'Đang áp dụng', 
-    value: '5', 
-    percentage: '100%', 
+    title: 'Đang hoạt động', 
+    value: '10', 
+    percentage: '83%', 
     trendClass: 'text-green-500', 
     icon: 'BxCheck', 
     iconBg: 'bg-green-400' 
   },
   { 
-    title: 'Ngừng áp dụng', 
-    value: '0', 
-    percentage: '0%', 
-    trendClass: 'text-gray-500', 
+    title: 'Ngừng hoạt động', 
+    value: '2', 
+    percentage: '17%', 
+    trendClass: 'text-red-500', 
     icon: 'BxsCategoryAlt', 
-    iconBg: 'bg-gray-400' 
+    iconBg: 'bg-red-400' 
   },
   { 
     title: 'Tổng trọng số', 
-    value: '100%', 
+    value: '100', 
     icon: 'BxBarChartAlt2', 
     iconBg: 'bg-purple-400' 
   }
 ]
 
-// Emits
-const emit = defineEmits<{
-  add: []
-  view: [record: ScoreTypeRecord]
-  edit: [record: ScoreTypeRecord]
-  deleted: []
-}>()
+// Filter State
+const filters = reactive({
+  keyword: '',
+  status: undefined
+})
 
-// State
-const searchText = ref<string>('')
-const statusFilter = ref<string>('')
+// Table Selection
+const selectedRowKeys = ref<string[]>([])
+const onSelectChange = (keys: string[]) => {
+  selectedRowKeys.value = keys
+}
 
-const dataSource = ref<ScoreTypeRecord[]>(
-  Array.from({ length: 5 }, (_, index) => ({
-    id: index + 1,
-    name: `Điểm thành phần ${index + 1}`,
-    weight: Math.floor(Math.random() * 30) + 10,
-    status: 'active',
-  }))
-)
-
-// Computed
-const filteredData = computed(() =>
-  dataSource.value.filter((item) => {
-    const matchName = item.name.toLowerCase().includes(searchText.value.toLowerCase())
-    const matchStatus = !statusFilter.value || item.status === statusFilter.value
-    return matchName && matchStatus
-  })
-)
-
-// Table config
+// Table Columns
 const columns = [
-  { title: 'STT', key: 'stt', width: 70, align: 'center' },
+  { title: '#', key: 'index', width: 60 },
   { title: 'TÊN LOẠI ĐIỂM', dataIndex: 'name', key: 'name' },
-  { title: 'TRỌNG SỐ (%)', dataIndex: 'weight', key: 'weight', width: 150 },
-  { title: 'TRẠNG THÁI', key: 'status', width: 160, align: 'center' },
-  { title: 'HÀNH ĐỘNG', key: 'action', width: 140, align: 'center' },
+  { title: 'TRỌNG SỐ', dataIndex: 'weight', key: 'weight', width: 120 },
+  { title: 'TRẠNG THÁI', dataIndex: 'status', key: 'status', width: 150 },
+  { title: 'HÀNH ĐỘNG', key: 'actions', align: 'center', width: 120 }
 ]
 
-const rowSelection: TableProps['rowSelection'] = {
-  type: 'checkbox',
-  onChange: (selectedRowKeys: (string | number)[]) => {
-    console.log('selectedRowKeys:', selectedRowKeys)
+// Mock Data
+const dataSource = ref([
+  {
+    key: '1',
+    name: 'Điểm kỹ thuật',
+    weight: 30,
+    status: 'Đang hoạt động'
   },
+  {
+    key: '2',
+    name: 'Điểm thể lực',
+    weight: 25,
+    status: 'Đang hoạt động'
+  },
+  {
+    key: '3',
+    name: 'Điểm chiến thuật',
+    weight: 20,
+    status: 'Đang hoạt động'
+  },
+  {
+    key: '4',
+    name: 'Điểm tinh thần',
+    weight: 15,
+    status: 'Đang hoạt động'
+  },
+  {
+    key: '5',
+    name: 'Điểm kỷ luật',
+    weight: 10,
+    status: 'Ngừng hoạt động'
+  }
+])
+
+// Pagination config
+const pagination = reactive({
+  current: 1,
+  pageSize: 10,
+  total: 5
+})
+
+// Methods
+const handleView = (id: string) => {
+  console.log('View:', id)
 }
 
-// Handlers
-function handleSearch() {
-  message.success('Đã tìm kiếm')
+const handleEdit = (id: string) => {
+  console.log('Edit:', id)
 }
 
-function handleReset() {
-  searchText.value = ''
-  statusFilter.value = ''
+const handleDelete = (id: string) => {
+  console.log('Delete:', id)
 }
 
-function handleAdd() {
-  emit('add')
+const handleAdd = () => {
+  console.log('Add new')
 }
 
-function handleView(record: ScoreTypeRecord) {
-  emit('view', record)
+const handleDeletedList = () => {
+  console.log('View deleted list')
 }
 
-function handleEdit(record: ScoreTypeRecord) {
-  emit('edit', record)
+const handleSearch = () => {
+  console.log('Search:', filters)
 }
 
-function handleDeletedList() {
-  emit('deleted')
-}
-
-function handleDelete(record: ScoreTypeRecord) {
-  dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
-  message.success(`Đã xóa: ${record.name}`)
+const handleReset = () => {
+  filters.keyword = ''
+  filters.status = undefined
 }
 </script>
 

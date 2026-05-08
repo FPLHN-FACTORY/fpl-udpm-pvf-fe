@@ -45,14 +45,6 @@ export interface ScoreTypeRecord {
 }
 
 // ───── Constants ─────
-const VIEW_LABELS: Record<ViewType, string> = {
-  list: 'Danh sách',
-  create: 'Thêm mới',
-  detail: 'Chi tiết',
-  edit: 'Chỉnh sửa',
-  deleted: 'Đã xóa',
-}
-
 // Dùng để xác định hướng transition: index cao hơn = đi sâu hơn
 const VIEW_DEPTH: Record<ViewType, number> = {
   list: 0,
@@ -91,7 +83,7 @@ const currentProps = computed<Record<string, unknown>>(() => {
 })
 
 // ───── Event listeners theo từng view ─────
-const currentListeners = computed<Record<string, (...args: unknown[]) => void>>(() => {
+const currentListeners = computed(() => {
   switch (currentView.value) {
     case 'list':
       return {
