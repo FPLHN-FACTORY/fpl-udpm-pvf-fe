@@ -29,12 +29,3 @@ const color = computed(() => {
   opacity: 0.85;
 }
 </style>
-
-<script lang="ts">
-// Using a separate script block to calculate dynamic style values if needed
-import { computed as computedStyle } from 'vue'
-const textColor = computedStyle(() => {
-  // We'll just use the standard dark colors for these light backgrounds
-  return '#566a7f' // Standard text color in our theme
-})
-</script>

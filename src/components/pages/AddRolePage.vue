@@ -80,7 +80,7 @@ const formData = ref({
 const handleSubmit = () => {
   console.log('Submit:', formData.value)
   // Logic to add role here
-  router.push('/system/roles')
+  router.push({ name: 'dashboard' })
 }
 
 const resetForm = () => {

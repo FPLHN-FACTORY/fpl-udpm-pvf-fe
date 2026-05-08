@@ -8,15 +8,17 @@
     class="flex items-center justify-center gap-2 font-medium"
     @click="$emit('click')"
   >
-    <template #icon v-if="icon">
-      <NavIcon :name="icon" :class-name="iconClassName" :size="iconClassName ? undefined : 20" />
+    <template #icon v-if="icon || slots.icon">
+      <slot name="icon">
+        <NavIcon v-if="icon" :name="icon" :class-name="iconClassName" :size="iconClassName ? undefined : 20" />
+      </slot>
     </template>
     <slot />
   </a-button>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useSlots } from 'vue'
 import NavIcon from './NavIcon.vue'
 
 interface Props {
@@ -38,6 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 defineEmits(['click'])
+const slots = useSlots()
 
 // Map our custom variants to Ant Design types
 const antType = computed(() => {

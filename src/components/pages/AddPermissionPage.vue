@@ -90,7 +90,7 @@ const formData = ref({
 
 const handleSubmit = () => {
   console.log('Submit:', formData.value)
-  router.push('/system/security/permissions')
+  router.push({ name: 'dashboard' })
 }
 
 const resetForm = () => {

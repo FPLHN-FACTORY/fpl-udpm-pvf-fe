@@ -93,7 +93,7 @@ const formData = ref({
 })
 
 onMounted(() => {
-  const id = route.params.id
+  void route.params.id
   // Mock pre-fill
   formData.value = {
     code: 'USER_VIEW',
