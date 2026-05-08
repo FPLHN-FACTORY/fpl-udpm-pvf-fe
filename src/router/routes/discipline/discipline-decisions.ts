@@ -3,7 +3,7 @@ import type { RouteRecordRaw } from 'vue-router'
 export const disciplineDecisionRoute: RouteRecordRaw = {
   path: 'discipline-decisions',
   name: 'discipline-decisions',
-  component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
+  component: () => import('../../../components/pages/discipline/DisciplineList.vue'),
   meta: { title: 'Quyết định kỷ luật', icon: 'BxsPen' }
 }
 
