@@ -3,7 +3,7 @@ import { schoolYearRoutes } from './year'
 import { gradeHiddenRoute, gradeRoute } from './grade'
 import { subjectRoute } from './subject'
 import { classHiddenRoute, classRoute } from './class'
-import { absenceRoute } from './absence'
+import { absenceHiddenRoute, absenceRoute } from './absence'
 
 export const culturalRoutes: RouteRecordRaw[] = [
   {
@@ -22,6 +22,6 @@ export const culturalRoutes: RouteRecordRaw[] = [
 export const culturalHiddenRoutes: RouteRecordRaw[] = [
   {
     path: '/cultural',
-    children: [gradeHiddenRoute, classHiddenRoute]
+    children: [gradeHiddenRoute, classHiddenRoute, absenceHiddenRoute]
   }
 ]

@@ -71,12 +71,31 @@
     <path v-if="name === 'BxLogInWrapper'" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm4-9h-4V7l-5 5 5 5v-4h4v-2z" />
 
     <!-- BxSearch -->
-    <path v-if="name === 'BxSearch'" d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" />
+    <g
+      v-if="name === 'BxSearch'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="10" cy="10" r="7.2" />
+      <path d="m15.55 15.55 4.95 4.95" />
+    </g>
 
     <!-- BxReset -->
-    <!-- BxReset (Custom for user requirement) -->
-    <path v-if="name === 'BxReset'" d="M12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm0-6a2 2 0 1 0 2 2 2 2 0 0 0-2-2z" />
-    <path v-if="name === 'BxReset'" d="M12 20a8.13 8.13 0 0 1-8-8 8 8 0 0 1 8-8c2.047 0 3.928.769 5.354 2.043l-2.047 2.03V10H20V5h-4.915l1.938 1.921C15.396 5.513 13.774 5 12 5c-3.859 0-7 3.141-7 7s3.141 7 7 7c1.778 0 3.4-.663 4.646-1.757l1.315 1.513C16.34 20.129 14.28 21 12 21z" />
+    <g
+      v-if="name === 'BxReset'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.35"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M8.05 5.7A7.45 7.45 0 1 1 4.55 12.95" />
+      <path d="M8.05 3.15 3.85 5.7l4.2 2.7" />
+      <circle cx="12.15" cy="13.1" r="1.45" fill="currentColor" stroke="none" />
+    </g>
 
     <!-- BxCopy -->
     <path v-if="name === 'BxCopy'" d="M20 2H10c-1.103 0-2 .897-2 2v4H4c-1.103 0-2 .897-2 2v10c0 1.103.897 2 2 2h10c1.103 0 2-.897 2-2v-4h4c1.103 0 2-.897 2-2V4c0-1.103-.897-2-2-2zM14 20H4v-10h10v10zm6-6h-4v-4c0-1.103-.897-2-2-2h-4V4h10v10z" />
@@ -119,6 +138,60 @@
 
     <!-- BxCalendar -->
     <path v-if="name === 'BxCalendar'" d="M7 11h2v2H7zm0 4h2v2H7zm4-4h2v2h-2zm0 4h2v2h-2zm4-4h2v2h-2zm0 4h2v2h-2z" /><path v-if="name === 'BxCalendar'" d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v4H9V2H7v4H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8v12H5V8h14z" />
+
+    <!-- BxStatsTile -->
+    <path v-if="name === 'BxStatsTile'" d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v12h16V6H4z" />
+    <path v-if="name === 'BxStatsTile'" d="M9 6h2v12H9zM13 8h5v2h-5zM13 12h5v2h-5z" />
+
+    <!-- BxCalendarCheck -->
+    <path v-if="name === 'BxCalendarCheck'" d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V2zm12 7H5v10h14V9zM5 7h14V6H5v1z" />
+    <path v-if="name === 'BxCalendarCheck'" d="m10.2 16.4-2.1-2.1 1.4-1.4 1 1 3.4-3.4 1.4 1.4z" />
+
+    <!-- BxLayerStack -->
+    <g
+      v-if="name === 'BxLayerStack'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 6.25 5.5 2.75L12 11.75 6.5 9 12 6.25Z" />
+      <path d="m6.5 11.9 5.5 2.75 5.5-2.75" />
+      <path d="m6.5 15.1 5.5 2.75 5.5-2.75" />
+      <path d="m16.45 5.05 2.35 1.15-2.35 1.2-2.35-1.2 2.35-1.15Z" />
+    </g>
+
+    <!-- BxLayersMinus -->
+    <g
+      v-if="name === 'BxLayersMinus'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 5.3 6.35 3.15L12 11.6 5.65 8.45 12 5.3Z" />
+      <path d="m5.65 11.2 6.35 3.15 6.35-3.15" />
+      <path d="m5.65 14.55 6.35 3.15 6.35-3.15" />
+      <path d="M17.95 5.15h3.1" />
+    </g>
+
+    <!-- BxLayersPlus -->
+    <g
+      v-if="name === 'BxLayersPlus'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 5.3 6.35 3.15L12 11.6 5.65 8.45 12 5.3Z" />
+      <path d="m5.65 11.2 6.35 3.15 6.35-3.15" />
+      <path d="m5.65 14.55 6.35 3.15 6.35-3.15" />
+      <path d="M19.5 3.6v3.1" />
+      <path d="M17.95 5.15h3.1" />
+    </g>
 
   </svg>
 </template>
