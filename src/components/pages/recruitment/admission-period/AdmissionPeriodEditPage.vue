@@ -79,11 +79,17 @@
             <span v-if="errors.status" class="text-red-500 text-sm mt-1 block">{{ errors.status }}</span>
           </div>
 
-          <div class="flex justify-center gap-4 mt-8">
-            <a-button class="!bg-[#ff1f1f] hover:!bg-[#e31b1b] !border-none !text-white !h-[48px] !px-12 !text-[15px] font-medium rounded-md" @click="handleSubmit">
+          <div class="flex items-center justify-center gap-3 mt-8">
+            <a-button
+              class="!bg-[#ff3e1d] hover:!bg-[#e33619] !border-none !text-white !h-[38px] !px-8 rounded-md font-medium"
+              @click="handleSubmit"
+            >
               Cập Nhật
             </a-button>
-            <a-button class="!bg-[#eab308] hover:!bg-[#ca8a04] !border-none !text-white !h-[48px] !px-12 !text-[15px] font-medium rounded-md" @click="resetForm">
+            <a-button
+              class="!bg-[#fdac41] hover:!bg-[#e39a3a] !border-none !text-white !h-[38px] !px-8 rounded-md font-medium"
+              @click="resetForm"
+            >
               Đặt Lại
             </a-button>
           </div>
