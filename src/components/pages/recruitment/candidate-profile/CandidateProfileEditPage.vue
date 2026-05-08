@@ -376,3 +376,4 @@ const handleBack = () => router.push({ name: "candidate-list" })
     padding-bottom: 6px;
 }
 </style>
+

@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import NavIcon from '../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 defineProps<{
   name: string
