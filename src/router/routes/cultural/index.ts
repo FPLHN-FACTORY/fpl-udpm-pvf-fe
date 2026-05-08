@@ -25,9 +25,3 @@ export const culturalHiddenRoutes: RouteRecordRaw[] = [
     children: [gradeHiddenRoute, classHiddenRoute]
   }
 ]
-    children: [
-      gradeHiddenRoute, 
-      classHiddenRoute,
-    ],
-  },
-]

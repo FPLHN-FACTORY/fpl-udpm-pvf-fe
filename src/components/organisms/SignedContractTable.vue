@@ -1,10 +1,11 @@
 <template>
-  <div class="flex flex-col h-full bg-white rounded-b-xl">
+  <div class="flex flex-col bg-white rounded-b-xl">
     <a-table 
       :columns="columns" 
       :data-source="data" 
       :pagination="false"
       :row-selection="{ type: 'checkbox' }"
+      :scroll="{ x: 'max-content' }"
       class="custom-table"
     >
       <template #bodyCell="{ column, record }">
@@ -13,11 +14,10 @@
         </template>
 
         <template v-if="column.key === 'actions'">
-          <div class="flex justify-center items-center gap-4 text-[#64748B]">
-            <i class="bx bx-show cursor-pointer text-xl hover:text-[#696CFF]" @click="router.push(`/student/signed-contract/detail/${record.key}`)"></i>
-            <i class="bx bx-edit cursor-pointer text-xl hover:text-[#696CFF]" @click="router.push(`/student/signed-contract/edit/${record.key}`)"></i>
-            <!-- Sửa: Truyền cả record vào để lấy đủ thông tin đẩy sang danh sách xóa -->
-            <i class="bx bx-trash cursor-pointer text-xl hover:text-[#696CFF]" @click="goToDelete(record)"></i>
+          <div class="flex justify-center items-center gap-4 text-[#A1ACB8]">
+            <i class="bx bx-show cursor-pointer text-xl hover:text-[#696CFF]" title="Chi tiết" @click="router.push(`/student/signed-contract/detail/${record.key}`)"></i>
+            <i class="bx bx-edit-alt cursor-pointer text-xl hover:text-[#696CFF]" title="Chỉnh sửa" @click="router.push(`/student/signed-contract/edit/${record.key}`)"></i>
+            <i class="bx bx-trash cursor-pointer text-xl hover:text-[#696CFF]" title="Xóa" @click="goToDelete(record)"></i>
           </div>
         </template>
       </template>

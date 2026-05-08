@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full bg-[#f8fafc] p-6">
+  <div class="flex flex-col min-h-full bg-[#f8fafc] p-6">
     <!-- 1. Breadcrumb -->
     <nav class="flex items-center gap-2 mb-4">
       <span class="text-[13px] text-[#A1ACB8] cursor-pointer hover:text-[#696cff]" @click="router.push('/student/signed-contract')">
@@ -83,13 +83,11 @@
           </div>
         </div>
 
-        <!-- 4. Table: Thay thế table HTML tĩnh bằng component đã sửa[cite: 18] -->
-        <div class="overflow-x-auto">
-          <signed-contract-table 
-            :data="dataSource" 
-            @delete-item="handleDeleteContract" 
-          />
-        </div>
+        <!-- 4. Table: Thay thế table HTML tĩnh bằng component đã sửa -->
+        <signed-contract-table 
+          :data="dataSource" 
+          @delete-item="handleDeleteContract" 
+        />
       </div>
     </template>
 
