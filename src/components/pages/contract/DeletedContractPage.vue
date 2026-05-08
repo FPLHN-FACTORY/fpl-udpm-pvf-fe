@@ -237,14 +237,9 @@ const changePage = (page: number) => {
 }
 
 .pagin-btn {
-  width: 32px; height: 32px; display: flex; align-items: center; justify-content: center;
-  border-radius: 4px; background-color: #f0f2f4; color: #475569; border: none; font-weight: 500;
+  width: 38px; height: 38px; display: flex; align-items: center; justify-content: center;
+  border-radius: 8px; background-color: #F2F2F2; color: #475569; font-weight: 500; border: none; cursor: pointer;
 }
-.pagin-btn.active { background-color: #fff; border: 1px solid #d9dee3; }
-.pagin-btn.active-red { background-color: #EE2D24; color: white; }
-.pagin-btn.active-pink { background-color: #ffcccb; color: #EE2D24; }
-/* Style phân trang đồng bộ từ Discipline[cite: 8] */
-.pagin-btn { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: 8px; background-color: #F2F2F2; color: #475569; font-weight: 500; border: none; cursor: pointer; }
 .pagin-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 .pagin-btn.active { background-color: #EE2D24; color: white; box-shadow: 0 4px 10px rgba(238, 45, 36, 0.25); }
 .pagin-btn.active i { color: white; }

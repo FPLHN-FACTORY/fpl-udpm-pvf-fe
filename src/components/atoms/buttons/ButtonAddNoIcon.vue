@@ -1,18 +1,24 @@
 <template>
   <a-button
     type="primary"
-    class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md !h-[38px] !px-4 flex items-center justify-center shadow-sm"
+    class="!inline-flex !h-[38px] !w-[126px] !items-center !justify-center !gap-2 !border-none !rounded-md !bg-[#ff3e1d] shadow-sm hover:!bg-[#e6381a]"
     @click="$emit('click')"
   >
-    <span class="font-bold text-[13px] text-white">{{ text }}</span>
+    <template #icon>
+      <NavIcon name="BxPlus" size="16" />
+    </template>
+    <span class="text-[13px] font-semibold leading-none text-white">{{ text }}</span>
   </a-button>
 </template>
 
 <script setup lang="ts">
+import NavIcon from '../icons/NavIcon.vue'
+
 withDefaults(defineProps<{
   text?: string
 }>(), {
   text: 'Thêm Mới'
 })
+
 defineEmits(['click'])
 </script>

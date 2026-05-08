@@ -1,5 +1,5 @@
 import type { RouteRecordRaw } from 'vue-router'
-import { levelsRoute } from './levels'
+import { levelsRoute, levelsHiddenRoute } from './levels'
 import { disciplineDecisionRoute, disciplineSubRoutes } from './discipline-decisions' 
 import { templatesHiddenRoute, templatesRoute } from './templates'
 import { rewardDecisionRoute } from './reward-decisions'
@@ -25,6 +25,9 @@ export const disciplineRoutes: RouteRecordRaw[] = [
 export const disciplineHiddenRoutes: RouteRecordRaw[] = [
   {
     path: '/discipline',
-    children: [templatesHiddenRoute]
+    children: [
+      templatesHiddenRoute,
+      levelsHiddenRoute
+    ]
   }
 ]

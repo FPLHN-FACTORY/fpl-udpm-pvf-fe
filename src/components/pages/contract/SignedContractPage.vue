@@ -129,9 +129,8 @@ const handleDeleteContract = (record: any) => {
   console.log('Đã đẩy vào danh sách đã xóa:', record.id);
 }
 
-// ... các computed giữ nguyên ...
-const totalContracts = computed(() => dataSource.value.length) // Cập nhật để nhảy số khi xóa
-const activeContracts = computed(() => dataSource.value.length) // Giả định demo
+const totalContracts = computed(() => dataSource.value.length)
+const activeContracts = computed(() => dataSource.value.length)
 const activePercentage = computed(() => 100) 
 const expiredContracts = computed(() => 0)
 
@@ -140,7 +139,6 @@ const handleCreate = () => router.push('/student/signed-contract/create')
 </script>
 
 <style scoped>
-/* Giữ các style button và filter từ file cũ[cite: 18] */
 .btn-search-primary {
   height: 38px; padding: 0 20px; background-color: #696CFF; color: white;
   border-radius: 6px; font-weight: 500; font-size: 13px; display: flex; align-items: center; border: none;

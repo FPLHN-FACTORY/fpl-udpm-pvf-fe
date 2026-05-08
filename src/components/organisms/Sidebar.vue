@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import BaseLogo from '../atoms/icons/BaseLogo.vue'
-import NavIcon from '../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import SidebarItem from '../molecules/SidebarItem.vue'
 import SidebarSearch from '../molecules/SidebarSearch.vue'
 import { recruitmentRoutes } from '../../router/routes/recruitment/index'
@@ -64,10 +64,10 @@ import { culturalRoutes } from '../../router/routes/cultural/index'
 import { extracurricularRoutes } from '../../router/routes/extracurricular/index'
 import { trainingRoutes } from '../../router/routes/training/index'
 import { expensesRoutes } from '../../router/routes/expenses/index'
-import { activitiesRoutes } from '../../router/routes/activities/index'
 import { gearRoutes } from '../../router/routes/gear/index'
 import { disciplineRoutes } from '../../router/routes/discipline/index'
 import { evaluationRoutes } from '../../router/routes/evaluation/index'
+import { equipmentRoutes } from '../../router/routes/equipment/index'
 import { systemRoutes } from '../../router/routes/system/index'
 
 const collapsed = ref(false)
@@ -79,10 +79,10 @@ const menuModules = computed(() => [
   extracurricularRoutes,
   trainingRoutes,
   expensesRoutes,
-  activitiesRoutes,
   gearRoutes,
   disciplineRoutes,
   evaluationRoutes,
+  equipmentRoutes,
   systemRoutes
 ])
 </script>
