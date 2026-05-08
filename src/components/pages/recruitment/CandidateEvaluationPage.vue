@@ -1,4 +1,5 @@
 <template>
+  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
   <div class="flex flex-col gap-6">
     <!-- Breadcrumbs -->
     <div class="flex items-center gap-2 text-sm">
@@ -11,6 +12,15 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div class="flex justify-between items-center mb-6">
         <h1 class="text-lg font-bold text-[#566a7f] bg-[#fcf3d7] px-2 py-1 rounded inline-block">Đánh giá thí sinh</h1>
+        <BaseButton 
+          variant="default" 
+          size="small" 
+          icon="ChevronLeftIcon"
+          class="!bg-[#eceef1] hover:!bg-[#daddf1] !border-none !text-[#8592a3] !text-[13px] !px-4 flex items-center gap-1"
+          @click="$router.back()"
+        >
+          <span class="text-lg">←</span> Quay Lại
+        </BaseButton>
         <ButtonBack @click="$router.back()" />
       </div>
 
@@ -103,6 +113,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import BaseButton from '../../atoms/BaseButton.vue'
 import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
 
 const candidateInfo = ref([
