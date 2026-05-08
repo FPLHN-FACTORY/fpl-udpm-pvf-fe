@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
+  <div class="flex flex-col gap-6">
     <!-- Breadcrumbs -->
     <div class="flex items-center gap-2 text-sm">
       <span class="text-gray-400">Quản lý tuyển sinh</span>
@@ -20,6 +21,7 @@
         >
           <span class="text-lg">←</span> Quay Lại
         </BaseButton>
+        <ButtonBack @click="$router.back()" />
       </div>
 
       <!-- Candidate Info Table -->
@@ -112,6 +114,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import BaseButton from '../../atoms/BaseButton.vue'
+import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
 
 const candidateInfo = ref([
   { label: 'ID hồ sơ', value: 'HS001' },

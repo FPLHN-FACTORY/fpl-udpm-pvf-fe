@@ -6,7 +6,7 @@
       </template>
 
       <div class="flex max-w-full flex-col gap-6">
-        <InputForm v-model="formData.name" label="Năm học" placeholder="2024-2025" />
+        <InputForm v-model="formData.name!" label="Năm học" placeholder="2024-2025" />
         
         <SelectForm v-model:value="formData.status" label="Trạng thái">
           <a-select-option value="active">Đang hoạt động</a-select-option>
@@ -34,6 +34,7 @@ import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
 import AdminCard from '@/components/molecules/AdminCard.vue'
 import AdminPage from '@/components/templates/AdminPage.vue'
 import { schoolYearService } from '@/services/cultural/school-year'
+import type { UpdateSchoolYearRequest } from '@/types/school-year'
 
 const router = useRouter()
 const route = useRoute()
@@ -44,7 +45,7 @@ const breadcrumbs = [
   { title: 'Điều chỉnh Năm học', path: '#' }
 ]
 
-const formData = ref({
+const formData = ref<UpdateSchoolYearRequest>({
   id: '',
   name: '',
   status: 'active',
@@ -52,7 +53,7 @@ const formData = ref({
   endDate: ''
 })
 
-const originalData = ref<any>(null)
+const originalData = ref<UpdateSchoolYearRequest | null>(null)
 
 onMounted(async () => {
   const id = route.params.id as string

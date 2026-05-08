@@ -12,19 +12,19 @@
       <article
         v-for="card in summaryCards"
         :key="card.label"
-        class="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+        class="flex items-start justify-between gap-6 rounded-2xl border border-slate-200 bg-white px-7 py-6 shadow-sm"
       >
-        <div class="min-w-0 flex-1">
-          <p class="text-[13px] font-semibold leading-5 text-slate-500">
+        <div class="app-summary-stat-copy">
+          <p class="app-summary-stat-label">
             {{ card.label }}
           </p>
-          <div class="mt-3 inline-flex items-center gap-2 whitespace-nowrap">
-            <p class="text-3xl font-bold leading-none text-slate-800">
+          <div class="app-summary-stat-row">
+            <p class="app-summary-stat-value">
               {{ card.value }}
             </p>
             <span
               v-if="card.hint"
-              class="pb-0.5 text-xs font-semibold leading-none whitespace-nowrap"
+              class="app-summary-stat-hint"
               :class="card.hintClass"
             >
               {{ card.hint }}
@@ -33,10 +33,10 @@
         </div>
 
         <div
-          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+          class="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl"
           :class="card.iconWrapperClass"
         >
-          <CulturalClassIcon :name="card.icon" class-name="h-6 w-6" />
+          <CulturalClassIcon :name="card.icon" class-name="h-5 w-5" />
         </div>
       </article>
     </section>
@@ -47,9 +47,6 @@
           <h2 class="text-lg font-bold text-slate-800">
             Danh sách Lớp học văn hóa
           </h2>
-          <p class="mt-1 text-sm text-slate-400">
-            Theo dõi trạng thái hoạt động, thông tin lớp và truy cập nhanh vào màn chi tiết từng lớp.
-          </p>
         </div>
 
         <div class="flex flex-wrap items-center gap-3">
@@ -73,67 +70,74 @@
       </div>
 
       <div class="space-y-5 px-5 py-5">
-        <div class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_220px_auto_auto]">
-          <div class="relative">
-            <CulturalClassIcon
-              name="BxSearch"
-              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-            />
-            <input
-              v-model="draftFilters.keyword"
-              type="text"
-              placeholder="Tìm kiếm"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-            />
+        <div class="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+          <div class="flex flex-col gap-3 md:flex-row md:items-center">
+            <div class="relative w-full md:w-[200px]">
+              <input
+                v-model="draftFilters.keyword"
+                type="text"
+                placeholder="Tìm kiếm"
+                class="h-11 w-full rounded-md border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              />
+            </div>
+
+            <div class="relative w-full md:w-[180px]">
+              <select
+                v-model="draftFilters.schoolYear"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              >
+                <option value="all">Chọn thời gian</option>
+                <option v-for="year in schoolYearOptions" :key="year" :value="year">
+                  {{ year }}
+                </option>
+              </select>
+              <CulturalClassIcon
+                name="BxCalendar"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              />
+            </div>
+
+            <div class="relative w-full md:w-[176px]">
+              <select
+                v-model="draftFilters.status"
+                class="h-11 w-full appearance-none rounded-md border border-slate-200 bg-white px-4 pr-10 text-sm text-slate-700 outline-none transition focus:border-[#696cff] focus:ring-2 focus:ring-[#696cff]/10"
+              >
+                <option value="all">Chọn trạng thái</option>
+                <option v-for="status in statusOptions" :key="status.value" :value="status.value">
+                  {{ status.label }}
+                </option>
+              </select>
+              <CulturalClassIcon
+                name="BxChevronDown"
+                class-name="pointer-events-none absolute right-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
+              />
+            </div>
           </div>
 
-          <select
-            v-model="draftFilters.schoolYear"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          >
-            <option value="all">Chọn thời gian</option>
-            <option v-for="year in schoolYearOptions" :key="year" :value="year">
-              {{ year }}
-            </option>
-          </select>
-
-          <select
-            v-model="draftFilters.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          >
-            <option value="all">Chọn trạng thái</option>
-            <option
-              v-for="status in statusOptions"
-              :key="status.value"
-              :value="status.value"
+          <div class="flex items-center gap-3">
+            <button
+              type="button"
+              class="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#696cff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5f63f2]"
+              @click="applyFilters"
             >
-              {{ status.label }}
-            </option>
-          </select>
-
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
-            @click="applyFilters"
-          >
-            <CulturalClassIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm kiếm
-          </button>
-
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-            @click="resetFilters"
-          >
-            <CulturalClassIcon name="BxRefresh" class-name="h-4 w-4" />
-          </button>
+              <CulturalClassIcon name="BxSearch" class-name="h-4 w-4" />
+              Tìm kiếm
+            </button>
+            <button
+              type="button"
+              class="flex h-11 w-11 items-center justify-center rounded-md border border-slate-200 bg-white text-slate-500 transition hover:bg-slate-50"
+              @click="resetFilters"
+            >
+              <CulturalClassIcon name="BxRefresh" class-name="h-5 w-5" />
+            </button>
+          </div>
         </div>
 
         <div class="overflow-x-auto">
           <table class="min-w-full border-separate border-spacing-0">
             <thead>
               <tr class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
-                <th class="w-14 border-y border-slate-200 px-4 py-3">
+                <th class="w-14 border-y border-slate-200 px-4 py-3 text-center">
                   <input
                     :checked="isAllVisibleSelected"
                     type="checkbox"
@@ -141,23 +145,21 @@
                     @change="toggleSelectVisible"
                   />
                 </th>
-                <th class="w-16 border-y border-slate-200 px-2 py-3">#</th>
+                <th class="w-16 border-y border-slate-200 px-2 py-3 text-center">#</th>
                 <th class="border-y border-slate-200 px-4 py-3">Tên lớp học</th>
                 <th class="border-y border-slate-200 px-4 py-3">Khối lớp</th>
                 <th class="border-y border-slate-200 px-4 py-3">Năm học</th>
-                <th class="border-y border-slate-200 px-4 py-3">GV chủ nhiệm</th>
                 <th class="border-y border-slate-200 px-4 py-3 text-center">Trạng thái</th>
                 <th class="border-y border-slate-200 px-4 py-3 text-center">Hành động</th>
               </tr>
             </thead>
-
             <tbody>
               <tr
                 v-for="row in rows"
                 :key="row.id"
                 class="text-sm text-slate-600 transition hover:bg-slate-50/70"
               >
-                <td class="border-b border-slate-100 px-4 py-4">
+                <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <input
                     :checked="selectedIds.includes(row.id)"
                     type="checkbox"
@@ -165,110 +167,52 @@
                     @change="toggleRowSelection(row.id)"
                   />
                 </td>
-                <td class="border-b border-slate-100 px-2 py-4 font-semibold text-[#6c63ff]">
+                <td class="border-b border-slate-100 px-2 py-4 text-center font-semibold text-[#6c63ff]">
                   {{ row.order }}
                 </td>
-                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-slate-700">
+                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-[#6c63ff] cursor-pointer hover:underline" @click="goToDetail(row.id)">
                   {{ row.code }}
                 </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.gradeName }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.schoolYear }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.homeroomTeacher }}
-                </td>
+                <td class="border-b border-slate-100 px-4 py-4">{{ row.gradeName }}</td>
+                <td class="border-b border-slate-100 px-4 py-4">{{ row.schoolYear }}</td>
                 <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <span
-                    class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                    class="inline-flex whitespace-nowrap rounded-md px-3 py-1 text-xs font-semibold"
                     :class="statusClassMap[row.status]"
                   >
                     {{ row.statusLabel }}
                   </span>
                 </td>
-                <td class="border-b border-slate-100 px-4 py-4">
+                <td class="border-b border-slate-100 px-4 py-4 text-center">
                   <div class="flex items-center justify-center gap-3 text-slate-400">
-                    <button
-                      type="button"
-                      class="transition hover:text-[#6c63ff]"
-                      title="Xem chi tiết"
-                      aria-label="Xem chi tiết"
-                      @click="goToDetail(row.id)"
-                    >
+                    <button class="transition hover:text-[#6c63ff]" title="Xem" @click="goToDetail(row.id)">
                       <CulturalClassIcon name="BxShow" class-name="h-4 w-4" />
                     </button>
-                    <button
-                      type="button"
-                      class="transition hover:text-amber-500"
-                      title="Chỉnh sửa"
-                      aria-label="Chỉnh sửa"
-                      @click="goToEdit(row.id)"
-                    >
+                    <button class="transition hover:text-amber-500" title="Sửa" @click="goToEdit(row.id)">
                       <CulturalClassIcon name="BxEditAlt" class-name="h-4 w-4" />
                     </button>
-                    <button
-                      type="button"
-                      class="transition hover:text-red-500"
-                      title="Xóa"
-                      aria-label="Xóa"
-                      @click="deleteRow(row.id)"
-                    >
+                    <button class="transition hover:text-red-500" title="Xóa" @click="deleteRow(row.id)">
                       <CulturalClassIcon name="BxTrash" class-name="h-4 w-4" />
                     </button>
                   </div>
                 </td>
               </tr>
-
               <tr v-if="rows.length === 0">
-                <td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">
-                  Không có lớp học phù hợp với bộ lọc hiện tại.
+                <td colspan="7" class="px-4 py-10 text-center text-sm text-slate-400">
+                  Không có dữ liệu phù hợp.
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
-          <p class="text-sm text-slate-400">
-            Đã chọn {{ selectedIds.length }} lớp học.
-          </p>
-
-          <div class="flex items-center gap-2 self-end">
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === 1"
-              @click="changePage(pagination.currentPage - 1)"
-            >
-              <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
-            </button>
-
-            <button
-              v-for="page in visiblePages"
-              :key="page"
-              type="button"
-              class="flex h-9 min-w-9 items-center justify-center rounded-lg px-3 text-sm font-semibold transition"
-              :class="
-                page === pagination.currentPage
-                  ? 'bg-[#ff1f1f] text-white shadow-sm'
-                  : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
-              "
-              @click="changePage(page)"
-            >
-              {{ page }}
-            </button>
-
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === pagination.totalPages"
-              @click="changePage(pagination.currentPage + 1)"
-            >
-              <CulturalClassIcon name="BxChevronRight" class-name="h-4 w-4" />
-            </button>
-          </div>
+        <div class="flex justify-end border-t border-slate-100 pt-4">
+          <BasePagination
+            :current="pagination.currentPage"
+            :page-size="pagination.itemsPerPage"
+            :total="pagination.totalItems"
+            @change="changePage"
+          />
         </div>
       </div>
     </section>
@@ -276,9 +220,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
 import { useRouter } from "vue-router";
 import CulturalClassIcon from "./CulturalClassIcon.vue";
+import BasePagination from "../../../atoms/display/BasePagination.vue"; // ĐÃ THÊM: Import quan trọng
 import {
   culturalClassSchoolYearOptions,
   culturalClassService,
@@ -291,11 +236,13 @@ import {
 
 const moduleTitle = "Quản lý học tập văn hóa";
 const pageTitle = "Lớp học văn hóa";
-
 const router = useRouter();
 
 const rows = ref<CulturalClassListItem[]>([]);
 const selectedIds = ref<number[]>([]);
+
+// ĐỊNH NGHĨA CÁC BIẾN CÒN THIẾU
+const summaryHintClass = "text-emerald-500"; 
 
 const draftFilters = reactive({
   keyword: "",
@@ -315,8 +262,6 @@ const pagination = reactive<PaginationMeta>({
   totalItems: 0,
   itemsPerPage: 5,
 });
-
-let filterSyncTimer: ReturnType<typeof setTimeout> | undefined;
 
 const summary = reactive<CulturalClassSummary>({
   total: 0,
@@ -338,51 +283,30 @@ const summaryCards = computed(() => [
     value: summary.total,
     hint: "",
     hintClass: "",
-    icon: "BxPanelStats",
-    iconWrapperClass: "bg-indigo-50 text-indigo-500",
+    icon: "BxPanelSplit",
+    iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
   },
   {
     label: "Tổng số đang sử dụng",
     value: summary.active,
     hint: summary.total ? `(${Math.round((summary.active / summary.total) * 100)}%)` : "",
-    hintClass: "text-emerald-500",
-    icon: "BxCalendarCheck",
-    iconWrapperClass: "bg-rose-50 text-rose-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersPlus",
+    iconWrapperClass: "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]",
   },
   {
     label: "Tổng số tạm ngưng",
     value: summary.paused,
     hint: summary.total ? `(${Math.round((summary.paused / summary.total) * 100)}%)` : "",
-    hintClass: "text-lime-500",
-    icon: "BxLayersStacked",
-    iconWrapperClass: "bg-amber-50 text-amber-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersMinus",
+    iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
   },
 ]);
 
 const isAllVisibleSelected = computed(
-  () =>
-    rows.value.length > 0 &&
-    rows.value.every((row) => selectedIds.value.includes(row.id)),
+  () => rows.value.length > 0 && rows.value.every((row) => selectedIds.value.includes(row.id)),
 );
-
-const visiblePages = computed(() => {
-  const total = pagination.totalPages;
-  const page = pagination.currentPage;
-
-  if (total <= 5) {
-    return Array.from({ length: total }, (_, index) => index + 1);
-  }
-
-  if (page <= 3) {
-    return [1, 2, 3, 4, 5];
-  }
-
-  if (page >= total - 2) {
-    return [total - 4, total - 3, total - 2, total - 1, total];
-  }
-
-  return [page - 2, page - 1, page, page + 1, page + 2];
-});
 
 const loadRows = async () => {
   const response = await culturalClassService.list({
@@ -394,13 +318,8 @@ const loadRows = async () => {
   });
 
   rows.value = response.data;
-  pagination.currentPage = response.meta.currentPage;
-  pagination.totalPages = response.meta.totalPages;
-  pagination.totalItems = response.meta.totalItems;
-  pagination.itemsPerPage = response.meta.itemsPerPage;
-  summary.total = response.summary.total;
-  summary.active = response.summary.active;
-  summary.paused = response.summary.paused;
+  Object.assign(pagination, response.meta);
+  Object.assign(summary, response.summary);
   selectedIds.value = [];
 };
 
@@ -412,36 +331,24 @@ const syncFiltersAndReload = async () => {
   await loadRows();
 };
 
-const applyFilters = async () => {
-  if (filterSyncTimer) {
-    clearTimeout(filterSyncTimer);
-  }
-
-  await syncFiltersAndReload();
-};
-
-const resetFilters = () => {
+const applyFilters = async () => await syncFiltersAndReload();
+const resetFilters = async () => {
   draftFilters.keyword = "";
   draftFilters.schoolYear = "all";
   draftFilters.status = "all";
+  await syncFiltersAndReload();
 };
 
 const changePage = async (page: number) => {
-  if (page < 1 || page > pagination.totalPages) {
-    return;
-  }
-
+  if (page < 1 || page > pagination.totalPages) return;
   pagination.currentPage = page;
   await loadRows();
 };
 
 const toggleRowSelection = (id: number) => {
-  if (selectedIds.value.includes(id)) {
-    selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id);
-    return;
-  }
-
-  selectedIds.value = [...selectedIds.value, id];
+  const index = selectedIds.value.indexOf(id);
+  if (index > -1) selectedIds.value.splice(index, 1);
+  else selectedIds.value.push(id);
 };
 
 const toggleSelectVisible = () => {
@@ -449,52 +356,23 @@ const toggleSelectVisible = () => {
     selectedIds.value = selectedIds.value.filter(
       (selectedId) => !rows.value.some((row) => row.id === selectedId),
     );
-    return;
+  } else {
+    const nextSelected = new Set(selectedIds.value);
+    rows.value.forEach((row) => nextSelected.add(row.id));
+    selectedIds.value = Array.from(nextSelected);
   }
-
-  const nextSelected = new Set(selectedIds.value);
-  rows.value.forEach((row) => nextSelected.add(row.id));
-  selectedIds.value = Array.from(nextSelected);
 };
 
-const goToDeleted = () => {
-  router.push({ name: "cultural-class-deleted" });
-};
-
-const goToCreate = () => {
-  router.push({ name: "cultural-class-create" });
-};
-
-const goToDetail = (id: number) => {
-  router.push({ name: "cultural-class-detail", params: { id } });
-};
-
-const goToEdit = (id: number) => {
-  router.push({ name: "cultural-class-edit", params: { id } });
-};
+const goToDeleted = () => router.push({ name: "cultural-class-deleted" });
+const goToCreate = () => router.push({ name: "cultural-class-create" });
+const goToDetail = (id: number) => router.push({ name: "cultural-class-detail", params: { id } });
+const goToEdit = (id: number) => router.push({ name: "cultural-class-edit", params: { id } });
 
 const deleteRow = async (id: number) => {
   await culturalClassService.softDelete(id);
-  if (rows.value.length === 1 && pagination.currentPage > 1) {
-    pagination.currentPage -= 1;
-  }
+  if (rows.value.length === 1 && pagination.currentPage > 1) pagination.currentPage -= 1;
   await loadRows();
 };
 
-onMounted(async () => {
-  await loadRows();
-});
-
-watch(
-  () => [draftFilters.keyword, draftFilters.schoolYear, draftFilters.status],
-  () => {
-    if (filterSyncTimer) {
-      clearTimeout(filterSyncTimer);
-    }
-
-    filterSyncTimer = setTimeout(() => {
-      void syncFiltersAndReload();
-    }, 250);
-  },
-);
+onMounted(async () => await loadRows());
 </script>

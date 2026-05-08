@@ -41,8 +41,8 @@ const routeBreadcrumbs = computed<BreadcrumbItem[]>(() => {
     } else if (path.includes('/roles')) {
       items.push({ title: 'Phân quyền người dùng', to: '/system/security/roles' })
     }
-  } else if (path.startsWith('/system/logs')) {
-    items.push({ title: 'Nhật ký hệ thống', to: '/system/logs' })
+  } else if (path.startsWith('/system/log')) {
+    items.push({ title: 'Nhật ký hệ thống', to: '/system/log' })
   } else {
     route.matched
       .filter((matchedRoute) => matchedRoute.meta?.title && !matchedRoute.meta?.isHeader)
@@ -65,6 +65,7 @@ const normalizedItems = computed(() => routeBreadcrumbs.value.filter((item) => i
 .app-breadcrumb {
   color: #a1acb8;
   font-size: 13px;
+  margin: 0 !important;
 }
 
 :deep(.ant-breadcrumb-link),
