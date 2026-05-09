@@ -13,10 +13,12 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Thông tin chi tiết địa chỉ IP</h2>
         <div class="flex gap-3">
           <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none !h-9"
-            icon="BxChevronLeft"
+            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none !h-9 flex items-center gap-2"
             @click="$router.back()"
           >
+            <template #icon>
+              <NavIcon name="BxChevronLeft" class-name="w-4 h-4" />
+            </template>
             Quay Lại
           </a-button>
           <a-button 
@@ -41,7 +43,7 @@
             <tr>
               <td class="w-1/4 p-4 font-bold text-[#566a7f] bg-[#fcfcfd]">Trạng thái</td>
               <td class="p-4">
-                <BaseTag color="success">Cho phép</BaseTag>
+                <BaseTag type="success">Cho phép</BaseTag>
               </td>
             </tr>
           </tbody>

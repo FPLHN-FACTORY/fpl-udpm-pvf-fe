@@ -20,7 +20,7 @@
         <a-button 
           type="primary" 
           @click="$router.push(`/extracurricular/classes/edit/1`)"
-          class="bg-[#ffab00] border-[#ffab00] hover:bg-[#e69a00] text-white rounded-md h-9 px-4 flex items-center text-xs font-bold uppercase"
+          class="bg-[#ffab00] border-[#ffab00] hover:bg-[#e69a00] text-white rounded-md h-9 px-4 flex items-center text-xs font-medium uppercase"
         >
           Chỉnh Sửa
         </a-button>
@@ -78,7 +78,7 @@
               ? 'bg-[#696cff] text-white' 
               : 'bg-[#e7e7ff] text-[#696cff] hover:bg-[#dbdbff]'
           ]"
-          class="px-6 py-2 rounded-md text-xs font-bold transition-colors mb-4"
+          class="px-6 py-2 rounded-md text-xs font-medium transition-colors mb-4"
         >
           {{ tab.label }}
         </button>

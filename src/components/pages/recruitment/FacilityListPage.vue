@@ -22,7 +22,7 @@
           </a-button>
           <a-button 
             type="primary" 
-            class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+            class="!bg-[#e31a1a] hover:!bg-[#c41616] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
             @click="$router.push('/recruitment/facility/create')"
           >
             <NavIcon name="BxPlus" size="14" />
@@ -47,7 +47,7 @@
           </a-select>
         </div>
         <div class="flex items-center gap-2">
-          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10 px-6 rounded-md flex items-center gap-2">
+          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !h-10 px-6 rounded-md flex items-center gap-2">
             <NavIcon name="BxSearch" size="16" />
             Tìm Kiếm
           </a-button>

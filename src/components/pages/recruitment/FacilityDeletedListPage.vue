@@ -30,7 +30,7 @@
           </a-input>
         </div>
         <div class="flex items-center gap-2">
-          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10 px-6">
+          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !h-10 px-6">
             Tìm Kiếm
           </a-button>
           <a-button 

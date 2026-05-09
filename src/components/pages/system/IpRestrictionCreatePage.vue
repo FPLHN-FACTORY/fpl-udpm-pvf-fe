@@ -12,25 +12,25 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Thêm địa chỉ IP được cấp phép</h2>
         <a-button 
-          class="!bg-[#e7e7ff] !text-[#696cff] !border-none !h-9"
-          icon="BxChevronLeft"
+          class="!bg-[#e7e7ff] !text-[#696cff] !border-none !h-9 flex items-center gap-2"
           @click="$router.back()"
         >
+          <template #icon>
+            <NavIcon name="BxChevronLeft" class-name="w-4 h-4" />
+          </template>
           Quay Lại
         </a-button>
       </div>
 
       <div class="p-8 flex flex-col gap-6">
         <a-input 
-          v-model="form.ip" 
-          label="Địa chỉ IP" 
+          v-model:value="form.ip" 
           placeholder="Địa chỉ IP"
           class="!h-10"
         />
         
         <a-textarea 
-          v-model="form.description" 
-          label="Mô tả" 
+          v-model:value="form.description" 
           placeholder="Mô tả"
           :rows="4"
         />
@@ -47,7 +47,7 @@
         <div class="flex justify-center gap-4 mt-4">
           <a-button 
             variant="primary" 
-            class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-10 !h-10"
+            class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !text-white !border-none !px-10 !h-10"
             @click="handleSubmit"
           >
             Thêm Mới
@@ -78,7 +78,7 @@ const form = ref({
 })
 
 const handleSubmit = () => {
-  if (!form.ip.value) {
+  if (!form.value.ip) {
     message.error('Vui lòng nhập địa chỉ IP')
     return
   }

@@ -25,7 +25,7 @@
           @click="isEditing = true"
           class="bg-[#ffab00] border-[#ffab00] hover:bg-[#e69a00] text-white rounded-md h-8 px-4 flex items-center"
         >
-          <span class="text-xs font-bold uppercase">Chỉnh Sửa</span>
+          <span class="text-xs font-medium uppercase">Chỉnh Sửa</span>
         </a-button>
       </div>
     </div>
@@ -72,10 +72,10 @@
           
           <div class="flex items-center justify-center space-x-3 mt-8">
             <a-button type="primary" danger size="large" class="px-10 rounded-lg bg-[#e31a1a] border-[#e31a1a] h-11 flex items-center" @click="handleUpdate">
-              <span class="text-sm font-bold">Cập Nhật</span>
+              <span class="text-sm font-medium uppercase">Cập Nhật</span>
             </a-button>
             <a-button size="large" class="px-10 rounded-lg bg-[#ffab00] text-white border-[#ffab00] hover:bg-[#e69a00] h-11 flex items-center" @click="handleReset">
-              <span class="text-sm font-bold">Đặt Lại</span>
+              <span class="text-sm font-medium uppercase">Đặt Lại</span>
             </a-button>
           </div>
         </a-form>

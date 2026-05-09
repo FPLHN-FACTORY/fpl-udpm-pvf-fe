@@ -18,11 +18,11 @@
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
         <div class="flex flex-col gap-2">
           <label class="text-sm text-[#566a7f]">Độ dài mật khẩu tối thiểu</label>
-          <a-input-number v-model:value="policy.minLength" class="w-full !h-10 flex items-center" placeholder="8">
+          <a-input v-model:value="policy.minLength" type="number" class="w-full !h-10 flex items-center" placeholder="8">
             <template #suffix>
               <NavIcon name="BxShow" class-name="w-4 h-4 text-gray-400" />
             </template>
-          </a-input-number>
+          </a-input>
         </div>
         <div class="flex flex-col gap-2">
           <label class="text-sm text-[#566a7f]">Số lượng ký tự đặc biệt tối thiểu</label>
@@ -60,7 +60,7 @@
       <div class="flex justify-center gap-4">
         <a-button 
           variant="primary" 
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-8 !h-10"
+          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !text-white !border-none !px-8 !h-10"
           @click="handleUpdate"
         >
           Cập Nhật

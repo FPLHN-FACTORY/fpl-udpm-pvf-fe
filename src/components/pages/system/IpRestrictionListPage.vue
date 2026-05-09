@@ -13,12 +13,12 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Giới hạn địa chỉ IP</h2>
         <a-button 
-          variant="primary" 
-          icon="BxPlus" 
-          icon-class-name="w-4 h-4"
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none"
+          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !text-white !border-none flex items-center gap-2"
           @click="$router.push('/system/security/ip-restriction/add')"
         >
+          <template #icon>
+            <NavIcon name="BxPlus" class-name="w-4 h-4" />
+          </template>
           Thêm Mới
         </a-button>
       </div>
@@ -48,10 +48,11 @@
         </div>
         <div class="flex items-center gap-2">
           <a-button 
-            variant="primary" 
-            icon="BxSearch" 
-            class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10"
+            class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !h-10 flex items-center gap-2"
           >
+            <template #icon>
+              <NavIcon name="BxSearch" class-name="w-4 h-4" />
+            </template>
             Tìm Kiếm
           </a-button>
           <a-button 
@@ -83,7 +84,7 @@
               {{ index + 1 }}
             </template>
             <template v-if="column.key === 'status'">
-              <BaseTag :color="getTagColor(record.status)">
+              <BaseTag :type="getTagColor(record.status)">
                 {{ getStatusText(record.status) }}
               </BaseTag>
             </template>
