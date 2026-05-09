@@ -18,6 +18,9 @@
         </div>
       </div>
 
+      <!-- Divider -->
+      <div class="border-t border-gray-100 -mx-6 mb-4"></div>
+
       <!-- Filter Bar -->
       <div class="flex flex-col sm:flex-row gap-4 mb-6 mt-2">
         <InputSearch v-model="filters.keyword" placeholder="Tìm kiếm" class="!w-[250px]" />
@@ -32,6 +35,9 @@
           <IconButton icon="BxReset" label="Làm mới" @click="handleReset" class="ml-2 bg-gray-500 text-white hover:bg-gray-600 border-none" />
         </div>
       </div>
+
+      <!-- Divider before table -->
+      <div class="border-t border-gray-100 -mx-6"></div>
 
       <!-- Data Table -->
       <a-table 

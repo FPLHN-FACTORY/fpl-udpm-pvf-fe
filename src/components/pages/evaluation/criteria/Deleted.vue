@@ -12,8 +12,13 @@
       <!-- Card Header: Title and Back Button -->
       <div class="flex items-center justify-between pb-4">
         <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách Tiêu chí đánh giá đã xóa</h2>
-        <ButtonBack @click="$router.push('/evaluation/criteria')" />
+        <div class="flex items-center gap-3">
+          <ButtonBack @click="$router.push('/evaluation/criteria')" />
+        </div>
       </div>
+
+      <!-- Divider -->
+      <div class="border-t border-gray-100 -mx-6 mb-4"></div>
 
       <!-- Filter Bar -->
       <div class="flex flex-col sm:flex-row gap-4 mb-6 mt-2">
@@ -29,6 +34,9 @@
           <IconButton icon="BxReset" label="Làm mới" @click="handleReset" class="ml-2 bg-gray-500 text-white hover:bg-gray-600 border-none" />
         </div>
       </div>
+
+      <!-- Divider before table -->
+      <div class="border-t border-gray-100 -mx-6"></div>
 
       <!-- Data Table -->
       <a-table 
