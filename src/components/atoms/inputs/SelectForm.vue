@@ -7,12 +7,12 @@
       {{ label }}
     </label>
     <a-select
-      :value="value"
+      :value="modelValue ?? value"
       :placeholder="placeholder"
       :disabled="disabled"
       class="w-full custom-select"
       :allow-clear="allowClear"
-      @change="$emit('update:value', $event)"
+      @change="handleChange"
     >
       <slot />
     </a-select>
@@ -21,7 +21,8 @@
 
 <script setup lang="ts">
 withDefaults(defineProps<{
-  value: any
+  value?: any
+  modelValue?: any
   label?: string
   placeholder?: string
   disabled?: boolean
@@ -31,7 +32,13 @@ withDefaults(defineProps<{
   allowClear: true
 })
 
-defineEmits(['update:value'])
+const emit = defineEmits(['update:value', 'update:modelValue'])
+
+// Support both value and modelValue for compatibility
+const handleChange = (val: any) => {
+  emit('update:value', val)
+  emit('update:modelValue', val)
+}
 </script>
 
 <style scoped>

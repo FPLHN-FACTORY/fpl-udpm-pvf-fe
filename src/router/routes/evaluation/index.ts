@@ -8,13 +8,7 @@ import {
   criteriaEditRoute
 } from './criteria'
 import { formRoutes } from './forms'
-import { 
-  stageRoute,
-  stageCreateRoute,
-  stageDeletedRoute,
-  stageDetailRoute,
-  stageEditRoute
-} from './stages'
+import { stageRoute, stageCreateRoute, stageDetailRoute, stageEditRoute, stageDeletedRoute } from './stages'
 import {
   studentEvaluationCreateRoute,
   studentEvaluationDeletedRoute,
@@ -28,8 +22,8 @@ const evaluationVisibleChildren: RouteRecordRaw[] = [
   criteriaRoute,
   ...formRoutes,
   stageRoute,
-  studentEvaluationRoute,
-  ...courseEvaluationRoute
+  studentEvaluationRoute
+  // courseEvaluationRoute[0] // TODO: Fix this route
 ]
 
 const evaluationHiddenChildren: RouteRecordRaw[] = [
@@ -37,8 +31,8 @@ const evaluationHiddenChildren: RouteRecordRaw[] = [
   criteriaDeletedRoute,
   criteriaDetailRoute,
   criteriaEditRoute,
-  stageDetailRoute,
   stageCreateRoute,
+  stageDetailRoute,
   stageEditRoute,
   stageDeletedRoute,
   studentEvaluationCreateRoute,
