@@ -1,38 +1,41 @@
 <template>
-  <div class="px-2 py-2">
-
-    <!-- Breadcrumb + Page Title -->
-    <div class="mb-5">
-      <div class="flex items-center gap-1.5 text-sm text-gray-400 mb-1 select-none">
-        <span>Quản lý học tập ngoại khóa</span>
-        <span>/</span>
-        <span class="cursor-pointer hover:text-red-500 transition-colors duration-150"
-          :class="currentView === 'list' ? 'text-gray-600 font-medium' : 'text-gray-400'" @click="navigateTo('list')">
-          Quản lý loại điểm
-        </span>
-        <!-- <template v-if="currentView !== 'list'">
-          <span>/</span>
-          <span class="text-red-500 font-medium">{{ VIEW_LABELS[currentView] }}</span>
-        </template> -->
-      </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <div class="space-y-6">
+      <Transition :name="transitionName" mode="out-in">
+        <component 
+          :is="currentComponent" 
+          :key="currentView" 
+          v-bind="currentProps" 
+          v-on="currentListeners" 
+        />
+      </Transition>
     </div>
-
-    <!-- ── Dynamic Component ── -->
-    <Transition :name="transitionName" mode="out-in">
-      <component :is="currentComponent" :key="currentView" v-bind="currentProps" v-on="currentListeners" />
-    </Transition>
-
-  </div>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
+import AdminPage from '../templates/AdminPage.vue'
 import ScoreTypesList from '../organisms/ScoreTypesList.vue'
 import ScoreTypesCreate from '../organisms/ScoreTypesCreate.vue'
 import ScoreTypesDetail from '../organisms/ScoreTypesDetail.vue'
 import ScoreTypesEdit from '../organisms/ScoreTypesEdit.vue'
 import ScoreTypesDeleted from '../organisms/ScoreTypesDeleted.vue'
+
+// ───── Breadcrumbs ─────
+const breadcrumbs = computed(() => {
+  const base = [
+    { title: 'Quản lý học tập ngoại khóa', href: '#' },
+    { title: 'Quản lý loại điểm', href: '#', onClick: () => navigateTo('list') }
+  ]
+  
+  if (currentView.value !== 'list') {
+    base.push({ title: VIEW_LABELS[currentView.value], href: '#' })
+  }
+  
+  return base
+})
 
 // ───── Types ─────
 type ViewType = 'list' | 'create' | 'detail' | 'edit' | 'deleted'
@@ -42,9 +45,18 @@ export interface ScoreTypeRecord {
   name: string
   weight: number
   status: string
+  ngayXoa?: string
 }
 
 // ───── Constants ─────
+const VIEW_LABELS: Record<ViewType, string> = {
+  list: 'Danh sách loại điểm',
+  create: 'Thêm mới loại điểm',
+  detail: 'Chi tiết loại điểm',
+  edit: 'Chỉnh sửa loại điểm',
+  deleted: 'Danh sách loại điểm đã xóa',
+}
+
 // Dùng để xác định hướng transition: index cao hơn = đi sâu hơn
 const VIEW_DEPTH: Record<ViewType, number> = {
   list: 0,
@@ -87,30 +99,30 @@ const currentListeners = computed(() => {
   switch (currentView.value) {
     case 'list':
       return {
-        add: () => navigateTo('create'),
         view: (record: ScoreTypeRecord) => handleView(record),
         edit: (record: ScoreTypeRecord) => handleEditFromList(record),
-        deleted: () => navigateTo('deleted'),   // ← nút "Thùng rác" ở list
+        add: () => navigateTo('create'),
+        deleted: () => navigateTo('deleted'),
       }
     case 'create':
       return {
-        back: () => navigateTo('list'),
         created: (record?: ScoreTypeRecord) => handleCreated(record),
+        back: () => navigateTo('list'),
       }
     case 'detail':
       return {
-        back: () => navigateTo('list'),
         edit: () => navigateTo('edit'),
+        back: () => navigateTo('list'),
       }
     case 'edit':
       return {
-        back: () => navigateTo('list'),
         submit: (data: ScoreTypeRecord) => handleEditSubmit(data),
+        back: () => navigateTo('list'),
       }
     case 'deleted':
       return {
-        back: () => navigateTo('list'),
         restored: (record: ScoreTypeRecord) => handleRestored(record),
+        back: () => navigateTo('list'),
       }
     default:
       return {}
@@ -155,7 +167,6 @@ function handleEditSubmit(data: ScoreTypeRecord) {
 
 function handleRestored(record: ScoreTypeRecord) {
   message.success(`Đã khôi phục "${record.name || ''}" về danh sách!`)
-  // Nếu cần reload list thì emit hoặc refetch API ở đây
 }
 </script>
 

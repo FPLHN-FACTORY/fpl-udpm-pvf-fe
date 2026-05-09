@@ -6,7 +6,7 @@
     @input="$emit('update:modelValue', ($event.target as HTMLInputElement).value)"
   >
     <template #prefix>
-      <NavIcon name="BxSearch" size="20" class="text-gray-400" />
+      <NavIcon name="BxSearch" size="20" class-name="text-gray-400" />
     </template>
   </a-input>
 </template>

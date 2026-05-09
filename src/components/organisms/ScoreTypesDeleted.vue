@@ -24,7 +24,7 @@
     <a-card :bordered="false" class="shadow-sm rounded-xl">
       <!-- Card Header -->
       <div class="flex items-center justify-between pb-4">
-        <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách loại điểm đã xóa</h2>
+        <h2 class="text-[20px] font-bold text-gray-700 m-0 uppercase tracking-tight">Danh sách loại điểm đã xóa</h2>
         <div class="flex items-center gap-3">
           <ButtonResetYellow 
             v-if="selectedRowKeys.length > 0"
@@ -36,78 +36,55 @@
       </div>
 
       <!-- Filter Bar -->
-      <div class="flex flex-wrap items-center justify-between gap-4 p-6 bg-[#fcfcfd] border-b border-gray-100">
-        <div class="flex flex-wrap items-center gap-4 flex-1">
-          <div class="w-[240px]">
-            <InputSearch v-model="searchText" placeholder="Tìm kiếm" />
-          </div>
-          <div class="w-[220px]">
-            <SelectFilter v-model:value="statusFilter" placeholder="Chọn trạng thái">
-              <a-select-option value="">Tất cả</a-select-option>
-              <a-select-option value="active">Đang áp dụng</a-select-option>
-              <a-select-option value="inactive">Ngừng áp dụng</a-select-option>
-            </SelectFilter>
-          </div>
+      <div class="flex flex-nowrap items-center gap-3 p-6 bg-[#fcfcfd] border-b border-gray-100">
+        <div class="w-[300px]">
+          <InputSearch v-model="searchText" placeholder="Tìm kiếm" />
+        </div>
+        <div class="w-[220px]">
+          <SelectFilter v-model:value="statusFilter" placeholder="Chọn trạng thái">
+            <a-select-option value="">Tất cả</a-select-option>
+            <a-select-option value="active">Đang áp dụng</a-select-option>
+            <a-select-option value="inactive">Ngừng áp dụng</a-select-option>
+          </SelectFilter>
         </div>
 
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-2 ml-auto">
           <ButtonSearch @click="handleSearch" />
           <ButtonReset @click="handleReset" />
         </div>
       </div>
 
       <!-- Data Table -->
-      <a-table 
-        :columns="columns" 
-        :data-source="filteredData" 
-        :pagination="false"
-        :row-selection="rowSelection"
-        row-key="id"
-        class="custom-table"
-      >
-        <template #bodyCell="{ column, record, index }">
-          <template v-if="column.key === 'stt'">
-            <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
-          </template>
-          
-          <template v-if="column.key === 'name'">
-            <span class="font-semibold text-[#22303E]">{{ record.name }}</span>
-          </template>
+      <div class="px-0">
+        <AppTable 
+          :columns="columns" 
+          :data-source="filteredData" 
+          :pagination="false"
+          :row-selection="rowSelection"
+          class="pvf-standard-table"
+        >
+          <template #bodyCell="{ column, record, index }">
+            <template v-if="column.key === 'stt'">
+              <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
+            </template>
+            
+            <template v-if="column.key === 'name'">
+              <span class="font-bold text-[#566a7f]">{{ record.name }}</span>
+            </template>
 
-          <template v-if="column.key === 'action'">
-            <div class="flex items-center space-x-3">
-              <button 
-                @click="handleView(record)"
-                class="text-gray-400 hover:text-blue-500 transition-colors"
-                title="Xem chi tiết"
-              >
-                <NavIcon name="BxShow" size="18" />
-              </button>
-              <button 
-                @click="handleRestore(record)"
-                class="text-gray-400 hover:text-green-500 transition-colors"
-                title="Khôi phục"
-              >
-                <NavIcon name="BxReset" size="18" />
-              </button>
-              <button 
-                @click="handleDeletePermanent(record)"
-                class="text-gray-400 hover:text-red-500 transition-colors"
-                title="Xóa vĩnh viễn"
-              >
-                <NavIcon name="BxTrash" size="18" />
-              </button>
-            </div>
+            <template v-if="column.key === 'action'">
+              <TableActions :actions="getActions(record)" />
+            </template>
           </template>
-        </template>
-      </a-table>
+        </AppTable>
+      </div>
 
-      <!-- Custom Pagination -->
-      <div class="flex justify-end mt-4">
+      <!-- Pagination -->
+      <div class="flex justify-end p-6 bg-white border-t border-gray-100">
         <BasePagination 
+          v-model:current="currentPage"
           :total="filteredData.length" 
-          :current="1" 
-          :page-size="10" 
+          :page-size="pageSize"
           @change="() => {}" 
         />
       </div>
@@ -117,8 +94,7 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { message } from 'ant-design-vue'
-import type { TableProps } from 'ant-design-vue'
+import { message, Modal } from 'ant-design-vue'
 import type { ScoreTypeRecord } from '../pages/ScoreTypesPage.vue'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import BasePagination from '@/components/atoms/display/BasePagination.vue'
@@ -128,6 +104,8 @@ import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
 import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
 import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import AppTable from '@/components/organisms/AppTable.vue'
+import TableActions from '@/components/molecules/TableActions.vue'
 
 // Stats Data
 const stats = [
@@ -135,7 +113,8 @@ const stats = [
     title: 'Tổng đã xóa', 
     value: '12', 
     icon: 'BxTrash', 
-    iconBg: 'bg-red-400' 
+    iconBg: 'bg-[#ffe5e5]',
+    iconColor: 'text-[#ff3e1d]'
   },
   { 
     title: 'Xóa trong 7 ngày', 
@@ -143,7 +122,8 @@ const stats = [
     percentage: '25%', 
     trendClass: 'text-orange-500', 
     icon: 'BxTime', 
-    iconBg: 'bg-orange-400' 
+    iconBg: 'bg-[#fff2d6]',
+    iconColor: 'text-[#ffab00]'
   },
   { 
     title: 'Xóa trong 30 ngày', 
@@ -151,7 +131,8 @@ const stats = [
     percentage: '58%', 
     trendClass: 'text-yellow-500', 
     icon: 'BxCalendar', 
-    iconBg: 'bg-yellow-400' 
+    iconBg: 'bg-[#fff2d6]',
+    iconColor: 'text-[#ffab00]'
   },
   { 
     title: 'Xóa trên 30 ngày', 
@@ -159,7 +140,8 @@ const stats = [
     percentage: '17%', 
     trendClass: 'text-gray-500', 
     icon: 'BxHistory', 
-    iconBg: 'bg-gray-400' 
+    iconBg: 'bg-[#e7e7ff]',
+    iconColor: 'text-[#696cff]'
   }
 ]
 
@@ -173,6 +155,8 @@ const emit = defineEmits<{
 const searchText = ref<string>('')
 const statusFilter = ref<string>('')
 const selectedRowKeys = ref<number[]>([])
+const currentPage = ref(1)
+const pageSize = ref(10)
 
 const dataSource = ref<ScoreTypeRecord[]>(
   Array.from({ length: 12 }, (_, index) => ({
@@ -199,16 +183,21 @@ const columns = [
   { title: 'TÊN LOẠI ĐIỂM', dataIndex: 'name', key: 'name' },
   { title: 'TRỌNG SỐ (%)', dataIndex: 'weight', key: 'weight', width: 150 },
   { title: 'NGÀY XÓA', dataIndex: 'ngayXoa', key: 'ngayXoa', width: 180 },
-  { title: 'HÀNH ĐỘNG', key: 'action', width: 140, align: 'center' },
+  { title: 'HÀNH ĐỘNG', key: 'action', width: 120, align: 'center' },
 ]
 
-const rowSelection: TableProps['rowSelection'] = {
-  type: 'checkbox',
-  selectedRowKeys: selectedRowKeys as any,
+const rowSelection = {
+  selectedRowKeys: selectedRowKeys,
   onChange: (keys: (string | number)[]) => {
     selectedRowKeys.value = keys as number[]
   },
 }
+
+const getActions = (record: ScoreTypeRecord) => [
+  { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => message.info(`Xem: ${record.name}`) },
+  { label: 'Khôi phục', icon: 'BxReset', onClick: () => handleRestore(record) },
+  { label: 'Xóa vĩnh viễn', icon: 'BxTrash', danger: true, onClick: () => handleDeletePermanent(record) },
+]
 
 // Handlers
 function handleSearch() {
@@ -224,54 +213,79 @@ function handleBack() {
   emit('back')
 }
 
-function handleView(record: ScoreTypeRecord) {
-  message.info(`Xem: ${record.name}`)
-}
-
 function handleRestore(record: ScoreTypeRecord) {
-  dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
-  message.success(`Đã khôi phục: ${record.name}`)
-  emit('restored', record)
+  Modal.confirm({
+    title: 'Xác nhận khôi phục',
+    content: `Bạn có chắc muốn khôi phục "${record.name}" về danh sách?`,
+    okText: 'Khôi phục',
+    onOk() {
+      dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
+      message.success(`Đã khôi phục: ${record.name}`)
+      emit('restored', record)
+    }
+  })
 }
 
 function handleDeletePermanent(record: ScoreTypeRecord) {
-  dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
-  message.warning(`Đã xóa vĩnh viễn: ${record.name}`)
+  Modal.confirm({
+    title: 'Xác nhận xóa vĩnh viễn',
+    content: `Hành động này không thể hoàn tác. Bạn có chắc muốn xóa vĩnh viễn "${record.name}"?`,
+    okText: 'Xóa vĩnh viễn',
+    okType: 'danger',
+    cancelText: 'Hủy',
+    onOk() {
+      dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
+      message.warning(`Đã xóa vĩnh viễn: ${record.name}`)
+    }
+  })
 }
 
 function handleBulkRestore() {
-  const count = selectedRowKeys.value.length
-  const restoredItems = dataSource.value.filter((item) => selectedRowKeys.value.includes(item.id as number))
-  dataSource.value = dataSource.value.filter((item) => !selectedRowKeys.value.includes(item.id as number))
-  selectedRowKeys.value = []
-  message.success(`Đã khôi phục ${count} loại điểm`)
-  restoredItems.forEach(item => emit('restored', item))
+  Modal.confirm({
+    title: 'Xác nhận khôi phục hàng loạt',
+    content: `Bạn có chắc muốn khôi phục ${selectedRowKeys.value.length} loại điểm đã chọn?`,
+    okText: 'Khôi phục',
+    onOk() {
+      const count = selectedRowKeys.value.length
+      const restoredItems = dataSource.value.filter((item) => selectedRowKeys.value.includes(item.id as number))
+      dataSource.value = dataSource.value.filter((item) => !selectedRowKeys.value.includes(item.id as number))
+      selectedRowKeys.value = []
+      message.success(`Đã khôi phục ${count} loại điểm`)
+      restoredItems.forEach(item => emit('restored', item))
+    }
+  })
 }
 </script>
 
 <style scoped>
-:deep(.ant-card-body) {
-  padding: 24px;
+:deep(.pvf-standard-table .ant-table-thead > tr > th) {
+  background-color: white !important;
+  color: #566a7f !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 13px !important;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #f0f2f5 !important;
 }
 
-:deep(.ant-table-thead > tr > th) {
-  background-color: transparent;
-  color: #22303E;
-  opacity: 0.9;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 14px;
-  border-bottom: 1px solid #f0f2f5;
+:deep(.pvf-standard-table .ant-table-tbody > tr > td) {
+  padding: 16px 24px !important;
+  color: #566a7f !important;
+  font-size: 13px !important;
+  border-bottom: 1px solid #f0f2f5 !important;
 }
 
-:deep(.ant-table-tbody > tr > td) {
-  padding: 16px;
-  color: #22303E;
-  opacity: 0.9;
-  border-bottom: 1px solid #f0f2f5;
-}
-
-:deep(.ant-table-row:hover > td) {
+:deep(.pvf-standard-table .ant-table-row:hover > td) {
   background-color: #f8faff !important;
+}
+
+:deep(.ant-table-thead > tr > th:not(:last-child)::after) {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background-color: #d9dee3;
 }
 </style>
