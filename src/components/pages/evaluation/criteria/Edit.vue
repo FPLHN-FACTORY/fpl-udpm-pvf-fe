@@ -8,14 +8,14 @@
 
     <!-- Main Card -->
     <a-card :bordered="false" class="shadow-sm rounded-xl mb-10">
-      <div class="flex items-center justify-between pb-6 border-b border-gray-100 mb-6">
-        <h2 class="text-[20px] font-bold text-gray-700 m-0">Điều chỉnh Tiêu chí đánh giá</h2>
+      <div class="flex items-center justify-between mb-10">
+        <h2 class="text-[17px] font-bold text-gray-700 m-0">Điều chỉnh Tiêu chí đánh giá</h2>
         <ButtonBack @click="$router.push('/evaluation/criteria')" />
       </div>
 
-      <div class="max-w-4xl space-y-6">
+      <div class="space-y-8 pb-10">
         <div class="space-y-4">
-          <InputForm v-model="form.name" placeholder="Tên tiêu chí" />
+          <InputForm v-model="form.name" label="Tên tiêu chí" />
           
           <div class="relative">
             <textarea
@@ -26,11 +26,11 @@
             ></textarea>
           </div>
 
-          <InputForm v-model="form.maxScore" placeholder="Điểm tối đa" type="number" />
-          <InputForm v-model="form.weight" placeholder="Trọng số" type="number" />
-          <InputForm v-model="form.order" placeholder="Thứ tự hiển thị" type="number" />
+          <InputForm v-model="form.maxScore" label="Điểm tối đa" type="number" />
+          <InputForm v-model="form.weight" label="Trọng số" type="number" />
+          <InputForm v-model="form.order" label="Thứ tự hiển thị" type="number" />
 
-          <SelectForm v-model="form.status" placeholder="Trạng thái" :options="statusOptions" />
+          <SelectForm v-model="form.status" label="Trạng thái" :options="statusOptions" />
         </div>
 
         <!-- Action Buttons -->

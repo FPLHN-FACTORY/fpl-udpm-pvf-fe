@@ -85,19 +85,15 @@
           </template>
         </template>
       </a-table>
-
+      </div>
       <!-- Custom Pagination -->
-      <div class="flex items-center justify-between mt-4 border-t pt-4 border-gray-100">
-        <span class="text-sm text-gray-500">2025 © PVF VN</span>
-        <div class="flex items-center gap-4">
-          <span class="text-sm text-gray-500">Design & Develop by FPT POLYTECHNIC</span>
-          <a-pagination
-            v-model:current="pagination.current"
-            v-model:page-size="pagination.pageSize"
-            :total="pagination.total"
-            :show-size-changer="false"
-          />
-        </div>
+      <div class="flex justify-end mt-4">
+        <BasePagination 
+          :total="pagination.total" 
+          :current="pagination.current" 
+          :page-size="pagination.pageSize" 
+          @change="(p) => pagination.current = p" 
+        />
       </div>
     </a-card>
   </div>
@@ -109,9 +105,10 @@ import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
+import ButtonSearch from '../../../atoms/buttons/ButtonSearch.vue'
+import BasePagination from '../../../atoms/display/BasePagination.vue'
 import InputSearch from '../../../atoms/inputs/InputSearch.vue'
 import SelectFilter from '../../../atoms/inputs/SelectFilter.vue'
-import ButtonSearch from '../../../atoms/buttons/ButtonSearch.vue'
 import IconButton from '../../../atoms/buttons/IconButton.vue'
 
 const router = useRouter()
