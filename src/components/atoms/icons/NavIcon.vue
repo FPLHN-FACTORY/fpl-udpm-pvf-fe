@@ -247,6 +247,19 @@
       <path d="M17.95 5.15h3.1" />
     </g>
 
+    <!-- BxAverageAngle -->
+    <g
+      v-if="name === 'BxAverageAngle'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M8.2 6.85h7.6l3.55 5.15-3.55 5.15H8.2" />
+      <path d="m8.2 6.85 3.55 5.15-3.55 5.15" />
+    </g>
+
     <!-- BxUndo / BxRotateLeft -->
     <path v-if="name === 'BxUndo' || name === 'BxRotateLeft'" d="M9 10h6c1.654 0 3 1.346 3 3s-1.346 3-3 3h-3v2h3c2.757 0 5-2.243 5-5s-2.243-5-5-5H9V5L4 9l5 4v-3z" />
 
