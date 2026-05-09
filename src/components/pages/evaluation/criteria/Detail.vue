@@ -12,7 +12,7 @@
         <h2 class="text-[20px] font-bold text-gray-700 m-0">Chi tiết Tiêu chí đánh giá</h2>
         <div class="flex gap-2">
           <ButtonBack @click="$router.push('/evaluation/criteria')" />
-          <ButtonEdit @click="$router.push(`/evaluation/criteria/edit/${$route.params.id}`)" />
+          <ButtonEditNoIcon @click="$router.push(`/evaluation/criteria/edit/${$route.params.id}`)" />
         </div>
       </div>
 
@@ -24,11 +24,7 @@
         </template>
       </DetailList>
       
-      <!-- Footer -->
-      <div class="flex items-center justify-between mt-12 border-t pt-4 border-gray-100">
-        <span class="text-sm text-gray-500">2025 © PVF VN</span>
-        <span class="text-sm text-gray-500">Design & Develop by FPT POLYTECHNIC</span>
-      </div>
+
     </a-card>
   </div>
 </template>
@@ -36,7 +32,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import BaseTag from '../../../atoms/display/BaseTag.vue'
-import ButtonEdit from '../../../atoms/buttons/ButtonEdit.vue'
+import ButtonEditNoIcon from '../../../atoms/buttons/ButtonEditNoIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
 import DetailList from '../../../molecules/DetailList.vue'
 

@@ -1,14 +1,6 @@
 <template>
-  <AdminPage title="Quản lý loại điểm" :breadcrumbs="breadcrumbs">
-    <AdminCard :title="VIEW_LABELS[currentView]">
-      <template #actions>
-        <component 
-          v-for="(action, index) in headerActions" 
-          :is="action.component" 
-          :key="index"
-          @click="action.onClick"
-        />
-      </template>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <div class="space-y-6">
       <Transition :name="transitionName" mode="out-in">
         <component 
           :is="currentComponent" 
@@ -17,7 +9,7 @@
           v-on="currentListeners" 
         />
       </Transition>
-    </AdminCard>
+    </div>
   </AdminPage>
 </template>
 
@@ -25,7 +17,6 @@
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
 import AdminPage from '../templates/AdminPage.vue'
-import AdminCard from '../molecules/AdminCard.vue'
 import ScoreTypesList from '../organisms/ScoreTypesList.vue'
 import ScoreTypesCreate from '../organisms/ScoreTypesCreate.vue'
 import ScoreTypesDetail from '../organisms/ScoreTypesDetail.vue'
@@ -54,6 +45,7 @@ export interface ScoreTypeRecord {
   name: string
   weight: number
   status: string
+  ngayXoa?: string
 }
 
 // ───── Constants ─────
@@ -79,26 +71,6 @@ const currentView = ref<ViewType>('list')
 const previousView = ref<ViewType>('list')
 const selectedRecord = ref<ScoreTypeRecord | undefined>(undefined)
 
-// ───── Header Actions ─────
-const headerActions = computed(() => {
-  switch (currentView.value) {
-    case 'list':
-      return [
-        { component: ButtonDeleteList, onClick: () => navigateTo('deleted') },
-        { component: ButtonAdd, onClick: () => navigateTo('create') }
-      ]
-    case 'deleted':
-    case 'create':
-    case 'detail':
-    case 'edit':
-      return [
-        { component: ButtonBack, onClick: () => navigateTo('list') }
-      ]
-    default:
-      return []
-  }
-})
-
 // ───── Component mapping ─────
 const COMPONENT_MAP: Record<ViewType, object> = {
   list: ScoreTypesList,
@@ -123,28 +95,34 @@ const currentProps = computed<Record<string, unknown>>(() => {
 })
 
 // ───── Event listeners theo từng view ─────
-const currentListeners = computed<Record<string, (...args: unknown[]) => void>>(() => {
+const currentListeners = computed(() => {
   switch (currentView.value) {
     case 'list':
       return {
         view: (record: ScoreTypeRecord) => handleView(record),
         edit: (record: ScoreTypeRecord) => handleEditFromList(record),
+        add: () => navigateTo('create'),
+        deleted: () => navigateTo('deleted'),
       }
     case 'create':
       return {
         created: (record?: ScoreTypeRecord) => handleCreated(record),
+        back: () => navigateTo('list'),
       }
     case 'detail':
       return {
         edit: () => navigateTo('edit'),
+        back: () => navigateTo('list'),
       }
     case 'edit':
       return {
         submit: (data: ScoreTypeRecord) => handleEditSubmit(data),
+        back: () => navigateTo('list'),
       }
     case 'deleted':
       return {
         restored: (record: ScoreTypeRecord) => handleRestored(record),
+        back: () => navigateTo('list'),
       }
     default:
       return {}
@@ -189,7 +167,6 @@ function handleEditSubmit(data: ScoreTypeRecord) {
 
 function handleRestored(record: ScoreTypeRecord) {
   message.success(`Đã khôi phục "${record.name || ''}" về danh sách!`)
-  // Nếu cần reload list thì emit hoặc refetch API ở đây
 }
 </script>
 

@@ -1,310 +1,347 @@
 <template>
-    <AdminPage :breadcrumbs="breadcrumbs">
-        <div class="space-y-5">
-            <!-- ── STAT CARDS ROW 1 ───────────────────────────────────────────────── -->
-            <div class="grid grid-cols-4 gap-4">
-                <div v-for="card in statsRow1" :key="card.label"
-                    class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 flex items-start justify-between">
-                    <div>
-                        <p class="text-sm text-gray-500 mb-2">{{ card.label }}</p>
-                        <p class="text-2xl font-bold text-gray-800">
-                            {{ card.value }}
-                            <span v-if="card.percent" class="text-sm font-semibold text-green-500 ml-1">{{ card.percent
-                            }}</span>
-                        </p>
-                    </div>
-                    <div class="rounded-xl p-2.5 mt-1" :class="card.iconBg">
-                        <component :is="card.icon" class="text-xl" :class="card.iconColor" />
-                    </div>
-                </div>
+  <div class="space-y-6">
+    <!-- Breadcrumb -->
+    <a-breadcrumb class="text-sm">
+      <a-breadcrumb-item>Quản lý tuyển sinh</a-breadcrumb-item>
+      <a-breadcrumb-item>Hồ sơ thí sinh</a-breadcrumb-item>
+    </a-breadcrumb>
+
+    <!-- Statistic Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+      <a-card v-for="(stat, index) in stats" :key="index" :bordered="false" class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-sm font-medium mb-1">{{ stat.title }}</p>
+            <div class="flex items-baseline space-x-2">
+              <span class="text-2xl font-bold text-gray-800">{{ stat.value }}</span>
+              <span v-if="stat.percentage" class="text-xs font-semibold" :class="stat.trendClass">
+                ({{ stat.percentage }})
+              </span>
             </div>
-
-            <!-- ── STAT CARDS ROW 2 ───────────────────────────────────────────────── -->
-            <div class="grid grid-cols-3 gap-4">
-                <div v-for="card in statsRow2" :key="card.label"
-                    class="bg-white rounded-2xl border border-gray-100 shadow-sm px-5 py-4 flex items-start justify-between">
-                    <div>
-                        <p class="text-sm text-gray-500 mb-2">{{ card.label }}</p>
-                        <p class="text-2xl font-bold text-gray-800">
-                            {{ card.value }}
-                            <span v-if="card.percent" class="text-sm font-semibold ml-1" :class="card.percentColor">{{
-                                card.percent }}</span>
-                        </p>
-                    </div>
-                    <div class="rounded-xl p-2.5 mt-1" :class="card.iconBg">
-                        <component :is="card.icon" class="text-xl" :class="card.iconColor" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- ── TABLE BLOCK ────────────────────────────────────────────────────── -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-
-                <!-- Header -->
-                <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                    <h1 class="text-xl font-bold text-gray-800 tracking-tight">Danh sách Hồ sơ thí sinh</h1>
-                    <div class="flex gap-3">
-                        <a-button @click="handleClickDeleted"
-                            class="flex items-center gap-1 !text-white !border-gray-300 bg-[#8592a3]/90 hover:!bg-[#8592a3]">
-                            <template #icon><delete-outlined /></template>
-                            Danh Sách Đã Xóa
-                        </a-button>
-                        <a-button @click="handleClickAdd" type="primary" danger
-                            class="flex items-center gap-1 font-semibold">
-                            <template #icon><plus-outlined /></template>
-                            Thêm Mới
-                        </a-button>
-                        <a-button
-                            class="flex items-center gap-1 !bg-green-500 !border-green-500 !text-white hover:!bg-green-600 font-semibold">
-                            <template #icon><upload-outlined /></template>
-                            Nhập Bảng Excel
-                        </a-button>
-                    </div>
-                </div>
-
-                <!-- Filters -->
-                <div class="flex items-center gap-4 px-6 py-4 border-b border-gray-100">
-                    <a-input v-model:value="searchText" placeholder="Tìm kiếm" class="!w-56" allow-clear />
-                    <a-select v-model:value="selectedKy" placeholder="Chọn kỳ tuyển sinh" class="!w-52" allow-clear>
-                        <a-select-option value="2025">Tuyển sinh PVF 2025</a-select-option>
-                        <a-select-option value="2024">Tuyển sinh PVF 2024</a-select-option>
-                    </a-select>
-                    <a-select v-model:value="selectedStatus" placeholder="Chọn trạng thái" class="!w-48" allow-clear>
-                        <a-select-option value="day-du">Đầy đủ</a-select-option>
-                        <a-select-option value="khong-hop-le">Không hợp lệ</a-select-option>
-                        <a-select-option value="cho-xu-ly">Chờ xử lý</a-select-option>
-                    </a-select>
-                    <div class="flex-1" />
-                    <a-button type="primary" class="!bg-blue-600 hover:!bg-blue-700 flex items-center gap-1"
-                        @click="handleSearch">
-                        <template #icon><search-outlined /></template>
-                        Tìm Kiếm
-                    </a-button>
-                    <a-button class="!border-gray-300 !text-gray-500" @click="handleResetFilter">
-                        <template #icon><reload-outlined /></template>
-                    </a-button>
-                </div>
-
-                <!-- Table -->
-                <a-table :columns="columns" :data-source="pagedData" :pagination="false" :row-selection="rowSelection"
-                    row-key="id" class="candidate-table">
-                    <template #bodyCell="{ column, record }">
-                        <template v-if="column.key === 'idHoSo'">
-                            <a class="text-blue-500 hover:text-blue-700 font-medium">{{ record.idHoSo }}</a>
-                        </template>
-
-                        <template v-else-if="column.key === 'trangThaiHoSo'">
-                            <span class="px-3 py-1 rounded-full text-xs font-semibold"
-                                :class="statusClass(record.trangThaiHoSo)">
-                                {{ record.trangThaiHoSo }}
-                            </span>
-                        </template>
-
-                        <template v-else-if="column.key === 'hanhDong'">
-                            <div class="flex items-center gap-3">
-                                <a-tooltip title="Xem bảng điểm">
-                                    <table-outlined
-                                        class="text-gray-500 hover:text-purple-500 cursor-pointer text-base transition-colors"
-                                        @click="handleScore(record)" />
-                                </a-tooltip>
-                                <a-tooltip title="Xem chi tiết">
-                                    <eye-outlined
-                                        class="text-gray-500 hover:text-blue-500 cursor-pointer text-base transition-colors"
-                                        @click="handleView(record)" />
-                                </a-tooltip>
-                                <a-tooltip title="Chỉnh sửa">
-                                    <edit-outlined
-                                        class="text-gray-500 hover:text-green-500 cursor-pointer text-base transition-colors"
-                                        @click="handleEdit(record)" />
-                                </a-tooltip>
-                                <a-tooltip title="Xóa">
-                                    <a-popconfirm title="Bạn có chắc muốn xóa hồ sơ này?" ok-text="Xóa"
-                                        cancel-text="Hủy" @confirm="handleDelete(record)">
-                                        <delete-outlined
-                                            class="text-gray-500 hover:text-red-500 cursor-pointer text-base transition-colors" />
-                                    </a-popconfirm>
-                                </a-tooltip>
-                            </div>
-                        </template>
-                    </template>
-                </a-table>
-
-                <!-- Pagination -->
-                <div class="flex justify-end py-5 border-t border-gray-100">
-                    <a-pagination v-model:current="currentPage" :total="totalItems" :page-size="pageSize"
-                        show-less-items :item-render="itemRender" :show-size-changer="false" />
-                </div>
-            </div>
+          </div>
+          <div :class="stat.iconBg" class="w-10 h-10 rounded-lg flex items-center justify-center">
+             <NavIcon :name="stat.icon" class-name="w-6 h-6 text-white" />
+          </div>
         </div>
-        </ AdminPage>
+      </a-card>
+    </div>
+
+    <!-- Main Table Card -->
+    <a-card :bordered="false" class="shadow-sm rounded-xl">
+      <!-- Card Header -->
+      <div class="flex items-center justify-between pb-4">
+        <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách Hồ sơ thí sinh</h2>
+        <div class="flex items-center gap-3">
+          <ButtonDeleteList @click="handleClickDeleted" />
+          <ButtonAdd @click="handleClickAdd" />
+        </div>
+      </div>
+
+      <!-- Filter Bar -->
+      <div class="flex flex-wrap items-center justify-between gap-4 p-6 bg-[#fcfcfd] border-b border-gray-100">
+        <div class="flex flex-wrap items-center gap-4 flex-1">
+          <div class="w-[240px]">
+            <InputSearch v-model="searchText" placeholder="Tìm kiếm" />
+          </div>
+          <div class="w-[220px]">
+            <SelectFilter v-model:value="selectedKy" placeholder="Chọn kỳ tuyển sinh">
+              <a-select-option value="">Tất cả</a-select-option>
+              <a-select-option value="2025">Tuyển sinh PVF 2025</a-select-option>
+              <a-select-option value="2024">Tuyển sinh PVF 2024</a-select-option>
+            </SelectFilter>
+          </div>
+          <div class="w-[220px]">
+            <SelectFilter v-model:value="selectedStatus" placeholder="Chọn trạng thái">
+              <a-select-option value="">Tất cả</a-select-option>
+              <a-select-option value="day-du">Đầy đủ</a-select-option>
+              <a-select-option value="khong-hop-le">Không hợp lệ</a-select-option>
+              <a-select-option value="cho-xu-ly">Chờ xử lý</a-select-option>
+            </SelectFilter>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <ButtonSearch @click="handleSearch" />
+          <ButtonReset @click="handleResetFilter" />
+        </div>
+      </div>
+
+      <!-- Data Table -->
+      <a-table 
+        :columns="columns" 
+        :data-source="pagedData" 
+        :pagination="false"
+        :row-selection="rowSelection"
+        row-key="id"
+        class="custom-table"
+      >
+        <template #bodyCell="{ column, record, index }">
+          <template v-if="column.key === 'stt'">
+            <span class="font-medium text-[#696cff]">{{ (currentPage - 1) * pageSize + index + 1 }}</span>
+          </template>
+          
+          <template v-if="column.key === 'idHoSo'">
+            <span class="font-semibold text-[#22303E]">{{ record.idHoSo }}</span>
+          </template>
+
+          <template v-if="column.key === 'trangThaiHoSo'">
+            <BaseTag :type="getStatusType(record.trangThaiHoSo)">
+              {{ record.trangThaiHoSo }}
+            </BaseTag>
+          </template>
+
+          <template v-if="column.key === 'hanhDong'">
+            <div class="flex items-center space-x-3">
+              <button 
+                @click="handleScore(record)"
+                class="text-gray-400 hover:text-purple-500 transition-colors"
+                title="Xem bảng điểm"
+              >
+                <NavIcon name="BxTable" size="18" />
+              </button>
+              <button 
+                @click="handleView(record)"
+                class="text-gray-400 hover:text-blue-500 transition-colors"
+                title="Xem chi tiết"
+              >
+                <NavIcon name="BxShow" size="18" />
+              </button>
+              <button 
+                @click="handleEdit(record)"
+                class="text-gray-400 hover:text-green-500 transition-colors"
+                title="Chỉnh sửa"
+              >
+                <NavIcon name="BxEdit" size="18" />
+              </button>
+              <button 
+                @click="handleDelete(record)"
+                class="text-gray-400 hover:text-red-500 transition-colors"
+                title="Xóa"
+              >
+                <NavIcon name="BxTrash" size="18" />
+              </button>
+            </div>
+          </template>
+        </template>
+      </a-table>
+
+      <!-- Custom Pagination -->
+      <div class="flex justify-end mt-4">
+        <BasePagination 
+          :total="totalItems" 
+          :current="currentPage" 
+          :page-size="pageSize" 
+          @change="(page) => currentPage = page" 
+        />
+      </div>
+    </a-card>
+  </div>
 </template>
 
 <script setup lang="ts">
-import {
-    ApiOutlined,
-    AppstoreOutlined, CalendarOutlined,
-    CheckOutlined, CloseOutlined,
-    DeleteOutlined,
-    EditOutlined,
-    EyeOutlined,
-    PieChartOutlined,
-    PlusOutlined,
-    ReloadOutlined,
-    SearchOutlined,
-    TableOutlined,
-    UploadOutlined,
-} from '@ant-design/icons-vue';
-import type { TableColumnsType } from 'ant-design-vue';
-import { message } from 'ant-design-vue';
-import { computed, h, ref } from 'vue';
-import { useRouter } from 'vue-router';
-import AdminPage from '@/components/templates/AdminPage.vue'
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { message } from 'ant-design-vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
+import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 
-const breadcrumbs = [
-    { title: 'Quản lý tuyển sinh', path: '#' },
-    { title: 'Hồ sơ thí sinh', path: '#' },
-    { title: 'Danh sách hồ sơ', path: '/recruitment/candidate-profile/list' },
-]
-
-// ─── Types ────────────────────────────────────────────────────────────────────
+// Types
 interface CandidateRecord {
-    id: number
-    idHoSo: string
-    thiSinh: string
-    ngaySinh: string
-    soDienThoai: string
-    kyTuyenSinh: string
-    trangThaiHoSo: string
+  id: number
+  idHoSo: string
+  thiSinh: string
+  ngaySinh: string
+  soDienThoai: string
+  kyTuyenSinh: string
+  trangThaiHoSo: string
 }
 
-// ─── Stat cards ───────────────────────────────────────────────────────────────
-const statsRow1 = [
-    { label: 'Tổng số thí sinh', value: '21', percent: '', icon: AppstoreOutlined, iconBg: 'bg-indigo-100', iconColor: 'text-indigo-500' },
-    { label: 'Trạng thái đầy đủ', value: '20', percent: '(95%)', icon: CalendarOutlined, iconBg: 'bg-red-100', iconColor: 'text-red-400' },
-    { label: 'Trạng thái không hợp lệ', value: '1', percent: '(5%)', icon: ApiOutlined, iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500' },
-    { label: 'Trạng thái Chờ xử lý', value: '21', percent: '(5%)', icon: ApiOutlined, iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500' },
+// Stats Data
+const stats = [
+  { 
+    title: 'Tổng số thí sinh', 
+    value: '55', 
+    icon: 'BxUser', 
+    iconBg: 'bg-blue-500' 
+  },
+  { 
+    title: 'Đầy đủ', 
+    value: '50', 
+    percentage: '91%', 
+    trendClass: 'text-green-500', 
+    icon: 'BxCheck', 
+    iconBg: 'bg-green-400' 
+  },
+  { 
+    title: 'Không hợp lệ', 
+    value: '5', 
+    percentage: '9%', 
+    trendClass: 'text-red-500', 
+    icon: 'BxX', 
+    iconBg: 'bg-red-400' 
+  },
+  { 
+    title: 'Chờ xử lý', 
+    value: '10', 
+    percentage: '18%', 
+    trendClass: 'text-yellow-500', 
+    icon: 'BxTime', 
+    iconBg: 'bg-yellow-400' 
+  },
+  { 
+    title: 'Tỷ lệ pass', 
+    value: '91%', 
+    icon: 'BxBarChartAlt2', 
+    iconBg: 'bg-purple-400' 
+  }
 ]
 
-const statsRow2 = [
-    { label: 'Số hồ sơ pass', value: '20', percent: '(95%)', percentColor: 'text-green-500', icon: CheckOutlined, iconBg: 'bg-red-100', iconColor: 'text-red-400' },
-    { label: 'Số hồ sơ fail', value: '1', percent: '(5%)', percentColor: 'text-green-500', icon: CloseOutlined, iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500' },
-    { label: 'Tỷ lệ pass/fail', value: '21', percent: '(5%)', percentColor: 'text-green-500', icon: PieChartOutlined, iconBg: 'bg-yellow-100', iconColor: 'text-yellow-500' },
-]
-
-// ─── State ────────────────────────────────────────────────────────────────────
+// State
 const searchText = ref('')
-const selectedKy = ref<string | undefined>(undefined)
-const selectedStatus = ref<string | undefined>(undefined)
-const currentPage = ref(3)
+const selectedKy = ref<string>('')
+const selectedStatus = ref<string>('')
+const currentPage = ref(1)
 const pageSize = ref(10)
 
-// ─── Mock data ────────────────────────────────────────────────────────────────
+// Mock data
 const allData = ref<CandidateRecord[]>(
-    Array.from({ length: 55 }, (_, i) => ({
-        id: i + 1,
-        idHoSo: 'HS001',
-        thiSinh: 'Nguyễn Văn An',
-        ngaySinh: '15/06/2010',
-        soDienThoai: '0903 123 456',
-        kyTuyenSinh: 'Tuyển sinh PVF 2025',
-        trangThaiHoSo: i % 5 === 3 ? 'Không hợp lệ' : 'Đầy đủ',
-    }))
+  Array.from({ length: 55 }, (_, i) => ({
+    id: i + 1,
+    idHoSo: `HS${String(i + 1).padStart(3, '0')}`,
+    thiSinh: `Nguyễn Văn ${String.fromCharCode(65 + (i % 26))}`,
+    ngaySinh: '15/06/2010',
+    soDienThoai: '0903 123 456',
+    kyTuyenSinh: i % 2 === 0 ? 'Tuyển sinh PVF 2025' : 'Tuyển sinh PVF 2024',
+    trangThaiHoSo: i % 5 === 3 ? 'Không hợp lệ' : i % 5 === 4 ? 'Chờ xử lý' : 'Đầy đủ',
+  }))
 )
 
-// ─── Computed ─────────────────────────────────────────────────────────────────
+// Computed
 const filteredData = computed(() =>
-    allData.value.filter((item) => {
-        const matchSearch = !searchText.value ||
-            item.thiSinh.toLowerCase().includes(searchText.value.toLowerCase()) ||
-            item.idHoSo.toLowerCase().includes(searchText.value.toLowerCase())
-        const matchStatus = !selectedStatus.value ||
-            (selectedStatus.value === 'day-du' && item.trangThaiHoSo === 'Đầy đủ') ||
-            (selectedStatus.value === 'khong-hop-le' && item.trangThaiHoSo === 'Không hợp lệ')
-        return matchSearch && matchStatus
-    })
+  allData.value.filter((item) => {
+    const matchSearch = !searchText.value ||
+      item.thiSinh.toLowerCase().includes(searchText.value.toLowerCase()) ||
+      item.idHoSo.toLowerCase().includes(searchText.value.toLowerCase())
+    
+    const matchKy = !selectedKy.value || 
+      item.kyTuyenSinh.includes(selectedKy.value)
+    
+    const matchStatus = !selectedStatus.value ||
+      (selectedStatus.value === 'day-du' && item.trangThaiHoSo === 'Đầy đủ') ||
+      (selectedStatus.value === 'khong-hop-le' && item.trangThaiHoSo === 'Không hợp lệ') ||
+      (selectedStatus.value === 'cho-xu-ly' && item.trangThaiHoSo === 'Chờ xử lý')
+    
+    return matchSearch && matchKy && matchStatus
+  })
 )
 
 const totalItems = computed(() => filteredData.value.length)
+
 const pagedData = computed(() => {
-    const start = (currentPage.value - 1) * pageSize.value
-    return filteredData.value.slice(start, start + pageSize.value)
+  const start = (currentPage.value - 1) * pageSize.value
+  return filteredData.value.slice(start, start + pageSize.value)
 })
 
-// ─── Table columns ─────────────────────────────────────────────────────────────
-const columns: TableColumnsType = [
-    { title: 'ID HỒ SƠ', dataIndex: 'idHoSo', key: 'idHoSo', width: 110 },
-    { title: 'THÍ SINH', dataIndex: 'thiSinh', key: 'thiSinh' },
-    { title: 'NGÀY SINH', dataIndex: 'ngaySinh', key: 'ngaySinh', width: 130 },
-    { title: 'SỐ ĐIỆN THOẠI', dataIndex: 'soDienThoai', key: 'soDienThoai', width: 150 },
-    { title: 'KỲ TUYỂN SINH', dataIndex: 'kyTuyenSinh', key: 'kyTuyenSinh' },
-    { title: 'TRẠNG THÁI HỒ SƠ', dataIndex: 'trangThaiHoSo', key: 'trangThaiHoSo', width: 160 },
-    { title: 'HÀNH ĐỘNG', key: 'hanhDong', width: 160, align: 'center' },
+// Table config
+const columns = [
+  { title: 'STT', key: 'stt', width: 70, align: 'center' },
+  { title: 'ID HỒ SƠ', dataIndex: 'idHoSo', key: 'idHoSo', width: 110 },
+  { title: 'THÍ SINH', dataIndex: 'thiSinh', key: 'thiSinh' },
+  { title: 'NGÀY SINH', dataIndex: 'ngaySinh', key: 'ngaySinh', width: 130 },
+  { title: 'SỐ ĐIỆN THOẠI', dataIndex: 'soDienThoai', key: 'soDienThoai', width: 150 },
+  { title: 'KỲ TUYỂN SINH', dataIndex: 'kyTuyenSinh', key: 'kyTuyenSinh' },
+  { title: 'TRẠNG THÁI', key: 'trangThaiHoSo', width: 160, align: 'center' },
+  { title: 'HÀNH ĐỘNG', key: 'hanhDong', width: 160, align: 'center' },
 ]
 
-// ─── Row selection ─────────────────────────────────────────────────────────────
-const selectedRowKeys = ref<number[]>([])
+const selectedRowKeys = ref<(string | number)[]>([])
 const rowSelection = {
-    selectedRowKeys,
-    onChange: (keys: number[]) => { selectedRowKeys.value = keys },
+  selectedRowKeys: selectedRowKeys as any,
+  onChange: (keys: (string | number)[]) => { 
+    selectedRowKeys.value = keys
+  },
 }
 
-// ─── Helpers ───────────────────────────────────────────────────────────────────
-const statusClass = (status: string) => {
-    switch (status) {
-        case 'Đầy đủ': return 'bg-green-100 text-green-700'
-        case 'Không hợp lệ': return 'bg-red-100 text-red-500'
-        case 'Chờ xử lý': return 'bg-yellow-100 text-yellow-600'
-        default: return 'bg-gray-100 text-gray-500'
-    }
+// Helpers
+const getStatusType = (status: string) => {
+  switch (status) {
+    case 'Đầy đủ': return 'success'
+    case 'Không hợp lệ': return 'error'
+    case 'Chờ xử lý': return 'warning'
+    default: return 'default'
+  }
 }
 
-const itemRender = ({ page, type, originalElement }: any) => {
-    if (type === 'page' && page === 5)
-        return h('span', { class: 'text-pink-400 font-medium cursor-not-allowed' }, page)
-    return originalElement
+// Handlers
+const handleSearch = () => { 
+  currentPage.value = 1 
 }
 
-// ─── Actions ───────────────────────────────────────────────────────────────────
-const handleSearch = () => { currentPage.value = 1 }
 const handleResetFilter = () => {
-    searchText.value = ''
-    selectedKy.value = undefined
-    selectedStatus.value = undefined
-    currentPage.value = 1
-}
-const handleScore = (r: CandidateRecord) => message.info(`Bảng điểm: ${r.thiSinh}`)
-const handleView = (r: CandidateRecord) => router.push({ name: "candidate-detail", params: { id: r.id } })
-const handleEdit = (r: CandidateRecord) => router.push({ name: "candidate-edit", params: { id: r.id } })
-const handleDelete = (r: CandidateRecord) => {
-    allData.value = allData.value.filter(i => i.id !== r.id)
-    message.warning(`Đã xóa hồ sơ: ${r.thiSinh}`)
+  searchText.value = ''
+  selectedKy.value = ''
+  selectedStatus.value = ''
+  currentPage.value = 1
 }
 
-const handleClickAdd = () => router.push({ name: "candidate-add" })
+const handleScore = (record: CandidateRecord) => {
+  message.info(`Xem bảng điểm: ${record.thiSinh}`)
+}
 
-const handleClickDeleted = () => router.push({ name: "candidate-deleted" })
+const handleView = (record: CandidateRecord) => {
+  router.push({ name: 'candidate-detail', params: { id: record.id } })
+}
+
+const handleEdit = (record: CandidateRecord) => {
+  router.push({ name: 'candidate-edit', params: { id: record.id } })
+}
+
+const handleDelete = (record: CandidateRecord) => {
+  allData.value = allData.value.filter(i => i.id !== record.id)
+  message.warning(`Đã xóa hồ sơ: ${record.thiSinh}`)
+}
+
+const handleClickAdd = () => {
+  router.push({ name: 'candidate-add' })
+}
+
+const handleClickDeleted = () => {
+  router.push({ name: 'candidate-deleted' })
+}
 </script>
 
 <style scoped>
-:deep(.candidate-table .ant-table-thead > tr > th) {
-    @apply bg-gray-50 text-gray-500 text-xs font-semibold tracking-wider border-b border-gray-200;
+:deep(.ant-card-body) {
+  padding: 24px;
 }
 
-:deep(.candidate-table .ant-table-tbody > tr > td) {
-    @apply border-b border-gray-100 text-gray-700;
+:deep(.ant-table-thead > tr > th) {
+  background-color: transparent;
+  color: #22303E;
+  opacity: 0.9;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 14px;
+  border-bottom: 1px solid #f0f2f5;
 }
 
-:deep(.candidate-table .ant-table-tbody > tr:hover > td) {
-    @apply bg-blue-50/40;
+:deep(.ant-table-tbody > tr > td) {
+  padding: 16px;
+  color: #22303E;
+  opacity: 0.9;
+  border-bottom: 1px solid #f0f2f5;
 }
 
-:deep(.ant-pagination-item-active) {
-    @apply !bg-red-500 !border-red-500;
-}
-
-:deep(.ant-pagination-item-active a) {
-    @apply !text-white;
+:deep(.ant-table-row:hover > td) {
+  background-color: #f8faff !important;
 }
 </style>

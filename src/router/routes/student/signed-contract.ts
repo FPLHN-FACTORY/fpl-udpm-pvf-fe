@@ -6,7 +6,7 @@ export const signedContractRoute: RouteRecordRaw = {
   component: () => import('../../../components/pages/contract/SignedContractPage.vue'),
   children: [
     {
-      path: '', 
+      path: '',
       name: 'SignedContractList',
       component: () => import('../../../components/pages/contract/SignedContractPage.vue'),
       meta: { hidden: true }

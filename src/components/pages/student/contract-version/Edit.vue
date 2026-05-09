@@ -137,7 +137,7 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 pt-10">
-          <ButtonAddNoIcon @click="handleSubmit" text="Cập Nhật" />
+          <ButtonSaveNoIcon @click="handleSubmit" text="Cập Nhật" />
           <ButtonResetYellow @click="handleReset" text="Đặt Lại" />
         </div>
       </div>
@@ -157,7 +157,7 @@ import { useRouter, useRoute } from 'vue-router'
 import dayjs from 'dayjs'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
-import ButtonAddNoIcon from '../../../atoms/buttons/ButtonAddNoIcon.vue'
+import ButtonSaveNoIcon from '../../../atoms/buttons/ButtonSaveNoIcon.vue'
 import ButtonResetYellow from '../../../atoms/buttons/ButtonResetYellow.vue'
 import InputForm from '../../../atoms/inputs/InputForm.vue'
 import SelectForm from '../../../atoms/inputs/SelectForm.vue'

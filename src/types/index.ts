@@ -27,3 +27,5 @@ export interface ApiResponse<T = any> {
   message?: string
   errors?: Record<string, string[]>
 }
+
+export * from './ky-tuyen-sinh.type'
