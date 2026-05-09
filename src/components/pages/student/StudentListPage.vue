@@ -158,15 +158,15 @@ const handleReset = () => {
 }
 
 const handleCreate = () => {
-  router.push('/students/add')
+  router.push('/student/info/add')
 }
 
 const handleEdit = (record: Student) => {
-  router.push(`/students/edit/${record.id}`)
+  router.push(`/student/info/edit/${record.id}`)
 }
 
 const handleViewDetail = (record: Student) => {
-  router.push(`/students/detail/${record.id}`)
+  router.push(`/student/info/detail/${record.id}`)
 }
 
 const handleDelete = (id: string) => {

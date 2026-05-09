@@ -10,18 +10,18 @@ export const rewardDecisionRoutes: RouteRecordRaw[] = [
     path: 'reward-decisions/create',
     name: 'reward-decisions-create',
     component: () => import('../../../components/pages/discipline/RewardDecisionCreatePage.vue'),
-    meta: { title: 'Thêm mới Quyết định khen thưởng' }
+    meta: { title: 'Thêm mới Quyết định khen thưởng', hidden: true }
   },
   {
     path: 'reward-decisions/edit/:id',
     name: 'reward-decisions-edit',
     component: () => import('../../../components/pages/discipline/RewardDecisionEditPage.vue'),
-    meta: { title: 'Chỉnh sửa Quyết định khen thưởng' }
+    meta: { title: 'Chỉnh sửa Quyết định khen thưởng', hidden: true }
   },
   {
     path: 'reward-decisions/detail/:id',
     name: 'reward-decisions-detail',
     component: () => import('../../../components/pages/discipline/RewardDecisionDetailPage.vue'),
-    meta: { title: 'Chi tiết Quyết định khen thưởng' }
+    meta: { title: 'Chi tiết Quyết định khen thưởng', hidden: true }
   }
 ]

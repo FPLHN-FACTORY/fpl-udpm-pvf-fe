@@ -4,7 +4,7 @@
       :columns="columns"
       :data-source="dataSource"
       :loading="loading"
-      :pagination="paginationConfig"
+      :pagination="false"
       :row-selection="rowSelection"
       row-key="id"
       class="student-table"
@@ -44,7 +44,7 @@
           <div class="flex items-center justify-center gap-2">
             <button 
               @click="$emit('view', record)"
-              class="text-[#697a8d] hover:text-[#566a7f] transition-colors"
+              class="text-[#697a8d] hover:text-blue-500 transition-colors"
               title="Xem chi tiết"
             >
               <NavIcon name="BxShow" size="18" />
@@ -52,7 +52,7 @@
             <button 
               v-if="!isDeletedView"
               @click="$emit('edit', record)"
-              class="text-[#697a8d] hover:text-[#566a7f] transition-colors"
+              class="text-[#697a8d] hover:text-green-500 transition-colors"
               title="Chỉnh sửa"
             >
               <NavIcon name="BxEdit" size="18" />
@@ -63,12 +63,12 @@
               class="text-[#697a8d] hover:text-green-500 transition-colors"
               title="Khôi phục"
             >
-              <NavIcon name="BxUndo" size="18" />
+              <NavIcon name="BxReset" size="18" />
             </button>
             <button 
               @click="$emit('delete', record.id)"
               class="text-[#697a8d] hover:text-red-500 transition-colors"
-              title="Xóa"
+              :title="isDeletedView ? 'Xóa vĩnh viễn' : 'Xóa'"
             >
               <NavIcon name="BxTrash" size="18" />
             </button>
@@ -76,12 +76,23 @@
         </template>
       </template>
     </a-table>
+
+    <!-- Custom Pagination -->
+    <div class="flex justify-end mt-4">
+      <BasePagination 
+        :total="total" 
+        :current="current" 
+        :page-size="pageSize" 
+        @change="(p) => $emit('page-change', p)" 
+      />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import BaseTag from '../atoms/display/BaseTag.vue'
+import BasePagination from '../atoms/display/BasePagination.vue'
 import NavIcon from '../atoms/icons/NavIcon.vue'
 
 interface RewardDecision {
@@ -169,17 +180,6 @@ const rowSelection = {
   }
 }
 
-const paginationConfig = computed(() => ({
-  current: props.current,
-  pageSize: props.pageSize,
-  total: props.total,
-  showSizeChanger: false,
-  showQuickJumper: false,
-  showTotal: (total: number, range: number[]) => 
-    `${range[0]}-${range[1]} của ${total} mục`,
-  onChange: (page: number) => emit('page-change', page)
-}))
-
 const getStatusType = (status: string) => {
   switch (status) {
     case 'published': return 'success'
@@ -219,20 +219,6 @@ const getStatusText = (status: string) => {
 
 :deep(.ant-table-tbody > tr:hover > td) {
   background-color: #f8fafc !important;
-}
-
-:deep(.ant-pagination) {
-  margin: 16px 0 0 0 !important;
-  text-align: center !important;
-}
-
-:deep(.ant-pagination-item-active) {
-  background-color: #dc2626 !important;
-  border-color: #dc2626 !important;
-}
-
-:deep(.ant-pagination-item-active a) {
-  color: white !important;
 }
 
 :deep(.ant-checkbox-wrapper) {

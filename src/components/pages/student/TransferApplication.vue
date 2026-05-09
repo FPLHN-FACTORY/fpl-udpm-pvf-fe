@@ -35,6 +35,7 @@
           @edit="handleEdit"
           @delete="handleDelete"
           @view="handleViewDetail"
+          @restore="handleRestore"
           @page-change="handlePageChange"
         />
       </div>
@@ -173,7 +174,7 @@ const handleCreate = () => {
 }
 
 const handleEdit = (record: Student) => {
-  message.info(`Sửa đơn xin chuyển trường ${record.studentCode}`)
+  router.push(`/student/transfer-request/edit/${record.id}`)
 }
 
 const handleViewDetail = (record: Student) => {
@@ -194,6 +195,23 @@ const handleDelete = (id: string) => {
         fetchData()
       } catch (error) {
         message.error('Thao tác thất bại')
+      }
+    }
+  })
+}
+
+const handleRestore = (id: string) => {
+  Modal.confirm({
+    title: 'Xác nhận khôi phục',
+    content: 'Bạn có chắc chắn muốn khôi phục đơn này?',
+    okText: 'Khôi phục',
+    cancelText: 'Hủy',
+    async onOk() {
+      try {
+        message.success('Khôi phục thành công')
+        fetchData()
+      } catch (error) {
+        message.error('Khôi phục thất bại')
       }
     }
   })

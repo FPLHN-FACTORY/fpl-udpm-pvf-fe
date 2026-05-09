@@ -55,16 +55,22 @@
               <button 
                 @click="handleView(record.key)"
                 class="text-gray-400 hover:text-blue-500 transition-colors"
+                title="Xem chi tiết"
               >
                 <NavIcon name="BxShow" size="18" />
               </button>
               <button 
                 @click="handleRestore(record.key)"
                 class="text-gray-400 hover:text-green-500 transition-colors"
+                title="Khôi phục"
               >
-                <NavIcon name="BxEdit" size="18" />
+                <NavIcon name="BxReset" size="18" />
               </button>
-              <button class="text-gray-400 hover:text-red-500 transition-colors">
+              <button 
+                @click="handleDelete(record.key)"
+                class="text-gray-400 hover:text-red-500 transition-colors"
+                title="Xóa vĩnh viễn"
+              >
                 <NavIcon name="BxTrash" size="18" />
               </button>
             </div>
@@ -102,6 +108,11 @@ const handleView = (id: string) => {
 const handleRestore = (id: string) => {
   // Logic to restore
   console.log('Restore', id)
+}
+
+const handleDelete = (id: string) => {
+  // Logic to delete permanently
+  console.log('Delete permanently', id)
 }
 
 // Filter State
