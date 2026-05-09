@@ -9,8 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import NavIcon from '../icons/NavIcon.vue'
-
 withDefaults(defineProps<{
   text?: string
 }>(), {

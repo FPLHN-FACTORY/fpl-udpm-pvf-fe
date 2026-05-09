@@ -206,35 +206,33 @@
                   </span>
                 </td>
                 <td class="border-b border-slate-100 px-4 py-4">
-                  <div
-                    class="flex items-center justify-center gap-3 text-slate-400"
-                  >
+                  <div class="flex items-center justify-center gap-3">
                     <button
                       type="button"
-                      class="transition hover:text-[#ff4d4f]"
+                      class="text-[#a1acb8] transition-colors hover:text-blue-500"
                       title="Xem chi tiết"
                       aria-label="Xem chi tiết"
                       @click="goToDetail(row.id)"
                     >
-                      <EvaluationIcon name="BxShow" class-name="h-4 w-4" />
+                      <EvaluationIcon name="BxShow" class-name="h-[18px] w-[18px]" />
                     </button>
                     <button
                       type="button"
-                      class="transition hover:text-amber-500"
+                      class="text-[#a1acb8] transition-colors hover:text-green-500"
                       title="Chỉnh sửa"
                       aria-label="Chỉnh sửa"
                       @click="goToEdit(row.id)"
                     >
-                      <EvaluationIcon name="BxEditAlt" class-name="h-4 w-4" />
+                      <EvaluationIcon name="BxEditAlt" class-name="h-[18px] w-[18px]" />
                     </button>
                     <button
                       type="button"
-                      class="transition hover:text-red-500"
+                      class="text-[#a1acb8] transition-colors hover:text-red-500"
                       title="Xoa"
                       aria-label="Xoa"
                       @click="deleteRow(row.id)"
                     >
-                      <EvaluationIcon name="BxTrash" class-name="h-4 w-4" />
+                      <EvaluationIcon name="BxTrash" class-name="h-[18px] w-[18px]" />
                     </button>
                   </div>
                 </td>

@@ -7,10 +7,7 @@
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                 <h1 class="text-xl font-bold text-gray-800">Chi tiết Thông tin hồ sơ</h1>
                 <div class="flex gap-3">
-                    <a-button @click="handleBack" class="flex items-center gap-1 !text-gray-500 !border-gray-300 !bg-[#ebedf0]">
-                        <template #icon><arrow-left-outlined /></template>
-                        Quay Lại
-                    </a-button>
+                    <ButtonBackNoIcon @click="handleBack" />
                     <a-button class="!bg-yellow-400 !border-yellow-400 !text-white hover:!bg-yellow-500 font-semibold">
                         Chỉnh Sửa
                     </a-button>
@@ -95,11 +92,7 @@
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                 <h2 class="text-xl font-bold text-gray-800">Chi tiết điểm vòng đánh giá</h2>
                 <div class="flex gap-3">
-                    <a-button @click="showScoreDetail = false"
-                        class="flex items-center gap-1 !text-gray-500 !border-gray-300">
-                        <template #icon><arrow-left-outlined /></template>
-                        Quay Lại
-                    </a-button>
+                    <ButtonBackNoIcon @click="showScoreDetail = false" />
                     <a-button class="!bg-yellow-400 !border-yellow-400 !text-white hover:!bg-yellow-500 font-semibold">
                         Chỉnh Sửa
                     </a-button>
@@ -160,11 +153,12 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowLeftOutlined, EyeOutlined } from '@ant-design/icons-vue'
+import { EyeOutlined } from '@ant-design/icons-vue'
 import type { TableColumnsType } from 'ant-design-vue'
 import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AdminPage from '@/components/templates/AdminPage.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 
 const router = useRouter()
 

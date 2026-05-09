@@ -85,21 +85,24 @@
 
           <template v-if="column.key === 'hanhDong'">
             <div class="flex items-center space-x-3">
-              <button 
+              <button
                 @click="handleClickDetail(record.id)"
-                class="text-gray-400 hover:text-blue-500 transition-colors"
+                class="text-gray-400 transition-colors hover:text-blue-500"
+                title="Xem chi tiet"
               >
                 <NavIcon name="BxShow" size="18" />
               </button>
-              <button 
+              <button
                 @click="handleEdit(record.id)"
-                class="text-gray-400 hover:text-green-500 transition-colors"
+                class="text-gray-400 transition-colors hover:text-green-500"
+                title="Chinh sua"
               >
                 <NavIcon name="BxEdit" size="18" />
               </button>
-              <button 
+              <button
                 @click="handleDelete(record)"
-                class="text-gray-400 hover:text-red-500 transition-colors"
+                class="text-gray-400 transition-colors hover:text-red-500"
+                title="Xoa"
               >
                 <NavIcon name="BxTrash" size="18" />
               </button>

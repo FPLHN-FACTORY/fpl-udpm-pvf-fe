@@ -12,15 +12,7 @@
       <!-- Card Header -->
       <div class="flex justify-between items-center p-8 border-b border-gray-100">
         <h2 class="text-2xl font-bold text-[#566a7f]">Thêm mới Kỳ tuyển sinh</h2>
-        <a-button 
-          class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2 rounded-md font-medium"
-          @click="$router.push('/recruitment/admission-periods')"
-        >
-          <template #icon>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-          </template>
-          Quay Lại
-        </a-button>
+        <ButtonBackNoIcon @click="$router.push('/recruitment/admission-periods')" />
       </div>
 
       <!-- Form Body -->
@@ -109,6 +101,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 
 const router = useRouter()
 const formData = ref({
