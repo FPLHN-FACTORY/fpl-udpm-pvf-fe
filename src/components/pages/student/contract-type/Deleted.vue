@@ -7,37 +7,61 @@
       <a-breadcrumb-item>Đã xóa</a-breadcrumb-item>
     </a-breadcrumb>
 
+    <!-- Statistic Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <a-card v-for="(stat, index) in stats" :key="index" :bordered="false" class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-gray-500 text-sm font-medium mb-1">{{ stat.title }}</p>
+            <div class="flex items-baseline space-x-2">
+              <span class="text-2xl font-bold text-gray-800">{{ stat.value }}</span>
+              <span v-if="stat.percentage" class="text-xs font-semibold" :class="stat.trendClass">
+                ({{ stat.percentage }})
+              </span>
+            </div>
+          </div>
+          <div :class="stat.iconBg" class="w-10 h-10 rounded-lg flex items-center justify-center">
+             <NavIcon :name="stat.icon" class-name="w-6 h-6 text-white" />
+          </div>
+        </div>
+      </a-card>
+    </div>
+
     <!-- Main Table Card -->
     <a-card :bordered="false" class="shadow-sm rounded-xl">
       <!-- Card Header: Title and Back Button -->
       <div class="flex items-center justify-between pb-4">
         <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách Loại hợp đồng đã xóa</h2>
         <div class="flex items-center gap-3">
-          <ButtonAdd @click="$router.push('/student/contract-type/create')" />
+          <ButtonResetYellow 
+            v-if="selectedRowKeys.length > 0"
+            :text="`Khôi phục (${selectedRowKeys.length})`"
+            @click="handleBulkRestore"
+          />
           <ButtonBack @click="$router.push('/student/contract-type')" />
         </div>
       </div>
 
-      <!-- Divider -->
-      <div class="border-t border-gray-100 -mx-6 mb-4"></div>
-
       <!-- Filter Bar -->
-      <div class="flex flex-col sm:flex-row gap-4 mb-6 mt-2">
-        <InputSearch v-model="filters.keyword" placeholder="Tìm kiếm" class="!w-[250px]" />
+      <div class="flex flex-wrap items-center justify-between gap-4 p-6 bg-[#fcfcfd] border-b border-gray-100">
+        <div class="flex flex-wrap items-center gap-4 flex-1">
+          <div class="w-[240px]">
+            <InputSearch v-model="filters.keyword" placeholder="Tìm kiếm" />
+          </div>
 
-        <SelectFilter v-model:value="filters.status" placeholder="Chọn trạng thái" class="!w-[200px]">
-          <a-select-option value="active">Đang hoạt động</a-select-option>
-          <a-select-option value="inactive">Ngừng sử dụng</a-select-option>
-        </SelectFilter>
-        
-        <div class="flex items-center ml-auto">
-          <ButtonSearch @click="handleSearch" class="!bg-indigo-500 hover:!bg-indigo-600" />
-          <IconButton icon="BxReset" label="Làm mới" @click="handleReset" class="ml-2 bg-gray-500 text-white hover:bg-gray-600 border-none" />
+          <div class="w-[200px]">
+            <SelectFilter v-model:value="filters.status" placeholder="Chọn trạng thái">
+              <a-select-option value="active">Đang hoạt động</a-select-option>
+              <a-select-option value="inactive">Ngừng sử dụng</a-select-option>
+            </SelectFilter>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <ButtonSearch @click="handleSearch" />
+          <ButtonReset @click="handleReset" />
         </div>
       </div>
-
-      <!-- Divider before table -->
-      <div class="border-t border-gray-100 -mx-6"></div>
 
       <!-- Data Table -->
       <a-table 
@@ -91,7 +115,7 @@
           </template>
         </template>
       </a-table>
-      </div>
+
       <!-- Custom Pagination -->
       <div class="flex justify-end mt-4">
         <BasePagination 
@@ -109,15 +133,49 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
-import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
 import ButtonSearch from '../../../atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '../../../atoms/buttons/ButtonReset.vue'
+import ButtonResetYellow from '../../../atoms/buttons/ButtonResetYellow.vue'
 import BasePagination from '../../../atoms/display/BasePagination.vue'
 import InputSearch from '../../../atoms/inputs/InputSearch.vue'
 import SelectFilter from '../../../atoms/inputs/SelectFilter.vue'
-import IconButton from '../../../atoms/buttons/IconButton.vue'
 
 const router = useRouter()
+
+// Stats Cards
+const stats = ref([
+  {
+    title: 'Tổng đã xóa',
+    value: '60',
+    icon: 'BxTrash',
+    iconBg: 'bg-red-500',
+  },
+  {
+    title: 'Xóa trong 7 ngày',
+    value: '12',
+    percentage: '20%',
+    trendClass: 'text-orange-500',
+    icon: 'BxCalendar',
+    iconBg: 'bg-orange-500',
+  },
+  {
+    title: 'Xóa trong 30 ngày',
+    value: '28',
+    percentage: '47%',
+    trendClass: 'text-yellow-500',
+    icon: 'BxTime',
+    iconBg: 'bg-yellow-500',
+  },
+  {
+    title: 'Xóa trên 30 ngày',
+    value: '20',
+    percentage: '33%',
+    trendClass: 'text-gray-500',
+    icon: 'BxHistory',
+    iconBg: 'bg-gray-500',
+  },
+])
 
 const handleView = (id: string) => {
   router.push(`/student/contract-type/detail/${id}`)
@@ -129,6 +187,11 @@ const handleRestore = (id: string) => {
 
 const handleHardDelete = (id: string) => {
   console.log('Hard delete', id)
+}
+
+const handleBulkRestore = () => {
+  console.log('Bulk restore', selectedRowKeys.value)
+  // TODO: Implement bulk restore logic
 }
 
 // Filter State

@@ -96,7 +96,7 @@
                   title="Khôi phục"
                   @click="restoreRow(record.id)"
                 >
-                  <NavIcon name="BxRevision" class-name="w-[18px] h-[18px]" />
+                  <NavIcon name="BxReset" class-name="w-[18px] h-[18px]" />
                 </button>
                 <button
                   class="p-1 text-[#a1acb8] hover:text-[#ff3e1d] transition-colors"
