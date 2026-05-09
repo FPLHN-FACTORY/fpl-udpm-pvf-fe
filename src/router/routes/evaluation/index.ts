@@ -1,10 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
-<<<<<<< HEAD
-// Sửa lại import: chỉ lấy những gì file nguồn có
-import { criteriaRoutes } from './criteria'
-=======
 import { criteriaRoute } from './criteria'
->>>>>>> c60b489d91ed18c810e28706d8058cedce49c778
 import { formRoutes } from './forms'
 import { stageRoute } from './stages'
 import {
@@ -17,13 +11,8 @@ import {
 import { courseEvaluationRoute } from './full-course'
 
 const evaluationVisibleChildren: RouteRecordRaw[] = [
-<<<<<<< HEAD
-  ...criteriaRoutes, // Dùng toán tử spread vì đây là mảng
-  ...formRoutes,     // Dùng toán tử spread vì đây là mảng
-=======
   criteriaRoute,
   ...formRoutes,
->>>>>>> c60b489d91ed18c810e28706d8058cedce49c778
   stageRoute,
   studentEvaluationRoute,
   ...courseEvaluationRoute

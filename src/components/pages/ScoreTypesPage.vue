@@ -1,38 +1,50 @@
 <template>
-  <div class="px-2 py-2">
-
-    <!-- Breadcrumb + Page Title -->
-    <div class="mb-5">
-      <div class="flex items-center gap-1.5 text-sm text-gray-400 mb-1 select-none">
-        <span>Quản lý học tập ngoại khóa</span>
-        <span>/</span>
-        <span class="cursor-pointer hover:text-red-500 transition-colors duration-150"
-          :class="currentView === 'list' ? 'text-gray-600 font-medium' : 'text-gray-400'" @click="navigateTo('list')">
-          Quản lý loại điểm
-        </span>
-        <!-- <template v-if="currentView !== 'list'">
-          <span>/</span>
-          <span class="text-red-500 font-medium">{{ VIEW_LABELS[currentView] }}</span>
-        </template> -->
-      </div>
-    </div>
-
-    <!-- ── Dynamic Component ── -->
-    <Transition :name="transitionName" mode="out-in">
-      <component :is="currentComponent" :key="currentView" v-bind="currentProps" v-on="currentListeners" />
-    </Transition>
-
-  </div>
+  <AdminPage title="Quản lý loại điểm" :breadcrumbs="breadcrumbs">
+    <AdminCard :title="VIEW_LABELS[currentView]">
+      <template #actions>
+        <component 
+          v-for="(action, index) in headerActions" 
+          :is="action.component" 
+          :key="index"
+          @click="action.onClick"
+        />
+      </template>
+      <Transition :name="transitionName" mode="out-in">
+        <component 
+          :is="currentComponent" 
+          :key="currentView" 
+          v-bind="currentProps" 
+          v-on="currentListeners" 
+        />
+      </Transition>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { message } from 'ant-design-vue'
+import AdminPage from '../templates/AdminPage.vue'
+import AdminCard from '../molecules/AdminCard.vue'
 import ScoreTypesList from '../organisms/ScoreTypesList.vue'
 import ScoreTypesCreate from '../organisms/ScoreTypesCreate.vue'
 import ScoreTypesDetail from '../organisms/ScoreTypesDetail.vue'
 import ScoreTypesEdit from '../organisms/ScoreTypesEdit.vue'
 import ScoreTypesDeleted from '../organisms/ScoreTypesDeleted.vue'
+
+// ───── Breadcrumbs ─────
+const breadcrumbs = computed(() => {
+  const base = [
+    { title: 'Quản lý học tập ngoại khóa', href: '#' },
+    { title: 'Quản lý loại điểm', href: '#', onClick: () => navigateTo('list') }
+  ]
+  
+  if (currentView.value !== 'list') {
+    base.push({ title: VIEW_LABELS[currentView.value], href: '#' })
+  }
+  
+  return base
+})
 
 // ───── Types ─────
 type ViewType = 'list' | 'create' | 'detail' | 'edit' | 'deleted'
@@ -46,11 +58,11 @@ export interface ScoreTypeRecord {
 
 // ───── Constants ─────
 const VIEW_LABELS: Record<ViewType, string> = {
-  list: 'Danh sách',
-  create: 'Thêm mới',
-  detail: 'Chi tiết',
-  edit: 'Chỉnh sửa',
-  deleted: 'Đã xóa',
+  list: 'Danh sách loại điểm',
+  create: 'Thêm mới loại điểm',
+  detail: 'Chi tiết loại điểm',
+  edit: 'Chỉnh sửa loại điểm',
+  deleted: 'Danh sách loại điểm đã xóa',
 }
 
 // Dùng để xác định hướng transition: index cao hơn = đi sâu hơn
@@ -66,6 +78,26 @@ const VIEW_DEPTH: Record<ViewType, number> = {
 const currentView = ref<ViewType>('list')
 const previousView = ref<ViewType>('list')
 const selectedRecord = ref<ScoreTypeRecord | undefined>(undefined)
+
+// ───── Header Actions ─────
+const headerActions = computed(() => {
+  switch (currentView.value) {
+    case 'list':
+      return [
+        { component: ButtonDeleteList, onClick: () => navigateTo('deleted') },
+        { component: ButtonAdd, onClick: () => navigateTo('create') }
+      ]
+    case 'deleted':
+    case 'create':
+    case 'detail':
+    case 'edit':
+      return [
+        { component: ButtonBack, onClick: () => navigateTo('list') }
+      ]
+    default:
+      return []
+  }
+})
 
 // ───── Component mapping ─────
 const COMPONENT_MAP: Record<ViewType, object> = {
@@ -95,29 +127,23 @@ const currentListeners = computed<Record<string, (...args: unknown[]) => void>>(
   switch (currentView.value) {
     case 'list':
       return {
-        add: () => navigateTo('create'),
         view: (record: ScoreTypeRecord) => handleView(record),
         edit: (record: ScoreTypeRecord) => handleEditFromList(record),
-        deleted: () => navigateTo('deleted'),   // ← nút "Thùng rác" ở list
       }
     case 'create':
       return {
-        back: () => navigateTo('list'),
         created: (record?: ScoreTypeRecord) => handleCreated(record),
       }
     case 'detail':
       return {
-        back: () => navigateTo('list'),
         edit: () => navigateTo('edit'),
       }
     case 'edit':
       return {
-        back: () => navigateTo('list'),
         submit: (data: ScoreTypeRecord) => handleEditSubmit(data),
       }
     case 'deleted':
       return {
-        back: () => navigateTo('list'),
         restored: (record: ScoreTypeRecord) => handleRestored(record),
       }
     default:

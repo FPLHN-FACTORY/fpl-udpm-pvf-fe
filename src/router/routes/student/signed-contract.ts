@@ -12,6 +12,12 @@ export const signedContractRoute: RouteRecordRaw = {
       meta: { hidden: true }
     },
     {
+      path: 'create',
+      name: 'SignedContractCreate',
+      component: () => import('../../../components/pages/contract/CreateContractPage.vue'),
+      meta: { title: 'Thêm mới hợp đồng', hidden: true }
+    },
+    {
       path: 'detail/:id',
       name: 'SignedContractDetail',
       component: () => import('../../../components/pages/contract/DetailContractPage.vue'),

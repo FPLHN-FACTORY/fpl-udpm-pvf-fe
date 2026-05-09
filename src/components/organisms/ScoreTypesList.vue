@@ -1,258 +1,172 @@
 <template>
-    <div>
-        <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
-                <h2 class="text-lg font-semibold text-gray-800">Danh sách loại điểm</h2>
-                <div class="flex items-center gap-2">
-                    <a-button type="primary" dashed @click="handleDeletedList" class="flex items-center gap-2 bg-[#8592a3] hover:!bg-[#7a8798]/70 text-white">
-                        <template #icon>
-                            <DeleteOutlined />
-                        </template>
-                        Danh sách đã xóa
-                    </a-button>
-                    <a-button type="primary" danger @click="handleAdd" class="flex items-center gap-2">
-                        <template #icon>
-                            <PlusOutlined />
-                        </template>
-                        Thêm Mới
-                    </a-button>
-                </div>
-            </div>
+  <div class="score-types-list">
+    <!-- Filters -->
+    <div class="flex items-center justify-between mb-4 gap-4">
+      <div class="flex items-center gap-3">
+        <a-input v-model:value="searchText" placeholder="Tìm kiếm" allow-clear class="w-64">
+          <template #prefix>
+            <NavIcon name="BxSearch" class="text-gray-400" />
+          </template>
+        </a-input>
 
-            <!-- Filters -->
-            <div class="flex items-center justify-between px-6 py-3 border-b border-gray-100 bg-gray-50/50">
-                <div class="flex items-center gap-3">
-                    <a-input v-model:value="searchText" placeholder="Tìm kiếm" allow-clear class="w-52">
-                        <template #prefix>
-                            <SearchOutlined class="text-gray-400" />
-                        </template>
-                    </a-input>
+        <a-select v-model:value="statusFilter" placeholder="Trạng thái" class="w-44" allow-clear>
+          <a-select-option value="">Tất cả trạng thái</a-select-option>
+          <a-select-option value="active">Đang áp dụng</a-select-option>
+          <a-select-option value="inactive">Ngừng áp dụng</a-select-option>
+        </a-select>
+      </div>
 
-                    <a-select v-model:value="statusFilter" placeholder="Trạng thái" class="w-40" allow-clear>
-                        <a-select-option value="">Tất cả</a-select-option>
-                        <a-select-option value="active">Đang áp dụng</a-select-option>
-                        <a-select-option value="inactive">Ngừng áp dụng</a-select-option>
-                    </a-select>
-                </div>
-
-                <div class="flex items-center gap-2">
-                    <a-button type="primary" @click="handleSearch" class="flex items-center gap-2">
-                        <template #icon>
-                            <SearchOutlined />
-                        </template>
-                        Tìm Kiếm
-                    </a-button>
-                    <a-button @click="handleReset" class=" flex items-center justify-center bg-[#8592a3] hover:!bg-[#7a8798]/70 text-white">
-                        <template #icon>
-                            <ReloadOutlined />
-                        </template>
-                    </a-button>
-                </div>
-            </div>
-
-            <!-- Table -->
-            <a-table
-                :columns="columns"
-                :data-source="filteredData"
-                :pagination="paginationConfig"
-                :row-selection="rowSelection"
-                row-key="id"
-                class="score-table"
-                :scroll="{ x: 700 }"
-            >
-                <template #bodyCell="{ column, record, index }">
-                    <!-- STT column -->
-                    <template v-if="column.key === 'stt'">
-                        <span class="text-gray-600">{{ index + 1 }}</span>
-                    </template>
-
-                    <!-- Status column -->
-                    <template v-else-if="column.key === 'status'">
-                        <a-tag
-                            :color="record.status === 'active' ? 'green' : 'default'"
-                        >
-                            {{ record.status === 'active' ? 'Đang áp dụng' : 'Ngừng áp dụng' }}
-                        </a-tag>
-                    </template>
-
-                    <!-- Actions column -->
-                    <template v-else-if="column.key === 'action'">
-                        <div class="flex items-center gap-2">
-                            <a-tooltip title="Xem chi tiết">
-                                <a-button
-                                    type="text"
-                                    size="small"
-                                    class="text-[#22303EB2] hover:text-gray-600 hover:bg-gray-50"
-                                    @click="handleView(record)"
-                                >
-                                    <template #icon><EyeOutlined /></template>
-                                </a-button>
-                            </a-tooltip>
-
-                            <a-tooltip title="Chỉnh sửa">
-                                <a-button
-                                    type="text"
-                                    size="small"
-                                    class="text-[#22303EB2] hover:text-gray-600 hover:bg-gray-50"
-                                    @click="handleEdit(record)"
-                                >
-                                    <template #icon><EditOutlined /></template>
-                                </a-button>
-                            </a-tooltip>
-
-                            <a-tooltip title="Xóa">
-                                <a-popconfirm
-                                    title="Bạn có chắc muốn xóa?"
-                                    ok-text="Xóa"
-                                    cancel-text="Hủy"
-                                    @confirm="handleDelete(record)"
-                                >
-                                    <a-button
-                                        type="text"
-                                        size="small"
-                                        class="text-[#22303EB2] hover:text-gray-600 hover:bg-gray-50"
-                                    >
-                                        <template #icon><DeleteOutlined /></template>
-                                    </a-button>
-                                </a-popconfirm>
-                            </a-tooltip>
-                        </div>
-                    </template>
-                </template>
-            </a-table>
-        </div>
+      <div class="flex items-center gap-2">
+        <ButtonSearch @click="handleSearch" />
+        <ButtonReset @click="handleReset" />
+      </div>
     </div>
+
+    <!-- Table -->
+    <AppTable
+      :columns="columns"
+      :data-source="filteredData"
+      :pagination="false"
+      :row-selection="rowSelection"
+    >
+      <template #bodyCell="{ column, record, index }">
+        <!-- STT column -->
+        <template v-if="column.key === 'stt'">
+          <TableIndex :index="(currentPage - 1) * pageSize + index + 1" />
+        </template>
+
+        <!-- Status column -->
+        <template v-else-if="column.key === 'status'">
+          <BaseTag :type="record.status === 'active' ? 'success' : 'default'">
+            {{ record.status === 'active' ? 'Đang áp dụng' : 'Ngừng áp dụng' }}
+          </BaseTag>
+        </template>
+
+        <!-- Actions column -->
+        <template v-else-if="column.key === 'action'">
+          <TableActions :actions="getActions(record)" />
+        </template>
+      </template>
+
+      <template #pagination>
+        <div class="flex justify-end p-4">
+          <BasePagination
+            v-model:current="currentPage"
+            :total="filteredData.length"
+            :page-size="pageSize"
+          />
+        </div>
+      </template>
+    </AppTable>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import {
-    PlusOutlined,
-    SearchOutlined,
-    ReloadOutlined,
-    EyeOutlined,
-    EditOutlined,
-    DeleteOutlined,
-} from '@ant-design/icons-vue'
-import type { TableColumnsType, TableProps } from 'ant-design-vue'
-import { message } from 'ant-design-vue'
-import type { ScoreTypeRecord } from '../pages/ScoreTypesPage.vue';
+import { Modal, message } from 'ant-design-vue'
+import NavIcon from '../atoms/icons/NavIcon.vue'
+import BaseTag from '../atoms/display/BaseTag.vue'
+import TableIndex from '../atoms/display/TableIndex.vue'
+import BasePagination from '../atoms/display/BasePagination.vue'
+import TableActions from '../molecules/TableActions.vue'
+import AppTable from './AppTable.vue'
+import ButtonSearch from '../atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '../atoms/buttons/ButtonReset.vue'
+import type { ScoreTypeRecord } from '../pages/ScoreTypesPage.vue'
 
-// ───── Types ─────
-
-// ───── Emits — khớp với currentListeners trong ScoreTypesPage ─────
+// ───── Emits ─────
 const emit = defineEmits<{
-    add:  []                   // handleAdd   → navigateTo('create')
-    view: [record: ScoreTypeRecord]  // handleView  → handleView(record) → navigateTo('detail')
-    edit: [record: ScoreTypeRecord]  // handleEdit  → handleEditFromList(record) → navigateTo('edit')
-    deleted: []                      // handleDeletedList → navigateTo('deleted')
+  view: [record: ScoreTypeRecord]
+  edit: [record: ScoreTypeRecord]
 }>()
 
 // ───── State ─────
-const searchText   = ref<string>('')
+const searchText = ref<string>('')
 const statusFilter = ref<string>('')
+const currentPage = ref(1)
+const pageSize = ref(10)
 
 const dataSource = ref<ScoreTypeRecord[]>(
-    Array.from({ length: 5 }, (_, index) => ({
-        id:     index + 1,
-        name:   `Điểm thành phần ${index + 1}`,
-        weight: Math.floor(Math.random() * 30) + 10,
-        status: 'active',
-    }))
+  Array.from({ length: 15 }, (_, index) => ({
+    id: index + 1,
+    name: `Điểm thành phần ${index + 1}`,
+    weight: Math.floor(Math.random() * 30) + 10,
+    status: Math.random() > 0.2 ? 'active' : 'inactive',
+  }))
 )
 
 // ───── Computed ─────
 const filteredData = computed(() =>
-    dataSource.value.filter((item) => {
-        const matchName   = item.name.toLowerCase().includes(searchText.value.toLowerCase())
-        const matchStatus = !statusFilter.value || item.status === statusFilter.value
-        return matchName && matchStatus
-    })
+  dataSource.value.filter((item) => {
+    const matchName = item.name.toLowerCase().includes(searchText.value.toLowerCase())
+    const matchStatus = !statusFilter.value || item.status === statusFilter.value
+    return matchName && matchStatus
+  })
 )
 
 // ───── Table config ─────
-const columns: TableColumnsType<ScoreTypeRecord> = [
-    { title: 'STT',                    key: 'stt',    width: 70,  align: 'center' },
-    { title: 'TÊN LOẠI ĐIỂM',         dataIndex: 'name',   key: 'name',   width: 250 },
-    { title: 'TRỌNG SỐ TÍNH ĐIỂM (%)', dataIndex: 'weight', key: 'weight', ellipsis: true, align: 'left' },
-    { title: 'TRẠNG THÁI',            key: 'status', width: 160, align: 'center' },
-    { title: 'HÀNH ĐỘNG',             key: 'action', width: 140, align: 'center', fixed: 'right' },
+const columns = [
+  { title: '#', key: 'stt', width: 70, align: 'center' },
+  { title: 'TÊN LOẠI ĐIỂM', dataIndex: 'name', key: 'name' },
+  { title: 'TRỌNG SỐ TÍNH ĐIỂM (%)', dataIndex: 'weight', key: 'weight', align: 'center' },
+  { title: 'TRẠNG THÁI', key: 'status', width: 160, align: 'center' },
+  { title: 'HÀNH ĐỘNG', key: 'action', width: 140, align: 'center' },
 ]
 
-const paginationConfig: TableProps['pagination'] = {
-    pageSize: 10,
-    showSizeChanger: false,
-    showQuickJumper: false,
+const rowSelection = {
+  onChange: (selectedRowKeys: (string | number)[]) => {
+    console.log('selectedRowKeys:', selectedRowKeys)
+  },
 }
 
-const rowSelection: TableProps['rowSelection'] = {
-    type: 'checkbox',
-    onChange: (selectedRowKeys: (string | number)[]) => {
-        console.log('selectedRowKeys:', selectedRowKeys)
-    },
-}
+const getActions = (record: ScoreTypeRecord) => [
+  { 
+    label: 'Xem chi tiết', 
+    icon: 'BxShow', 
+    onClick: () => emit('view', record) 
+  },
+  { 
+    label: 'Chỉnh sửa', 
+    icon: 'BxEdit', 
+    onClick: () => emit('edit', record) 
+  },
+  { 
+    label: 'Xóa', 
+    icon: 'BxTrash', 
+    danger: true, 
+    onClick: () => handleDelete(record) 
+  },
+]
 
 // ───── Handlers ─────
 function handleSearch() {
-    message.success('Đã tìm kiếm')
+  currentPage.value = 1
 }
 
 function handleReset() {
-    searchText.value   = ''
-    statusFilter.value = ''
+  searchText.value = ''
+  statusFilter.value = ''
+  currentPage.value = 1
 }
 
-// ── Emit lên ScoreTypesPage ──
-function handleAdd() {
-    emit('add')                  // → navigateTo('create')
-}
-
-function handleView(record: ScoreTypeRecord) {
-    emit('view', record)         // → handleView(record) → navigateTo('detail')
-}
-
-function handleEdit(record: ScoreTypeRecord) {
-    emit('edit', record)         // → handleEditFromList(record) → navigateTo('edit')
-}
-
-function handleDeletedList() {
-    emit('deleted')              // → navigateTo('deleted')
-}
-
-// ── Xử lý nội bộ (không cần emit lên cha) ──
 function handleDelete(record: ScoreTypeRecord) {
-    dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
-    message.success(`Đã xóa: ${record.name}`)
+  Modal.confirm({
+    title: 'Xác nhận xóa',
+    content: `Bạn có chắc chắn muốn xóa loại điểm "${record.name}"?`,
+    okText: 'Xóa',
+    okType: 'danger',
+    cancelText: 'Hủy',
+    onOk() {
+      dataSource.value = dataSource.value.filter((item) => item.id !== record.id)
+      message.success(`Đã xóa thành công loại điểm: ${record.name}`)
+    }
+  })
 }
-
 </script>
 
 <style scoped>
-:deep(.ant-table-thead > tr > th) {
-    @apply bg-gray-50 text-xs font-semibold text-gray-500 tracking-wide uppercase;
-}
-:deep(.ant-table-tbody > tr > td) {
-    @apply text-sm text-gray-700;
-}
-:deep(.ant-table-tbody > tr:hover > td) {
-    @apply bg-blue-50/40;
-}
-:deep(.ant-pagination-item-active) {
-    @apply border-red-500 bg-red-500;
-}
-:deep(.ant-pagination-item-active a) {
-    @apply text-white;
-}
-:deep(.ant-pagination-item-active:hover) {
-    @apply border-red-400;
-}
-:deep(.ant-input-affix-wrapper) {
-    @apply rounded-lg;
-}
-:deep(.ant-select-selector) {
-    @apply rounded-lg !important;
-}
-:deep(.ant-tag-success) {
-    @apply bg-green-100 text-green-700 border-green-200 text-xs font-medium px-3 py-0.5 rounded-full;
+.score-types-list :deep(.ant-input-affix-wrapper),
+.score-types-list :deep(.ant-select-selector) {
+  border-radius: 8px !important;
 }
 </style>

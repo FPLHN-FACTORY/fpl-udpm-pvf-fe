@@ -64,11 +64,7 @@
               <BaseTag :type="record.status === 'Đang diễn ra' ? 'success' : 'warning'">{{ record.status }}</BaseTag>
             </template>
             <template v-else-if="column.key === 'actions'">
-              <div class="flex items-center justify-center gap-2">
-                <button @click="$router.push(`/extracurricular/activities/detail/${record.id}`)" class="text-gray-400 hover:text-[#696cff] p-1"><NavIcon name="BxShow" size="18" /></button>
-                <button @click="$router.push(`/extracurricular/activities/edit/${record.id}`)" class="text-gray-400 hover:text-amber-500 p-1"><NavIcon name="BxEdit" size="18" /></button>
-                <button @click="handleDelete(record.id)" class="text-gray-400 hover:text-red-500 p-1"><NavIcon name="BxTrash" size="18" /></button>
-              </div>
+              <TableActions :actions="getActions(record)" />
             </template>
           </template>
         </AppTable>
@@ -101,7 +97,17 @@ import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
 import BaseTag from '@/components/atoms/display/BaseTag.vue'
 import BasePagination from '@/components/atoms/display/BasePagination.vue'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import TableActions from '@/components/molecules/TableActions.vue'
+import { useRouter } from 'vue-router'
 import { activityService, type ActivityRecord } from '@/services/extracurricular/activity'
+
+const router = useRouter()
+
+const getActions = (record: ActivityRecord) => [
+  { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => router.push(`/extracurricular/activities/detail/${record.id}`) },
+  { label: 'Chỉnh sửa', icon: 'BxEdit', onClick: () => router.push(`/extracurricular/activities/edit/${record.id}`) },
+  { label: 'Xóa', icon: 'BxTrash', danger: true, onClick: () => handleDelete(record.id) },
+]
 
 const breadcrumbs = [
   { title: 'Quản lý hoạt động ngoại khoá', path: '#' },
