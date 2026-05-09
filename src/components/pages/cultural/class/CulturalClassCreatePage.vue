@@ -32,8 +32,7 @@ const router = useRouter();
 const handleSubmit = async (payload: SaveCulturalClassInput) => {
   const response = await culturalClassService.create(payload);
   router.push({
-    name: "cultural-class-detail",
-    params: { id: response.data.id },
+    name: "cultural-class",
   });
 };
 </script>

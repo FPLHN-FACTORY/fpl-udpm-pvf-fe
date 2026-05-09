@@ -1,167 +1,184 @@
 <template>
-  <KyTuyenSinhShell :breadcrumbs="['Quản lý tuyển sinh', 'Vòng tuyển sinh']">
-    <section class="kyts-surface rounded-2xl bg-white">
-      <div class="flex flex-col gap-4 border-b border-[#edf1f5] px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
-        <h2 class="text-xl font-bold text-[#566a7f]">Điều chỉnh Vòng tuyển sinh</h2>
-        <KyTuyenSinhActionButton label="Quay Lại" icon="BxChevronLeft" tone="light" @click="router.push({ name: 'admission-rounds' })" />
+  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm mb-2">
+      <span class="text-gray-400">Quản lý tuyển sinh</span>
+      <span class="text-gray-400">/</span>
+      <span class="text-[#566a7f] font-medium cursor-pointer hover:underline" @click="$router.push('/admission/rounds')">Vòng tuyển sinh</span>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <!-- Header -->
+      <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+        <h2 class="text-lg font-bold text-[#566a7f]">Điều chỉnh Vòng tuyển sinh</h2>
+        <a-button 
+          @click="$router.push('/admission/rounds')"
+          class="!bg-[#f1f1f2] hover:!bg-[#e1e1e2] !text-[#566a7f] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+        >
+          <NavIcon name="BxArrowBack" size="14" />
+          Quay Lại
+        </a-button>
       </div>
 
-      <div class="space-y-6 px-6 py-6">
-        <div class="grid grid-cols-1 gap-5">
-          <a-select v-model:value="form.session" class="kyts-select" placeholder="Tuyển sinh 2025">
-            <a-select-option v-for="option in formOptions.sessionOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </a-select-option>
-          </a-select>
+      <!-- Form -->
+      <div class="p-6">
+        <a-form layout="vertical" class="max-w-4xl mx-auto">
+          <div class="grid grid-cols-1 gap-6">
+            <!-- Basic Info -->
+            <a-form-item>
+              <a-select v-model:value="formState.session" placeholder="Kỳ tuyển sinh" class="w-full !h-10">
+                <a-select-option v-for="opt in formOptions.sessionOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</a-select-option>
+              </a-select>
+            </a-form-item>
 
-          <a-select v-model:value="form.round" class="kyts-select" placeholder="Tên vòng thi">
-            <a-select-option v-for="option in formOptions.roundOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </a-select-option>
-          </a-select>
+            <a-form-item>
+              <a-select v-model:value="formState.round" placeholder="Tên vòng thi" class="w-full !h-10">
+                <a-select-option v-for="opt in formOptions.roundOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</a-select-option>
+              </a-select>
+            </a-form-item>
 
-          <a-select v-model:value="form.criteria" class="kyts-select" placeholder="Bộ tiêu chí snap cho vòng thi">
-            <a-select-option v-for="option in formOptions.criteriaOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </a-select-option>
-          </a-select>
+            <a-form-item>
+              <a-select v-model:value="formState.criteria" placeholder="Bộ tiêu chí snap cho vòng thi" class="w-full !h-10">
+                <a-select-option v-for="opt in formOptions.criteriaOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</a-select-option>
+              </a-select>
+            </a-form-item>
 
-          <div class="grid grid-cols-1 gap-5 xl:grid-cols-2">
-            <a-date-picker v-model:value="form.startDate" class="kyts-date" placeholder="Ngày bắt đầu vòng thi" />
-            <a-date-picker v-model:value="form.endDate" class="kyts-date" placeholder="Ngày kết thúc vòng thi" />
-          </div>
-
-          <a-select v-model:value="form.status" class="kyts-select" placeholder="Hoạt động">
-            <a-select-option v-for="option in formOptions.statusOptions" :key="option.value" :value="option.value">
-              {{ option.label }}
-            </a-select-option>
-          </a-select>
-        </div>
-
-        <section class="rounded-2xl border border-[#edf1f5] bg-white px-5 py-5">
-          <h3 class="text-lg font-bold text-[#566a7f]">Bộ tiêu chí gốc</h3>
-
-          <div class="mt-5 grid grid-cols-1 gap-4">
-            <BaseInput v-model="criteriaMaster.name" label="Tên bộ tiêu chí" placeholder="Input" class="kyts-input" />
-            <BaseInput v-model="criteriaMaster.status" label="Trạng thái" placeholder="Input" class="kyts-input" />
-            <BaseTextarea v-model="criteriaMaster.description" label="Mô tả bộ tiêu chí" placeholder="Input" class="kyts-textarea" :rows="4" />
-          </div>
-
-          <div class="mt-8 space-y-4">
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <h4 class="text-base font-bold text-[#566a7f]">Các tiêu chí</h4>
-              <KyTuyenSinhActionButton label="Thêm Tiêu Chí" tone="success" @click="addCriteriaLine" />
+            <div class="grid grid-cols-2 gap-6">
+              <a-form-item>
+                <a-date-picker v-model:value="formState.startDate" placeholder="Ngày bắt đầu vòng thi" value-format="YYYY-MM-DD" class="w-full !h-10" />
+              </a-form-item>
+              <a-form-item>
+                <a-date-picker v-model:value="formState.endDate" placeholder="Ngày kết thúc vòng thi" value-format="YYYY-MM-DD" class="w-full !h-10" />
+              </a-form-item>
             </div>
 
-            <div class="space-y-4">
-              <div
-                v-for="line in criteriaLines"
-                :key="line.id"
-                class="grid grid-cols-1 gap-4 rounded-2xl border border-[#edf1f5] p-4 xl:grid-cols-[1.2fr_1.2fr_0.8fr_auto]"
-              >
-                <BaseInput v-model="line.name" placeholder="Tên tiêu chí" class="kyts-input" />
-                <BaseInput v-model="line.description" placeholder="Mô tả" class="kyts-input" />
-                <BaseInput v-model="line.weight" placeholder="Trọng số %" class="kyts-input" />
+            <a-form-item>
+              <a-select v-model:value="formState.status" placeholder="Trạng thái" class="w-full !h-10">
+                <a-select-option v-for="opt in formOptions.statusOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</a-select-option>
+              </a-select>
+            </a-form-item>
 
-                <button
-                  class="flex h-10 w-10 items-center justify-center rounded-lg bg-[#fff2d6] text-[#ffab00] transition hover:bg-[#ffe7bb] hover:text-[#f09f00]"
-                  @click="removeCriteriaLine(line.id)"
+            <!-- Original Criteria Section -->
+            <div class="mt-8 border border-gray-100 rounded-xl p-6 bg-[#fcfcfd]">
+              <h3 class="text-base font-bold text-[#566a7f] mb-6">Bộ tiêu chí gốc</h3>
+              
+              <div class="grid grid-cols-1 gap-6 mb-8">
+                <a-form-item label="Tên bộ tiêu chí" class="custom-label">
+                  <a-input v-model:value="criteriaMaster.name" placeholder="Input" class="!h-10 rounded-md" />
+                </a-form-item>
+                <a-form-item label="Trạng thái" class="custom-label">
+                  <a-input v-model:value="criteriaMaster.status" placeholder="Input" class="!h-10 rounded-md" />
+                </a-form-item>
+                <a-form-item label="Mô tả bộ tiêu chí" class="custom-label">
+                  <a-textarea v-model:value="criteriaMaster.description" placeholder="Nhập mô tả" :rows="4" class="rounded-md" />
+                </a-form-item>
+              </div>
+
+              <!-- Criteria Lines -->
+              <div class="flex justify-between items-center mb-4">
+                <h3 class="text-base font-bold text-[#566a7f]">Các tiêu chí</h3>
+                <a-button 
+                  type="primary" 
+                  class="!bg-[#71dd37] hover:!bg-[#63c72e] !border-none rounded-md font-medium text-[13px] h-8 px-4"
+                  @click="addCriteriaLine"
                 >
-                  <NavIcon name="BxTrash" class-name="h-[18px] w-[18px]" />
-                </button>
+                  Thêm Tiêu Chí
+                </a-button>
+              </div>
+
+              <div class="space-y-4">
+                <div v-for="(line, index) in criteriaLines" :key="index" class="flex items-start gap-4">
+                  <div class="flex-1">
+                    <a-input v-model:value="line.name" :placeholder="'Tiêu chí ' + (index + 1)" class="!h-10 rounded-md" />
+                  </div>
+                  <div class="flex-1">
+                    <a-input v-model:value="line.description" :placeholder="'Mô tả tiêu chí ' + (index + 1)" class="!h-10 rounded-md" />
+                  </div>
+                  <div class="w-[150px]">
+                    <a-input v-model:value="line.weight" placeholder="Trọng số %" class="!h-10 rounded-md" />
+                  </div>
+                  <div class="w-10 flex justify-center pt-2">
+                    <NavIcon 
+                      name="BxTrash" 
+                      class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#ff3e1d]" 
+                      @click="removeCriteriaLine(index)"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </section>
 
-        <div class="flex flex-wrap justify-center gap-3">
-          <KyTuyenSinhActionButton label="Cập Nhật" tone="primary" @click="handleUpdate" />
-          <KyTuyenSinhActionButton label="Đặt Lại" tone="warning" @click="resetForm" />
-        </div>
+          </div>
+
+          <div class="flex justify-center gap-3 mt-8">
+            <a-button 
+              type="primary" 
+              class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none !h-10 px-8 rounded-md font-medium"
+              @click="handleUpdate"
+            >
+              Cập Nhật
+            </a-button>
+            <a-button 
+              class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !h-10 px-8 rounded-md font-medium"
+              @click="loadData"
+            >
+              Đặt Lại
+            </a-button>
+          </div>
+        </a-form>
       </div>
-    </section>
-  </KyTuyenSinhShell>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue'
-import dayjs, { type Dayjs } from 'dayjs'
+import { ref, onMounted, reactive } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { message } from 'ant-design-vue'
-import { useRoute, useRouter } from 'vue-router'
-import BaseInput from '../../atoms/BaseInput.vue'
-import BaseTextarea from '../../atoms/BaseTextarea.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
-import {
-  type CriteriaLine,
-  type CriteriaMasterRecord,
-  type KyTuyenSinhEditSeed,
-  type KyTuyenSinhFormOptions,
-  type RoundFormPayload
-} from '../../../types'
-import { apiVongTuyenSinh } from '../../../services/VongTuyenSinh/apiVongTuyenSinh'
-import KyTuyenSinhActionButton from './components/KyTuyenSinhActionButton.vue'
-import KyTuyenSinhShell from './components/KyTuyenSinhShell.vue'
-
-interface EditFormState {
-  session: string | undefined
-  round: string | undefined
-  criteria: string | undefined
-  startDate: Dayjs | null
-  endDate: Dayjs | null
-  status: string | undefined
-}
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import { apiVongTuyenSinh } from '@/services/VongTuyenSinh/apiVongTuyenSinh'
 
 const router = useRouter()
 const route = useRoute()
-const formOptions = ref<KyTuyenSinhFormOptions>({
+const id = route.params.id as string
+
+const formOptions = ref<any>({
   sessionOptions: [],
   roundOptions: [],
   criteriaOptions: [],
   statusOptions: []
 })
-const initialPayload = ref<KyTuyenSinhEditSeed | null>(null)
 
-const createInitialState = (): EditFormState => ({
+const formState = reactive({
   session: undefined,
   round: undefined,
   criteria: undefined,
-  startDate: null,
-  endDate: null,
+  startDate: undefined,
+  endDate: undefined,
   status: undefined
 })
 
-const form = reactive<EditFormState>(createInitialState())
-const criteriaMaster = reactive<CriteriaMasterRecord>({
+const criteriaMaster = reactive({
   name: '',
   status: '',
   description: ''
 })
-const criteriaLines = ref<CriteriaLine[]>([])
 
-const applyFormSeed = (seed: RoundFormPayload) => {
-  form.session = seed.session
-  form.round = seed.round
-  form.criteria = seed.criteria
-  form.startDate = seed.startDate ? dayjs(seed.startDate) : null
-  form.endDate = seed.endDate ? dayjs(seed.endDate) : null
-  form.status = seed.status
-}
+const criteriaLines = ref<any[]>([])
 
-const applyEditPayload = (payload: KyTuyenSinhEditSeed) => {
-  applyFormSeed(payload.form)
-  criteriaMaster.name = payload.criteriaMaster.name
-  criteriaMaster.status = payload.criteriaMaster.status
-  criteriaMaster.description = payload.criteriaMaster.description
-  criteriaLines.value = payload.criteriaLines.map((item) => ({ ...item }))
-}
-
-const resetForm = () => {
-  if (!initialPayload.value) {
-    Object.assign(form, createInitialState())
-    return
+const loadData = async () => {
+  try {
+    const data = await apiVongTuyenSinh.getEditFormData(id)
+    formOptions.value = data.options
+    
+    if (data.initialData) {
+      Object.assign(formState, data.initialData.form)
+      Object.assign(criteriaMaster, data.initialData.criteriaMaster)
+      criteriaLines.value = [...data.initialData.criteriaLines]
+    }
+  } catch (error) {
+    console.error(error)
   }
-
-  applyEditPayload(initialPayload.value)
 }
 
 const addCriteriaLine = () => {
@@ -173,71 +190,66 @@ const addCriteriaLine = () => {
   })
 }
 
-const removeCriteriaLine = (id: number) => {
-  if (criteriaLines.value.length === 1) {
-    return
-  }
-
-  criteriaLines.value = criteriaLines.value.filter((item) => item.id !== id)
-}
-
-const validateEditPayload = () => {
-  if (!form.session || !form.round || !form.criteria || !form.startDate || !form.endDate || !form.status) {
-    message.error('Vui lòng nhập đầy đủ thông tin vòng tuyển sinh.')
-    return false
-  }
-
-  if (form.endDate.isBefore(form.startDate, 'day')) {
-    message.error('Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.')
-    return false
-  }
-
-  if (!criteriaMaster.name.trim() || !criteriaMaster.status.trim() || !criteriaMaster.description.trim()) {
-    message.error('Vui lòng nhập đầy đủ thông tin bộ tiêu chí gốc.')
-    return false
-  }
-
-  const hasInvalidLine = criteriaLines.value.some((item) => !item.name.trim() || !item.description.trim() || !item.weight.trim())
-  if (hasInvalidLine) {
-    message.error('Vui lòng nhập đầy đủ thông tin cho từng tiêu chí.')
-    return false
-  }
-
-  return true
+const removeCriteriaLine = (index: number) => {
+  criteriaLines.value.splice(index, 1)
 }
 
 const handleUpdate = async () => {
-  if (!validateEditPayload()) {
-    return
+  try {
+    if (!formState.session || !formState.round || !formState.status) {
+      message.error('Vui lòng điền các trường bắt buộc')
+      return
+    }
+    
+    const payload = {
+      form: { ...formState } as any,
+      criteriaMaster: { ...criteriaMaster },
+      criteriaLines: [...criteriaLines.value]
+    }
+    
+    const res = await apiVongTuyenSinh.updateAdmissionRound(id, payload)
+    if (res) {
+      message.success('Cập nhật thành công')
+      router.push('/admission/rounds')
+    } else {
+      message.error('Lỗi khi cập nhật')
+    }
+  } catch (error) {
+    message.error('Lỗi hệ thống')
   }
-
-  apiVongTuyenSinh.updateAdmissionRound(String(route.params.id || '1'), {
-    form: {
-      session: form.session,
-      round: form.round,
-      criteria: form.criteria,
-      startDate: form.startDate ? form.startDate.format('YYYY-MM-DD') : null,
-      endDate: form.endDate ? form.endDate.format('YYYY-MM-DD') : null,
-      status: form.status
-    },
-    criteriaMaster: {
-      name: criteriaMaster.name,
-      status: criteriaMaster.status,
-      description: criteriaMaster.description
-    },
-    criteriaLines: criteriaLines.value.map((item) => ({ ...item }))
-  })
-
-  message.success('Cập nhật vòng tuyển sinh thành công.')
-  router.push({ name: 'admission-rounds-detail', params: { id: route.params.id || '1' } })
 }
 
-onMounted(async () => {
-  const data = await apiVongTuyenSinh.getEditFormData(String(route.params.id || '1'))
-  formOptions.value = data.options
-  initialPayload.value = data.initialData
-  if (data.initialData) {
-    applyEditPayload(data.initialData)
-  }
+onMounted(() => {
+  loadData()
 })
 </script>
+
+<style scoped>
+:deep(.ant-form-item) {
+  margin-bottom: 0;
+}
+:deep(.ant-select-selector) {
+  height: 40px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+  display: flex;
+  align-items: center;
+}
+:deep(.ant-picker) {
+  height: 40px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+}
+:deep(.custom-label .ant-form-item-label > label) {
+  color: #a1b0cb;
+  font-size: 13px;
+  height: auto;
+}
+:deep(.ant-input), :deep(.ant-input-affix-wrapper) {
+  border-color: #d9dee3;
+}
+:deep(.ant-input:focus), :deep(.ant-input-affix-wrapper-focused) {
+  border-color: #696cff;
+  box-shadow: 0 0 0 2px rgba(105, 108, 255, 0.1);
+}
+</style>

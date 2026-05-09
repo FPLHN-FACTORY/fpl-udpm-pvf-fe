@@ -1,173 +1,210 @@
 <template>
-  <KyTuyenSinhShell :breadcrumbs="['Quản lý tuyển sinh', 'Vòng tuyển sinh']">
-    <section class="kyts-surface rounded-2xl bg-white">
-      <div class="flex flex-col gap-4 border-b border-[#edf1f5] px-6 py-5 lg:flex-row lg:items-center lg:justify-between">
-        <h2 class="text-xl font-bold text-[#566a7f]">Danh sách Vòng Tuyển sinh đã xóa</h2>
-        <KyTuyenSinhActionButton label="Quay Lại" tone="neutral" @click="router.push({ name: 'admission-rounds' })" />
+  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm mb-2">
+      <span class="text-gray-400">Quản lý tuyển sinh</span>
+      <span class="text-gray-400">/</span>
+      <span class="text-[#566a7f] font-medium cursor-pointer hover:underline" @click="$router.push('/admission/rounds')">Vòng tuyển sinh</span>
+    </div>
+
+    <!-- Table Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <!-- Header with Buttons -->
+      <div class="flex justify-between items-center p-6 border-b border-gray-100">
+        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Vòng Tuyển sinh đã xóa</h2>
+        <a-button 
+          @click="$router.push('/admission/rounds')"
+          class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+        >
+          Quay Lại
+        </a-button>
       </div>
 
-      <div class="space-y-5 px-6 py-5">
-        <KyTuyenSinhFilterBar
-          :status-options="deletedStatusOptions"
-          @search="handleSearch"
-          @reset="handleReset"
-        />
-
-        <div class="kyts-table overflow-hidden rounded-2xl border border-[#edf1f5]">
-          <a-table
-            :columns="columns"
-            :data-source="deletedAdmissionRounds.items"
-            :pagination="false"
-            :row-selection="rowSelection"
-            :scroll="{ x: 1160 }"
+      <!-- Filter Bar -->
+      <div class="p-6 flex flex-wrap items-center gap-3 bg-white border-b border-gray-100">
+        <div class="flex-1 min-w-[200px]">
+          <a-input v-model:value="searchQuery" placeholder="Tìm kiếm" class="!h-10 !border-[#d9dee3] rounded-md">
+          </a-input>
+        </div>
+        <div class="w-[200px]">
+          <a-date-picker placeholder="Chọn thời gian" class="w-full !h-10" />
+        </div>
+        <div class="w-[200px]">
+          <a-select v-model:value="statusFilter" placeholder="Chọn trạng thái" class="w-full !h-10">
+            <a-select-option v-for="opt in statusOptions" :key="opt.value" :value="opt.value">{{ opt.label }}</a-select-option>
+          </a-select>
+        </div>
+        <div class="flex items-center gap-2">
+          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10 px-6 rounded-md flex items-center gap-2" @click="fetchData">
+            <NavIcon name="BxSearch" size="16" />
+            Tìm Kiếm
+          </a-button>
+          <a-button 
+            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !w-10 !h-10 !p-0 !min-w-0 flex items-center justify-center rounded-md shadow-sm" 
+            @click="resetFilters"
           >
-            <template #bodyCell="{ column, record }">
-              <template v-if="column.key === 'order'">
-                <span class="font-semibold text-[#696cff]">{{ record.order }}</span>
-              </template>
-
-              <template v-else-if="column.key === 'actions'">
-                <div class="flex items-center justify-center gap-3 text-[#8592a3]">
-                  <button class="transition hover:text-[#566a7f]" @click="goDetail(record.key)">
-                    <NavIcon name="BxShow" class-name="h-[18px] w-[18px]" />
-                  </button>
-                  <button class="transition hover:text-[#696cff]" @click="restoreRound(record.key)">
-                    <NavIcon name="BxReset" class-name="h-[18px] w-[18px]" />
-                  </button>
-                  <button class="transition hover:text-[#ef2b2d]" @click="removeRound(record.key)">
-                    <NavIcon name="BxTrash" class-name="h-[18px] w-[18px]" />
-                  </button>
-                </div>
-              </template>
-            </template>
-          </a-table>
-
-          <div class="kyts-pagination flex justify-end border-t border-[#edf1f5] px-5 py-4">
-            <a-pagination
-              :current="deletedAdmissionRounds.page"
-              :total="deletedAdmissionRounds.total"
-              :page-size="deletedAdmissionRounds.pageSize"
-              show-less-items
-              @change="handlePageChange"
-            />
-          </div>
+            <NavIcon name="BxReset" class-name="w-6 h-6 text-white" />
+          </a-button>
         </div>
       </div>
-    </section>
-  </KyTuyenSinhShell>
+
+      <!-- Table Container -->
+      <div class="overflow-x-auto">
+        <a-table 
+          :columns="columns" 
+          :data-source="tableData" 
+          :pagination="false"
+          :row-selection="{}"
+          class="pvf-table"
+        >
+          <template #bodyCell="{ column, record, index }">
+            <template v-if="column.key === 'stt'">
+              <span class="text-[#696cff]">{{ index + 1 }}</span>
+            </template>
+            <template v-if="column.key === 'sessionName'">
+              <span class="font-bold text-[#566a7f]">{{ record.sessionName }}</span>
+            </template>
+            <template v-if="column.key === 'action'">
+              <div class="flex items-center gap-3">
+                <NavIcon 
+                  name="BxShow" 
+                  class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#696cff]" 
+                  @click="$router.push(`/admission/rounds/detail/${record.key}`)"
+                />
+                <NavIcon 
+                  name="BxUndo" 
+                  class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#71dd37]" 
+                  @click="handleRestore(record.key)"
+                />
+                <NavIcon 
+                  name="BxTrash" 
+                  class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#ff3e1d]" 
+                  @click="handleHardDelete(record.key)"
+                />
+              </div>
+            </template>
+          </template>
+        </a-table>
+      </div>
+
+      <!-- Custom Pagination -->
+      <div class="p-6 flex justify-end bg-white border-t border-gray-100">
+        <a-pagination :current="3" :total="40" :pageSize="10" show-less-items class="custom-pagination" />
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { message } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
-import type { TableColumnsType } from 'ant-design-vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
-import {
-  type AdmissionRoundListQuery,
-  type AdmissionRoundRecord,
-  type KyTuyenSinhFilterPayload,
-  type PaginationResult,
-  type SelectOption
-} from '../../../types'
-import { apiVongTuyenSinh } from '../../../services/VongTuyenSinh/apiVongTuyenSinh'
-import KyTuyenSinhActionButton from './components/KyTuyenSinhActionButton.vue'
-import KyTuyenSinhFilterBar from './components/KyTuyenSinhFilterBar.vue'
-import KyTuyenSinhShell from './components/KyTuyenSinhShell.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import { apiVongTuyenSinh } from '@/services/VongTuyenSinh/apiVongTuyenSinh'
 
-const router = useRouter()
-const selectedRowKeys = ref<string[]>([])
-const deletedAdmissionRounds = ref<PaginationResult<AdmissionRoundRecord>>({
-  items: [],
-  total: 0,
-  page: 1,
-  pageSize: 10
-})
-const deletedStatusOptions = ref<SelectOption[]>([])
-const deletedQuery = ref<AdmissionRoundListQuery>({
-  keyword: '',
-  date: null,
-  status: undefined,
-  page: 1,
-  pageSize: 10
-})
+const searchQuery = ref('')
+const statusFilter = ref(undefined)
+const tableData = ref<any[]>([])
+const statusOptions = ref<any[]>([])
 
-const columns: TableColumnsType<AdmissionRoundRecord> = [
-  { title: '#', key: 'order', dataIndex: 'order', width: 70 },
-  { title: 'Kỳ tuyển sinh', key: 'sessionName', dataIndex: 'sessionName', ellipsis: true },
-  { title: 'Tên vòng thi', key: 'roundName', dataIndex: 'roundName', ellipsis: true },
-  { title: 'Ngày bắt đầu thi', key: 'startDate', dataIndex: 'startDate', width: 150 },
-  { title: 'Ngày kết thúc thi', key: 'endDate', dataIndex: 'endDate', width: 150 },
-  { title: 'Ngày xóa', key: 'deletedAt', dataIndex: 'deletedAt', width: 150 },
-  { title: 'Hành động', key: 'actions', width: 120, align: 'center' }
+const columns = [
+  { title: '#', key: 'stt', width: 60 },
+  { title: 'KỲ TUYỂN SINH', dataIndex: 'sessionName', key: 'sessionName', width: 220 },
+  { title: 'TÊN VÒNG THI', dataIndex: 'roundName', key: 'roundName', width: 200 },
+  { title: 'NGÀY BẮT ĐẦU THI', dataIndex: 'startDate', key: 'startDate', width: 150 },
+  { title: 'NGÀY KẾT THÚC THI', dataIndex: 'endDate', key: 'endDate', width: 150 },
+  { title: 'NGÀY XÓA', dataIndex: 'deletedAt', key: 'deletedAt', width: 150 },
+  { title: 'HÀNH ĐỘNG', key: 'action', width: 130 }
 ]
 
-const rowSelection = computed(() => ({
-  selectedRowKeys: selectedRowKeys.value,
-  onChange: (keys: string[]) => {
-    selectedRowKeys.value = keys
+const fetchData = async () => {
+  try {
+    const res = await apiVongTuyenSinh.getDeletedAdmissionRounds({
+      keyword: searchQuery.value,
+      status: statusFilter.value as any
+    })
+    tableData.value = res.rounds.items
+    statusOptions.value = res.statusOptions
+  } catch (error) {
+    console.error(error)
   }
-}))
-
-const goDetail = (id: string) => {
-  router.push({ name: 'admission-rounds-detail', params: { id } })
 }
 
-const loadDeletedRounds = async () => {
-  const data = await apiVongTuyenSinh.getDeletedAdmissionRounds(deletedQuery.value)
-  deletedAdmissionRounds.value = data.rounds
-  deletedStatusOptions.value = data.statusOptions
-  deletedQuery.value.page = data.rounds.page
-  deletedQuery.value.pageSize = data.rounds.pageSize
+const resetFilters = () => {
+  searchQuery.value = ''
+  statusFilter.value = undefined
+  fetchData()
 }
 
-const handleSearch = async (filters: KyTuyenSinhFilterPayload) => {
-  deletedQuery.value = {
-    ...deletedQuery.value,
-    keyword: filters.keyword,
-    date: filters.date,
-    status: filters.status,
-    page: 1
+const handleRestore = async (id: string) => {
+  try {
+    const success = await apiVongTuyenSinh.restoreAdmissionRound(id)
+    if (success) {
+      message.success('Đã khôi phục vòng tuyển sinh')
+      fetchData()
+    } else {
+      message.error('Lỗi khi khôi phục')
+    }
+  } catch (error) {
+    message.error('Lỗi hệ thống')
   }
-
-  await loadDeletedRounds()
 }
 
-const handleReset = async (filters: KyTuyenSinhFilterPayload) => {
-  deletedQuery.value = {
-    ...deletedQuery.value,
-    keyword: filters.keyword,
-    date: filters.date,
-    status: filters.status,
-    page: 1
+const handleHardDelete = async (id: string) => {
+  try {
+    const success = await apiVongTuyenSinh.removeDeletedAdmissionRound(id)
+    if (success) {
+      message.success('Đã xóa vĩnh viễn vòng tuyển sinh')
+      fetchData()
+    } else {
+      message.error('Lỗi khi xóa')
+    }
+  } catch (error) {
+    message.error('Lỗi hệ thống')
   }
-
-  await loadDeletedRounds()
 }
 
-const handlePageChange = async (page: number, pageSize: number) => {
-  deletedQuery.value = {
-    ...deletedQuery.value,
-    page,
-    pageSize
-  }
-
-  await loadDeletedRounds()
-}
-
-const restoreRound = async (id: string) => {
-  apiVongTuyenSinh.restoreAdmissionRound(id)
-  message.success('Khôi phục vòng tuyển sinh thành công.')
-  await loadDeletedRounds()
-}
-
-const removeRound = async (id: string) => {
-  apiVongTuyenSinh.removeDeletedAdmissionRound(id)
-  message.success('Đã xóa vĩnh viễn vòng tuyển sinh.')
-  await loadDeletedRounds()
-}
-
-onMounted(async () => {
-  await loadDeletedRounds()
+onMounted(() => {
+  fetchData()
 })
 </script>
+
+<style scoped>
+:deep(.ant-select-selector) {
+  height: 40px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+  display: flex;
+  align-items: center;
+}
+:deep(.ant-picker) {
+  height: 40px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+}
+:deep(.pvf-table .ant-table-thead > tr > th) {
+  background-color: #fcfcfd;
+  color: #566a7f;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  border-bottom: 1px solid #d9dee3;
+}
+:deep(.pvf-table .ant-table-tbody > tr > td) {
+  color: #566a7f;
+  font-size: 13px;
+  padding: 12px 16px;
+}
+:deep(.ant-pagination-item-active) {
+  background-color: #e31a1a !important;
+  border-color: #e31a1a !important;
+}
+:deep(.ant-pagination-item-active a) {
+  color: white !important;
+}
+:deep(.ant-pagination-item) {
+  border-radius: 4px;
+}
+:deep(.ant-pagination-prev), :deep(.ant-pagination-next) {
+  border-radius: 4px;
+}
+</style>

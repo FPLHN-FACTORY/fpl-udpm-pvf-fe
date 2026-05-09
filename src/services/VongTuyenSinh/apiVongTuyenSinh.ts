@@ -63,7 +63,7 @@ let roundMetricsStore: MetricCardItem[] = [
   {
     label: 'Tổng số vòng',
     value: 21,
-    icon: 'BxSpreadsheet',
+    icon: 'BxSidebar',
     iconColor: 'text-[#696cff]',
     iconBackground: 'bg-[#ececff]'
   },
@@ -71,7 +71,7 @@ let roundMetricsStore: MetricCardItem[] = [
     label: 'Số vòng đã hoàn thành',
     value: 20,
     change: '(95%)',
-    icon: 'BxsCategoryAlt',
+    icon: 'BxBadgeCheck',
     iconColor: 'text-[#ff3e1d]',
     iconBackground: 'bg-[#ffe4df]'
   },
@@ -79,7 +79,7 @@ let roundMetricsStore: MetricCardItem[] = [
     label: 'Số vòng đang diễn ra',
     value: 1,
     change: '(5%)',
-    icon: 'BxCopy',
+    icon: 'BxLayer',
     iconColor: 'text-[#ffab00]',
     iconBackground: 'bg-[#fff1d6]'
   },
@@ -87,7 +87,7 @@ let roundMetricsStore: MetricCardItem[] = [
     label: 'Số vòng chưa bắt đầu',
     value: 1,
     change: '(5%)',
-    icon: 'BxCopy',
+    icon: 'BxLayerPlus',
     iconColor: 'text-[#ffab00]',
     iconBackground: 'bg-[#fff1d6]'
   }
@@ -97,7 +97,7 @@ const detailMetricsStore: MetricCardItem[] = [
   {
     label: 'Tổng số học viên vào vòng',
     value: 21,
-    icon: 'BxSpreadsheet',
+    icon: 'BxSidebar',
     iconColor: 'text-[#696cff]',
     iconBackground: 'bg-[#ececff]'
   },
@@ -105,7 +105,7 @@ const detailMetricsStore: MetricCardItem[] = [
     label: 'Số học viên tham gia thực tế',
     value: 20,
     change: '(95%)',
-    icon: 'BxsCategoryAlt',
+    icon: 'BxBadgeCheck',
     iconColor: 'text-[#ff3e1d]',
     iconBackground: 'bg-[#ffe4df]'
   },
@@ -113,7 +113,7 @@ const detailMetricsStore: MetricCardItem[] = [
     label: 'Số pass',
     value: 1,
     change: '(5%)',
-    icon: 'BxCopy',
+    icon: 'BxLayer',
     iconColor: 'text-[#ffab00]',
     iconBackground: 'bg-[#fff1d6]'
   },
@@ -121,7 +121,7 @@ const detailMetricsStore: MetricCardItem[] = [
     label: 'Số loại',
     value: 1,
     change: '(5%)',
-    icon: 'BxCopy',
+    icon: 'BxLayerPlus',
     iconColor: 'text-[#ffab00]',
     iconBackground: 'bg-[#fff1d6]'
   }
