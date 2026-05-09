@@ -1,331 +1,146 @@
 <template>
-  <div class="p-6 bg-[#F8FAFC] min-h-screen">
-    <!-- 1. Breadcrumb -->
-    <div class="flex items-center gap-2 mb-4">
-      <span class="text-[13px] text-[#A1ACB8]">Sinh hoạt phí</span>
-      <span class="text-[13px] text-[#A1ACB8]">/</span>
-      <span class="text-[13px] text-[#475569] font-medium">Yêu cầu rút sinh hoạt phí</span>
-    </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <div class="space-y-6">
+      <!-- Statistic Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <a-card v-for="(stat, index) in stats" :key="index" :bordered="false" class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-all h-[110px]">
+          <div class="flex justify-between h-full p-5">
+            <div class="flex flex-col justify-between">
+              <span class="text-[#566a7f] text-[13px] font-medium leading-tight opacity-80">{{ stat.title }}</span>
+              <div class="flex items-baseline space-x-2">
+                <span class="text-[22px] font-bold text-[#566a7f] leading-none">{{ stat.value }}</span>
+                <span v-if="stat.percent" class="text-[13px] font-medium text-[#71dd37]">
+                  ({{ stat.percent }})
+                </span>
+              </div>
+            </div>
+            <div class="flex items-start">
+              <div :class="stat.iconBg" class="w-10 h-10 rounded-lg flex items-center justify-center">
+                 <NavIcon :name="stat.icon" :class-name="stat.iconColor" :size="22" />
+              </div>
+            </div>
+          </div>
+        </a-card>
+      </div>
 
-    <!-- 2. Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-      <div v-for="(stat, index) in stats" :key="index" class="bg-white p-4 rounded-[8px] shadow-sm border border-[#F1F5F9] flex justify-between items-center">
-        <div>
-          <p class="text-[12px] text-[#64748B] mb-1 font-medium">{{ stat.title }}</p>
-          <div class="flex items-baseline gap-2">
-            <h3 class="text-[20px] font-bold text-[#475569]">{{ stat.value }}</h3>
-            <span v-if="stat.percent" class="text-[11px] text-[#16A34A] font-medium">({{ stat.percent }})</span>
+      <!-- Main Table Card -->
+      <a-card :bordered="false" class="shadow-sm rounded-xl overflow-hidden">
+        <!-- Card Header: Title and Buttons -->
+        <div class="flex items-center justify-between p-6 pb-4 bg-white">
+          <h2 class="text-[18px] font-bold text-gray-700 m-0 uppercase tracking-tight">Danh sách yêu cầu rút sinh hoạt phí</h2>
+          <div class="flex items-center gap-3">
+            <ButtonDeleteList @click="goToDeleted" />
+            <ButtonAdd label="Thêm Mới" @click="goToCreate" />
           </div>
         </div>
-        <div :class="stat.iconBg" class="w-[42px] h-[42px] rounded-[6px] flex items-center justify-center">
-          <i :class="['bx', stat.icon, stat.iconColor, 'text-[22px]']"></i>
-        </div>
-      </div>
-    </div>
 
-    <!-- 3. Main Content Card -->
-    <div class="bg-white rounded-[8px] shadow-sm border border-[#F1F5F9]">
-      <div class="px-[24px] py-[20px] border-b border-[#F1F5F9] flex justify-between items-center">
-        <h2 class="text-[14px] font-bold text-[#475569] uppercase">DANH SÁCH YÊU CẦU RÚT SINH HOẠT PHÍ</h2>
-        <div class="flex gap-2">
-            <button 
-              class="px-4 py-2 bg-[#8592a3] text-white rounded-md text-sm flex items-center gap-2 hover:bg-[#7a8593]" 
-              @click="goToDeleted"
-             >
-              <i class="bx bx-trash mr-1"></i> Danh Sách Đã Xóa
-            </button>
-           <button class="px-4 py-2 bg-[#ff3e1d] text-white rounded-md text-sm font-medium hover:bg-[#e6381a] shadow-sm" @click="goToCreate">
-             <i class="bx bx-plus mr-1"></i> Thêm Mới
-           </button>
-        </div>
-      </div>
-      
-      <!-- Filter Bar -->
-      <div class="px-[24px] py-[20px] flex items-center justify-between border-b border-[#F1F5F9]">
-        <div class="flex items-center gap-[12px] flex-none h-[38px] w-[720px]"> 
-          <input
-            v-model="filters.keyword"
-            type="text"
-            placeholder="Tìm kiếm..."
-            class="filter-control flex-1 h-full"
-          />
-          <a-date-picker placeholder="Chọn thời gian" class="flex-1 !h-full rounded-md" />
-          <a-select v-model:value="filters.user" placeholder="Chọn người phụ trách" class="flex-1 !h-full border-none" />
-          <a-select v-model:value="filters.status" placeholder="Chọn trạng thái" class="flex-1 !h-full border-none" />
-        </div>
-        
-        <div class="flex items-center gap-[8px]">
-          <button class="btn-search-primary" @click="handleSearch">
-            <i class="bx bx-search text-[18px] mr-2"></i> Tìm Kiếm
-          </button>
-          <button class="btn-reset-gray" @click="handleReset">
-            <i class="bx bx-rotate-left text-[20px]"></i>
-          </button>
-        </div>
-      </div>
+        <!-- Filter Bar -->
+        <div class="flex flex-nowrap items-center gap-3 p-6 bg-[#fcfcfd] border-b border-gray-100">
+          <div class="w-[300px]">
+            <InputSearch v-model="filters.keyword" placeholder="Tìm kiếm" />
+          </div>
+          <div class="w-[220px]">
+            <SelectFilter v-model:value="filters.user" placeholder="Chọn người xử lý">
+              <a-select-option v-for="user in userOptions" :key="user.value" :value="user.value">
+                {{ user.label }}
+              </a-select-option>
+            </SelectFilter>
+          </div>
+          <div class="w-[220px]">
+            <SelectFilter v-model:value="filters.status" placeholder="Chọn trạng thái">
+              <a-select-option value="pending">Chờ duyệt</a-select-option>
+              <a-select-option value="approved">Đã duyệt</a-select-option>
+              <a-select-option value="rejected">Từ chối</a-select-option>
+            </SelectFilter>
+          </div>
 
-      <!-- 4. Table -->
-      <div class="overflow-x-auto">
-        <table class="w-full text-[13px] border-collapse">
-          <thead class="bg-[#F8FAFC] border-b border-[#F1F5F9]">
-            <tr class="text-[#64748B] uppercase font-bold">
-              <th class="px-[24px] py-[16px] text-left w-[40px] border-r border-[#F1F5F9] last:border-r-0">
-                <label class="custom-checkbox">
-                  <input type="checkbox" v-model="isSelectAll" />
-                  <span class="checkmark"></span>
-                </label>
-              </th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">#</th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">HỌC VIÊN</th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">HỢP ĐỒNG</th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">MỤC ĐÍCH</th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">NGÀY TẠO</th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">NGƯỜI XỬ LÝ</th>
-              <th class="px-[24px] py-[16px] text-left border-r border-[#F1F5F9] last:border-r-0">TRẠNG THÁI</th>
-              <th class="px-[24px] py-[16px] text-center">HÀNH ĐỘNG</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr 
-              v-for="item in decisions" 
-              :key="item.id" 
-              class="border-b border-[#F1F5F9] hover:bg-gray-50 transition-colors"
-              :class="{ 'row-selected': selectedIds.includes(item.id) }"
-            >
-              <td class="px-[24px] py-[18px] border-r border-[#F1F5F9] last:border-r-0">
-                <label class="custom-checkbox">
-                  <input type="checkbox" :value="item.id" v-model="selectedIds" />
-                  <span class="checkmark"></span>
-                </label>
-              </td>
-              <td class="px-[24px] py-[18px] text-[#696CFF] font-medium border-r border-[#F1F5F9] last:border-r-0">{{ item.id }}</td>
-              <td class="px-[24px] py-[18px] text-[#475569] font-medium border-r border-[#F1F5F9] last:border-r-0">{{ item.student }}</td>
-              <td class="px-[24px] py-[18px] text-[#475569] border-r border-[#F1F5F9] last:border-r-0">{{ item.contract }}</td>
-              <td class="px-[24px] py-[18px] text-[#475569] border-r border-[#F1F5F9] last:border-r-0">{{ item.purpose }}</td>
-              <td class="px-[24px] py-[18px] text-[#475569] border-r border-[#F1F5F9] last:border-r-0">{{ item.date }}</td>
-              <td class="px-[24px] py-[18px] text-[#475569] border-r border-[#F1F5F9] last:border-r-0">{{ item.handler }}</td>
-              <td class="px-[24px] py-[18px] border-r border-[#F1F5F9] last:border-r-0">
-                <span class="px-2 py-1 rounded-[6px] bg-[#E8FADF] text-[#71DD37] text-[12px] font-normal">
-                  Đã ban hành
-                </span>
-              </td>
-              <td class="px-[24px] py-[18px]">
-                <div class="flex justify-center gap-[12px] text-[#64748B]">
-                    <i 
-                      class="bx bx-show hover:text-[#696CFF] cursor-pointer text-[18px]"
-                      @click="goToDetail(item.id)"
-                      title="Xem chi tiết"
-                    ></i>
-      
-                    <i 
-                      class="bx bx-edit hover:text-[#FFAB00] cursor-pointer text-[18px]"
-                      @click="goToEdit(item.id)"
-                      title="Chỉnh sửa"
-                    ></i>
+          <div class="flex items-center gap-2 ml-auto">
+            <ButtonSearch @click="handleSearch" />
+            <ButtonReset @click="handleReset" />
+          </div>
+        </div>
 
-                    <i 
-                      class="bx bx-trash hover:text-[#EF4444] cursor-pointer text-[18px]" 
-                      @click="goToDelete(item.id)"
-                      title="Xóa vào danh sách đã xóa"
-                  ></i>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- 5. Pagination -->
-      <div class="px-[24px] py-[24px] flex justify-end">
-        <div class="flex items-center gap-[8px]">
-          <button class="pagin-btn" @click="changePage(1)" :disabled="currentPage === 1">
-            <i class="bx bx-chevrons-left"></i>
-          </button>
-          <button class="pagin-btn" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
-            <i class="bx bx-chevron-left"></i>
-          </button>
-          
-          <button 
-            v-for="page in totalPages" 
-            :key="page" 
-            class="pagin-btn"
-            :class="{ 'active': currentPage === page }"
-            @click="changePage(page)"
+        <!-- Data Table -->
+        <div class="px-0">
+          <AppTable 
+            :columns="columns" 
+            :data-source="decisions" 
+            :pagination="false"
+            :row-selection="rowSelection"
+            class="pvf-standard-table"
           >
-            {{ page }}
-          </button>
+            <template #bodyCell="{ column, record }">
+              <template v-if="column.key === 'id'">
+                <span class="font-medium text-[#696cff] cursor-pointer hover:underline">{{ record.id }}</span>
+              </template>
 
-          <button class="pagin-btn" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
-            <i class="bx bx-chevron-right"></i>
-          </button>
-          <button class="pagin-btn" @click="changePage(totalPages)" :disabled="currentPage === totalPages">
-            <i class="bx bx-chevrons-right"></i>
-          </button>
+              <template v-if="column.key === 'student'">
+                <span class="font-bold text-[#566a7f]">{{ record.student }}</span>
+              </template>
+
+              <template v-if="column.key === 'status'">
+                <BaseTag type="success" class="!rounded-md !px-3 !bg-[#e8fadf] !text-[#71dd37] border-none font-medium">
+                  Chờ duyệt
+                </BaseTag>
+              </template>
+
+              <template v-if="column.key === 'actions'">
+                <TableActions :actions="getActions(record)" />
+              </template>
+            </template>
+          </AppTable>
         </div>
-      </div>
+
+        <!-- Pagination -->
+        <div class="flex justify-end p-6 bg-white border-t border-gray-100">
+          <BasePagination 
+            v-model:current="currentPage"
+            :total="total"
+            :page-size="pageSize"
+            @change="handlePageChange"
+          />
+        </div>
+      </a-card>
     </div>
-  </div>
+  </AdminPage>
 </template>
 
-<style scoped>
-/* Màu nền khi hàng được chọn */
-.row-selected {
-  background-color: #F0F2FF !important;
-}
-
-/* Custom Checkbox Style */
-.custom-checkbox {
-  display: block;
-  position: relative;
-  width: 18px;
-  height: 18px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.custom-checkbox input {
-  position: absolute;
-  opacity: 0;
-  cursor: pointer;
-  height: 0;
-  width: 0;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 18px;
-  width: 18px;
-  background-color: #fff;
-  border: 1px solid #d9dee3;
-  border-radius: 4px;
-}
-
-.custom-checkbox:hover input ~ .checkmark {
-  border-color: #696cff;
-}
-
-.custom-checkbox input:checked ~ .checkmark {
-  background-color: #696cff;
-  border-color: #696cff;
-}
-
-.checkmark:after {
-  content: "";
-  position: absolute;
-  display: none;
-}
-
-.custom-checkbox input:checked ~ .checkmark:after {
-  display: block;
-}
-
-.custom-checkbox .checkmark:after {
-  left: 6px;
-  top: 2px;
-  width: 5px;
-  height: 10px;
-  border: solid white;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-.filter-control {
-  padding: 0 12px;
-  border: 1px solid #d9dee3;
-  border-radius: 6px;
-  font-size: 13px;
-  outline: none;
-}
-
-:deep(.ant-select-selector) {
-  height: 38px !important;
-  display: flex !important;
-  align-items: center !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-}
-
-.btn-search-primary {
-  height: 38px;
-  padding: 0 20px;
-  background-color: #696CFF;
-  color: white;
-  border-radius: 6px;
-  font-weight: 500;
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  border: none;
-  cursor: pointer;
-}
-
-.btn-reset-gray {
-  width: 38px;
-  height: 38px;
-  background-color: #8592a3;
-  color: white;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  cursor: pointer;
-}
-
-.pagin-btn {
-  width: 38px;
-  height: 38px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background-color: #F2F2F2;
-  color: #475569;
-  font-weight: 500;
-  border: none;
-  cursor: pointer;
-}
-
-.pagin-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-/* TRẢ LẠI MÀU ĐỎ GỐC CỦA BẠN[cite: 6] */
-.pagin-btn.active {
-  background-color: #EE2D24; 
-  color: white;
-  box-shadow: 0 4px 10px rgba(105, 108, 255, 0.25);
-}
-
-.pagin-btn.active i {
-  color: white;
-}
-
-.pagin-btn i {
-  font-size: 18px;
-  color: #A1ACB8;
-}
-</style>
-
 <script setup lang="ts">
-import { Modal } from 'ant-design-vue';
-import { ref, reactive, computed, createVNode } from 'vue'
+import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { Modal, message } from 'ant-design-vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
+import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
+import AppTable from '@/components/organisms/AppTable.vue'
+import TableActions from '@/components/molecules/TableActions.vue'
 
 const router = useRouter()
 
+const breadcrumbs = [
+  { title: 'Sinh hoạt phí', href: '#' },
+  { title: 'Yêu cầu rút sinh hoạt phí', href: '#' }
+]
+
 const stats = [
-  { title: 'Tổng số yêu cầu', value: '21', icon: 'bx-layout', iconBg: 'bg-[#E7E7FF]', iconColor: 'text-[#696CFF]' },
-  { title: 'Số yêu cầu chờ duyệt', value: '20', percent: '95%', icon: 'bx-calendar-check', iconBg: 'bg-[#FFE5E5]', iconColor: 'text-[#EF4444]' },
-  { title: 'Số yêu cầu đã duyệt', value: '1', percent: '5%', icon: 'bx-layer-minus', iconBg: 'bg-[#FFF2D6]', iconColor: 'text-[#FFAB00]' },
-  { title: 'Tổng số tiền yêu cầu rút', value: '21', percent: '5%', icon: 'bx-layer-plus', iconBg: 'bg-[#FFF2D6]', iconColor: 'text-[#FFAB00]' }
+  { title: 'Tổng số yêu cầu', value: '21', icon: 'BxStatsTile', iconBg: 'bg-[#e7e7ff]', iconColor: 'text-[#696cff]' },
+  { title: 'Số yêu cầu chờ duyệt', value: '20', percent: '95%', icon: 'BxCalendarCheck', iconBg: 'bg-[#ffe5e5]', iconColor: 'text-[#ff3e1d]' },
+  { title: 'Số yêu cầu đã duyệt', value: '1', percent: '5%', icon: 'BxLayersMinus', iconBg: 'bg-[#fff2d6]', iconColor: 'text-[#ffab00]' },
+  { title: 'Tổng số tiền yêu cầu rút', value: '21', percent: '5%', icon: 'BxLayersPlus', iconBg: 'bg-[#fff2d6]', iconColor: 'text-[#ffab00]' }
 ]
 
 const filters = reactive({ keyword: '', user: undefined, status: undefined })
+const userOptions = [
+  { label: 'Trần Minh Quân', value: 'Quân' },
+  { label: 'Lê Văn C', value: 'C' }
+]
 
 const decisions = ref([
   { id: '1', student: 'Nguyễn Văn An', contract: 'HDDT-PVF-20', purpose: 'Mua dụng cụ học tập', date: '15/03/2025 8:00', handler: 'Trần Minh Quân' },
@@ -333,25 +148,40 @@ const decisions = ref([
   { id: '3', student: 'Lê Hoàng Nam', contract: 'HDDT-PVF-22', purpose: 'Mua dụng cụ học tập', date: '15/03/2025 8:00', handler: 'Trần Minh Quân' }
 ])
 
-// Checkbox logic[cite: 6]
-const selectedIds = ref<string[]>([])
-const isSelectAll = computed({
-  get: () => decisions.value.length > 0 && selectedIds.value.length === decisions.value.length,
-  set: (value: boolean) => {
-    selectedIds.value = value ? decisions.value.map(item => item.id) : []
-  }
-})
+const columns = [
+  { title: '#', key: 'id', dataIndex: 'id', width: 80 },
+  { title: 'HỌC VIÊN', key: 'student', dataIndex: 'student' },
+  { title: 'HỢP ĐỒNG', key: 'contract', dataIndex: 'contract' },
+  { title: 'MỤC ĐÍCH', key: 'purpose', dataIndex: 'purpose' },
+  { title: 'NGÀY TẠO', key: 'date', dataIndex: 'date', width: 200 },
+  { title: 'NGƯỜI XỬ LÝ', key: 'handler', dataIndex: 'handler' },
+  { title: 'TRẠNG THÁI', key: 'status', width: 160, align: 'center' },
+  { title: 'HÀNH ĐỘNG', key: 'actions', width: 120, align: 'center' },
+]
 
-// Pagination logic[cite: 6]
+// Pagination
 const currentPage = ref(1)
-const totalPages = ref(6)
+const pageSize = ref(10)
+const total = ref(3)
 
-const changePage = (page: number) => {
-  if (page >= 1 && page <= totalPages.value) {
-    currentPage.value = page
-    console.log('Page changed to:', page)
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+}
+
+// Checkbox selection
+const selectedRowKeys = ref<string[]>([])
+const rowSelection = {
+  selectedRowKeys: selectedRowKeys,
+  onChange: (keys: string[]) => {
+    selectedRowKeys.value = keys
   }
 }
+
+const getActions = (record: any) => [
+  { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => goToDetail(record.id) },
+  { label: 'Chỉnh sửa', icon: 'BxEdit', onClick: () => goToEdit(record.id) },
+  { label: 'Xóa', icon: 'BxTrash', danger: true, onClick: () => handleGoToDelete(record) },
+]
 
 const goToDetail = (id: string) => {
   router.push({ name: 'expenses-detail', params: { id: id } })
@@ -361,26 +191,88 @@ const goToEdit = (id: string) => {
   router.push({ name: 'expenses-edit', params: { id: id } })
 }
 
-const goToDelete = (id: string) => {
+const handleGoToDelete = (record: any) => {
   Modal.confirm({
-    title: 'Xác nhận xóa?',
-    icon: createVNode(ExclamationCircleOutlined, { style: 'color: #ffab00' }),
-    content: `Bạn có muốn xóa học viên ${id} không?`,
+    title: 'Xác nhận xóa',
+    content: `Bạn có muốn xóa yêu cầu ${record.id} không?`,
     okText: 'Xóa',
     okType: 'danger',
-    cancelText: 'Cancel',
-    centered: true,
+    cancelText: 'Hủy',
     onOk() {
-      decisions.value = decisions.value.filter(item => item.id !== id);
-      console.log('Đã xóa:', id);
+      decisions.value = decisions.value.filter(item => item.id !== record.id)
+      message.success('Xóa thành công!')
     },
-  });
-};
+  })
+}
 
 const handleSearch = () => { console.log('Searching...') }
-const handleReset = () => { filters.keyword = ''; filters.user = undefined; filters.status = undefined }
-const goToCreate = () => { router.push({ name: '' }) }
+const handleReset = () => { 
+  filters.keyword = ''
+  filters.user = undefined
+  filters.status = undefined 
+}
+
+const goToCreate = () => { router.push({ name: 'expenses-create' }) }
 const goToDeleted = () => {
   router.push({ name: 'expenses-delete' })
 }
 </script>
+
+<style scoped>
+:deep(.ant-card-body) {
+  padding: 0;
+}
+
+:deep(.pvf-standard-table .ant-table-thead > tr > th) {
+  background-color: white !important;
+  color: #566a7f !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  font-size: 13px !important;
+  padding: 16px 24px !important;
+  border-bottom: 1px solid #f0f2f5 !important;
+}
+
+:deep(.pvf-standard-table .ant-table-tbody > tr > td) {
+  padding: 16px 24px !important;
+  color: #566a7f !important;
+  font-size: 13px !important;
+  border-bottom: 1px solid #f0f2f5 !important;
+}
+
+:deep(.pvf-standard-table .ant-table-row:hover > td) {
+  background-color: #f8faff !important;
+}
+
+:deep(.ant-input-affix-wrapper),
+:deep(.ant-select-selector) {
+  border-radius: 8px !important;
+  border-color: #d9dee3 !important;
+  height: 38px !important;
+  display: flex !important;
+  align-items: center !important;
+}
+
+:deep(.ant-input-affix-wrapper):focus,
+:deep(.ant-input-affix-wrapper-focused),
+:deep(.ant-select-focused:not(.ant-select-disabled).ant-select:not(.ant-select-customize-input) .ant-select-selector) {
+  border-color: #d9dee3 !important;
+  box-shadow: none !important;
+}
+
+:deep(.ant-input-affix-wrapper:hover),
+:deep(.ant-select:not(.ant-select-disabled):hover .ant-select-selector) {
+  border-color: #696cff !important;
+}
+
+:deep(.ant-table-thead > tr > th:not(:last-child)::after) {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 25%;
+  height: 50%;
+  width: 1px;
+  background-color: #d9dee3;
+}
+</style>
+

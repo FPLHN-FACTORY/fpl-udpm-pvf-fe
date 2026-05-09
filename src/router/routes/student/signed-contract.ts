@@ -6,7 +6,7 @@ export const signedContractRoute: RouteRecordRaw = {
   component: () => import('../../../components/pages/contract/SignedContractPage.vue'),
   children: [
     {
-      path: '', 
+      path: '',
       name: 'SignedContractList',
       component: () => import('../../../components/pages/contract/SignedContractPage.vue'),
       meta: { hidden: true }
@@ -14,7 +14,7 @@ export const signedContractRoute: RouteRecordRaw = {
     {
       path: 'create',
       name: 'SignedContractCreate',
-      component: () => import('../../../components/pages/contract/EditContractPage.vue'),
+      component: () => import('../../../components/pages/contract/CreateContractPage.vue'),
       meta: { title: 'Thêm mới hợp đồng', hidden: true }
     },
     {
