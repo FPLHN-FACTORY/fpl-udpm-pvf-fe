@@ -117,12 +117,12 @@ const DELAY = 300
 
 // --- STUDENT SERVICES ---
 
-export const getLivingFeeBalance = async (studentId: string) => {
+export const getLivingFeeBalance = async (_studentId: string) => {
   await delay();
   return '10.000.000 VND';
 };
 
-export const getLivingFeeRequests = async (studentId: string) => {
+export const getLivingFeeRequests = async (_studentId: string) => {
   await delay();
   return [
     { id: '1', index: 1, date: '10/01/2025', amount: 'Số tiền', purpose: 'Mua dụng cụ học tập', balanceAfter: '10.000.000 VND', handler: 'Trần Minh Quân', status: 'Đã duyệt' },
@@ -131,7 +131,7 @@ export const getLivingFeeRequests = async (studentId: string) => {
   ];
 };
 
-export const getLivingFeeRequestDetail = async (requestId: string) => {
+export const getLivingFeeRequestDetail = async (_requestId: string) => {
   await delay();
   return {
     id: 'HS001',
@@ -150,7 +150,7 @@ export const getLivingFeeRequestDetail = async (requestId: string) => {
   };
 };
 
-export const getLivingFeeRequestHistory = async (requestId: string) => {
+export const getLivingFeeRequestHistory = async (_requestId: string) => {
   await delay();
   return [
     { id: '1', index: '#6979', time: 'Apr 15, 2023, 10:21', userName: 'Cristine Easom', userEmail: 'ceasomw@theguardian.com', userAvatar: 'https://i.pravatar.cc/150?u=1', actionType: 'Tạo', objectType: 'USER', object: 'U001_NguyenVanA' },
@@ -161,7 +161,7 @@ export const getLivingFeeRequestHistory = async (requestId: string) => {
 
 // --- DỤNG CỤ (EQUIPMENT) ---
 
-export const getEquipmentList = async (studentId: string) => {
+export const getEquipmentList = async (_studentId: string) => {
   await delay();
   return [
     { id: '1', index: 1, name: 'Áo tập luyện', description: 'Trang phục dùng cho học viên trong các buổi tập hàng ngày', status: 'Đang sử dụng' },
@@ -169,7 +169,7 @@ export const getEquipmentList = async (studentId: string) => {
   ];
 };
 
-export const getEquipmentRequests = async (studentId: string) => {
+export const getEquipmentRequests = async (_studentId: string) => {
   await delay();
   return [
     { id: '1', index: 1, name: 'Áo tập luyện', description: 'Trang phục', requestDate: '2025-02-10', handler: 'Phạm Văn Hải', approvalDate: '2025-02-11', status: 'Đã duyệt' },
@@ -178,7 +178,7 @@ export const getEquipmentRequests = async (studentId: string) => {
   ];
 };
 
-export const getEquipmentRequestDetail = async (requestId: string) => {
+export const getEquipmentRequestDetail = async (_requestId: string) => {
   await delay();
   return {
     id: '1',
@@ -196,7 +196,7 @@ export const getEquipmentRequestDetail = async (requestId: string) => {
 
 // --- KỶ LUẬT KHEN THƯỞNG (DISCIPLINE) ---
 
-export const getDisciplineList = async (studentId: string) => {
+export const getDisciplineList = async (_studentId: string) => {
   await delay();
   return [
     { id: '1', index: 1, recordId: 'HS001', type: 'Kỷ luật', template: 'BB Khiển trách', decisionDate: '10/01/2025', reason: 'Đi học muộn nhiều lần', status: 'Đã ban hành' },
@@ -206,7 +206,7 @@ export const getDisciplineList = async (studentId: string) => {
   ];
 };
 
-export const getDisciplineDetail = async (recordId: string) => {
+export const getDisciplineDetail = async (_recordId: string) => {
   await delay();
   return {
     id: 'HS001',
@@ -222,7 +222,7 @@ export const getDisciplineDetail = async (recordId: string) => {
 
 // --- ĐÁNH GIÁ (EVALUATION) ---
 
-export const getEvaluationList = async (studentId: string) => {
+export const getEvaluationList = async (_studentId: string) => {
   await delay();
   return [
     { id: '1', index: 1, name: 'Sơ tuyển U13', evaluator: 'Nguyễn Minh Anh', score: 6, lockedAt: '15/03/2025 17:00', status: 'Đang diễn ra' },
@@ -231,7 +231,7 @@ export const getEvaluationList = async (studentId: string) => {
   ];
 };
 
-export const getOverallEvaluation = async (studentId: string) => {
+export const getOverallEvaluation = async (_studentId: string) => {
   await delay();
   return {
     id: 'UT1301',
@@ -243,7 +243,7 @@ export const getOverallEvaluation = async (studentId: string) => {
   };
 };
 
-export const getEvaluationDetail = async (evaluationId: string) => {
+export const getEvaluationDetail = async (_evaluationId: string) => {
   await delay();
   return {
     id: 'UT1301',
@@ -259,7 +259,7 @@ export const getEvaluationDetail = async (evaluationId: string) => {
   };
 };
 
-export const getEvaluationCriteria = async (evaluationId: string) => {
+export const getEvaluationCriteria = async (_evaluationId: string) => {
   await delay();
   return [
     { id: '1', index: 1, criteria: 'Thể lực', weight: '25%', score: 8, convertedScore: '2.0' },

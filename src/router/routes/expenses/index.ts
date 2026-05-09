@@ -1,3 +1,4 @@
+import type { RouteRecordRaw } from 'vue-router'
 import { expensesManagementRoutes, expensesManagementHiddenRoutes } from './expenses-management' 
 
 export const expensesRoutes: RouteRecordRaw[] = [

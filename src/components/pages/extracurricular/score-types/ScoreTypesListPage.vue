@@ -120,7 +120,6 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import BaseTag from '@/components/atoms/display/BaseTag.vue'
 import BasePagination from '@/components/atoms/display/BasePagination.vue'
@@ -131,7 +130,6 @@ import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
 import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
-const router = useRouter()
 
 // Stats Data
 const stats = [

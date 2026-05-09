@@ -146,7 +146,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue'
+import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'

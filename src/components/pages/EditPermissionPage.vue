@@ -78,13 +78,12 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import BaseInput from '../atoms/BaseInput.vue'
 import BaseTextarea from '../atoms/BaseTextarea.vue'
 import BaseButton from '../atoms/BaseButton.vue'
 
 const router = useRouter()
-const route = useRoute()
 
 const formData = ref({
   code: '',
@@ -93,7 +92,6 @@ const formData = ref({
 })
 
 onMounted(() => {
-  const id = route.params.id
   // Mock pre-fill
   formData.value = {
     code: 'USER_VIEW',

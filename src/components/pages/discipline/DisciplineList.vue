@@ -68,7 +68,7 @@
             :row-selection="rowSelection"
             class="pvf-standard-table"
           >
-            <template #bodyCell="{ column, record, index }">
+            <template #bodyCell="{ column, record }">
               <template v-if="column.key === 'id'">
                 <span class="font-medium text-[#696cff] cursor-pointer hover:underline">{{ record.id }}</span>
               </template>

@@ -88,11 +88,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const router = useRouter()
-const route = useRoute()
 
 // Mock data for detail based on the image
 const evaluation = computed(() => ({
