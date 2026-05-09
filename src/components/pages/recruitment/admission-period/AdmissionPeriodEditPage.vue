@@ -9,7 +9,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden w-full mx-auto">
       <div class="flex justify-between items-center p-8 border-b border-gray-100">
         <h2 class="text-2xl font-bold text-[#566a7f]">Điều chỉnh Kỳ tuyển sinh</h2>
-        <ButtonBackNoIcon @click="$router.push('/recruitment/admission-periods')" />
+        <ButtonBackNoIcon @click="$router.push({ name: 'admission-periods' })" />
       </div>
 
       <div class="p-10">
@@ -146,7 +146,7 @@ const validateForm = () => {
 const handleSubmit = () => {
   if (validateForm()) {
     console.log('Submit', formData.value)
-    router.push('/recruitment/admission-periods')
+    router.push({ name: 'admission-periods' })
   }
 }
 

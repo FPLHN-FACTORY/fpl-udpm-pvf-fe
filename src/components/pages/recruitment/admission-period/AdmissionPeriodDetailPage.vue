@@ -11,10 +11,10 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Chi tiết Kỳ tuyển sinh</h2>
         <div class="flex gap-2">
-          <ButtonBackNoIcon @click="$router.push('/recruitment/admission-periods')" />
+          <ButtonBackNoIcon @click="$router.push({ name: 'admission-periods' })" />
           <a-button 
             class="!bg-[#ffab00] hover:!bg-[#e69a00] !border-none !text-white !text-[13px] !px-6 !h-[38px] font-medium rounded-md"
-            @click="$router.push('/recruitment/admission-periods/edit/1')"
+            @click="$router.push({ name: 'admission-period-edit', params: { id: '1' } })"
           >
             Chỉnh Sửa
           </a-button>

@@ -40,7 +40,7 @@
         :pagination="false"
         class="custom-table"
       >
-        <template #bodyCell="{ column, record, index }">
+        <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
@@ -73,7 +73,7 @@
         :pagination="false"
         class="custom-table"
       >
-        <template #bodyCell="{ column, record, index }">
+        <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
@@ -106,7 +106,7 @@
         :pagination="false"
         class="custom-table"
       >
-        <template #bodyCell="{ column, record, index }">
+        <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
@@ -130,14 +130,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import BaseTag from '../../../atoms/display/BaseTag.vue'
 import ButtonEditNoIcon from '../../../atoms/buttons/ButtonEditNoIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
 import DetailList from '../../../molecules/DetailList.vue'
 
-const router = useRouter()
 
 const detailItems = [
   { label: 'Tên phiên bản hợp đồng', value: 'Phiên bản chuẩn PVF v1.0' },

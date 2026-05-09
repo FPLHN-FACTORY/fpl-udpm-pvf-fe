@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { LeftOutlined, EditOutlined } from '@ant-design/icons-vue'
+import { LeftOutlined } from '@ant-design/icons-vue'
 
 interface Props {
   data?: {

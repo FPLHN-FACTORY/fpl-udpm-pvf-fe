@@ -93,7 +93,7 @@
           :row-selection="{}"
           class="pvf-table"
         >
-          <template #bodyCell="{ column, record, index }">
+          <template #bodyCell="{ column, index }">
             <template v-if="column.key === 'stt'">
               {{ index + 1 }}
             </template>
@@ -171,7 +171,6 @@ import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const router = useRouter()
-const isEditing = ref(false)
 const activeTab = ref(router.currentRoute.value.query.tab as string || 'list')
 
 const tabs = [

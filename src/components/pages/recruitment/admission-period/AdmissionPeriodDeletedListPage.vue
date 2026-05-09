@@ -11,7 +11,7 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Kỳ tuyển sinh đã xoá</h2>
         <a-button 
           class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2 rounded-md font-medium"
-          @click="$router.push('/recruitment/admission-periods')"
+          @click="$router.push({ name: 'admission-periods' })"
         >
           Quay Lại
         </a-button>
@@ -44,7 +44,7 @@
           :pagination="false"
           :row-selection="{ selectedRowKeys: [] }"
         >
-          <template #bodyCell="{ column, record, index }">
+          <template #bodyCell="{ column, index }">
             <template v-if="column.key === 'stt'">
               <span class="text-[#6c63ff] font-medium">{{ index + 1 }}</span>
             </template>

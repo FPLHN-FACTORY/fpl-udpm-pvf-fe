@@ -134,6 +134,7 @@ import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 
+
 // Stats Data
 const stats = [
   { 

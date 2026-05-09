@@ -3,7 +3,7 @@ export const templatesRoute: RouteRecordRaw = {
   path: 'templates',
   name: 'discipline-templates',
   component: () => import('../../../components/pages/discipline/TemplateListPage.vue'), 
-  meta: { title: 'Mẫu quyết định', icon: 'BxTemplat' }
+  meta: { title: 'Mẫu quyết định', icon: 'BxTemplate' }
 }
 
 export const templatesHiddenRoute: RouteRecordRaw = {

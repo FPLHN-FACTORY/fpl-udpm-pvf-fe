@@ -78,7 +78,7 @@ const form = ref({
 })
 
 const handleSubmit = () => {
-  if (!form.ip.value) {
+  if (!form.value.ip) {
     message.error('Vui lòng nhập địa chỉ IP')
     return
   }

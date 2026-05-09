@@ -72,14 +72,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 
-const route = useRoute()
-const router = useRouter()
-const contractId = route.params.id
 
 const formData = ref({
   student: 'TH12345 - Nguyễn Văn An',

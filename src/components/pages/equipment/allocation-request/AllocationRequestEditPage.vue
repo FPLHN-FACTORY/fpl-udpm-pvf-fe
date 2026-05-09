@@ -38,7 +38,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import InputForm from '@/components/atoms/inputs/InputForm.vue'
 import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
@@ -50,7 +50,6 @@ import AdminCard from '@/components/molecules/AdminCard.vue'
 import AdminPage from '@/components/templates/AdminPage.vue'
 
 const router = useRouter()
-const route = useRoute()
 
 const breadcrumbs = [
   { title: 'Quản lý công cụ -dụng cụ thi đấu', path: '#' },
@@ -58,7 +57,13 @@ const breadcrumbs = [
   { title: 'Chỉnh sửa Yêu cầu cấp phát', path: '#' }
 ]
 
-const formData = ref({
+const formData = ref<{
+  id: string;
+  equipmentType: string | undefined;
+  quantity: number;
+  status: string;
+  note: string;
+}>({
   id: '',
   equipmentType: undefined,
   quantity: 1,
@@ -69,7 +74,6 @@ const formData = ref({
 const originalData = ref<any>(null)
 
 onMounted(async () => {
-  const id = route.params.id as string
   try {
     // Mock data
     const mockData = {

@@ -79,7 +79,7 @@ const handleSubmit = async (payload: SaveMasterCriteriaInput) => {
     message.success('Cập nhật thành công')
     router.push({
       name: "master-criteria-detail",
-      params: { id: response.data.id },
+      params: { id: response.data?.id },
     });
   } catch (error) {
     message.error('Cập nhật thất bại')

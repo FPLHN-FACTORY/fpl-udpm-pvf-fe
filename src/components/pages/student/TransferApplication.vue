@@ -181,7 +181,7 @@ const handleViewDetail = (record: Student) => {
   router.push(`/student/transfer-request/detail/${record.id}`)
 }
 
-const handleDelete = (id: string) => {
+const handleDelete = (_id: string) => {
   const isPermanent = isDeletedView.value
   Modal.confirm({
     title: isPermanent ? 'Xác nhận xóa vĩnh viễn' : 'Xác nhận xóa',
@@ -200,7 +200,7 @@ const handleDelete = (id: string) => {
   })
 }
 
-const handleRestore = (id: string) => {
+const handleRestore = (_id: string) => {
   Modal.confirm({
     title: 'Xác nhận khôi phục',
     content: 'Bạn có chắc chắn muốn khôi phục đơn này?',

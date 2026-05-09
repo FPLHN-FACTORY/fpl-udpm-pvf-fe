@@ -91,7 +91,17 @@ const breadcrumbs = [
   { title: 'Chi tiết Yêu cầu cấp phát', path: '#' }
 ]
 
-const logs = [
+const logs: Array<{
+  id: string
+  time: string
+  userName: string
+  userEmail: string
+  userAvatar: string
+  action: string
+  actionType: 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger'
+  objectType: string
+  object: string
+}> = [
   {
     id: '#69979',
     time: 'Apr 15, 2023, 10:21',
@@ -133,8 +143,8 @@ const viewHistoryDetail = (log: any) => {
   router.push(`/equipment/allocation-request/detail/${requestId}/history/${historyId}`)
 }
 
-const getStatusType = (status?: string) => {
-  const types: Record<string, string> = {
+const getStatusType = (status?: string): 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger' => {
+  const types: Record<string, 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger'> = {
     pending: 'warning',
     approved: 'success',
     rejected: 'danger'
@@ -166,7 +176,6 @@ const details = computed(() => [
 ])
 
 onMounted(async () => {
-  const id = route.params.id as string
   try {
     // Mock data
     request.value = {

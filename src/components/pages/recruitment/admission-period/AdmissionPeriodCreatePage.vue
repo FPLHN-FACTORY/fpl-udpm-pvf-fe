@@ -12,7 +12,7 @@
       <!-- Card Header -->
       <div class="flex justify-between items-center p-8 border-b border-gray-100">
         <h2 class="text-2xl font-bold text-[#566a7f]">Thêm mới Kỳ tuyển sinh</h2>
-        <ButtonBackNoIcon @click="$router.push('/recruitment/admission-periods')" />
+        <ButtonBackNoIcon @click="$router.push({ name: 'admission-periods' })" />
       </div>
 
       <!-- Form Body -->
@@ -114,7 +114,7 @@ const formData = ref({
 
 const handleSubmit = () => {
   console.log('Submit', formData.value)
-  router.push('/recruitment/admission-periods')
+  router.push({ name: 'admission-periods' })
 }
 
 const resetForm = () => {

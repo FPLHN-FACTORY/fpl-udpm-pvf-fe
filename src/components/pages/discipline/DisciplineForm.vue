@@ -119,7 +119,7 @@
 
 <script setup lang="ts">
 import { reactive, computed, onMounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 interface DisciplineFormData {
   studentId: number | undefined;
@@ -130,7 +130,6 @@ interface DisciplineFormData {
   status: string;
 }
 
-const router = useRouter()
 const route = useRoute()
 const isEdit = computed(() => !!route.params.id)
 

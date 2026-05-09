@@ -93,7 +93,6 @@ import { message } from 'ant-design-vue'
 import AdminPage from '@/components/templates/AdminPage.vue'
 import AdminCard from '@/components/molecules/AdminCard.vue'
 import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
-import dayjs from 'dayjs'
 
 const router = useRouter()
 const route = useRoute()
