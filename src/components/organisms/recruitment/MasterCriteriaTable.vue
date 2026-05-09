@@ -25,11 +25,11 @@
 
       <template #pagination>
         <div class="flex justify-end p-4">
-          <BasePagination 
-            :total="total" 
-            :current="current" 
-            :page-size="pageSize" 
-            @change="$emit('pageChange', $event)" 
+          <BasePagination
+            :total="total"
+            :current="current"
+            :page-size="pageSize"
+            @change="$emit('pageChange', $event)"
           />
         </div>
       </template>
@@ -59,20 +59,21 @@ const emit = defineEmits(['edit', 'delete', 'view', 'restore', 'pageChange'])
 
 const rowSelection = {
   onChange: (selectedRowKeys: string[], selectedRows: MasterCriteriaListItem[]) => {
-    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+    console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows)
   },
-};
+}
 
 const getActions = (record: MasterCriteriaListItem) => {
   if (props.isDeletedView) {
     return [
-      { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => emit('view', record.id) },
+      { label: 'Xem chi tiết', icon: 'BxEditAlt', onClick: () => emit('view', record.id) },
       { label: 'Khôi phục', icon: 'BxReset', onClick: () => emit('restore', record.id) },
       { label: 'Xóa vĩnh viễn', icon: 'BxTrash', danger: true, onClick: () => emit('delete', record.id) },
     ]
   }
+
   return [
-    { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => emit('view', record.id) },
+    { label: 'Xem chi tiết', icon: 'BxEditAlt', onClick: () => emit('view', record.id) },
     { label: 'Chỉnh sửa', icon: 'BxEdit', onClick: () => emit('edit', record.id) },
     { label: 'Xóa', icon: 'BxTrash', danger: true, onClick: () => emit('delete', record.id) },
   ]

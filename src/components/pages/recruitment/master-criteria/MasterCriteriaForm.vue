@@ -3,7 +3,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div class="flex justify-between items-center mb-10">
         <h2 class="text-[17px] font-bold text-gray-700 m-0">{{ title }}</h2>
-        <ButtonBack @click="$emit('cancel')" />
+        <ButtonBackNoIcon @click="$emit('cancel')" />
       </div>
 
       <div class="space-y-7 pb-10">
@@ -21,7 +21,13 @@
         <div class="space-y-4">
           <div class="flex items-center justify-between">
             <h3 class="text-[15px] font-bold text-gray-700">Các tiêu chí</h3>
-            <ButtonAdd text="Thêm tiêu chí" @click="addCriterionRow" />
+            <a-button
+              type="primary"
+              class="!inline-flex !h-[38px] !items-center !justify-center !border-none !rounded-md !bg-[#71dd37] !px-4 shadow-sm shadow-lime-100 hover:!bg-[#63c92f]"
+              @click="addCriterionRow"
+            >
+              <span class="text-[13px] font-semibold leading-none text-white">Thêm Tiêu Chí</span>
+            </a-button>
           </div>
 
           <div class="space-y-4">
@@ -50,7 +56,7 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 pt-4">
-          <ButtonSave :text="submitLabel" @click="submitForm" />
+          <ButtonSaveNoIcon :text="submitLabel" @click="submitForm" />
           <ButtonResetYellow @click="resetForm" />
         </div>
       </div>
@@ -60,9 +66,8 @@
 
 <script setup lang="ts">
 import { reactive, ref, watch } from "vue";
-import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
-import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
-import ButtonSave from '@/components/atoms/buttons/ButtonSave.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
+import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
 import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
 import InputForm from '@/components/atoms/inputs/InputForm.vue'
 import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
