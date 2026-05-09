@@ -40,11 +40,7 @@
         </div>
       </div>
       
-      <!-- Footer -->
-      <div class="flex items-center justify-between mt-12 border-t pt-4 border-gray-100">
-        <span class="text-sm text-gray-500">2025 © PVF VN</span>
-        <span class="text-sm text-gray-500">Design & Develop by FPT POLYTECHNIC</span>
-      </div>
+
     </a-card>
   </div>
 </template>

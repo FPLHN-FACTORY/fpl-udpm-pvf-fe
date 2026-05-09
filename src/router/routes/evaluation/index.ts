@@ -1,8 +1,20 @@
 import type { RouteRecordRaw } from 'vue-router'
 
-import { criteriaRoute } from './criteria'
+import { 
+  criteriaRoute,
+  criteriaCreateRoute,
+  criteriaDeletedRoute,
+  criteriaDetailRoute,
+  criteriaEditRoute
+} from './criteria'
 import { formRoutes } from './forms'
-import { stageRoute } from './stages'
+import { 
+  stageRoute,
+  stageCreateRoute,
+  stageDeletedRoute,
+  stageDetailRoute,
+  stageEditRoute
+} from './stages'
 import {
   studentEvaluationCreateRoute,
   studentEvaluationDeletedRoute,
@@ -13,17 +25,18 @@ import {
 import { courseEvaluationRoute } from './full-course'
 
 const evaluationVisibleChildren: RouteRecordRaw[] = [
-  ...criteriaRoutes,
-  formRoute,
   criteriaRoute,
   ...formRoutes,
->>>>>>> c60b489d91ed18c810e28706d8058cedce49c778
   stageRoute,
   studentEvaluationRoute,
   ...courseEvaluationRoute
 ]
 
 const evaluationHiddenChildren: RouteRecordRaw[] = [
+  criteriaCreateRoute,
+  criteriaDeletedRoute,
+  criteriaDetailRoute,
+  criteriaEditRoute,
   stageDetailRoute,
   stageCreateRoute,
   stageEditRoute,

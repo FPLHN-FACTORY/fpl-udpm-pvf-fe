@@ -35,16 +35,12 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 pt-10">
-          <ButtonAddNoIcon @click="handleSubmit" text="Cập Nhật" />
+          <ButtonSaveNoIcon @click="handleSubmit" text="Cập Nhật" />
           <ButtonResetYellow @click="handleReset" text="Đặt Lại" />
         </div>
       </div>
       
-      <!-- Footer -->
-      <div class="flex items-center justify-between mt-12 border-t pt-4 border-gray-100">
-        <span class="text-sm text-gray-500">2025 © PVF VN</span>
-        <span class="text-sm text-gray-500">Design & Develop by FPT POLYTECHNIC</span>
-      </div>
+
     </a-card>
   </div>
 </template>
@@ -53,7 +49,7 @@
 import { reactive, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
-import ButtonAddNoIcon from '../../../atoms/buttons/ButtonAddNoIcon.vue'
+import ButtonSaveNoIcon from '../../../atoms/buttons/ButtonSaveNoIcon.vue'
 import ButtonResetYellow from '../../../atoms/buttons/ButtonResetYellow.vue'
 import InputForm from '../../../atoms/inputs/InputForm.vue'
 import SelectForm from '../../../atoms/inputs/SelectForm.vue'
