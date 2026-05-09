@@ -32,7 +32,7 @@
         <section class="rounded-lg border border-[#ebeef3] bg-white p-6 shadow-[0_2px_12px_rgba(67,89,113,0.08)]">
           <div class="mb-4 flex items-center justify-between gap-3">
             <h2 class="text-[18px] font-bold text-[#566a7f]">Các tiêu chí</h2>
-            <ButtonAddNoIcon text="+ Thêm Mới" @click="handleAddCriterion" />
+            <ButtonAddNoIcon text="Thêm Mới" @click="handleAddCriterion" />
           </div>
 
           <div class="overflow-x-auto rounded-lg border border-gray-100">
