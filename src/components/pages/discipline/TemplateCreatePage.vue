@@ -1,63 +1,36 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Kỷ luật khen thưởng</span>
-      <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Mẫu biên bản</span>
-    </div>
-
-    <!-- Main Content Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-      <!-- Card Header -->
-      <div class="flex justify-between items-center mb-8">
-        <h1 class="text-xl font-bold text-[#566a7f]">Thêm mới <span class="bg-[#fcf3d7] px-1 rounded">Mẫu biên bản</span></h1>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Thêm mới Mẫu biên bản" padded title-size="xl">
+      <template #actions>
         <ButtonBack @click="$router.back()" />
-      </div>
+      </template>
 
       <!-- Form -->
       <div class="flex flex-col gap-6 max-w-full">
         <div>
           <InputForm 
             v-model="formData.name"
+            label="Tên mẫu biên bản"
             placeholder="Tên mẫu biên bản"
           />
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <a-select 
-              v-model:value="formData.type" 
-              placeholder="Loại" 
-              class="w-full !h-[42px]"
-            >
-              <a-select-option value="khien-trach">Khiển trách</a-select-option>
-              <a-select-option value="canh-cao">Cảnh cáo</a-select-option>
-            </a-select>
-          </div>
-          <div>
-            <a-select 
-              v-model:value="formData.level" 
-              placeholder="Mức độ" 
-              class="w-full !h-[42px]"
-            >
-              <a-select-option value="1">1</a-select-option>
-              <a-select-option value="2">2</a-select-option>
-              <a-select-option value="3">3</a-select-option>
-            </a-select>
-          </div>
+          <SelectForm v-model:value="formData.type" label="Loại" placeholder="Loại">
+            <a-select-option value="khien-trach">Khiển trách</a-select-option>
+            <a-select-option value="canh-cao">Cảnh cáo</a-select-option>
+          </SelectForm>
+          <SelectForm v-model:value="formData.level" label="Mức độ" placeholder="Mức độ">
+            <a-select-option value="1">1</a-select-option>
+            <a-select-option value="2">2</a-select-option>
+            <a-select-option value="3">3</a-select-option>
+          </SelectForm>
         </div>
 
-        <div>
-          <a-select 
-            v-model:value="formData.status" 
-            placeholder="Trạng thái" 
-            class="w-full !h-[42px]"
-          >
-            <a-select-option value="active">Đang hoạt động</a-select-option>
-            <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
-          </a-select>
-        </div>
+        <SelectForm v-model:value="formData.status" label="Trạng thái" placeholder="Trạng thái">
+          <a-select-option value="active">Đang hoạt động</a-select-option>
+          <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
+        </SelectForm>
 
         <!-- Dynamic Fields Section -->
         <div class="mt-4 border-t border-gray-100 pt-6">
@@ -65,7 +38,7 @@
             <h3 class="text-lg font-bold text-[#566a7f]">
               Trường (key) của <span class="bg-[#fcf3d7] px-1 rounded">mẫu biên bản</span>
             </h3>
-            <ButtonAdd text="Thêm Trường" @click="addField" />
+            <ButtonAddNoIcon text="Thêm Trường" @click="addField" />
           </div>
           
           <div class="flex flex-col gap-4">
@@ -95,31 +68,34 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 mt-8 pt-6 border-t border-gray-100">
-          <ButtonSave text="Thêm Mới" @click="handleSubmit" />
-          <ButtonReset @click="resetForm" />
+          <ButtonSaveNoIcon text="Thêm Mới" @click="handleSubmit" />
+          <ButtonResetYellow @click="resetForm" />
         </div>
       </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import InputForm from '../../atoms/inputs/InputForm.vue'
-import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
-import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
-import ButtonSave from '../../atoms/buttons/ButtonSave.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
+import ButtonAddNoIcon from '@/components/atoms/buttons/ButtonAddNoIcon.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
 
 const router = useRouter()
+
+const breadcrumbs = [
+  { title: 'Kỷ luật khen thưởng', path: '#' },
+  { title: 'Mẫu biên bản', path: '/discipline/templates' },
+  { title: 'Thêm mới Mẫu biên bản', path: '#' }
+]
 
 interface FormData {
   name: string
@@ -154,8 +130,6 @@ const handleSubmit = () => {
   router.push('/discipline/templates')
 }
 
-
-
 const resetForm = () => {
   formData.value = {
     name: '',
@@ -173,14 +147,6 @@ const resetForm = () => {
 :deep(.ant-input:hover) {
   border-color: #696cff !important;
   box-shadow: none !important;
-}
-
-:deep(.ant-select-selector) {
-  height: 42px !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-  display: flex;
-  align-items: center;
 }
 
 .animate-fadeIn {

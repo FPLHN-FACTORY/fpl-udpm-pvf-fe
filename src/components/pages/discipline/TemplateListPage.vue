@@ -1,14 +1,7 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Kỷ luật khen thưởng</span>
-      <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Mẫu biên bản</span>
-    </div>
-
+  <AdminPage :breadcrumbs="breadcrumbs">
     <!-- Stats Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
       <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start">
         <div>
           <p class="text-sm text-gray-500 mb-1">Tổng số <span class="bg-[#fcf3d7] px-1 rounded">mẫu biên bản</span></p>
@@ -45,24 +38,16 @@
     </div>
 
     <!-- Main Content Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <!-- Header with Action Buttons -->
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Biên bản</h2>
-        <div class="flex gap-3">
-          <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !text-white !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
-            @click="$router.push('/discipline/templates/deleted')"
-          >
-            <template #icon><NavIcon name="BxTrash" size="18" /></template>
-            Danh Sách Đã Xóa
-          </a-button>
-          <ButtonAdd text="Thêm Mới" @click="$router.push('/discipline/templates/create')" />
-        </div>
-      </div>
+    <AdminCard title="Danh sách Biên bản">
+      <template #actions>
+        <ButtonDeleteList 
+          @click="$router.push('/discipline/templates/deleted')"
+        />
+        <ButtonAdd text="Thêm Mới" @click="$router.push('/discipline/templates/create')" />
+      </template>
 
       <!-- Filter Bar -->
-      <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
+      <div class="flex flex-wrap items-center gap-3 bg-[#fcfcfd] p-4 border-b border-gray-100">
         <div class="flex-1 min-w-[200px]">
           <InputSearch 
             v-model="searchQuery" 
@@ -103,7 +88,7 @@
         >
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'stt'">
-              {{ index + 1 }}
+              <TableIndex :index="index + 1" />
             </template>
 
             <template v-else-if="column.key === 'status'">
@@ -113,7 +98,7 @@
             </template>
 
             <template v-else-if="column.key === 'actions'">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 justify-center">
                 <button 
                   class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
                   @click="$router.push(`/discipline/templates/detail/${record.key}`)"
@@ -136,42 +121,50 @@
       </div>
 
       <!-- Pagination -->
-      <div class="p-6 flex justify-end">
-        <a-pagination 
-          v-model:current="currentPage" 
+      <div class="p-6 flex justify-end border-t border-gray-100">
+        <BasePagination 
+          :current="currentPage" 
           :total="50" 
-          :show-size-changer="false"
-          class="custom-pagination"
+          :page-size="10"
+          @change="handlePageChange"
         />
       </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
-import ButtonSearch from '../../atoms/buttons/ButtonSearch.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
-import InputSearch from '../../atoms/inputs/InputSearch.vue'
-import BaseTag from '../../atoms/display/BaseTag.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
+import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import TableIndex from '@/components/atoms/display/TableIndex.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
 const searchQuery = ref('')
 const statusFilter = ref(undefined)
 const dateFilter = ref(undefined)
-const currentPage = ref(3)
+const currentPage = ref(1)
+
+const breadcrumbs = [
+  { title: 'Kỷ luật khen thưởng', path: '#' },
+  { title: 'Mẫu biên bản', path: '/discipline/templates' }
+]
 
 const resetFilters = () => {
   searchQuery.value = ''
   statusFilter.value = undefined
   dateFilter.value = undefined
+}
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
 }
 
 const onSelectChange = (selectedRowKeys: any) => {
@@ -187,7 +180,7 @@ const getStatusType = (status: string) => {
 }
 
 const columns = [
-  { title: '#', key: 'stt', width: 60 },
+  { title: '#', key: 'stt', width: 60, align: 'center' },
   { title: 'TÊN MẪU', dataIndex: 'name', key: 'name' },
   { title: 'LOẠI', dataIndex: 'type', key: 'type' },
   { title: 'MỨC ĐỘ', dataIndex: 'level', key: 'level' },
@@ -242,15 +235,6 @@ const dataSource = ref([
   border-color: #d9dee3 !important;
   display: flex;
   align-items: center;
-}
-
-:deep(.custom-pagination .ant-pagination-item-active) {
-  background-color: #ff3e1d !important;
-  border-color: #ff3e1d !important;
-}
-
-:deep(.custom-pagination .ant-pagination-item-active a) {
-  color: white !important;
 }
 
 .template-table :deep(.ant-table-selection-column) {

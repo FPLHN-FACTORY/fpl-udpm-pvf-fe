@@ -1,31 +1,20 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Kỷ luật khen thưởng</span>
-      <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Mẫu biên bản</span>
-    </div>
-
-    <!-- Page Header Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-      <div class="flex justify-between items-center mb-6">
-        <h1 class="text-lg font-bold text-[#566a7f]">Chi tiết <span class="bg-[#fcf3d7] px-1 rounded">Mẫu biên bản</span></h1>
-        <div class="flex items-center gap-3">
-          <ButtonBack @click="$router.back()" />
-          <ButtonEdit @click="$router.push(`/discipline/templates/edit/${$route.params.id}`)" />
-        </div>
-      </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Chi tiết Mẫu biên bản" padded title-size="xl">
+      <template #actions>
+        <ButtonBack @click="$router.back()" />
+        <ButtonEditNoIcon @click="$router.push(`/discipline/templates/edit/${$route.params.id}`)" />
+      </template>
 
       <!-- Detail Info Table -->
-      <div class="border border-gray-100 rounded-lg overflow-hidden">
+      <div class="border border-gray-100 rounded-lg overflow-hidden mb-8">
         <div v-for="(item, index) in templateDetails" :key="index" 
-          class="flex border-b border-gray-100 last:border-0 min-h-[50px]"
+          class="grid grid-cols-[200px_1fr] border-b border-gray-100 last:border-0 min-h-[50px]"
         >
-          <div class="w-1/3 bg-[#fcfcfd] p-4 text-[13px] font-bold text-[#566a7f] border-r border-gray-100 flex items-center">
+          <div class="bg-gray-50/50 p-4 text-[13px] font-bold text-[#566a7f] border-r border-gray-100 flex items-center">
             {{ item.label }}
           </div>
-          <div class="w-2/3 p-4 text-[13px] text-[#697a8d] flex items-center">
+          <div class="p-4 text-[13px] text-[#697a8d] flex items-center">
             <template v-if="item.label === 'Tên mẫu biên bản'">
               <span class="bg-[#fcf3d7] px-1 rounded">{{ item.value }}</span>
             </template>
@@ -35,17 +24,16 @@
           </div>
         </div>
       </div>
-    </div>
+    </AdminCard>
 
     <!-- Nested List Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách trường mẫu</h2>
-        <ButtonAdd text="Thêm Mới" @click="() => {}" />
-      </div>
+    <AdminCard title="Danh sách trường mẫu" class="mt-6">
+      <template #actions>
+        <ButtonAddNoIcon text="Thêm Mới" @click="() => {}" />
+      </template>
 
       <!-- Filter Bar -->
-      <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
+      <div class="p-4 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
         <div class="flex-1 min-w-[200px]">
           <InputSearch 
             v-model="searchQuery" 
@@ -79,7 +67,7 @@
         >
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'stt'">
-              {{ index + 1 }}
+              <TableIndex :index="index + 1" />
             </template>
 
             <template v-else-if="column.key === 'status'">
@@ -89,7 +77,7 @@
             </template>
 
             <template v-else-if="column.key === 'actions'">
-              <div class="flex items-center gap-2">
+              <div class="flex items-center gap-2 justify-center">
                 <button class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors">
                   <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
                 </button>
@@ -104,29 +92,32 @@
           </template>
         </a-table>
       </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ButtonAdd from '../../atoms/buttons/ButtonAdd.vue'
-import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
-import ButtonEdit from '../../atoms/buttons/ButtonEdit.vue'
-import ButtonSearch from '../../atoms/buttons/ButtonSearch.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
-import InputSearch from '../../atoms/inputs/InputSearch.vue'
-import BaseTag from '../../atoms/display/BaseTag.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import ButtonAddNoIcon from '@/components/atoms/buttons/ButtonAddNoIcon.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonEditNoIcon from '@/components/atoms/buttons/ButtonEditNoIcon.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import TableIndex from '@/components/atoms/display/TableIndex.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
 
 const searchQuery = ref('')
 const statusFilter = ref(undefined)
+
+const breadcrumbs = [
+  { title: 'Kỷ luật khen thưởng', path: '#' },
+  { title: 'Mẫu biên bản', path: '/discipline/templates' },
+  { title: 'Chi tiết Mẫu biên bản', path: '#' }
+]
 
 const templateDetails = ref([
   { label: 'ID', value: 'HS001' },
@@ -138,7 +129,7 @@ const templateDetails = ref([
 ])
 
 const columns = [
-  { title: 'STT', key: 'stt', width: 60 },
+  { title: 'STT', key: 'stt', width: 60, align: 'center' },
   { title: 'KEY', dataIndex: 'key', key: 'key' },
   { title: 'NỘI DUNG', dataIndex: 'content', key: 'content' },
   { title: 'TRẠNG THÁI', key: 'status', width: 150 },

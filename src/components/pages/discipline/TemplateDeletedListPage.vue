@@ -1,24 +1,12 @@
 <template>
-  <div class="flex flex-col gap-6">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Kỷ luật khen thưởng</span>
-      <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Mẫu biên bản</span>
-    </div>
-
-    <!-- Main Content Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <!-- Header with Action Buttons -->
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Biên bản đã xóa</h2>
-        <div class="flex gap-3">
-          <ButtonBack @click="$router.back()" />
-        </div>
-      </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Danh sách Biên bản đã xóa">
+      <template #actions>
+        <ButtonBack @click="$router.back()" />
+      </template>
 
       <!-- Filter Bar -->
-      <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
+      <div class="flex flex-wrap items-center gap-3 bg-[#fcfcfd] p-4 border-b border-gray-100">
         <div class="flex-1 min-w-[200px]">
           <InputSearch 
             v-model="searchQuery" 
@@ -59,66 +47,51 @@
         >
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'stt'">
-              {{ index + 1 }}
+              <TableIndex :index="index + 1" />
             </template>
 
             <template v-else-if="column.key === 'actions'">
-              <div class="flex items-center gap-2">
-                <button 
-                  class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-                  @click="$router.push(`/discipline/templates/detail/${record.key}`)"
-                >
-                  <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
-                </button>
-                <button 
-                  class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-                  title="Khôi phục"
-                >
-                  <NavIcon name="BxUndo" class-name="w-[18px] h-[18px]" />
-                </button>
-                <button 
-                  class="p-1 text-[#a1acb8] hover:text-[#ff3e1d] transition-colors"
-                  title="Xóa vĩnh viễn"
-                >
-                  <NavIcon name="BxTrash" class-name="w-[18px] h-[18px]" />
-                </button>
-              </div>
+              <TableActions :actions="getActions(record)" />
             </template>
           </template>
         </a-table>
       </div>
 
       <!-- Pagination -->
-      <div class="p-6 flex justify-end">
-        <a-pagination 
-          v-model:current="currentPage" 
+      <div class="p-6 flex justify-end border-t border-gray-100">
+        <BasePagination 
+          :current="currentPage" 
           :total="50" 
-          :show-size-changer="false"
-          class="custom-pagination"
+          :page-size="10"
+          @change="handlePageChange"
         />
       </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import ButtonBack from '../../atoms/buttons/ButtonBack.vue'
-import ButtonSearch from '../../atoms/buttons/ButtonSearch.vue'
-import ButtonReset from '../../atoms/buttons/ButtonReset.vue'
-import InputSearch from '../../atoms/inputs/InputSearch.vue'
-import NavIcon from '../../atoms/icons/NavIcon.vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import TableIndex from '@/components/atoms/display/TableIndex.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import TableActions from '@/components/molecules/TableActions.vue'
 
 const searchQuery = ref('')
 const statusFilter = ref(undefined)
 const dateFilter = ref(undefined)
-const currentPage = ref(4)
+const currentPage = ref(1)
+
+const breadcrumbs = [
+  { title: 'Kỷ luật khen thưởng', path: '#' },
+  { title: 'Mẫu biên bản', path: '/discipline/templates' },
+  { title: 'Danh sách đã xóa', path: '#' }
+]
 
 const resetFilters = () => {
   searchQuery.value = ''
@@ -126,12 +99,22 @@ const resetFilters = () => {
   dateFilter.value = undefined
 }
 
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+}
+
 const onSelectChange = (selectedRowKeys: any) => {
   console.log('selectedRowKeys changed: ', selectedRowKeys)
 }
 
+const getActions = (record: any) => [
+  { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => {} },
+  { label: 'Khôi phục', icon: 'BxReset', onClick: () => {} },
+  { label: 'Xóa vĩnh viễn', icon: 'BxTrash', danger: true, onClick: () => {} },
+]
+
 const columns = [
-  { title: '#', key: 'stt', width: 60 },
+  { title: '#', key: 'stt', width: 60, align: 'center' },
   { title: 'TÊN MẪU', dataIndex: 'name', key: 'name' },
   { title: 'LOẠI', dataIndex: 'type', key: 'type' },
   { title: 'MỨC ĐỘ', dataIndex: 'level', key: 'level' },
@@ -186,14 +169,5 @@ const dataSource = ref([
   border-color: #d9dee3 !important;
   display: flex;
   align-items: center;
-}
-
-:deep(.custom-pagination .ant-pagination-item-active) {
-  background-color: #ff3e1d !important;
-  border-color: #ff3e1d !important;
-}
-
-:deep(.custom-pagination .ant-pagination-item-active a) {
-  color: white !important;
 }
 </style>
