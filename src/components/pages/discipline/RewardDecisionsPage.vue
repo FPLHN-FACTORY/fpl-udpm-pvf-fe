@@ -241,12 +241,12 @@ const handleViewDetail = (record: RewardDecision) => {
   router.push(`/discipline/reward-decisions/detail/${record.id}`)
 }
 
-const handleRestore = (id: string) => {
+const handleRestore = (_id: string) => {
   message.success('Khôi phục thành công')
   fetchData()
 }
 
-const handleDelete = (id: string) => {
+const handleDelete = (_id: string) => {
   const isPermanent = isDeletedView.value
   Modal.confirm({
     title: isPermanent ? 'Xác nhận xóa vĩnh viễn' : 'Xác nhận xóa',

@@ -4,14 +4,14 @@
     <div class="flex items-center gap-2 text-sm">
       <span class="text-gray-400">Quản lý học tập văn hoá</span>
       <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Khối lớp</span>
+      <span class="text-gray-400 font-medium">Khối lớp</span>
     </div>
 
     <!-- Main Content Card -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
       <!-- Card Header -->
       <div class="flex justify-between items-center mb-8">
-        <h1 class="text-xl font-bold text-[#566a7f]">Thêm mới <span class="bg-[#fcf3d7] px-1 rounded">Khối lớp</span></h1>
+        <h1 class="text-xl font-bold text-[#566a7f]">Thêm mới Khối lớp</h1>
         <ButtonBack @click="$router.back()" />
       </div>
 
@@ -46,17 +46,12 @@
 
         <!-- Action Buttons -->
         <div class="flex items-center justify-center gap-4 mt-4">
-          <ButtonSave text="Thêm Mới" @click="handleSubmit" />
+          <ButtonSaveNoIcon text="Thêm Mới" @click="handleSubmit" />
           <ButtonReset @click="resetForm" />
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
   </div>
 </template>
 
@@ -66,7 +61,7 @@ import { useRouter } from 'vue-router'
 import InputForm from '@/components/atoms/inputs/InputForm.vue'
 import TextareaForm from '@/components/atoms/inputs/TextareaForm.vue'
 import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
-import ButtonSave from '@/components/atoms/buttons/ButtonSave.vue'
+import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
 import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()

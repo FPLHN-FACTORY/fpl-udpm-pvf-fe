@@ -50,14 +50,12 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import BaseTag from '../../../atoms/display/BaseTag.vue'
 import ButtonEditNoIcon from '../../../atoms/buttons/ButtonEditNoIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
 import DetailList from '../../../molecules/DetailList.vue'
 
-const router = useRouter()
 
 // Stats Data for Detail
 const stats = [

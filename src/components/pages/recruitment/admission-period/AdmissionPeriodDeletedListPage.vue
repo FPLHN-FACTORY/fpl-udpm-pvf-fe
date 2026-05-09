@@ -44,7 +44,7 @@
           :pagination="false"
           :row-selection="{ selectedRowKeys: [] }"
         >
-          <template #bodyCell="{ column, record, index }">
+          <template #bodyCell="{ column, index }">
             <template v-if="column.key === 'stt'">
               <span class="text-[#6c63ff] font-medium">{{ index + 1 }}</span>
             </template>

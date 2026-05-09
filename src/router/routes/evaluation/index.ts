@@ -16,7 +16,6 @@ import {
   studentEvaluationDetailRoute,
   studentEvaluationRoute
 } from './student'
-import { courseEvaluationRoute } from './full-course'
 
 const evaluationVisibleChildren: RouteRecordRaw[] = [
   criteriaRoute,
