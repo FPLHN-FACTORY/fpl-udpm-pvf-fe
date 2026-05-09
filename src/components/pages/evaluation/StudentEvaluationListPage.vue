@@ -7,20 +7,28 @@
     </a-breadcrumb>
 
     <!-- Statistic Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <a-card v-for="(stat, index) in stats" :key="index" :bordered="false" class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-gray-500 text-sm font-medium mb-1">{{ stat.title }}</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <a-card
+        v-for="(stat, index) in stats"
+        :key="index"
+        :bordered="false"
+        :body-style="{ padding: '0px' }"
+        class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-all h-[110px]"
+      >
+        <div class="flex justify-between h-full p-5">
+          <div class="flex flex-col justify-between">
+            <p class="text-[#566a7f] text-[13px] font-medium leading-tight opacity-80 mb-0">{{ stat.title }}</p>
             <div class="flex items-baseline space-x-2">
-              <span class="text-2xl font-bold text-gray-800">{{ stat.value }}</span>
-              <span v-if="stat.percentage" class="text-xs font-semibold" :class="stat.trendClass">
+              <span class="text-[22px] font-bold text-[#566a7f] leading-none">{{ stat.value }}</span>
+              <span v-if="stat.percentage" class="text-[13px] font-medium" :class="stat.trendClass">
                 ({{ stat.percentage }})
               </span>
             </div>
           </div>
-          <div :class="stat.iconBg" class="w-10 h-10 rounded-lg flex items-center justify-center">
-             <NavIcon :name="stat.icon" class-name="w-6 h-6 text-white" />
+          <div class="flex items-start">
+            <div :class="stat.iconBg" class="w-10 h-10 rounded-lg flex items-center justify-center">
+              <NavIcon :name="stat.icon" :class-name="stat.iconColor" :size="stat.iconSize || 22" />
+            </div>
           </div>
         </div>
       </a-card>
@@ -163,30 +171,35 @@ const stats = computed(() => {
     { 
       title: 'Tổng số lượt đánh giá', 
       value: total.toString(), 
-      icon: 'BxPanelSplit', 
-      iconBg: 'bg-blue-500' 
+      icon: 'BxStatsTile',
+      iconBg: 'bg-[#e7e7ff]',
+      iconColor: 'text-[#696cff]'
     },
     { 
       title: 'Số học viên đã đánh giá', 
       value: evaluated.toString(), 
       percentage: total ? `${Math.round((evaluated / total) * 100)}%` : '0%', 
-      trendClass: 'text-green-500', 
-      icon: 'BxCalendarCheck', 
-      iconBg: 'bg-red-400' 
+      trendClass: 'text-[#71dd37]',
+      icon: 'BxCalendarCheck',
+      iconBg: 'bg-[#ffe5e5]',
+      iconColor: 'text-[#ff3e1d]'
     },
     { 
       title: 'Số chưa đánh giá', 
       value: pending.toString(), 
       percentage: total ? `${Math.round((pending / total) * 100)}%` : '0%', 
-      trendClass: 'text-green-500', 
-      icon: 'BxLayersStacked', 
-      iconBg: 'bg-orange-400' 
+      trendClass: 'text-[#71dd37]',
+      icon: 'BxLayersMinus',
+      iconBg: 'bg-[#fff2d6]',
+      iconColor: 'text-[#ffab00]'
     },
     { 
       title: 'Điểm trung bình', 
       value: averageScore.toString(), 
-      icon: 'BxAverageAngle', 
-      iconBg: 'bg-yellow-400' 
+      icon: 'BxAverageAngle',
+      iconBg: 'bg-[#fff2d6]',
+      iconColor: 'text-[#ffab00]',
+      iconSize: 20
     }
   ]
 })
