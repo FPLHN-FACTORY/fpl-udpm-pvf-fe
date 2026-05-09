@@ -66,14 +66,14 @@ const rowSelection = {
 const getActions = (record: MasterCriteriaListItem) => {
   if (props.isDeletedView) {
     return [
-      { label: 'Xem chi tiết', icon: 'BxEditAlt', onClick: () => emit('view', record.id) },
+      { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => emit('view', record.id) },
       { label: 'Khôi phục', icon: 'BxReset', onClick: () => emit('restore', record.id) },
       { label: 'Xóa vĩnh viễn', icon: 'BxTrash', danger: true, onClick: () => emit('delete', record.id) },
     ]
   }
 
   return [
-    { label: 'Xem chi tiết', icon: 'BxEditAlt', onClick: () => emit('view', record.id) },
+    { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => emit('view', record.id) },
     { label: 'Chỉnh sửa', icon: 'BxEdit', onClick: () => emit('edit', record.id) },
     { label: 'Xóa', icon: 'BxTrash', danger: true, onClick: () => emit('delete', record.id) },
   ]
