@@ -1,496 +1,384 @@
 <template>
-  <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ pageTitle }}</span>
-      </p>
+  <div class="flex flex-col gap-6">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm mb-2">
+      <span class="text-gray-400">{{ moduleTitle }}</span>
+      <span class="text-gray-400">/</span>
+      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">{{ pageTitle }}</span>
     </div>
 
     <template v-if="record">
-      <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 md:flex-row md:items-center md:justify-between">
-          <h2 class="text-lg font-bold text-slate-800">
-            Chi tiết Lớp học văn hóa
-          </h2>
-
-          <div class="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-              @click="goBack"
-            >
-              <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
-              Quay lại
-            </button>
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-lg bg-amber-400 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-500"
-              @click="goToEdit"
-            >
-              Chỉnh sửa
-            </button>
+      <!-- Detail Card -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <!-- Header -->
+        <div class="flex justify-between items-center p-6 border-b border-gray-100">
+          <h2 class="text-lg font-bold text-[#566a7f]">Chi tiết Lớp học văn hóa</h2>
+          <div class="flex gap-3">
+            <ButtonBack @click="goBack" />
+            <ButtonEdit @click="goToEdit" />
           </div>
         </div>
 
-        <div class="px-5 py-5">
-          <div class="overflow-hidden rounded-2xl border border-slate-200">
-            <div
-              v-for="field in detailFields"
-              :key="field.label"
-              class="grid grid-cols-1 border-b border-slate-200 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)]"
-            >
-              <div class="bg-white px-4 py-3 text-sm font-semibold text-slate-700">
-                {{ field.label }}
-              </div>
-              <div class="px-4 py-3 text-sm text-slate-600">
-                <span
-                  v-if="field.type === 'status'"
-                  class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
-                  :class="statusClassMap[record.status]"
-                >
-                  {{ field.value }}
-                </span>
-                <template v-else>
-                  {{ field.value }}
-                </template>
-              </div>
+        <!-- Detail Fields -->
+        <div class="overflow-hidden">
+          <div
+            v-for="field in detailFields"
+            :key="field.label"
+            class="grid grid-cols-1 border-b border-gray-100 last:border-b-0 md:grid-cols-[220px_minmax(0,1fr)]"
+          >
+            <div class="bg-[#fcfcfd] px-6 py-3 text-sm font-semibold text-[#566a7f]">
+              {{ field.label }}
+            </div>
+            <div class="px-6 py-3 text-sm text-[#697a8d]">
+              <BaseTag v-if="field.type === 'status'" :type="getStatusType(record.status)">
+                {{ field.value }}
+              </BaseTag>
+              <template v-else>{{ field.value }}</template>
             </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      <section class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <article
+      <!-- Summary Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+        <div
           v-for="card in summaryCards"
           :key="card.label"
-          class="flex items-start justify-between gap-4 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+          class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex justify-between items-start"
         >
-          <div class="min-w-0 flex-1">
-            <p class="text-[13px] font-semibold leading-5 text-slate-500">
-              {{ card.label }}
-            </p>
-            <div class="mt-3 inline-flex items-center gap-2 whitespace-nowrap">
-              <p class="text-3xl font-bold leading-none text-slate-800">
-                {{ card.value }}
-              </p>
-              <span
-                v-if="card.hint"
-                class="pb-0.5 text-xs font-semibold leading-none whitespace-nowrap"
-                :class="card.hintClass"
-              >
-                {{ card.hint }}
-              </span>
+          <div>
+            <p class="text-sm text-gray-500 mb-1">{{ card.label }}</p>
+            <div class="flex items-baseline gap-2">
+              <h3 class="text-2xl font-bold text-[#566a7f]">{{ card.value }}</h3>
+              <span v-if="card.hint" class="text-[#71dd37] text-sm">{{ card.hint }}</span>
             </div>
           </div>
-
           <div
-            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl"
+            class="w-10 h-10 rounded-lg flex items-center justify-center"
             :class="card.iconWrapperClass"
           >
-            <CulturalClassIcon :name="card.icon" class-name="h-6 w-6" />
+            <NavIcon :name="card.icon" class-name="w-6 h-6" />
           </div>
-        </article>
-      </section>
+        </div>
+      </div>
 
-      <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-        <div class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
-          <h3 class="text-lg font-bold text-slate-800">
-            Học viên tham gia lớp học
-          </h3>
-
-          <div class="flex flex-wrap items-center gap-2">
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-lg bg-[#ff1f1f] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#e31b1b]"
-              @click="addStudent"
-            >
-              <CulturalClassIcon name="BxPlus" class-name="h-4 w-4" />
-              Thêm mới
-            </button>
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-lg bg-lime-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-lime-600"
-            >
-              <CulturalClassIcon name="BxDownload" class-name="h-4 w-4" />
-              Xuất Danh Sách
-            </button>
-            <button
-              type="button"
-              class="inline-flex items-center gap-2 rounded-lg bg-cyan-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-cyan-600"
-            >
-              <CulturalClassIcon name="BxUpload" class-name="h-4 w-4" />
-              Nhập Danh Sách
-            </button>
+      <!-- Student Table Section -->
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+        <!-- Section Header -->
+        <div class="flex justify-between items-center p-6 border-b border-gray-100">
+          <h3 class="text-lg font-bold text-[#566a7f]">Học viên tham gia lớp học</h3>
+          <div class="flex gap-3">
+            <ButtonAdd text="Thêm Mới" @click="addStudent" />
+            <ButtonExport @click="() => {}" />
+            <ButtonImport @click="() => {}" />
           </div>
         </div>
 
-        <div class="space-y-4 px-5 py-5">
-          <div class="flex flex-wrap items-center gap-3">
-            <button
-              v-for="tab in tabs"
-              :key="tab.value"
-              type="button"
-              class="rounded-lg px-5 py-2 text-sm font-semibold transition"
-              :class="
-                activeTab === tab.value
-                  ? 'bg-[#6c63ff] text-white shadow-sm'
-                  : 'border border-slate-200 bg-slate-100 text-slate-500 hover:border-slate-300 hover:bg-slate-200'
-              "
-              @click="activeTab = tab.value"
-            >
-              {{ tab.label }}
-            </button>
-          </div>
+        <!-- Tabs -->
+        <div class="px-6 pt-4 flex items-center gap-2 border-b border-gray-100">
+          <button
+            v-for="tab in tabs"
+            :key="tab.value"
+            type="button"
+            class="px-5 py-2 text-sm font-semibold rounded-t-lg transition-colors"
+            :class="
+              activeTab === tab.value
+                ? 'bg-[#696cff] text-white'
+                : 'text-[#697a8d] hover:text-[#566a7f] hover:bg-gray-50'
+            "
+            @click="activeTab = tab.value"
+          >
+            {{ tab.label }}
+          </button>
+        </div>
 
-          <div v-if="activeTab === 'attendance'" class="max-w-[220px]">
-            <select
-              v-model="selectedSessionId"
-              class="h-10 w-full rounded-lg border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
+        <!-- Attendance session selector -->
+        <div v-if="activeTab === 'attendance'" class="px-6 py-3 border-b border-gray-100">
+          <div class="w-[220px]">
+            <a-select
+              v-model:value="selectedSessionId"
+              class="w-full !h-[38px]"
             >
-              <option
+              <a-select-option
                 v-for="session in record.sessions"
                 :key="session.id"
                 :value="session.id"
               >
                 {{ session.label }} - {{ session.date }}
-              </option>
-            </select>
-          </div>
-
-          <div class="overflow-x-auto">
-            <table class="min-w-full border-separate border-spacing-0">
-              <thead>
-                <tr class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
-                  <th class="w-16 border-y border-slate-200 px-4 py-3">#</th>
-                  <th class="border-y border-slate-200 px-4 py-3">Mã học viên</th>
-                  <th class="border-y border-slate-200 px-4 py-3">Tên học viên</th>
-                  <th
-                    v-if="activeTab === 'roster'"
-                    class="border-y border-slate-200 px-4 py-3"
-                  >
-                    Email
-                  </th>
-                  <th
-                    v-if="activeTab === 'roster'"
-                    class="border-y border-slate-200 px-4 py-3"
-                  >
-                    Ngày vào lớp
-                  </th>
-                  <th
-                    v-if="activeTab === 'roster'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Trạng thái
-                  </th>
-                  <th
-                    v-if="activeTab === 'roster'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Hành động
-                  </th>
-
-                  <th
-                    v-if="activeTab === 'attendance'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Điểm danh
-                  </th>
-                  <th
-                    v-if="activeTab === 'attendance'"
-                    class="border-y border-slate-200 px-4 py-3"
-                  >
-                    Ghi chú
-                  </th>
-
-                  <th
-                    v-if="activeTab === 'scores'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Đầu điểm số 1
-                  </th>
-                  <th
-                    v-if="activeTab === 'scores'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Đầu điểm số 2
-                  </th>
-                  <th
-                    v-if="activeTab === 'scores'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Đầu điểm số 3
-                  </th>
-                  <th
-                    v-if="activeTab === 'scores'"
-                    class="border-y border-slate-200 px-4 py-3 text-center"
-                  >
-                    Trung bình
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                <tr
-                  v-for="(student, index) in record.students"
-                  :key="student.id"
-                  class="text-sm text-slate-600 transition hover:bg-slate-50/70"
-                >
-                  <td class="border-b border-slate-100 px-4 py-3 text-[#6c63ff]">
-                    {{ index + 1 }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3">
-                    {{ student.code }}
-                  </td>
-                  <td class="border-b border-slate-100 px-4 py-3 font-medium text-slate-700">
-                    {{ student.name }}
-                  </td>
-
-                  <template v-if="activeTab === 'roster'">
-                    <td class="border-b border-slate-100 px-4 py-3">
-                      {{ student.email }}
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3">
-                      {{ student.joinedAt }}
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3 text-center">
-                      <span
-                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
-                        :class="studentStatusClassMap[student.status]"
-                      >
-                        {{ student.statusLabel }}
-                      </span>
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3">
-                      <div class="flex items-center justify-center gap-3 text-slate-400">
-                        <button
-                          type="button"
-                          class="transition hover:text-[#6c63ff]"
-                          title="Xem học viên"
-                          aria-label="Xem học viên"
-                        >
-                          <CulturalClassIcon name="BxShow" class-name="h-4 w-4" />
-                        </button>
-                        <button
-                          type="button"
-                          class="transition hover:text-red-500"
-                          title="Xóa khỏi lớp"
-                          aria-label="Xóa khỏi lớp"
-                          @click="removeStudent(student.id)"
-                        >
-                          <CulturalClassIcon name="BxTrash" class-name="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
-                  </template>
-
-                  <template v-if="activeTab === 'attendance'">
-                    <td class="border-b border-slate-100 px-4 py-3 text-center">
-                      <span
-                        class="inline-flex rounded-full px-3 py-1 text-xs font-semibold"
-                        :class="
-                          getAttendanceForStudent(student).present
-                            ? 'bg-emerald-100 text-emerald-600'
-                            : 'bg-rose-100 text-rose-600'
-                        "
-                      >
-                        {{ getAttendanceForStudent(student).present ? "Có mặt" : "Vắng" }}
-                      </span>
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3">
-                      {{ getAttendanceForStudent(student).note }}
-                    </td>
-                  </template>
-
-                  <template v-if="activeTab === 'scores'">
-                    <td class="border-b border-slate-100 px-4 py-3 text-center">
-                      {{ student.scores.score1.toFixed(1) }}
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3 text-center">
-                      {{ student.scores.score2.toFixed(1) }}
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3 text-center">
-                      {{ student.scores.score3.toFixed(1) }}
-                    </td>
-                    <td class="border-b border-slate-100 px-4 py-3 text-center font-semibold text-slate-700">
-                      {{ student.scores.average.toFixed(1) }}
-                    </td>
-                  </template>
-                </tr>
-              </tbody>
-            </table>
+              </a-select-option>
+            </a-select>
           </div>
         </div>
-      </section>
+
+        <!-- Table -->
+        <div class="overflow-x-auto">
+          <a-table
+            :columns="activeColumns"
+            :data-source="record.students"
+            :pagination="false"
+            row-key="id"
+            class="detail-table"
+          >
+            <template #bodyCell="{ column, record: student, index }">
+              <template v-if="column.key === 'stt'">
+                <span class="text-[#6c63ff] font-medium">{{ index + 1 }}</span>
+              </template>
+
+              <template v-else-if="column.key === 'studentStatus'">
+                <BaseTag :type="getStudentStatusType(student.status)">
+                  {{ student.statusLabel }}
+                </BaseTag>
+              </template>
+
+              <template v-else-if="column.key === 'attendanceStatus'">
+                <BaseTag :type="getAttendanceForStudent(student).present ? 'success' : 'danger'">
+                  {{ getAttendanceForStudent(student).present ? 'Có mặt' : 'Vắng' }}
+                </BaseTag>
+              </template>
+
+              <template v-else-if="column.key === 'attendanceNote'">
+                {{ getAttendanceForStudent(student).note }}
+              </template>
+
+              <template v-else-if="column.key === 'score1'">
+                {{ student.scores.score1.toFixed(1) }}
+              </template>
+              <template v-else-if="column.key === 'score2'">
+                {{ student.scores.score2.toFixed(1) }}
+              </template>
+              <template v-else-if="column.key === 'score3'">
+                {{ student.scores.score3.toFixed(1) }}
+              </template>
+              <template v-else-if="column.key === 'average'">
+                <span class="font-semibold text-[#566a7f]">{{ student.scores.average.toFixed(1) }}</span>
+              </template>
+
+              <template v-else-if="column.key === 'rosterActions'">
+                <div class="flex items-center gap-2 justify-center">
+                  <button class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors" title="Xem học viên">
+                    <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
+                  </button>
+                  <button
+                    class="p-1 text-[#a1acb8] hover:text-[#ff3e1d] transition-colors"
+                    title="Xóa khỏi lớp"
+                    @click="removeStudent(student.id)"
+                  >
+                    <NavIcon name="BxTrash" class-name="w-[18px] h-[18px]" />
+                  </button>
+                </div>
+              </template>
+            </template>
+          </a-table>
+        </div>
+      </div>
     </template>
 
-    <section
+    <!-- Not found -->
+    <div
       v-else
-      class="rounded-2xl border border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-400 shadow-sm"
+      class="bg-white rounded-xl shadow-sm border border-gray-100 px-6 py-10 text-center text-sm text-gray-400"
     >
       Không tìm thấy lớp học văn hóa phù hợp.
-    </section>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import CulturalClassIcon from "./CulturalClassIcon.vue";
+import { computed, onMounted, ref, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
+import ButtonEdit from '../../../atoms/buttons/ButtonEdit.vue'
+import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
+import ButtonExport from '../../../atoms/buttons/ButtonExport.vue'
+import ButtonImport from '../../../atoms/buttons/ButtonImport.vue'
+import BaseTag from '../../../atoms/display/BaseTag.vue'
+import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import {
   culturalClassService,
   type CulturalClassRecord,
   type CulturalClassStatus,
   type CulturalClassStudentRecord,
   type CulturalStudentStatus,
-} from "../../../../services/cultural/culturalClass";
+} from '../../../../services/cultural/culturalClass'
 
-type DetailTab = "roster" | "attendance" | "scores";
+type DetailTab = 'roster' | 'attendance' | 'scores'
 
-const moduleTitle = "Quản lý học tập văn hóa";
-const pageTitle = "Lớp học văn hóa";
+const moduleTitle = 'Quản lý học tập văn hóa'
+const pageTitle = 'Chi tiết lớp học văn hóa'
 
-const route = useRoute();
-const router = useRouter();
+const route = useRoute()
+const router = useRouter()
 
-const record = ref<CulturalClassRecord>();
-const activeTab = ref<DetailTab>("roster");
-const selectedSessionId = ref<number>(0);
+const record = ref<CulturalClassRecord>()
+const activeTab = ref<DetailTab>('roster')
+const selectedSessionId = ref<number>(0)
 
 const tabs = [
-  { value: "roster", label: "Danh sách" },
-  { value: "attendance", label: "Điểm danh" },
-  { value: "scores", label: "Bảng điểm" },
-] as const;
+  { value: 'roster', label: 'Danh sách' },
+  { value: 'attendance', label: 'Điểm danh' },
+  { value: 'scores', label: 'Bảng điểm' },
+] as const
 
-const statusClassMap: Record<CulturalClassStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  PAUSED: "bg-amber-100 text-amber-600",
-};
+const getStatusType = (status: CulturalClassStatus) => {
+  switch (status) {
+    case 'ACTIVE': return 'success'
+    case 'PAUSED': return 'warning'
+    default: return 'default'
+  }
+}
 
-const studentStatusClassMap: Record<CulturalStudentStatus, string> = {
-  ACTIVE: "bg-emerald-100 text-emerald-600",
-  BREAK: "bg-amber-100 text-amber-600",
-};
+const getStudentStatusType = (status: CulturalStudentStatus) => {
+  switch (status) {
+    case 'ACTIVE': return 'success'
+    case 'BREAK': return 'warning'
+    default: return 'default'
+  }
+}
 
 const detailFields = computed(() => {
-  if (!record.value) {
-    return [];
-  }
-
+  if (!record.value) return []
   return [
-    { label: "Mã lớp học", value: record.value.code, type: "text" },
-    { label: "Tên lớp học", value: record.value.name, type: "text" },
-    { label: "Khối lớp", value: record.value.gradeName, type: "text" },
-    { label: "Năm học", value: record.value.schoolYear, type: "text" },
-    { label: "Giáo viên chủ nhiệm", value: record.value.homeroomTeacher, type: "text" },
-    { label: "Thời gian tạo", value: record.value.createdAt, type: "text" },
-    { label: "Thời gian cập nhật", value: record.value.updatedAt, type: "text" },
-    { label: "Trạng thái", value: record.value.status === "ACTIVE" ? "Đang hoạt động" : "Tạm ngưng", type: "status" },
-  ];
-});
+    { label: 'Mã lớp học', value: record.value.code, type: 'text' },
+    { label: 'Tên lớp học', value: record.value.name, type: 'text' },
+    { label: 'Khối lớp', value: record.value.gradeName, type: 'text' },
+    { label: 'Năm học', value: record.value.schoolYear, type: 'text' },
+    { label: 'Giáo viên chủ nhiệm', value: record.value.homeroomTeacher, type: 'text' },
+    { label: 'Thời gian tạo', value: record.value.createdAt, type: 'text' },
+    { label: 'Thời gian cập nhật', value: record.value.updatedAt, type: 'text' },
+    {
+      label: 'Trạng thái',
+      value: record.value.status === 'ACTIVE' ? 'Đang hoạt động' : 'Tạm ngưng',
+      type: 'status',
+    },
+  ]
+})
 
 const summaryCards = computed(() => {
-  if (!record.value) {
-    return [];
-  }
-
+  if (!record.value) return []
   return [
     {
-      label: "Tổng học viên lớp",
+      label: 'Tổng học viên lớp',
       value: record.value.totalStudents,
-      hint: "",
-      hintClass: "",
-      icon: "BxPanelStats",
-      iconWrapperClass: "bg-indigo-50 text-indigo-500",
+      hint: '',
+      icon: 'BxPanelStats',
+      iconWrapperClass: 'bg-[#e7e7ff] text-[#696cff]',
     },
     {
-      label: "Điểm trung bình lớp",
+      label: 'Điểm trung bình lớp',
       value: record.value.averageScore.toFixed(1),
-      hint: record.value.averageScore >= 8 ? "(Tốt)" : "(Khá)",
-      hintClass: "text-emerald-500",
-      icon: "BxCalendarCheck",
-      iconWrapperClass: "bg-rose-50 text-rose-500",
+      hint: record.value.averageScore >= 8 ? '(Tốt)' : '(Khá)',
+      icon: 'BxCalendarCheck',
+      iconWrapperClass: 'bg-[#ffe1e1] text-[#ff3e1d]',
     },
     {
-      label: "Tỷ lệ chuyên cần",
+      label: 'Tỷ lệ chuyên cần',
       value: `${record.value.attendanceRate}%`,
       hint: `(${record.value.completedSessions}/${record.value.totalSessions})`,
-      hintClass: "text-lime-500",
-      icon: "BxLayersStacked",
-      iconWrapperClass: "bg-amber-50 text-amber-500",
+      icon: 'BxLayersStacked',
+      iconWrapperClass: 'bg-[#fff2e2] text-[#fdac41]',
     },
     {
-      label: "Số buổi đã học / tổng buổi",
+      label: 'Buổi đã học / Tổng buổi',
       value: `${record.value.completedSessions}/${record.value.totalSessions}`,
       hint: `${Math.round((record.value.completedSessions / record.value.totalSessions) * 100)}%`,
-      hintClass: "text-lime-500",
-      icon: "BxChevronStep",
-      iconWrapperClass: "bg-yellow-50 text-yellow-500",
+      icon: 'BxChevronStep',
+      iconWrapperClass: 'bg-[#d7f5e4] text-[#71dd37]',
     },
-  ];
-});
+  ]
+})
 
-const loadRecord = async () => {
-  const id = Number(route.params.id);
-  if (!Number.isFinite(id)) {
-    record.value = undefined;
-    return;
-  }
+const rosterColumns = [
+  { title: '#', key: 'stt', width: 60, align: 'center' as const },
+  { title: 'MÃ HỌC VIÊN', dataIndex: 'code', key: 'code' },
+  { title: 'TÊN HỌC VIÊN', dataIndex: 'name', key: 'name' },
+  { title: 'EMAIL', dataIndex: 'email', key: 'email' },
+  { title: 'NGÀY VÀO LỚP', dataIndex: 'joinedAt', key: 'joinedAt' },
+  { title: 'TRẠNG THÁI', key: 'studentStatus', width: 140 },
+  { title: 'HÀNH ĐỘNG', key: 'rosterActions', width: 120, align: 'center' as const },
+]
 
-  const response = await culturalClassService.getById(id);
-  record.value = response.data;
-  selectedSessionId.value = response.data?.sessions[0]?.id ?? 0;
-};
+const attendanceColumns = [
+  { title: '#', key: 'stt', width: 60, align: 'center' as const },
+  { title: 'MÃ HỌC VIÊN', dataIndex: 'code', key: 'code' },
+  { title: 'TÊN HỌC VIÊN', dataIndex: 'name', key: 'name' },
+  { title: 'ĐIỂM DANH', key: 'attendanceStatus', width: 140, align: 'center' as const },
+  { title: 'GHI CHÚ', key: 'attendanceNote' },
+]
+
+const scoresColumns = [
+  { title: '#', key: 'stt', width: 60, align: 'center' as const },
+  { title: 'MÃ HỌC VIÊN', dataIndex: 'code', key: 'code' },
+  { title: 'TÊN HỌC VIÊN', dataIndex: 'name', key: 'name' },
+  { title: 'ĐẦU ĐIỂM SỐ 1', key: 'score1', width: 140, align: 'center' as const },
+  { title: 'ĐẦU ĐIỂM SỐ 2', key: 'score2', width: 140, align: 'center' as const },
+  { title: 'ĐẦU ĐIỂM SỐ 3', key: 'score3', width: 140, align: 'center' as const },
+  { title: 'TRUNG BÌNH', key: 'average', width: 120, align: 'center' as const },
+]
+
+const activeColumns = computed(() => {
+  if (activeTab.value === 'attendance') return attendanceColumns
+  if (activeTab.value === 'scores') return scoresColumns
+  return rosterColumns
+})
 
 const getAttendanceForStudent = (student: CulturalClassStudentRecord) =>
-  student.attendance.find((attendance) => attendance.sessionId === selectedSessionId.value) ?? {
+  student.attendance.find((a) => a.sessionId === selectedSessionId.value) ?? {
     sessionId: selectedSessionId.value,
     present: false,
-    note: "Chưa có dữ liệu",
-  };
-
-const goBack = () => {
-  router.push({ name: "cultural-class" });
-};
-
-const goToEdit = () => {
-  if (!record.value) {
-    return;
+    note: 'Chưa có dữ liệu',
   }
 
-  router.push({ name: "cultural-class-edit", params: { id: record.value.id } });
-};
+const loadRecord = async () => {
+  const id = Number(route.params.id)
+  if (!Number.isFinite(id)) { record.value = undefined; return }
+  const response = await culturalClassService.getById(id)
+  record.value = response.data
+  selectedSessionId.value = response.data?.sessions[0]?.id ?? 0
+}
+
+const goBack = () => router.push({ name: 'cultural-class' })
+const goToEdit = () => {
+  if (!record.value) return
+  router.push({ name: 'cultural-class-edit', params: { id: record.value.id } })
+}
 
 const addStudent = async () => {
-  if (!record.value) {
-    return;
-  }
-
-  const response = await culturalClassService.addMockStudent(record.value.id);
-  if (response.data) {
-    record.value = response.data;
-  }
-};
+  if (!record.value) return
+  const response = await culturalClassService.addMockStudent(record.value.id)
+  if (response.data) record.value = response.data
+}
 
 const removeStudent = (studentId: number) => {
-  if (!record.value) {
-    return;
-  }
+  if (!record.value) return
+  record.value.students = record.value.students.filter((s) => s.id !== studentId)
+  record.value.totalStudents = record.value.students.length
+}
 
-  record.value.students = record.value.students.filter((student) => student.id !== studentId);
-  record.value.totalStudents = record.value.students.length;
-};
-
-onMounted(async () => {
-  await loadRecord();
-});
-
-watch(
-  () => route.params.id,
-  async () => {
-    await loadRecord();
-  },
-);
+onMounted(async () => await loadRecord())
+watch(() => route.params.id, async () => await loadRecord())
 </script>
+
+<style scoped>
+:deep(.ant-table-thead > tr > th) {
+  background-color: #fcfcfd;
+  color: #566a7f;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+:deep(.ant-table-tbody > tr > td) {
+  padding: 16px;
+  color: #697a8d;
+  font-size: 13px;
+}
+
+:deep(.ant-select-selector) {
+  height: 38px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+  display: flex;
+  align-items: center;
+}
+</style>

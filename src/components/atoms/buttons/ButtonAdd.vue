@@ -1,13 +1,13 @@
 <template>
   <a-button
     type="primary"
-    class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md !h-[38px] !px-4 flex items-center justify-center gap-2 shadow-sm"
+    class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md !h-[34px] !px-2 flex items-center justify-center gap-1 shadow-sm"
     @click="$emit('click')"
   >
     <template #icon>
       <NavIcon name="BxPlus" size="18" />
     </template>
-    <span class="font-bold text-[13px] text-white">Thêm Mới</span>
+    <span class="font-bold text-[12px] text-white">Thêm Mới</span>
   </a-button>
 </template>
 

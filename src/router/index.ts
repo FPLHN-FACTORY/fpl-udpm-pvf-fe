@@ -7,11 +7,11 @@ import { studentRoutes } from './routes/student/index'
 import { culturalHiddenRoutes, culturalRoutes } from './routes/cultural/index'
 import { extracurricularRoutes } from './routes/extracurricular/index'
 import { trainingRoutes } from './routes/training/index'
-import { expensesRoutes } from './routes/expenses/index'
-import { activitiesRoutes } from './routes/activities/index'
+import { expensesHiddenRoutes, expensesRoutes } from './routes/expenses/index'
 import { gearRoutes } from './routes/gear/index'
-import { disciplineRoutes } from './routes/discipline/index'
+import { disciplineHiddenRoutes, disciplineRoutes } from './routes/discipline/index'
 import { evaluationHiddenRoutes, evaluationRoutes } from './routes/evaluation/index'
+import { equipmentHiddenRoutes, equipmentRoutes } from './routes/equipment/index'
 import { systemRoutes } from './routes/system/index'
 
 const router = createRouter({
@@ -46,11 +46,14 @@ const router = createRouter({
         ...extracurricularRoutes,
         ...trainingRoutes,
         ...expensesRoutes,
-        ...activitiesRoutes,
+        ...expensesHiddenRoutes,
         ...gearRoutes,
         ...disciplineRoutes,
+        ...disciplineHiddenRoutes,
         ...evaluationRoutes,
         ...evaluationHiddenRoutes,
+        ...equipmentRoutes,
+        ...equipmentHiddenRoutes,
         ...systemRoutes
       ]
     }

@@ -1,7 +1,7 @@
 <template>
   <a-button
     type="primary"
-    class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md !h-[42px] !px-8 flex items-center justify-center gap-2 shadow-md shadow-red-100"
+    class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md !h-[38px] !px-8 flex items-center justify-center gap-2 shadow-md shadow-red-100"
     @click="$emit('click')"
   >
     <template #icon>

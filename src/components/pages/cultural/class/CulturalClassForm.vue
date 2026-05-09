@@ -1,116 +1,90 @@
 <template>
-  <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-    <div class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 md:flex-row md:items-center md:justify-between">
-      <h2 class="text-lg font-bold text-slate-800">
-        {{ title }}
-      </h2>
-
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 self-start rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-200 md:self-auto"
-        @click="goBack"
-      >
-        <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
-        Quay lại
-      </button>
+  <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+    <!-- Header -->
+    <div class="flex justify-between items-center p-6 border-b border-gray-100">
+      <h2 class="text-lg font-bold text-[#566a7f]">{{ title }}</h2>
+      <ButtonBack @click="goBack" />
     </div>
 
-    <form class="space-y-5 px-5 py-5" @submit.prevent="handleSubmit">
-      <div class="grid grid-cols-1 gap-4">
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Tên lớp học</span>
-          <input
-            v-model="form.name"
-            type="text"
-            placeholder="Nhập tên lớp học"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          />
-        </label>
+    <!-- Form Body -->
+    <div class="p-8">
+      <form class="flex flex-col gap-5" @submit.prevent="handleSubmit">
+        <!-- Tên lớp học -->
+        <a-input
+          v-model:value="form.name"
+          placeholder="Tên lớp học"
+          class="w-full !h-[48px] !border-[#d9dee3] rounded-md transition-all text-[#566a7f]"
+        />
 
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Khối lớp</span>
-          <select
-            v-model="form.gradeName"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          >
-            <option value="">Chọn khối lớp</option>
-            <option v-for="grade in gradeOptions" :key="grade" :value="grade">
-              {{ grade }}
-            </option>
-          </select>
-        </label>
-
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Năm học</span>
-          <select
-            v-model="form.schoolYear"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          >
-            <option value="">Chọn năm học</option>
-            <option v-for="year in schoolYearOptions" :key="year" :value="year">
-              {{ year }}
-            </option>
-          </select>
-        </label>
-
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Giáo viên chủ nhiệm</span>
-          <select
-            v-model="form.homeroomTeacher"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          >
-            <option value="">Chọn giáo viên chủ nhiệm</option>
-            <option
-              v-for="teacher in teacherOptions"
-              :key="teacher"
-              :value="teacher"
-            >
-              {{ teacher }}
-            </option>
-          </select>
-        </label>
-
-        <label class="space-y-2">
-          <span class="text-sm font-medium text-slate-600">Trạng thái</span>
-          <select
-            v-model="form.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-          >
-            <option
-              v-for="status in statusOptions"
-              :key="status.value"
-              :value="status.value"
-            >
-              {{ status.label }}
-            </option>
-          </select>
-        </label>
-      </div>
-
-      <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
-        <button
-          type="submit"
-          class="inline-flex items-center justify-center rounded-lg bg-[#ff1f1f] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b] disabled:cursor-not-allowed disabled:opacity-60"
-          :disabled="!canSubmit"
+        <!-- Khối lớp -->
+        <a-select
+          v-model:value="form.gradeName"
+          placeholder="Khối lớp"
+          class="w-full !h-[48px]"
         >
-          {{ submitLabel }}
-        </button>
-        <button
-          type="button"
-          class="inline-flex items-center justify-center rounded-lg bg-amber-400 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-500"
-          @click="resetForm"
+          <a-select-option v-for="grade in gradeOptions" :key="grade" :value="grade">
+            {{ grade }}
+          </a-select-option>
+        </a-select>
+
+        <!-- Năm học -->
+        <a-select
+          v-model:value="form.schoolYear"
+          placeholder="Năm học"
+          class="w-full !h-[48px]"
         >
-          Đặt lại
-        </button>
-      </div>
-    </form>
-  </section>
+          <a-select-option v-for="year in schoolYearOptions" :key="year" :value="year">
+            {{ year }}
+          </a-select-option>
+        </a-select>
+
+        <!-- Giáo viên chủ nhiệm -->
+        <a-select
+          v-model:value="form.homeroomTeacher"
+          placeholder="Giáo viên chủ nhiệm"
+          class="w-full !h-[48px]"
+        >
+          <a-select-option v-for="teacher in teacherOptions" :key="teacher" :value="teacher">
+            {{ teacher }}
+          </a-select-option>
+        </a-select>
+
+        <!-- Trạng thái -->
+        <a-select
+          v-model:value="form.status"
+          placeholder="Trạng thái"
+          class="w-full !h-[48px]"
+        >
+          <a-select-option v-for="s in statusOptions" :key="s.value" :value="s.value">
+            {{ s.label }}
+          </a-select-option>
+        </a-select>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-center gap-3 pt-2">
+          <a-button
+            class="!bg-[#ff3e1d] hover:!bg-[#e33619] !border-none !text-white !h-[38px] !px-8 rounded-md font-medium"
+            :disabled="!canSubmit"
+            @click="handleSubmit"
+          >
+            {{ submitLabel }}
+          </a-button>
+          <a-button
+            class="!bg-[#fdac41] hover:!bg-[#e39a3a] !border-none !text-white !h-[38px] !px-8 rounded-md font-medium"
+            @click="resetForm"
+          >
+            Đặt Lại
+          </a-button>
+        </div>
+      </form>
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { computed, reactive, watch } from "vue";
-import { useRouter } from "vue-router";
-import CulturalClassIcon from "./CulturalClassIcon.vue";
+import { computed, reactive, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
 import {
   culturalClassGradeOptions,
   culturalClassSchoolYearOptions,
@@ -118,41 +92,39 @@ import {
   culturalClassTeacherOptions,
   type CulturalClassStatus,
   type SaveCulturalClassInput,
-} from "../../../../services/cultural/culturalClass";
+} from '../../../../services/cultural/culturalClass'
 
 interface Props {
-  title: string;
-  submitLabel: string;
-  initialValues?: Partial<SaveCulturalClassInput>;
+  title: string
+  submitLabel: string
+  initialValues?: Partial<SaveCulturalClassInput>
 }
 
 const props = withDefaults(defineProps<Props>(), {
   initialValues: () => ({}),
-});
+})
 
 const emit = defineEmits<{
-  submit: [payload: SaveCulturalClassInput];
-}>();
+  submit: [payload: SaveCulturalClassInput]
+}>()
 
-const router = useRouter();
+const router = useRouter()
 
 const buildDefaultForm = (): SaveCulturalClassInput => ({
-  name: props.initialValues.name ?? "",
-  gradeName: props.initialValues.gradeName ?? "",
-  schoolYear: props.initialValues.schoolYear ?? "",
-  homeroomTeacher: props.initialValues.homeroomTeacher ?? "",
-  status: props.initialValues.status ?? "ACTIVE",
-});
+  name: props.initialValues.name ?? '',
+  gradeName: props.initialValues.gradeName ?? '',
+  schoolYear: props.initialValues.schoolYear ?? '',
+  homeroomTeacher: props.initialValues.homeroomTeacher ?? '',
+  status: props.initialValues.status ?? 'ACTIVE',
+})
 
-const form = reactive<SaveCulturalClassInput>(buildDefaultForm());
+const form = reactive<SaveCulturalClassInput>(buildDefaultForm())
 
 watch(
   () => props.initialValues,
-  () => {
-    Object.assign(form, buildDefaultForm());
-  },
+  () => { Object.assign(form, buildDefaultForm()) },
   { deep: true },
-);
+)
 
 const canSubmit = computed(
   () =>
@@ -160,35 +132,62 @@ const canSubmit = computed(
     form.gradeName.length > 0 &&
     form.schoolYear.length > 0 &&
     form.homeroomTeacher.length > 0,
-);
+)
 
-const gradeOptions = culturalClassGradeOptions;
-const schoolYearOptions = culturalClassSchoolYearOptions;
-const teacherOptions = culturalClassTeacherOptions;
+const gradeOptions = culturalClassGradeOptions
+const schoolYearOptions = culturalClassSchoolYearOptions
+const teacherOptions = culturalClassTeacherOptions
 const statusOptions = culturalClassStatusOptions as ReadonlyArray<{
-  value: CulturalClassStatus;
-  label: string;
-}>;
+  value: CulturalClassStatus
+  label: string
+}>
 
-const goBack = () => {
-  router.back();
-};
-
-const resetForm = () => {
-  Object.assign(form, buildDefaultForm());
-};
+const goBack = () => router.back()
+const resetForm = () => { Object.assign(form, buildDefaultForm()) }
 
 const handleSubmit = () => {
-  if (!canSubmit.value) {
-    return;
-  }
-
-  emit("submit", {
+  if (!canSubmit.value) return
+  emit('submit', {
     name: form.name.trim(),
     gradeName: form.gradeName,
     schoolYear: form.schoolYear,
     homeroomTeacher: form.homeroomTeacher,
     status: form.status,
-  });
-};
+  })
+}
 </script>
+
+<style scoped>
+:deep(.ant-input),
+:deep(.ant-select-selector),
+:deep(.ant-picker) {
+  height: 48px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+  display: flex;
+  align-items: center;
+  color: #566a7f !important;
+  box-shadow: none !important;
+  font-size: 14px !important;
+}
+
+:deep(.ant-input:hover),
+:deep(.ant-input:focus),
+:deep(.ant-select-selector:hover),
+:deep(.ant-picker:hover),
+:deep(.ant-select-focused .ant-select-selector),
+:deep(.ant-picker-focused) {
+  border-color: #696cff !important;
+  box-shadow: none !important;
+}
+
+:deep(.ant-select-selection-item),
+:deep(.ant-picker-input > input) {
+  color: #566a7f !important;
+}
+
+:deep(.ant-select-arrow),
+:deep(.ant-picker-suffix) {
+  color: #a1acb8 !important;
+}
+</style>

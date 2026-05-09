@@ -42,7 +42,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import NavIcon from '../atoms/icons/NavIcon.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import BaseTag from '../atoms/display/BaseTag.vue'
 import BasePagination from '../atoms/display/BasePagination.vue'
 import TableActions from '../molecules/TableActions.vue'

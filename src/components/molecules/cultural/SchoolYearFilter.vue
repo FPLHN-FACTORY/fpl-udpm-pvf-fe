@@ -46,7 +46,8 @@ const filters = reactive({
 
 // Đồng bộ ngược lại nếu prop thay đổi
 watch(() => props.initialFilters, (newVal) => {
-  Object.assign(filters, newVal)
+  filters.search = newVal.search ?? ''
+  filters.status = newVal.status
 }, { deep: true })
 
 // Đồng bộ xuôi

@@ -1,141 +1,78 @@
 <template>
-  <section class="rounded-2xl border border-slate-200 bg-white shadow-sm">
-    <div
-      class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 lg:flex-row lg:items-center lg:justify-between"
-    >
-      <h2 class="text-xl font-bold text-slate-800">
-        {{ title }}
-      </h2>
-
-      <button
-        type="button"
-        class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-        @click="$emit('cancel')"
-      >
-        <MasterCriteriaIcon name="BxChevronLeft" class-name="h-4 w-4" />
-        Quay lại
-      </button>
-    </div>
-
-    <div class="space-y-8 px-5 py-5">
-      <div class="space-y-4">
-        <input
-          v-model="form.name"
-          type="text"
-          placeholder="Tên bộ tiêu chí"
-          class="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-        />
-
-        <select
-          v-model="form.status"
-          class="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-        >
-          <option
-            v-for="option in masterCriteriaStatusOptions"
-            :key="option.value"
-            :value="option.value"
-          >
-            {{ option.label }}
-          </option>
-        </select>
-
-        <textarea
-          v-model="form.description"
-          rows="4"
-          placeholder="Mô tả bộ tiêu chí"
-          class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-        />
+  <div class="space-y-6">
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div class="flex justify-between items-center mb-10">
+        <h2 class="text-[17px] font-bold text-gray-700 m-0">{{ title }}</h2>
+        <ButtonBack @click="$emit('cancel')" />
       </div>
 
-      <div class="space-y-4">
-        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h3 class="text-lg font-bold text-slate-800">
-            Các tiêu chí
-          </h3>
+      <div class="space-y-7 pb-10">
+        <InputForm v-model="form.name" label="Tên bộ tiêu chí" placeholder="Nhập tên bộ tiêu chí" />
+        
+        <SelectForm v-model:value="form.status" label="Trạng thái">
+          <a-select-option v-for="option in masterCriteriaStatusOptions" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </a-select-option>
+        </SelectForm>
 
-          <button
-            type="button"
-            class="inline-flex items-center gap-2 rounded-lg bg-lime-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-lime-600"
-            @click="addCriterionRow"
-          >
-            <MasterCriteriaIcon name="BxPlus" class-name="h-4 w-4" />
-            Thêm tiêu chí
-          </button>
-        </div>
+        <TextareaForm v-model="form.description" label="Mô tả bộ tiêu chí" placeholder="Nhập mô tả" />
+        
+        <!-- Criteria Section -->
+        <div class="space-y-4">
+          <div class="flex items-center justify-between">
+            <h3 class="text-[15px] font-bold text-gray-700">Các tiêu chí</h3>
+            <ButtonAdd text="Thêm tiêu chí" @click="addCriterionRow" />
+          </div>
 
-        <div class="space-y-3">
-          <div
-            v-for="(criterion, index) in criteriaRows"
-            :key="criterion.rowId"
-            class="grid grid-cols-1 gap-3 lg:grid-cols-[minmax(0,1.2fr)_minmax(0,1.2fr)_220px_auto]"
-          >
-            <input
-              v-model="criterion.name"
-              type="text"
-              :placeholder="`Tên tiêu chí ${index + 1}`"
-              class="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-            />
-
-            <input
-              v-model="criterion.description"
-              type="text"
-              :placeholder="`Mô tả tiêu chí ${index + 1}`"
-              class="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-            />
-
-            <input
-              v-model="criterion.weightInput"
-              type="number"
-              min="0"
-              max="100"
-              placeholder="Trọng số %"
-              class="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#ff4d4f] focus:ring-2 focus:ring-[#ff4d4f]/10"
-            />
-
-            <button
-              type="button"
-              class="inline-flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-400 transition hover:border-red-200 hover:text-red-500"
-              :disabled="criteriaRows.length === 1"
-              @click="removeCriterionRow(criterion.rowId)"
+          <div class="space-y-4">
+            <div v-for="(criterion, index) in criteriaRows" :key="criterion.rowId" 
+              class="grid grid-cols-1 md:grid-cols-[1fr_1.5fr_150px_auto] gap-4 items-end bg-[#fcfcfd] p-4 rounded-lg border border-gray-100"
             >
-              <MasterCriteriaIcon name="BxTrash" class-name="h-5 w-5" />
-            </button>
+              <InputForm v-model="criterion.name" :label="`Tên tiêu chí ${index + 1}`" placeholder="Nhập tên" class="!mb-0" />
+              <InputForm v-model="criterion.description" :label="`Mô tả tiêu chí ${index + 1}`" placeholder="Nhập mô tả" class="!mb-0" />
+              <InputForm v-model="criterion.weightInput" :label="`Trọng số %`" type="number" placeholder="0" class="!mb-0" />
+              
+              <button
+                type="button"
+                class="flex h-[38px] w-[38px] items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-400 transition hover:border-red-200 hover:text-red-500 disabled:opacity-50 disabled:cursor-not-allowed mb-[1px]"
+                :disabled="criteriaRows.length === 1"
+                @click="removeCriterionRow(criterion.rowId)"
+              >
+                <NavIcon name="BxTrash" size="18" />
+              </button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <p v-if="errorMessage" class="text-sm font-medium text-red-500">
-        {{ errorMessage }}
-      </p>
+        <p v-if="errorMessage" class="text-sm font-medium text-red-500 text-center">
+          {{ errorMessage }}
+        </p>
 
-      <div class="flex flex-wrap items-center justify-center gap-3">
-        <button
-          type="button"
-          class="inline-flex min-w-28 items-center justify-center rounded-xl bg-[#ff1f1f] px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#e31b1b]"
-          @click="submitForm"
-        >
-          {{ submitLabel }}
-        </button>
-        <button
-          type="button"
-          class="inline-flex min-w-28 items-center justify-center rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-amber-600"
-          @click="resetForm"
-        >
-          Đặt lại
-        </button>
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-center gap-4 pt-4">
+          <ButtonSave :text="submitLabel" @click="submitForm" />
+          <ButtonResetYellow @click="resetForm" />
+        </div>
       </div>
     </div>
-  </section>
+  </div>
 </template>
 
 <script setup lang="ts">
 import { reactive, ref, watch } from "vue";
-import MasterCriteriaIcon from "./MasterCriteriaIcon.vue";
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
+import ButtonSave from '@/components/atoms/buttons/ButtonSave.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
+import TextareaForm from '@/components/atoms/inputs/TextareaForm.vue'
+import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import {
   masterCriteriaStatusOptions,
   type MasterCriteriaStatus,
   type SaveMasterCriteriaInput,
-} from "../../../../services/recruitment/masterCriteria";
+} from "@/services/recruitment/masterCriteria";
 
 interface FormCriterionRow {
   rowId: number;
@@ -183,10 +120,8 @@ const buildBlankRow = (): FormCriterionRow => ({
   weightInput: "",
 });
 
-const buildRowsFromModel = (
-  model?: MasterCriteriaFormModel,
-): FormCriterionRow[] => {
-  if (!model || model.criteria.length === 0) {
+const buildRowsFromModel = (model?: MasterCriteriaFormModel): FormCriterionRow[] => {
+  if (!model || !model.criteria || model.criteria.length === 0) {
     return [buildBlankRow()];
   }
 
@@ -211,10 +146,7 @@ const addCriterionRow = () => {
 };
 
 const removeCriterionRow = (rowId: number) => {
-  if (criteriaRows.value.length === 1) {
-    return;
-  }
-
+  if (criteriaRows.value.length === 1) return;
   criteriaRows.value = criteriaRows.value.filter((row) => row.rowId !== rowId);
 };
 
@@ -226,10 +158,7 @@ const buildPayload = (): SaveMasterCriteriaInput | null => {
       name: row.name.trim(),
       description: row.description.trim(),
       weight: Number(row.weightInput),
-      hasValue:
-        row.name.trim().length > 0 ||
-        row.description.trim().length > 0 ||
-        row.weightInput.trim().length > 0,
+      hasValue: row.name.trim().length > 0 || row.description.trim().length > 0 || row.weightInput.trim().length > 0,
     }))
     .filter((row) => row.hasValue)
     .map(({ hasValue: _hasValue, ...row }) => row);
@@ -244,43 +173,20 @@ const buildPayload = (): SaveMasterCriteriaInput | null => {
     return null;
   }
 
-  if (
-    criteria.some(
-      (row) =>
-        !row.name ||
-        !row.description ||
-        !Number.isFinite(row.weight) ||
-        row.weight <= 0,
-    )
-  ) {
-    errorMessage.value =
-      "Mỗi tiêu chí cần có tên, mô tả và trọng số hợp lệ lớn hơn 0.";
+  if (criteria.some((row) => !row.name || !row.description || !Number.isFinite(row.weight) || row.weight <= 0)) {
+    errorMessage.value = "Mỗi tiêu chí cần có tên, mô tả và trọng số hợp lệ lớn hơn 0.";
     return null;
   }
 
-  return {
-    name,
-    description,
-    status: form.status,
-    criteria,
-  };
+  return { name, description, status: form.status, criteria };
 };
 
 const submitForm = () => {
   const payload = buildPayload();
-  if (!payload) {
-    return;
-  }
-
+  if (!payload) return;
   errorMessage.value = "";
   emit("submit", payload);
 };
 
-watch(
-  () => props.initialValue,
-  () => {
-    resetForm();
-  },
-  { immediate: true },
-);
+watch(() => props.initialValue, resetForm, { immediate: true });
 </script>
