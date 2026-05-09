@@ -91,6 +91,7 @@ const summary = reactive<MasterCriteriaSummary>({
   active: 0,
 })
 
+const summaryHintClass = "text-[rgba(113,221,55,1)]"
 
 const summaryCards = computed(() => [
   {
