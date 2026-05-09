@@ -6,10 +6,7 @@
             <!-- Header -->
             <div class="flex items-center justify-between px-6 py-4 border-b border-gray-100">
                 <h1 class="text-xl font-bold text-gray-800 tracking-tight">Điều chỉnh Hồ sơ thí sinh</h1>
-                <a-button @click="handleBack" class="flex items-center gap-1 !text-gray-500 !border-gray-300 !bg-[#ebedf0]">
-                    <template #icon><arrow-left-outlined /></template>
-                    Quay Lại
-                </a-button>
+                <ButtonBackNoIcon @click="handleBack" />
             </div>
 
             <!-- Form -->
@@ -231,11 +228,12 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { ArrowLeftOutlined, CalendarOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { CalendarOutlined, UploadOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import AdminPage from '@/components/templates/AdminPage.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 
 const router = useRouter()
 

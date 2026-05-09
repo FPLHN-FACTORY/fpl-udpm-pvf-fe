@@ -11,7 +11,7 @@
       <!-- Card Header -->
       <div class="flex items-center justify-between mb-10">
         <h2 class="text-[17px] font-bold text-gray-700 m-0">Thêm mới Trung tâm liên kết</h2>
-        <ButtonBack @click="$router.back()" />
+        <ButtonBackNoIcon @click="$router.back()" />
       </div>
 
       <!-- Form Section -->
@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue'
-import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 import ButtonAddNoIcon from '@/components/atoms/buttons/ButtonAddNoIcon.vue'
 import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
 import InputForm from '@/components/atoms/inputs/InputForm.vue'

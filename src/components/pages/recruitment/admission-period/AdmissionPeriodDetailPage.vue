@@ -11,13 +11,7 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Chi tiết Kỳ tuyển sinh</h2>
         <div class="flex gap-2">
-          <a-button 
-            class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
-            @click="$router.push('/recruitment/admission-periods')"
-          >
-            <template #icon>←</template>
-            Quay Lại
-          </a-button>
+          <ButtonBackNoIcon @click="$router.push('/recruitment/admission-periods')" />
           <a-button 
             class="!bg-[#ffab00] hover:!bg-[#e69a00] !border-none !text-white !text-[13px] !px-6 !h-[38px] font-medium rounded-md"
             @click="$router.push('/recruitment/admission-periods/edit/1')"
@@ -186,7 +180,7 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Vòng Tuyển sinh</h2>
         <div class="flex gap-3">
           <ButtonDeleteList @click="() => {}" />
-          <ButtonAdd text="Thêm Mới" />
+          <ButtonAddNoIcon text="Thêm Mới" />
         </div>
       </div>
       <div class="p-6 flex flex-wrap items-center justify-between gap-3 bg-[#fcfcfd] border-b border-gray-100">
@@ -222,10 +216,11 @@ import { ref } from 'vue'
 import BaseTag from '../../../atoms/display/BaseTag.vue'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import ButtonDeleteList from '../../../atoms/buttons/ButtonDeleteList.vue'
-import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
+import ButtonAddNoIcon from '../../../atoms/buttons/ButtonAddNoIcon.vue'
 import InputSearch from '../../../atoms/inputs/InputSearch.vue'
 import ButtonSearch from '../../../atoms/buttons/ButtonSearch.vue'
 import ButtonReset from '../../../atoms/buttons/ButtonReset.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 
 const searchQuery = ref('')
 const selectedQuarter = ref('all')

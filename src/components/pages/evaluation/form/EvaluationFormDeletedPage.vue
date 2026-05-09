@@ -1,18 +1,21 @@
 <template>
   <div class="space-y-6">
-    <!-- Breadcrumb -->
     <a-breadcrumb class="text-sm">
       <a-breadcrumb-item>Quản lý đánh giá học viên</a-breadcrumb-item>
       <a-breadcrumb-item>Form đánh giá</a-breadcrumb-item>
       <a-breadcrumb-item>Danh sách đã xóa</a-breadcrumb-item>
     </a-breadcrumb>
 
-    <!-- Statistic Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <a-card v-for="(stat, index) in stats" :key="index" :bordered="false" class="shadow-sm rounded-xl overflow-hidden hover:shadow-md transition-shadow">
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-4">
+      <a-card
+        v-for="(stat, index) in stats"
+        :key="index"
+        :bordered="false"
+        class="overflow-hidden rounded-xl shadow-sm transition-shadow hover:shadow-md"
+      >
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-gray-500 text-sm font-medium mb-1">{{ stat.title }}</p>
+            <p class="mb-1 text-sm font-medium text-gray-500">{{ stat.title }}</p>
             <div class="flex items-baseline space-x-2">
               <span class="text-2xl font-bold text-gray-800">{{ stat.value }}</span>
               <span v-if="stat.percentage" class="text-xs font-semibold" :class="stat.trendClass">
@@ -20,20 +23,18 @@
               </span>
             </div>
           </div>
-          <div :class="stat.iconBg" class="w-10 h-10 rounded-lg flex items-center justify-center">
-             <NavIcon :name="stat.icon" class-name="w-6 h-6 text-white" />
+          <div :class="stat.iconBg" class="flex h-10 w-10 items-center justify-center rounded-lg">
+            <NavIcon :name="stat.icon" class-name="h-6 w-6 text-white" />
           </div>
         </div>
       </a-card>
     </div>
 
-    <!-- Main Table Card -->
-    <a-card :bordered="false" class="shadow-sm rounded-xl">
-      <!-- Card Header -->
+    <a-card :bordered="false" class="rounded-xl shadow-sm">
       <div class="flex items-center justify-between pb-4">
-        <h2 class="text-[20px] font-bold text-gray-700 m-0">Danh sách Form đánh giá đã xóa</h2>
+        <h2 class="m-0 text-[20px] font-bold text-gray-700">Danh sách Form đánh giá đã xóa</h2>
         <div class="flex items-center gap-3">
-          <ButtonResetYellow 
+          <ButtonResetYellow
             v-if="selectedRowKeys.length > 0"
             :text="`Khôi phục (${selectedRowKeys.length})`"
             @click="handleBulkRestore"
@@ -42,9 +43,8 @@
         </div>
       </div>
 
-      <!-- Filter Bar -->
-      <div class="flex flex-wrap items-center justify-between gap-4 p-6 bg-[#fcfcfd] border-b border-gray-100">
-        <div class="flex flex-wrap items-center gap-4 flex-1">
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 bg-[#fcfcfd] p-6">
+        <div class="flex flex-1 flex-wrap items-center gap-4">
           <div class="w-[240px]">
             <InputSearch v-model="searchText" placeholder="Tìm kiếm" />
           </div>
@@ -56,12 +56,11 @@
         </div>
       </div>
 
-      <!-- Data Table -->
-      <a-table 
-        :columns="columns" 
-        :data-source="pagedData" 
+      <a-table
+        :columns="columns"
+        :data-source="pagedData"
         :pagination="false"
-        :row-selection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
+        :row-selection="{ selectedRowKeys, onChange: onSelectChange }"
         row-key="id"
         class="custom-table"
       >
@@ -69,31 +68,31 @@
           <template v-if="column.key === 'idForm'">
             <span class="font-medium text-[#696cff]">{{ record.idForm }}</span>
           </template>
-          
+
           <template v-if="column.key === 'tenForm'">
             <span class="font-semibold text-[#22303E]">{{ record.tenForm }}</span>
           </template>
 
           <template v-if="column.key === 'hanhDong'">
             <div class="flex items-center space-x-3">
-              <button 
+              <button
                 @click="handleView(record)"
-                class="text-gray-400 hover:text-blue-500 transition-colors"
-                title="Xem chi tiết"
+                class="text-gray-400 transition-colors hover:text-blue-500"
+                title="Xem chi tiet"
               >
                 <NavIcon name="BxShow" size="18" />
               </button>
-              <button 
+              <button
                 @click="handleRestore(record)"
-                class="text-gray-400 hover:text-green-500 transition-colors"
-                title="Khôi phục"
+                class="text-gray-400 transition-colors hover:text-green-500"
+                title="Khoi phuc"
               >
                 <NavIcon name="BxReset" size="18" />
               </button>
-              <button 
+              <button
                 @click="handleDeletePermanent(record)"
-                class="text-gray-400 hover:text-red-500 transition-colors"
-                title="Xóa vĩnh viễn"
+                class="text-gray-400 transition-colors hover:text-red-500"
+                title="Xoa vinh vien"
               >
                 <NavIcon name="BxTrash" size="18" />
               </button>
@@ -102,13 +101,12 @@
         </template>
       </a-table>
 
-      <!-- Custom Pagination -->
-      <div class="flex justify-end mt-4">
-        <BasePagination 
-          :total="totalItems" 
-          :current="currentPage" 
-          :page-size="pageSize" 
-          @change="(p) => currentPage = p" 
+      <div class="mt-4 flex justify-end">
+        <BasePagination
+          :total="totalItems"
+          :current="currentPage"
+          :page-size="pageSize"
+          @change="(p) => (currentPage = p)"
         />
       </div>
     </a-card>
@@ -116,9 +114,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { computed, ref } from 'vue'
 import { message } from 'ant-design-vue'
+import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import BasePagination from '@/components/atoms/display/BasePagination.vue'
 import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
@@ -129,41 +127,39 @@ import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 
-// Stats Data
 const stats = [
-  { 
-    title: 'Tổng đã xóa', 
-    value: '55', 
-    icon: 'BxTrash', 
-    iconBg: 'bg-red-400' 
+  {
+    title: 'Tổng đã xóa',
+    value: '55',
+    icon: 'BxTrash',
+    iconBg: 'bg-red-400',
   },
-  { 
-    title: 'Xóa trong 7 ngày', 
-    value: '12', 
-    percentage: '22%', 
-    trendClass: 'text-orange-500', 
-    icon: 'BxTime', 
-    iconBg: 'bg-orange-400' 
+  {
+    title: 'Xóa trong 7 ngày',
+    value: '12',
+    percentage: '22%',
+    trendClass: 'text-orange-500',
+    icon: 'BxTime',
+    iconBg: 'bg-orange-400',
   },
-  { 
-    title: 'Xóa trong 30 ngày', 
-    value: '35', 
-    percentage: '64%', 
-    trendClass: 'text-yellow-500', 
-    icon: 'BxCalendar', 
-    iconBg: 'bg-yellow-400' 
+  {
+    title: 'Xóa trong 30 ngày',
+    value: '35',
+    percentage: '64%',
+    trendClass: 'text-yellow-500',
+    icon: 'BxCalendar',
+    iconBg: 'bg-yellow-400',
   },
-  { 
-    title: 'Xóa trên 30 ngày', 
-    value: '8', 
-    percentage: '14%', 
-    trendClass: 'text-gray-500', 
-    icon: 'BxHistory', 
-    iconBg: 'bg-gray-400' 
-  }
+  {
+    title: 'Xóa trên 30 ngày',
+    value: '8',
+    percentage: '14%',
+    trendClass: 'text-gray-500',
+    icon: 'BxHistory',
+    iconBg: 'bg-gray-400',
+  },
 ]
 
-// Types
 interface DeletedFormRecord {
   id: number
   idForm: string
@@ -174,12 +170,10 @@ interface DeletedFormRecord {
   ngayXoa: string
 }
 
-// State
-const searchText = ref<string>('')
-const currentPage = ref<number>(1)
-const pageSize = ref<number>(10)
+const searchText = ref('')
+const currentPage = ref(1)
+const pageSize = ref(10)
 
-// Mock data
 const allData = ref<DeletedFormRecord[]>(
   Array.from({ length: 55 }, (_, i) => ({
     id: i + 1,
@@ -189,19 +183,22 @@ const allData = ref<DeletedFormRecord[]>(
     doTuoi: 'U13',
     tongDiem: 10,
     ngayXoa: '2025/12/12 7:00',
-  }))
+  })),
 )
 
-// Computed
-const filteredData = computed(() => {
-  return allData.value.filter((item) => {
-    const matchSearch =
-      !searchText.value ||
-      item.tenForm.toLowerCase().includes(searchText.value.toLowerCase()) ||
-      item.idForm.toLowerCase().includes(searchText.value.toLowerCase())
-    return matchSearch
-  })
-})
+const filteredData = computed(() =>
+  allData.value.filter((item) => {
+    const keyword = searchText.value.trim().toLowerCase()
+    if (!keyword) {
+      return true
+    }
+
+    return (
+      item.tenForm.toLowerCase().includes(keyword) ||
+      item.idForm.toLowerCase().includes(keyword)
+    )
+  }),
+)
 
 const totalItems = computed(() => filteredData.value.length)
 
@@ -210,7 +207,6 @@ const pagedData = computed(() => {
   return filteredData.value.slice(start, start + pageSize.value)
 })
 
-// Table columns
 const columns = [
   { title: 'ID FORM', dataIndex: 'idForm', key: 'idForm', width: 120 },
   { title: 'TÊN FORM', dataIndex: 'tenForm', key: 'tenForm' },
@@ -218,18 +214,17 @@ const columns = [
   { title: 'ĐỘ TUỔI', dataIndex: 'doTuoi', key: 'doTuoi', width: 100 },
   { title: 'TỔNG ĐIỂM', dataIndex: 'tongDiem', key: 'tongDiem', width: 130 },
   { title: 'NGÀY XÓA', dataIndex: 'ngayXoa', key: 'ngayXoa', width: 180 },
-  { title: 'HÀNH ĐỘNG', key: 'hanhDong', width: 140, align: 'center' }
+  { title: 'HÀNH ĐỘNG', key: 'hanhDong', width: 140, align: 'center' },
 ]
 
-// Row selection
 const selectedRowKeys = ref<number[]>([])
+
 const onSelectChange = (keys: number[]) => {
   selectedRowKeys.value = keys
 }
 
-// Methods
-const handleSearch = () => { 
-  currentPage.value = 1 
+const handleSearch = () => {
+  currentPage.value = 1
 }
 
 const handleReset = () => {
@@ -270,7 +265,7 @@ const handleBulkRestore = () => {
 
 :deep(.ant-table-thead > tr > th) {
   background-color: transparent;
-  color: #22303E;
+  color: #22303e;
   opacity: 0.9;
   font-weight: 600;
   text-transform: uppercase;
@@ -280,7 +275,7 @@ const handleBulkRestore = () => {
 
 :deep(.ant-table-tbody > tr > td) {
   padding: 16px;
-  color: #22303E;
+  color: #22303e;
   opacity: 0.9;
   border-bottom: 1px solid #f0f2f5;
 }

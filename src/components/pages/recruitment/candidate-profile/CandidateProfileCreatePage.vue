@@ -10,13 +10,9 @@
             <a-button
               class="flex items-center gap-1 !bg-green-500 !border-green-500 !text-white hover:!bg-green-600 font-semibold"
               @click="handleImportExcel">
-              <template #icon><upload-outlined /></template>
               Nhập Bảng Excel
             </a-button>
-            <a-button @click="handleBack" class="flex items-center gap-1 !text-gray-500 !border-gray-300 !bg-[#ebedf0]">
-              <template #icon><arrow-left-outlined /></template>
-              Quay Lại
-            </a-button>
+            <ButtonBackNoIcon @click="handleBack" />
           </div>
         </div>
 
@@ -190,12 +186,13 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import { ArrowLeftOutlined, UploadOutlined } from '@ant-design/icons-vue'
+import { UploadOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import type { FormInstance, UploadFile } from 'ant-design-vue'
 import type { Dayjs } from 'dayjs'
 import { useRouter } from 'vue-router'
 import AdminPage from '@/components/templates/AdminPage.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 
 const router = useRouter()
 
