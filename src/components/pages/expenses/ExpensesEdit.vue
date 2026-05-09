@@ -1,66 +1,66 @@
 <template>
   <div class="p-6 bg-[#F8FAFC] min-h-screen">
-    <!-- 1. Breadcrumb -->
-    <div class="flex items-center gap-2 mb-4">
-      <span class="text-[13px] text-[#A1ACB8]">Sinh hoạt phí</span>
-      <span class="text-[13px] text-[#A1ACB8]">/</span>
-      <span class="text-[13px] text-[#475569] font-medium">Yêu cầu rút sinh hoạt phí</span>
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 mb-4 text-[13px]">
+      <span class="text-[#A1ACB8]">Sinh hoạt phí</span>
+      <span class="text-[#A1ACB8]">/</span>
+      <span class="text-[#566a7f] font-medium">Yêu cầu rút sinh hoạt phí</span>
     </div>
 
-    <!-- 2. Edit Card -->
-    <div class="bg-white rounded-[8px] shadow-sm border border-[#F1F5F9]">
-      <div class="px-[24px] py-[20px] border-b border-[#F1F5F9] flex justify-between items-center">
-        <h2 class="text-[14px] font-bold text-[#475569] uppercase">CHỈNH SỬA YÊU CẦU RÚT SINH HOẠT PHÍ</h2>
-        <button 
-          class="px-4 py-2 bg-[#8592a3] text-white rounded-md text-[13px] flex items-center gap-2 hover:bg-[#7a8593] transition-colors shadow-sm" 
+    <!-- Edit Card -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <!-- Card Header -->
+      <div class="flex justify-between items-center mb-6">
+        <h1 class="text-[20px] font-bold text-[#566a7f]">Chỉnh sửa Yêu cầu rút sinh hoạt phí</h1>
+        <button
           @click="goBack"
+          class="flex items-center gap-1 px-3 py-1.5 bg-[#f1f3f5] text-[#748293] rounded-md text-[13px] font-medium hover:bg-[#e9ecef] transition-all"
         >
-          <i class="bx bx-left-arrow-alt text-lg"></i> Quay Lại
+          <i class="bx bx-left-arrow-alt text-[16px]"></i>
+          Quay Lại
         </button>
       </div>
 
-      <div class="p-[24px]">
-        <div class="max-w-[1200px]">
-          <!-- Form Group: Status -->
-          <div class="mb-6">
-            <label class="block text-[13px] text-[#475569] mb-2">Trạng thái xử lý đơn</label>
-            <a-select
-              v-model:value="form.status"
-              placeholder="Chọn trạng thái"
-              class="w-full !h-[42px]"
-            >
-              <a-select-option value="processing">Đang xử lý</a-select-option>
-              <a-select-option value="approved">Đã duyệt</a-select-option>
-              <a-select-option value="rejected">Từ chối</a-select-option>
-            </a-select>
-          </div>
-
-          <!-- Form Group: Note -->
-          <div class="mb-8">
-            <label class="block text-[13px] text-[#475569] mb-2">Ghi chú</label>
-            <textarea
-              v-model="form.note"
-              placeholder="Nhập ghi chú"
-              class="w-full h-[120px] p-3 text-[13px] border border-[#d9dee3] rounded-md outline-none focus:border-[#696CFF] transition-colors resize-none"
-            ></textarea>
-          </div>
-
-          <!-- Action Buttons -->
-          <div class="flex justify-center gap-4">
-            <button 
-              class="px-8 py-2.5 bg-[#ff3e1d] text-white rounded-md text-[14px] font-bold hover:bg-[#e6381a] shadow-sm transition-all"
-              @click="handleUpdate"
-            >
-              Cập Nhật
-            </button>
-            <button 
-              class="px-8 py-2.5 bg-[#ffab00] text-white rounded-md text-[14px] font-bold hover:bg-[#e69a00] shadow-sm transition-all"
-              @click="handleReset"
-            >
-              Đặt Lại
-            </button>
-          </div>
+      <!-- Form Fields -->
+      <div class="flex flex-col gap-5">
+        <!-- Trạng thái xử lý đơn -->
+        <div class="floating-field">
+          <label class="floating-label">Trạng thái xử lý đơn</label>
+          <a-select
+            v-model:value="form.status"
+            class="w-full field-select"
+          >
+            <a-select-option value="processing">Đang xử lý</a-select-option>
+            <a-select-option value="approved">Đã duyệt</a-select-option>
+            <a-select-option value="rejected">Từ chối</a-select-option>
+          </a-select>
         </div>
+
+        <!-- Ghi chú -->
+        <div class="floating-field">
+          <label class="floating-label">Ghi chú</label>
+          <textarea
+            v-model="form.note"
+            class="field-textarea"
+            rows="5"
+          ></textarea>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex items-center justify-center gap-3 mt-8">
+        <button
+          class="px-6 py-2 bg-[#ff3e1d] text-white rounded-md text-[14px] font-semibold hover:bg-[#e63617] transition-all shadow-sm"
+          @click="handleUpdate"
+        >
+          Cập Nhật
+        </button>
+        <button
+          class="px-6 py-2 bg-[#ffab00] text-white rounded-md text-[14px] font-semibold hover:bg-[#e69a00] transition-all shadow-sm"
+          @click="handleReset"
+        >
+          Đặt Lại
+        </button>
       </div>
     </div>
   </div>
@@ -95,17 +95,66 @@ const handleReset = () => {
 </script>
 
 <style scoped>
-:deep(.ant-select-selector) {
-  height: 42px !important;
-  display: flex !important;
-  align-items: center !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
+/* Floating label wrapper */
+.floating-field {
+  position: relative;
+  border: 1px solid #d9dee3;
+  border-radius: 6px;
+  padding: 4px 12px 8px;
 }
 
-:deep(.ant-select-selection-item) {
-  line-height: 40px !important;
-  font-size: 13px !important;
-  color: #475569 !important;
+.floating-field:focus-within {
+  border-color: #696cff;
+}
+
+.floating-label {
+  position: absolute;
+  top: -9px;
+  left: 10px;
+  background: white;
+  padding: 0 4px;
+  font-size: 12px;
+  color: #8592a3;
+  line-height: 1;
+  pointer-events: none;
+}
+
+.floating-field:focus-within .floating-label {
+  color: #696cff;
+}
+
+/* Select inside floating field */
+.field-select :deep(.ant-select-selector) {
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+  height: 36px !important;
+  background: transparent !important;
+}
+
+.field-select :deep(.ant-select-selection-item),
+.field-select :deep(.ant-select-selection-placeholder) {
+  line-height: 36px !important;
+  font-size: 14px !important;
+  color: #566a7f !important;
+  padding: 0 !important;
+}
+
+.field-select :deep(.ant-select-arrow) {
+  color: #8592a3;
+}
+
+/* Textarea inside floating field */
+.field-textarea {
+  width: 100%;
+  min-height: 120px;
+  border: none;
+  outline: none;
+  resize: vertical;
+  font-size: 14px;
+  color: #566a7f;
+  background: transparent;
+  padding-top: 6px;
+  font-family: inherit;
 }
 </style>
