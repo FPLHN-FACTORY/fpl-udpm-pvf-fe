@@ -4,7 +4,7 @@
     <div class="flex items-center text-[13px] text-gray-500 space-x-2 px-1">
       <span>Quản lý tuyển sinh</span>
       <span class="text-gray-400">/</span>
-      <span>Cơ sở đào tạo</span>
+      <span>Thông tin đào tạo</span>
       <span class="text-gray-400">/</span>
       <span class="text-gray-800">Chi tiết cơ sở</span>
     </div>
@@ -12,7 +12,7 @@
     <!-- Header Section -->
     <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center justify-between">
       <h2 class="text-lg font-bold text-gray-800">
-        {{ isEditing ? 'Điều chỉnh Cơ sở đào tạo' : 'Chi tiết Cơ sở đào tạo' }}
+        {{ isEditing ? 'Điều chỉnh Thông tin đào tạo' : 'Chi tiết Thông tin đào tạo' }}
       </h2>
       <div class="flex items-center space-x-3">
         <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md">

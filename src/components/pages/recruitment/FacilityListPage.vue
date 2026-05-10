@@ -4,14 +4,14 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Quản lý tuyển sinh</span>
       <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Cơ sở đào tạo</span>
+      <span class="text-[#566a7f] font-medium">Thông tin đào tạo</span>
     </div>
 
     <!-- Table Section -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <!-- Header with Buttons -->
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Cơ sở đào tạo</h2>
+        <h2 class="text-lg font-bold text-[#566a7f]">Thông tin đào tạo</h2>
         <div class="flex items-center gap-2">
           <a-button 
             class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal"

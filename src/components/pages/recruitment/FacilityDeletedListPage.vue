@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Quản lý tuyển sinh</span>
       <span class="text-gray-400">/</span>
-      <span class="text-gray-400">Cơ sở đào tạo</span>
+      <span class="text-gray-400">Thông tin đào tạo</span>
       <span class="text-gray-400">/</span>
       <span class="text-[#566a7f] font-medium">Danh sách đã xóa</span>
     </div>
@@ -13,7 +13,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <!-- Header -->
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Cơ sở đào tạo đã xóa</h2>
+        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Thông tin đào tạo đã xóa</h2>
         <a-button @click="$router.back()" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md">
           <NavIcon name="BxArrowBack" size="14" />
           <span class="text-xs font-normal">Quay Lại</span>
