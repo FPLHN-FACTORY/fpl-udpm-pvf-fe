@@ -7,7 +7,7 @@
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <InputForm v-model="policy.minLength" type="number" label="Độ dài mật khẩu tối thiểu" placeholder="8" />
+        <InputForm v-model="policy.minLength" type="number" label="Độ dài mật khẩu tối thiểu" placeholder="8" prefix-icon="BxShow" />
         <InputForm v-model="policy.minSpecialChars" type="number" label="Số lượng ký tự đặc biệt tối thiểu" />
         <InputForm v-model="policy.minUppercase" type="number" label="Số lượng chữ cái hoa tối thiểu" />
         <InputForm v-model="policy.minLowercase" type="number" label="Số lượng chữ cái thường tối thiểu" />
@@ -16,7 +16,7 @@
       </div>
 
       <div class="mb-6">
-        <InputForm v-model="policy.expiryDays" type="number" label="Thời gian hiệu lực của mật khẩu (Từ 1 đến 1000 ngày)" />
+        <InputForm v-model="policy.expiryDays" type="number" label="Thời gian hiệu lực của mật khẩu (Từ 1 đến 1000 ngày)" prefix-icon="BxShow" />
       </div>
 
       <div class="mb-8">
