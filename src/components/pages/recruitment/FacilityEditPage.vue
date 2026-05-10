@@ -1,6 +1,6 @@
 <template>
   <AdminPage :breadcrumbs="breadcrumbs">
-    <AdminCard title="Điều chỉnh Thông tin đào tạo" padded title-size="xl">
+    <AdminCard title="Điều chỉnh Thông tin cơ sở" padded title-size="xl">
       <template #actions>
         <ButtonBack @click="$router.back()" />
       </template>
@@ -55,7 +55,7 @@ const router = useRouter()
 
 const breadcrumbs = [
   { title: 'Quản lý tuyển sinh', path: '#' },
-  { title: 'Thông tin đào tạo', path: '/recruitment/facility/list' },
+  { title: 'Thông tin cơ sở', path: '/recruitment/facility/list' },
   { title: 'Điều chỉnh', path: '#' }
 ]
 

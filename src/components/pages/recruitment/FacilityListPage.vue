@@ -1,6 +1,6 @@
 <template>
   <AdminPage :breadcrumbs="breadcrumbs">
-    <AdminCard title="Thông tin đào tạo" padded>
+    <AdminCard title="Thông tin cơ sở" padded>
       <template #actions>
         <ButtonDeleteList text="Danh Sách Đã Xóa" @click="$router.push('/recruitment/facility/deleted')" />
         <ButtonAdd text="Thêm Mới" @click="$router.push('/recruitment/facility/create')" />
@@ -19,11 +19,7 @@
 
         <div class="flex items-center gap-2">
           <ButtonSearch text="Tìm Kiếm" />
-          <IconButton 
-            name="BxReset" 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] text-white" 
-            @click="resetFilters" 
-          />
+          <ButtonReset @click="resetFilters" />
         </div>
       </div>
 
@@ -80,13 +76,13 @@ import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
 import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
 import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
-import IconButton from '@/components/atoms/buttons/IconButton.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 
 const breadcrumbs = [
   { title: 'Quản lý tuyển sinh', path: '#' },
-  { title: 'Thông tin đào tạo', path: '/recruitment/facility/list' }
+  { title: 'Thông tin cơ sở', path: '/recruitment/facility/list' }
 ]
 
 const searchQuery = ref('')

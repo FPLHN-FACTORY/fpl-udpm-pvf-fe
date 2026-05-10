@@ -5,7 +5,7 @@ export const activityChildRoutes: RouteRecordRaw[] = [
     path: 'list',
     name: 'activities-list',
     component: () => import('@/components/pages/extracurricular/activity/ActivityListPage.vue'),
-    meta: { title: 'Danh sách hoạt động', icon: 'BxlZoom' }
+    meta: { title: 'Danh sách hoạt động', icon: 'BxlZoom', hidden: true }
   },
   {
     path: 'create',

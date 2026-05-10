@@ -1,6 +1,6 @@
 <template>
   <AdminPage :breadcrumbs="breadcrumbs">
-    <AdminCard title="Danh sách Thông tin đào tạo đã xóa" padded>
+    <AdminCard title="Danh sách Thông tin cơ sở đã xóa" padded>
       <template #actions>
         <ButtonBack @click="$router.back()" />
       </template>
@@ -11,11 +11,7 @@
         
         <div class="flex items-center gap-2">
           <ButtonSearch text="Tìm Kiếm" />
-          <IconButton 
-            name="BxReset" 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] text-white" 
-            @click="resetFilters" 
-          />
+          <ButtonReset @click="resetFilters" />
         </div>
       </div>
 
@@ -62,11 +58,11 @@ import TableActions from '@/components/molecules/TableActions.vue'
 import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
 import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
-import IconButton from '@/components/atoms/buttons/IconButton.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const breadcrumbs = [
   { title: 'Quản lý tuyển sinh', path: '#' },
-  { title: 'Thông tin đào tạo', path: '/recruitment/facility/list' },
+  { title: 'Thông tin cơ sở', path: '/recruitment/facility/list' },
   { title: 'Danh sách đã xóa', path: '#' }
 ]
 

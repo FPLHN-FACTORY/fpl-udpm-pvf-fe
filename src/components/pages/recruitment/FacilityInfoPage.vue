@@ -1,6 +1,6 @@
 <template>
   <AdminPage :breadcrumbs="breadcrumbs">
-    <AdminCard :title="isEditing ? 'Điều chỉnh Thông tin đào tạo' : 'Chi tiết Thông tin đào tạo'" padded title-size="xl">
+    <AdminCard :title="isEditing ? 'Điều chỉnh Thông tin cơ sở' : 'Chi tiết Thông tin cơ sở'" padded title-size="xl">
       <template #actions>
         <ButtonBack @click="handleBack" />
         <ButtonEditNoIcon v-if="!isEditing" text="Chỉnh Sửa" @click="isEditing = true" />
@@ -95,7 +95,7 @@ const isEditing = ref(false)
 
 const breadcrumbs = [
   { title: 'Quản lý tuyển sinh', path: '#' },
-  { title: 'Thông tin đào tạo', path: '/recruitment/facility/list' },
+  { title: 'Thông tin cơ sở', path: '/recruitment/facility/list' },
   { title: 'Chi tiết cơ sở', path: '#' }
 ]
 
