@@ -3,5 +3,5 @@ export const scheduleRoute: RouteRecordRaw = {
   path: 'schedule',
   name: 'training-schedule',
   component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
-  meta: { title: 'Lịch học', icon: 'BxSpreadsheet' }
+  meta: { title: 'Lịch học', icon: 'BxSpreadsheet', hidden: true }
 }

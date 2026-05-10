@@ -3,5 +3,5 @@ export const scoresRoute: RouteRecordRaw = {
   path: 'scores',
   name: 'training-scores',
   component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
-  meta: { title: 'Điểm số', icon: 'BxFile' }
+  meta: { title: 'Điểm số', icon: 'BxFile', hidden: true }
 }
