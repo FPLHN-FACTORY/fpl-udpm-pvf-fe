@@ -9,13 +9,7 @@
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden w-full mx-auto">
       <div class="flex justify-between items-center p-8 border-b border-gray-100">
         <h2 class="text-2xl font-bold text-[#566a7f]">Điều chỉnh Kỳ tuyển sinh</h2>
-        <a-button 
-          class="!bg-[#f5f5f9] hover:!bg-[#eaeaef] !border-none !text-[#566a7f] !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
-          @click="$router.push('/recruitment/admission-periods')"
-        >
-          <template #icon>←</template>
-          Quay Lại
-        </a-button>
+        <ButtonBackNoIcon @click="$router.push({ name: 'admission-periods' })" />
       </div>
 
       <div class="p-10">
@@ -79,11 +73,17 @@
             <span v-if="errors.status" class="text-red-500 text-sm mt-1 block">{{ errors.status }}</span>
           </div>
 
-          <div class="flex justify-center gap-4 mt-8">
-            <a-button class="!bg-[#ff1f1f] hover:!bg-[#e31b1b] !border-none !text-white !h-[48px] !px-12 !text-[15px] font-medium rounded-md" @click="handleSubmit">
+          <div class="flex items-center justify-center gap-3 mt-8">
+            <a-button
+              class="!bg-[#ff3e1d] hover:!bg-[#e33619] !border-none !text-white !h-[38px] !px-8 rounded-md font-medium"
+              @click="handleSubmit"
+            >
               Cập Nhật
             </a-button>
-            <a-button class="!bg-[#eab308] hover:!bg-[#ca8a04] !border-none !text-white !h-[48px] !px-12 !text-[15px] font-medium rounded-md" @click="resetForm">
+            <a-button
+              class="!bg-[#fdac41] hover:!bg-[#e39a3a] !border-none !text-white !h-[38px] !px-8 rounded-md font-medium"
+              @click="resetForm"
+            >
               Đặt Lại
             </a-button>
           </div>
@@ -98,6 +98,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import dayjs from 'dayjs'
 import { validateRequired } from '../../../../utils/validation'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 
 const router = useRouter()
 
@@ -145,7 +146,7 @@ const validateForm = () => {
 const handleSubmit = () => {
   if (validateForm()) {
     console.log('Submit', formData.value)
-    router.push('/recruitment/admission-periods')
+    router.push({ name: 'admission-periods' })
   }
 }
 

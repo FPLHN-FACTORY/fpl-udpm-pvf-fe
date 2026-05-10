@@ -1,58 +1,42 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Bảo mật & Phân quyền</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Giới hạn địa chỉ IP</span>
-    </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Thông tin chi tiết địa chỉ IP" padded title-size="xl">
+      <template #actions>
+        <ButtonBack @click="$router.back()" />
+        <ButtonEditNoIcon text="Chỉnh Sửa" @click="$router.push(`/system/security/ip-restriction/edit/1`)" />
+      </template>
 
-    <!-- Detail Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Thông tin chi tiết địa chỉ IP</h2>
-        <div class="flex gap-3">
-          <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none !h-9"
-            icon="BxChevronLeft"
-            @click="$router.back()"
-          >
-            Quay Lại
-          </a-button>
-          <a-button 
-            class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !h-9"
-          >
-            Chỉnh Sửa
-          </a-button>
-        </div>
-      </div>
-
-      <div class="p-6">
-        <table class="w-full border-collapse border border-gray-100">
-          <tbody>
-            <tr class="border-b border-gray-100">
-              <td class="w-1/4 p-4 font-bold text-[#566a7f] bg-[#fcfcfd]">Địa chỉ IP</td>
-              <td class="p-4 text-[#697a8d]">192.168.1.10</td>
-            </tr>
-            <tr class="border-b border-gray-100">
-              <td class="w-1/4 p-4 font-bold text-[#566a7f] bg-[#fcfcfd]">Mô tả</td>
-              <td class="p-4 text-[#697a8d]">IP nội bộ văn phòng Hà Nội</td>
-            </tr>
-            <tr>
-              <td class="w-1/4 p-4 font-bold text-[#566a7f] bg-[#fcfcfd]">Trạng thái</td>
-              <td class="p-4">
-                <BaseTag color="success">Cho phép</BaseTag>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+      <DetailList :items="detailItems">
+        <template #value-status="{ item }">
+          <BaseTag :type="item.value === 'Cho phép' ? 'success' : 'default'">
+            {{ item.value }}
+          </BaseTag>
+        </template>
+      </DetailList>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import DetailList from '@/components/molecules/DetailList.vue'
 import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonEditNoIcon from '@/components/atoms/buttons/ButtonEditNoIcon.vue'
+
+const breadcrumbs = [
+  { title: 'Bảo mật & Phân quyền', path: '#' },
+  { title: 'Giới hạn địa chỉ IP', path: '/system/security/ip-restriction' },
+  { title: 'Chi tiết', path: '#' }
+]
+
+const detailItems = computed(() => [
+  { key: 'ip', label: 'Địa chỉ IP', value: '192.168.1.10' },
+  { key: 'description', label: 'Mô tả', value: 'IP nội bộ văn phòng Hà Nội' },
+  { key: 'status', label: 'Trạng thái', value: 'Cho phép' }
+])
 </script>
 
 <style scoped>

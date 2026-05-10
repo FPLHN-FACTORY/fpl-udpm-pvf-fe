@@ -8,18 +8,6 @@
             @click="$router.back()" 
             class="group flex items-center gap-2 px-4 py-2 bg-[#f1f3f5] text-[#748293] rounded-lg font-medium hover:bg-[#e9ecef] transition-all duration-200"
             >
-                <!-- Icon mũi tên thanh mảnh giống ảnh -->
-                <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor" 
-                    stroke-width="2"
-                >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-  
                 <span class="text-[15px]">Quay Lại</span>
             </button>
       </div>
@@ -84,14 +72,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import dayjs from 'dayjs'
 
-const route = useRoute()
-const router = useRouter()
-const contractId = route.params.id
 
 const formData = ref({
   student: 'TH12345 - Nguyễn Văn An',

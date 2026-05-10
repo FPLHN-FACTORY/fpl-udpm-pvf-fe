@@ -1,10 +1,10 @@
 <template>
   <a-button
     type="primary"
-    class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !rounded-md !h-[38px] !px-4 flex items-center justify-center shadow-sm"
+    class="!inline-flex !h-[38px] !w-[126px] !items-center !justify-center !border-none !rounded-md !bg-[#ff3e1d] shadow-sm hover:!bg-[#e6381a]"
     @click="$emit('click')"
   >
-    <span class="font-bold text-[13px] text-white">{{ text }}</span>
+    <span class="text-[13px] font-semibold leading-none text-white">{{ text }}</span>
   </a-button>
 </template>
 
@@ -14,5 +14,6 @@ withDefaults(defineProps<{
 }>(), {
   text: 'Thêm Mới'
 })
+
 defineEmits(['click'])
 </script>

@@ -1,303 +1,200 @@
 <template>
-  <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ pageTitle }}</span>
-      </p>
+  <div class="flex flex-col gap-6">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm mb-2">
+      <span class="text-gray-400">{{ moduleTitle }}</span>
+      <span class="text-gray-400">/</span>
+      <span class="text-gray-400 font-medium">{{ pageTitle }}</span>
     </div>
 
-    <section class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-      <div class="flex flex-col gap-4 border-b border-slate-200 px-5 py-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 class="text-lg font-bold text-slate-800">
-            Danh sách Lớp học văn hóa đã xóa
-          </h2>
-        </div>
+    <!-- Main Content Section -->
+    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <!-- Header with Action Buttons -->
+      <div class="flex justify-between items-center p-6 border-b border-gray-100">
+        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Lớp học văn hóa đã xóa</h2>
+        <ButtonBack @click="goBack" />
+      </div>
 
-        <button
-          type="button"
-          class="inline-flex items-center gap-2 self-start rounded-lg border border-slate-200 bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-500 transition hover:border-slate-300 hover:bg-slate-200 md:self-auto"
-          @click="goBack"
+      <!-- Filter Bar -->
+      <div class="p-6 flex flex-wrap items-center justify-between gap-3 bg-[#fcfcfd] border-b border-gray-100">
+        <div class="flex items-center gap-3">
+          <div class="w-[250px]">
+            <InputSearch v-model="draftFilters.keyword" placeholder="Tìm kiếm" />
+          </div>
+          <div class="w-[200px]">
+            <a-select
+              v-model:value="draftFilters.deletedDate"
+              placeholder="Chọn thời gian"
+              class="w-full !h-[38px]"
+            >
+              <a-select-option value="all">Tất cả</a-select-option>
+              <a-select-option v-for="date in deletedDateOptions" :key="date" :value="date">
+                {{ date }}
+              </a-select-option>
+            </a-select>
+          </div>
+          <div class="w-[200px]">
+            <a-select
+              v-model:value="draftFilters.status"
+              placeholder="Chọn trạng thái"
+              class="w-full !h-[38px]"
+            >
+              <a-select-option value="all">Tất cả</a-select-option>
+              <a-select-option v-for="s in statusOptions" :key="s.value" :value="s.value">
+                {{ s.label }}
+              </a-select-option>
+            </a-select>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <ButtonSearch @click="applyFilters" />
+          <ButtonReset @click="resetFilters" />
+        </div>
+      </div>
+
+      <!-- Table Container -->
+      <div class="overflow-x-auto">
+        <a-table
+          :columns="columns"
+          :data-source="rows"
+          :pagination="false"
+          :row-selection="{ selectedRowKeys: selectedIds.map(String), onChange: onSelectChange }"
+          row-key="id"
+          class="deleted-table"
         >
-          <CulturalClassIcon name="BxChevronLeft" class-name="h-4 w-4" />
-          Quay lại
-        </button>
-      </div>
+          <template #bodyCell="{ column, record, index }">
+            <template v-if="column.key === 'stt'">
+              <span class="text-[#6c63ff] font-medium">{{ index + 1 }}</span>
+            </template>
 
-      <div class="space-y-5 px-5 py-5">
-        <div class="grid grid-cols-1 gap-3 xl:grid-cols-[minmax(0,1fr)_220px_220px_auto_auto]">
-          <div class="relative">
-            <CulturalClassIcon
-              name="BxSearch"
-              class-name="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400"
-            />
-            <input
-              v-model="draftFilters.keyword"
-              type="text"
-              placeholder="Tìm kiếm"
-              class="h-11 w-full rounded-xl border border-slate-200 bg-white pl-11 pr-4 text-sm text-slate-700 outline-none transition placeholder:text-slate-400 focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-            />
-          </div>
-
-          <select
-            v-model="draftFilters.deletedDate"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          >
-            <option value="all">Chọn thời gian</option>
-            <option v-for="date in deletedDateOptions" :key="date" :value="date">
-              {{ date }}
-            </option>
-          </select>
-
-          <select
-            v-model="draftFilters.status"
-            class="h-11 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm text-slate-700 outline-none transition focus:border-[#6c63ff] focus:ring-2 focus:ring-[#6c63ff]/10"
-          >
-            <option value="all">Chọn trạng thái</option>
-            <option
-              v-for="status in statusOptions"
-              :key="status.value"
-              :value="status.value"
-            >
-              {{ status.label }}
-            </option>
-          </select>
-
-          <button
-            type="button"
-            class="inline-flex h-11 items-center justify-center gap-2 rounded-xl bg-[#6c63ff] px-5 text-sm font-semibold text-white shadow-sm transition hover:bg-[#5b53e6]"
-            @click="applyFilters"
-          >
-            <CulturalClassIcon name="BxSearch" class-name="h-4 w-4" />
-            Tìm kiếm
-          </button>
-
-          <button
-            type="button"
-            class="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-500 transition hover:border-slate-300 hover:bg-slate-200"
-            @click="resetFilters"
-          >
-            <CulturalClassIcon name="BxRefresh" class-name="h-4 w-4" />
-          </button>
-        </div>
-
-        <div class="overflow-x-auto">
-          <table class="min-w-full border-separate border-spacing-0">
-            <thead>
-              <tr class="text-left text-xs font-semibold uppercase tracking-wide text-slate-400">
-                <th class="w-14 border-y border-slate-200 px-4 py-3">
-                  <input
-                    :checked="isAllVisibleSelected"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-slate-300 text-[#6c63ff] focus:ring-[#6c63ff]"
-                    @change="toggleSelectVisible"
-                  />
-                </th>
-                <th class="w-16 border-y border-slate-200 px-2 py-3">#</th>
-                <th class="border-y border-slate-200 px-4 py-3">Tên lớp học</th>
-                <th class="border-y border-slate-200 px-4 py-3">Khối lớp</th>
-                <th class="border-y border-slate-200 px-4 py-3">Năm học</th>
-                <th class="border-y border-slate-200 px-4 py-3">GV chủ nhiệm</th>
-                <th class="border-y border-slate-200 px-4 py-3">Ngày xóa</th>
-                <th class="border-y border-slate-200 px-4 py-3 text-center">Hành động</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr
-                v-for="row in rows"
-                :key="row.id"
-                class="text-sm text-slate-600 transition hover:bg-slate-50/70"
+            <template v-else-if="column.key === 'code'">
+              <span
+                class="font-semibold text-[#696cff] cursor-pointer hover:underline"
+                @click="goToDetail(record.id)"
               >
-                <td class="border-b border-slate-100 px-4 py-4">
-                  <input
-                    :checked="selectedIds.includes(row.id)"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-slate-300 text-[#6c63ff] focus:ring-[#6c63ff]"
-                    @change="toggleRowSelection(row.id)"
-                  />
-                </td>
-                <td class="border-b border-slate-100 px-2 py-4 font-semibold text-[#6c63ff]">
-                  {{ row.order }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4 font-semibold text-[#6c63ff] cursor-pointer hover:underline" @click="goToDetail(row.id)">
-                  {{ row.code }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.gradeName }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.schoolYear }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.homeroomTeacher }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  {{ row.deletedAt }}
-                </td>
-                <td class="border-b border-slate-100 px-4 py-4">
-                  <div class="flex items-center justify-center gap-3 text-slate-400">
-                    <button
-                      type="button"
-                      class="transition hover:text-[#6c63ff]"
-                      title="Xem chi tiết"
-                      aria-label="Xem chi tiết"
-                      @click="goToDetail(row.id)"
-                    >
-                      <CulturalClassIcon name="BxShow" class-name="h-4 w-4" />
-                    </button>
-                    <button
-                      type="button"
-                      class="transition hover:text-emerald-500"
-                      title="Khôi phục"
-                      aria-label="Khôi phục"
-                      @click="restoreRow(row.id)"
-                    >
-                      <CulturalClassIcon name="BxRevision" class-name="h-4 w-4" />
-                    </button>
-                    <button
-                      type="button"
-                      class="transition hover:text-red-500"
-                      title="Xóa vĩnh viễn"
-                      aria-label="Xóa vĩnh viễn"
-                      @click="hardDeleteRow(row.id)"
-                    >
-                      <CulturalClassIcon name="BxTrash" class-name="h-4 w-4" />
-                    </button>
-                  </div>
-                </td>
-              </tr>
+                {{ record.code }}
+              </span>
+            </template>
 
-              <tr v-if="rows.length === 0">
-                <td colspan="8" class="px-4 py-10 text-center text-sm text-slate-400">
-                  Không có lớp học đã xóa phù hợp với bộ lọc hiện tại.
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <template v-else-if="column.key === 'status'">
+              <BaseTag :type="getStatusType(record.status)">
+                {{ record.statusLabel }}
+              </BaseTag>
+            </template>
 
-        <div class="flex justify-end border-t border-slate-100 pt-4">
-          <div class="flex items-center gap-2 self-end">
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === 1"
-              @click="changePage(pagination.currentPage - 1)"
-            >
-              ‹
-            </button>
-
-            <button
-              v-for="page in visiblePages"
-              :key="page"
-              type="button"
-              class="flex h-9 min-w-9 items-center justify-center rounded-lg px-3 text-sm font-semibold transition"
-              :class="
-                page === pagination.currentPage
-                  ? 'bg-[#ff1f1f] text-white shadow-sm'
-                  : 'border border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
-              "
-              @click="changePage(page)"
-            >
-              {{ page }}
-            </button>
-
-            <!-- Next page -->
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === pagination.totalPages"
-              @click="changePage(pagination.currentPage + 1)"
-            >
-              ›
-            </button>
-            <!-- Last page -->
-            <button
-              type="button"
-              class="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 text-slate-400 text-xs font-bold transition hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-50"
-              :disabled="pagination.currentPage === pagination.totalPages"
-              @click="changePage(pagination.totalPages)"
-            >
-              »
-            </button>
-          </div>
-        </div>
+            <template v-else-if="column.key === 'actions'">
+              <div class="flex items-center gap-2 justify-center">
+                <button
+                  class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
+                  title="Xem chi tiết"
+                  @click="goToDetail(record.id)"
+                >
+                  <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
+                </button>
+                <button
+                  class="p-1 text-[#a1acb8] hover:text-[#71dd37] transition-colors"
+                  title="Khôi phục"
+                  @click="restoreRow(record.id)"
+                >
+                  <NavIcon name="BxReset" class-name="w-[18px] h-[18px]" />
+                </button>
+                <button
+                  class="p-1 text-[#a1acb8] hover:text-[#ff3e1d] transition-colors"
+                  title="Xóa vĩnh viễn"
+                  @click="hardDeleteRow(record.id)"
+                >
+                  <NavIcon name="BxTrash" class-name="w-[18px] h-[18px]" />
+                </button>
+              </div>
+            </template>
+          </template>
+        </a-table>
       </div>
-    </section>
+
+      <!-- Pagination -->
+      <div class="p-6 flex justify-end">
+        <BasePagination
+          :current="pagination.currentPage"
+          :total="pagination.totalItems"
+          :page-size="pagination.itemsPerPage"
+          @change="changePage"
+        />
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref, watch } from "vue";
-import { useRouter } from "vue-router";
-import CulturalClassIcon from "./CulturalClassIcon.vue";
+import { onMounted, reactive, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
+import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
+import ButtonSearch from '../../../atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '../../../atoms/buttons/ButtonReset.vue'
+import InputSearch from '../../../atoms/inputs/InputSearch.vue'
+import BaseTag from '../../../atoms/display/BaseTag.vue'
+import NavIcon from '../../../atoms/icons/NavIcon.vue'
+import BasePagination from '../../../atoms/display/BasePagination.vue'
 import {
   culturalClassService,
   culturalClassStatusOptions,
   type CulturalClassListItem,
   type CulturalClassStatus,
   type PaginationMeta,
-} from "../../../../services/cultural/culturalClass";
+} from '../../../../services/cultural/culturalClass'
 
-const moduleTitle = "Quản lý học tập văn hóa";
-const pageTitle = "Lớp học văn hóa";
+const moduleTitle = 'Quản lý học tập văn hóa'
+const pageTitle = 'Lớp học văn hóa đã xóa'
+const router = useRouter()
 
-const router = useRouter();
-
-const rows = ref<CulturalClassListItem[]>([]);
-const selectedIds = ref<number[]>([]);
+const rows = ref<CulturalClassListItem[]>([])
+const selectedIds = ref<number[]>([])
 
 const draftFilters = reactive({
-  keyword: "",
-  deletedDate: "all",
-  status: "all" as "all" | CulturalClassStatus,
-});
+  keyword: '',
+  deletedDate: 'all',
+  status: 'all' as 'all' | CulturalClassStatus,
+})
 
 const queryFilters = reactive({
-  keyword: "",
-  deletedDate: "all",
-  status: "all" as "all" | CulturalClassStatus,
-});
+  keyword: '',
+  deletedDate: 'all',
+  status: 'all' as 'all' | CulturalClassStatus,
+})
 
 const pagination = reactive<PaginationMeta>({
   currentPage: 1,
   totalPages: 1,
   totalItems: 0,
-  itemsPerPage: 5,
-});
+  itemsPerPage: 10,
+})
 
-let filterSyncTimer: ReturnType<typeof setTimeout> | undefined;
+let filterSyncTimer: ReturnType<typeof setTimeout> | undefined
 
-const statusOptions = culturalClassStatusOptions;
-const deletedDateOptions = ["2025-02-01"];
+const statusOptions = culturalClassStatusOptions
+const deletedDateOptions = ['2025-02-01']
 
-const isAllVisibleSelected = computed(
-  () =>
-    rows.value.length > 0 &&
-    rows.value.every((row) => selectedIds.value.includes(row.id)),
-);
-
-const visiblePages = computed(() => {
-  const total = pagination.totalPages;
-  const page = pagination.currentPage;
-
-  if (total <= 5) {
-    return Array.from({ length: total }, (_, index) => index + 1);
+const getStatusType = (status: CulturalClassStatus) => {
+  switch (status) {
+    case 'ACTIVE': return 'success'
+    case 'PAUSED': return 'warning'
+    default: return 'default'
   }
+}
 
-  if (page <= 3) {
-    return [1, 2, 3, 4, 5];
-  }
+const columns = [
+  { title: '#', key: 'stt', width: 60, align: 'center' as const },
+  { title: 'TÊN LỚP HỌC', dataIndex: 'code', key: 'code' },
+  { title: 'KHỐI LỚP', dataIndex: 'gradeName', key: 'gradeName' },
+  { title: 'NĂM HỌC', dataIndex: 'schoolYear', key: 'schoolYear' },
+  { title: 'GIÁO VIÊN CHỦ NHIỆM', dataIndex: 'homeroomTeacher', key: 'homeroomTeacher' },
+  { title: 'NGÀY XÓA', dataIndex: 'deletedAt', key: 'deletedAt' },
+  { title: 'TRẠNG THÁI', key: 'status', width: 150 },
+  { title: 'HÀNH ĐỘNG', key: 'actions', width: 140, align: 'center' as const },
+]
 
-  if (page >= total - 2) {
-    return [total - 4, total - 3, total - 2, total - 1, total];
-  }
-
-  return [page - 2, page - 1, page, page + 1, page + 2];
-});
+const onSelectChange = (selectedRowKeys: (string | number)[]) => {
+  selectedIds.value = selectedRowKeys.map(Number)
+}
 
 const loadRows = async () => {
   const response = await culturalClassService.listDeleted({
@@ -306,104 +203,90 @@ const loadRows = async () => {
     status: queryFilters.status,
     page: pagination.currentPage,
     pageSize: pagination.itemsPerPage,
-  });
-
-  rows.value = response.data;
-  pagination.currentPage = response.meta.currentPage;
-  pagination.totalPages = response.meta.totalPages;
-  pagination.totalItems = response.meta.totalItems;
-  pagination.itemsPerPage = response.meta.itemsPerPage;
-  selectedIds.value = [];
-};
+  })
+  rows.value = response.data
+  pagination.currentPage = response.meta.currentPage
+  pagination.totalPages = response.meta.totalPages
+  pagination.totalItems = response.meta.totalItems
+  pagination.itemsPerPage = response.meta.itemsPerPage
+  selectedIds.value = []
+}
 
 const syncFiltersAndReload = async () => {
-  queryFilters.keyword = draftFilters.keyword;
-  queryFilters.deletedDate = draftFilters.deletedDate;
-  queryFilters.status = draftFilters.status;
-  pagination.currentPage = 1;
-  await loadRows();
-};
+  queryFilters.keyword = draftFilters.keyword
+  queryFilters.deletedDate = draftFilters.deletedDate
+  queryFilters.status = draftFilters.status
+  pagination.currentPage = 1
+  await loadRows()
+}
 
 const applyFilters = async () => {
-  if (filterSyncTimer) {
-    clearTimeout(filterSyncTimer);
-  }
-
-  await syncFiltersAndReload();
-};
+  if (filterSyncTimer) clearTimeout(filterSyncTimer)
+  await syncFiltersAndReload()
+}
 
 const resetFilters = () => {
-  draftFilters.keyword = "";
-  draftFilters.deletedDate = "all";
-  draftFilters.status = "all";
-};
+  draftFilters.keyword = ''
+  draftFilters.deletedDate = 'all'
+  draftFilters.status = 'all'
+}
 
 const changePage = async (page: number) => {
-  if (page < 1 || page > pagination.totalPages) {
-    return;
-  }
+  if (page < 1 || page > pagination.totalPages) return
+  pagination.currentPage = page
+  await loadRows()
+}
 
-  pagination.currentPage = page;
-  await loadRows();
-};
-
-const toggleRowSelection = (id: number) => {
-  if (selectedIds.value.includes(id)) {
-    selectedIds.value = selectedIds.value.filter((selectedId) => selectedId !== id);
-    return;
-  }
-
-  selectedIds.value = [...selectedIds.value, id];
-};
-
-const toggleSelectVisible = () => {
-  if (isAllVisibleSelected.value) {
-    selectedIds.value = selectedIds.value.filter(
-      (selectedId) => !rows.value.some((row) => row.id === selectedId),
-    );
-    return;
-  }
-
-  const nextSelected = new Set(selectedIds.value);
-  rows.value.forEach((row) => nextSelected.add(row.id));
-  selectedIds.value = Array.from(nextSelected);
-};
-
-const goBack = () => {
-  router.push({ name: "cultural-class" });
-};
-
-const goToDetail = (id: number) => {
-  router.push({ name: "cultural-class-detail", params: { id } });
-};
+const goBack = () => router.push({ name: 'cultural-class' })
+const goToDetail = (id: number) => router.push({ name: 'cultural-class-detail', params: { id } })
 
 const restoreRow = async (id: number) => {
-  await culturalClassService.restore(id);
-  await loadRows();
-};
+  await culturalClassService.restore(id)
+  await loadRows()
+}
 
 const hardDeleteRow = async (id: number) => {
-  await culturalClassService.hardDelete(id);
-  if (rows.value.length === 1 && pagination.currentPage > 1) {
-    pagination.currentPage -= 1;
-  }
-  await loadRows();
-};
+  await culturalClassService.hardDelete(id)
+  if (rows.value.length === 1 && pagination.currentPage > 1) pagination.currentPage -= 1
+  await loadRows()
+}
 
-onMounted(async () => {
-  await loadRows();
-});
+onMounted(async () => await loadRows())
 
 watch(
   () => [draftFilters.keyword, draftFilters.deletedDate, draftFilters.status],
   () => {
-    if (filterSyncTimer) {
-      clearTimeout(filterSyncTimer);
-    }
-
-    filterSyncTimer = setTimeout(() => {
-      void syncFiltersAndReload();
-    }, 250);
+    if (filterSyncTimer) clearTimeout(filterSyncTimer)
+    filterSyncTimer = setTimeout(() => void syncFiltersAndReload(), 250)
   },
-);
+)
 </script>
+
+<style scoped>
+:deep(.ant-table-thead > tr > th) {
+  background-color: #fcfcfd;
+  color: #566a7f;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+:deep(.ant-table-tbody > tr > td) {
+  padding: 16px;
+  color: #697a8d;
+  font-size: 13px;
+}
+
+:deep(.ant-select-selector) {
+  height: 38px !important;
+  border-radius: 6px !important;
+  border-color: #d9dee3 !important;
+  display: flex;
+  align-items: center;
+}
+
+.deleted-table :deep(.ant-table-selection-column) {
+  width: 50px;
+}
+</style>

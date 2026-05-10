@@ -12,7 +12,7 @@
     <div v-else-if="!loading" class="bg-white rounded-xl shadow-sm border border-gray-100 px-5 py-14 text-center">
       <p class="text-base font-semibold text-gray-700">Không tìm thấy bộ tiêu chí để chỉnh sửa.</p>
       <p class="mt-2 text-sm text-gray-400">Bản ghi có thể đã bị xóa hoặc đường dẫn không còn hợp lệ.</p>
-      <ButtonBack class="mt-6" @click="goBack" text="Quay lại danh sách" />
+      <ButtonBackNoIcon class="mt-6" @click="goBack" text="Quay lại danh sách" />
     </div>
   </AdminPage>
 </template>
@@ -22,7 +22,7 @@ import { computed, onMounted, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { message } from 'ant-design-vue'
 import AdminPage from '@/components/templates/AdminPage.vue'
-import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 import MasterCriteriaForm from "./MasterCriteriaForm.vue";
 import {
   masterCriteriaService,
@@ -79,7 +79,7 @@ const handleSubmit = async (payload: SaveMasterCriteriaInput) => {
     message.success('Cập nhật thành công')
     router.push({
       name: "master-criteria-detail",
-      params: { id: response.data.id },
+      params: { id: response.data?.id },
     });
   } catch (error) {
     message.error('Cập nhật thất bại')

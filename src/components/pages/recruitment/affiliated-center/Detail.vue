@@ -12,7 +12,7 @@
       <div class="flex items-center justify-between mb-10">
         <h2 class="text-[17px] font-bold text-gray-700 m-0">Chi tiết Trung tâm liên kết</h2>
         <div class="flex gap-3">
-          <ButtonBack @click="$router.back()" />
+          <ButtonBackNoIcon @click="$router.back()" />
           <ButtonEditNoIcon @click="router.push('/recruitment/affiliated-center/edit/1')" />
         </div>
       </div>
@@ -121,7 +121,7 @@
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
-import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonBackNoIcon from '@/components/atoms/buttons/ButtonBackNoIcon.vue'
 import ButtonEditNoIcon from '@/components/atoms/buttons/ButtonEditNoIcon.vue'
 
 const router = useRouter()

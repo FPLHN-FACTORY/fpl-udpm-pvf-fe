@@ -1,98 +1,85 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Quản lý học tập ngoại khóa</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Lớp học ngoại khóa</span>
-    </div>
-
-    <!-- Table Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <!-- Header -->
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Lớp học ngoại khóa - Điểm danh</h2>
-      </div>
-
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Danh sách Lớp học ngoại khóa - Điểm danh" padded>
       <!-- Table Container -->
-      <div class="overflow-x-auto">
-        <a-table 
+      <div class="overflow-hidden border border-gray-100 rounded-lg">
+        <AppTable 
           :columns="columns" 
           :data-source="classData" 
           :pagination="false"
-          class="pvf-table"
         >
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'stt'">
-              {{ index + 1 }}
+              <TableIndex :index="index + 1" />
             </template>
-            <template v-if="column.key === 'status'">
-              <div class="flex items-center">
-                <span :class="record.status === 'active' ? 'bg-[#e7f5e9] text-[#71dd37]' : 'bg-[#fff2e1] text-[#ffab00]'" class="px-3 py-1 rounded-md text-[11px] font-bold uppercase whitespace-nowrap">
-                  {{ record.status === 'active' ? 'Đang mở' : 'Đã đóng' }}
-                </span>
-              </div>
+            <template v-else-if="column.key === 'status'">
+              <BaseTag :type="record.status === 'active' ? 'success' : 'warning'">
+                {{ record.status === 'active' ? 'Đang mở' : 'Đã đóng' }}
+              </BaseTag>
             </template>
-            <template v-if="column.key === 'action'">
+            <template v-else-if="column.key === 'action'">
               <a-button 
                 type="primary" 
-                class="!bg-[#696cff] border-none rounded-md h-8 text-[11px] font-bold uppercase"
+                class="!bg-[#696cff] border-none rounded-md h-8 text-[11px] font-bold uppercase px-4"
                 @click="$router.push({ name: 'extracurricular-classes-detail', params: { id: record.id }, query: { tab: 'attendance' } })"
               >
                 Điểm Danh
               </a-button>
             </template>
           </template>
-        </a-table>
+          <template #pagination>
+            <div class="flex justify-end p-4">
+              <BasePagination 
+                :total="classData.length" 
+                :current="currentPage" 
+                :page-size="10" 
+                @change="handlePageChange" 
+              />
+            </div>
+          </template>
+        </AppTable>
       </div>
-
-      <!-- Pagination -->
-      <div class="p-6 flex justify-end bg-white border-t border-gray-100">
-        <a-pagination :current="1" :total="classData.length" :pageSize="10" show-less-items class="custom-pagination" />
-      </div>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import AppTable from '@/components/organisms/AppTable.vue'
+import TableIndex from '@/components/atoms/display/TableIndex.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+
+const breadcrumbs = [
+  { title: 'Quản lý học tập ngoại khóa', path: '#' },
+  { title: 'Lớp học ngoại khóa', path: '/extracurricular/classes/list' },
+  { title: 'Điểm danh', path: '#' }
+]
+
+const currentPage = ref(1)
 
 const columns = [
-  { title: '#', key: 'stt', width: 60 },
+  { title: '#', key: 'stt', width: '60px', align: 'center' },
   { title: 'MÔN', dataIndex: 'subject', key: 'subject' },
   { title: 'TÊN LỚP', dataIndex: 'name', key: 'name' },
   { title: 'GIÁO VIÊN', dataIndex: 'teacher', key: 'teacher' },
   { title: 'ĐỊA ĐIỂM', dataIndex: 'location', key: 'location' },
   { title: 'SỸ SỐ', dataIndex: 'size', key: 'size', align: 'center' },
-  { title: 'TRẠNG THÁI', dataIndex: 'status', key: 'status' },
-  { title: 'HÀNH ĐỘNG', key: 'action', width: 130, align: 'center' }
+  { title: 'TRẠNG THÁI', dataIndex: 'status', key: 'status', width: 120 },
+  { title: 'HÀNH ĐỘNG', key: 'action', width: 150, align: 'center' }
 ]
 
 const classData = ref([
   { id: 1, subject: 'Kỹ năng làm việc nhóm', name: 'UT1301', teacher: 'Nguyễn Văn Hùng', location: 'Phòng học 1', size: '20/20', status: 'active' },
   { id: 2, subject: 'Kỹ năng mềm', name: 'UT1302', teacher: 'Trần Minh Tuấn', location: 'Phòng học 2', size: '15/20', status: 'active' },
 ])
+
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+}
 </script>
 
 <style scoped>
-:deep(.pvf-table .ant-table-thead > tr > th) {
-  background-color: #fcfcfd;
-  color: #566a7f;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 11px;
-  border-bottom: 1px solid #d9dee3;
-}
-:deep(.pvf-table .ant-table-tbody > tr > td) {
-  color: #566a7f;
-  font-size: 13px;
-  padding: 12px 16px;
-}
-:deep(.ant-pagination-item-active) {
-  background-color: #e31a1a !important;
-  border-color: #e31a1a !important;
-}
-:deep(.ant-pagination-item-active a) {
-  color: white !important;
-}
 </style>

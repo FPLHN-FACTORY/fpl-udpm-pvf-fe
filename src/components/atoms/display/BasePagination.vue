@@ -14,7 +14,8 @@
       :current="current"
       :total="total"
       :page-size="pageSize"
-      :show-less-items="true"
+      :show-less-items="false"
+      :show-size-changer="false"
       @change="$emit('change', $event)"
       :item-render="itemRender"
     />

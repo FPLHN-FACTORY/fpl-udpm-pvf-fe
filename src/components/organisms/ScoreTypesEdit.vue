@@ -88,7 +88,6 @@
 import { reactive, ref } from 'vue'
 import { LeftOutlined } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
-import type { ScoreTypeRecord } from '../pages/ScoreTypesPage.vue'
 
 interface FormState {
   tenLoaiDiem: string

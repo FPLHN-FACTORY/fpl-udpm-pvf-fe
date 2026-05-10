@@ -127,7 +127,7 @@
           :pagination="false"
           :row-selection="{ selectedRowKeys: [] }"
         >
-          <template #bodyCell="{ column, record, index }">
+          <template #bodyCell="{ column, index }">
             <template v-if="column.key === 'stt'">{{ index + 1 }}</template>
             <template v-else-if="column.key === 'status'">
               <BaseTag type="success">Đang hoạt động</BaseTag>

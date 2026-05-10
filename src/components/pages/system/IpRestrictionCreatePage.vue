@@ -1,67 +1,37 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Bảo mật & Phân quyền</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Giới hạn địa chỉ IP</span>
-    </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Thêm địa chỉ IP được cấp phép" padded title-size="xl">
+      <template #actions>
+        <ButtonBack @click="$router.back()" />
+      </template>
 
-    <!-- Create Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Thêm địa chỉ IP được cấp phép</h2>
-        <a-button 
-          class="!bg-[#e7e7ff] !text-[#696cff] !border-none !h-9"
-          icon="BxChevronLeft"
-          @click="$router.back()"
-        >
-          Quay Lại
-        </a-button>
-      </div>
-
-      <div class="p-8 flex flex-col gap-6">
-        <a-input 
+      <div class="flex flex-col gap-6 max-w-full mt-4">
+        <InputForm 
           v-model="form.ip" 
-          label="Địa chỉ IP" 
+          label="Địa chỉ IP"
           placeholder="Địa chỉ IP"
-          class="!h-10"
         />
         
-        <a-textarea 
+        <TextareaForm 
           v-model="form.description" 
-          label="Mô tả" 
+          label="Mô tả"
           placeholder="Mô tả"
           :rows="4"
         />
 
-        <div class="flex flex-col gap-2">
-          <label class="text-sm font-semibold text-[#566a7f]">Trạng thái</label>
-          <a-select v-model:value="form.status" placeholder="Trạng thái" class="w-full !h-10">
-            <a-select-option value="active">Cho phép</a-select-option>
-            <a-select-option value="locked">Tạm khoá</a-select-option>
-            <a-select-option value="inactive">Chưa kích hoạt</a-select-option>
-          </a-select>
-        </div>
+        <SelectForm v-model:value="form.status" label="Trạng thái" placeholder="Trạng thái">
+          <a-select-option value="active">Cho phép</a-select-option>
+          <a-select-option value="locked">Tạm khoá</a-select-option>
+          <a-select-option value="inactive">Chưa kích hoạt</a-select-option>
+        </SelectForm>
 
         <div class="flex justify-center gap-4 mt-4">
-          <a-button 
-            variant="primary" 
-            class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-10 !h-10"
-            @click="handleSubmit"
-          >
-            Thêm Mới
-          </a-button>
-          <a-button 
-            class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !px-10 !h-10"
-            @click="handleReset"
-          >
-            Đặt Lại
-          </a-button>
+          <ButtonAddNoIcon text="Thêm Mới" @click="handleSubmit" />
+          <ButtonResetYellow text="Đặt Lại" @click="handleReset" />
         </div>
       </div>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
@@ -69,7 +39,22 @@ import { ref } from 'vue'
 import { message } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import TextareaForm from '@/components/atoms/inputs/TextareaForm.vue'
+import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonAddNoIcon from '@/components/atoms/buttons/ButtonAddNoIcon.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
+
 const router = useRouter()
+
+const breadcrumbs = [
+  { title: 'Bảo mật & Phân quyền', path: '#' },
+  { title: 'Giới hạn địa chỉ IP', path: '/system/security/ip-restriction' },
+  { title: 'Thêm mới', path: '#' }
+]
 
 const form = ref({
   ip: '',
@@ -78,7 +63,7 @@ const form = ref({
 })
 
 const handleSubmit = () => {
-  if (!form.ip.value) {
+  if (!form.value.ip) {
     message.error('Vui lòng nhập địa chỉ IP')
     return
   }
@@ -96,11 +81,4 @@ const handleReset = () => {
 </script>
 
 <style scoped>
-:deep(.ant-select-selector) {
-  height: 40px !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-  display: flex;
-  align-items: center;
-}
 </style>

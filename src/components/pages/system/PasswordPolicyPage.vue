@@ -1,91 +1,54 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Bảo mật & Phân quyền</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Chính sách bảo mật</span>
-    </div>
-
-    <!-- Content Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden p-8">
-      <h2 class="text-xl font-bold text-[#566a7f] mb-4">Chính sách mật khẩu</h2>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Chính sách bảo mật" padded>
       <p class="text-[#697a8d] mb-8 leading-relaxed">
         Chính sách mật khẩu là một tập hợp các quy tắc được định nghĩa để tăng cường bảo mật tài khoản và khuyến khích người dùng đặt mật khẩu mạnh.
         Quản lý thiết lập thời gian đổi mật khẩu định kỳ của các tài khoản trên hệ thống.
       </p>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-        <div class="flex flex-col gap-2">
-          <label class="text-sm text-[#566a7f]">Độ dài mật khẩu tối thiểu</label>
-          <a-input-number v-model:value="policy.minLength" class="w-full !h-10 flex items-center" placeholder="8">
-            <template #suffix>
-              <NavIcon name="BxShow" class-name="w-4 h-4 text-gray-400" />
-            </template>
-          </a-input-number>
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-sm text-[#566a7f]">Số lượng ký tự đặc biệt tối thiểu</label>
-          <a-input-number v-model:value="policy.minSpecialChars" class="w-full !h-10 flex items-center" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-sm text-[#566a7f]">Số lượng chữ cái hoa tối thiểu</label>
-          <a-input-number v-model:value="policy.minUppercase" class="w-full !h-10 flex items-center" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-sm text-[#566a7f]">Số lượng chữ cái thường tối thiểu</label>
-          <a-input-number v-model:value="policy.minLowercase" class="w-full !h-10 flex items-center" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-sm text-[#566a7f]">Số lượng số tối thiểu</label>
-          <a-input-number v-model:value="policy.minNumbers" class="w-full !h-10 flex items-center" />
-        </div>
-        <div class="flex flex-col gap-2">
-          <label class="text-sm text-[#566a7f]">Số lần sai liên tiếp tối đa trước khi khóa tài khoản</label>
-          <a-input-number v-model:value="policy.maxFailedAttempts" class="w-full !h-10 flex items-center" />
-        </div>
+        <InputForm v-model="policy.minLength" type="number" label="Độ dài mật khẩu tối thiểu" placeholder="8" prefix-icon="BxShow" />
+        <InputForm v-model="policy.minSpecialChars" type="number" label="Số lượng ký tự đặc biệt tối thiểu" />
+        <InputForm v-model="policy.minUppercase" type="number" label="Số lượng chữ cái hoa tối thiểu" />
+        <InputForm v-model="policy.minLowercase" type="number" label="Số lượng chữ cái thường tối thiểu" />
+        <InputForm v-model="policy.minNumbers" type="number" label="Số lượng số tối thiểu" />
+        <InputForm v-model="policy.maxFailedAttempts" type="number" label="Số lần sai liên tiếp tối đa trước khi khóa tài khoản" />
       </div>
 
-      <div class="flex flex-col gap-2 mb-6">
-        <label class="text-sm text-[#566a7f]">Thời gian hiệu lực của mật khẩu (Từ 1 đến 1000 ngày)</label>
-        <a-input-number v-model:value="policy.expiryDays" class="w-full !h-10 flex items-center" />
+      <div class="mb-6">
+        <InputForm v-model="policy.expiryDays" type="number" label="Thời gian hiệu lực của mật khẩu (Từ 1 đến 1000 ngày)" prefix-icon="BxShow" />
       </div>
 
       <div class="mb-8">
-        <a-checkbox v-model="policy.notifyExpiry">
+        <a-checkbox v-model:checked="policy.notifyExpiry">
           <span class="text-[#697a8d]">Gửi thông báo hết hạn mật khẩu tới người dùng</span>
         </a-checkbox>
       </div>
 
       <div class="flex justify-center gap-4">
-        <a-button 
-          variant="primary" 
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-8 !h-10"
-          @click="handleUpdate"
-        >
-          Cập Nhật
-        </a-button>
-        <a-button 
-          class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !px-8 !h-10"
-          @click="handleReset"
-        >
-          Đặt Lại
-        </a-button>
-        <a-button 
-          class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !px-8 !h-10"
-          @click="handleResetDefault"
-        >
-          Đặt Lại Mặc Định
-        </a-button>
+        <ButtonSaveNoIcon text="Cập Nhật" @click="handleUpdate" />
+        <ButtonResetYellow text="Đặt Lại" @click="handleReset" />
+        <ButtonResetDefault text="Đặt Lại Mặc Định" @click="handleResetDefault" />
       </div>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 import { message } from 'ant-design-vue'
+
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
+import ButtonResetDefault from '@/components/atoms/buttons/ButtonResetDefault.vue'
+
+const breadcrumbs = [
+  { title: 'Bảo mật & Phân quyền', path: '#' },
+  { title: 'Chính sách bảo mật', path: '/system/security/password-policy' }
+]
 
 const policy = ref({
   minLength: 8,
@@ -122,15 +85,4 @@ const handleResetDefault = () => {
 </script>
 
 <style scoped>
-:deep(.ant-input-number) {
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-}
-:deep(.ant-input-number-focused) {
-  border-color: #696cff !important;
-  box-shadow: 0 0 0 2px rgba(105, 108, 255, 0.1) !important;
-}
-:deep(.ant-input-number-handler-wrap) {
-  opacity: 1;
-}
 </style>

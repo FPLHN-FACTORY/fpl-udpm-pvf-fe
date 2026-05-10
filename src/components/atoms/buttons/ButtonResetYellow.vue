@@ -1,9 +1,10 @@
 <template>
   <a-button
-    class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !rounded-md !h-[38px] !px-8 flex items-center justify-center transition-colors shadow-md shadow-orange-100"
+    type="primary"
+    class="!inline-flex !h-[38px] !w-[126px] !items-center !justify-center !border-none !rounded-md !bg-[#ffab00] !text-white shadow-sm hover:!bg-[#e69a00]"
     @click="$emit('click')"
   >
-    <span class="font-bold text-[14px]">{{ text }}</span>
+    <span class="text-[13px] font-semibold leading-none">{{ text }}</span>
   </a-button>
 </template>
 
@@ -11,7 +12,8 @@
 withDefaults(defineProps<{
   text?: string
 }>(), {
-  text: 'Đặt lại'
+  text: 'Đặt Lại'
 })
+
 defineEmits(['click'])
 </script>

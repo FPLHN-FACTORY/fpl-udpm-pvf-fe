@@ -7,7 +7,7 @@ import { studentRoutes } from './routes/student/index'
 import { culturalHiddenRoutes, culturalRoutes } from './routes/cultural/index'
 import { extracurricularRoutes } from './routes/extracurricular/index'
 import { trainingRoutes } from './routes/training/index'
-import { expensesRoutes } from './routes/expenses/index'
+import { expensesHiddenRoutes, expensesRoutes } from './routes/expenses/index'
 import { gearRoutes } from './routes/gear/index'
 import { disciplineHiddenRoutes, disciplineRoutes } from './routes/discipline/index'
 import { evaluationHiddenRoutes, evaluationRoutes } from './routes/evaluation/index'
@@ -46,6 +46,7 @@ const router = createRouter({
         ...extracurricularRoutes,
         ...trainingRoutes,
         ...expensesRoutes,
+        ...expensesHiddenRoutes,
         ...gearRoutes,
         ...disciplineRoutes,
         ...disciplineHiddenRoutes,

@@ -2,13 +2,14 @@ import type { RouteRecordRaw } from 'vue-router'
 
 export const facilityRoute: RouteRecordRaw = {
   path: 'facility',
-  meta: { title: 'Cơ sở đào tạo', icon: 'BxBuilding' },
+  redirect: '/recruitment/facility/list',
+  meta: { title: 'Thông tin cơ sở', icon: 'BxBuilding' },
   children: [
     {
       path: 'list',
       name: 'facility-list',
       component: () => import('../../../components/pages/recruitment/FacilityListPage.vue'),
-      meta: { title: 'Thông tin cơ sở', icon: 'BxInfoCircle' }
+      meta: { title: 'Thông tin cơ sở', icon: 'BxInfoCircle', hidden: true }
     },
     {
       path: 'info',
@@ -20,7 +21,7 @@ export const facilityRoute: RouteRecordRaw = {
       path: 'create',
       name: 'facility-create',
       component: () => import('../../../components/pages/recruitment/FacilityCreatePage.vue'),
-      meta: { title: 'Thêm mới cơ sở', icon: 'BxPlusCircle' }
+      meta: { title: 'Thêm mới cơ sở', icon: 'BxPlusCircle', hidden: true }
     },
     {
       path: 'edit/:id',
@@ -32,8 +33,7 @@ export const facilityRoute: RouteRecordRaw = {
       path: 'deleted',
       name: 'facility-deleted',
       component: () => import('../../../components/pages/recruitment/FacilityDeletedListPage.vue'),
-      meta: { title: 'Danh sách đã xóa', icon: 'BxTrash' }
+      meta: { title: 'Danh sách đã xóa', icon: 'BxTrash', hidden: true }
     }
   ]
-
 }

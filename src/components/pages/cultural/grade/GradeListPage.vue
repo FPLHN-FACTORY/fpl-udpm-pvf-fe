@@ -4,14 +4,14 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Quản lý học tập văn hoá</span>
       <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">Khối lớp</span>
+      <span class="text-gray-400 font-medium">Khối lớp</span>
     </div>
 
     <!-- Main Content Section -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <!-- Header with Action Buttons -->
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách <span class="bg-[#fcf3d7] px-1 rounded">Khối lớp</span></h2>
+        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Khối lớp</h2>
         <div class="flex gap-3">
           <a-button 
             class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !text-white !text-[13px] !px-4 !h-[38px] flex items-center gap-2"
@@ -103,11 +103,6 @@
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
   </div>
 </template>
 
@@ -133,10 +128,10 @@ const onSelectChange = (selectedRowKeys: any) => {
   console.log('selectedRowKeys changed: ', selectedRowKeys)
 }
 
-const getStatusType = (status: string) => {
+const getStatusType = (status: string): 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger' => {
   switch (status) {
     case 'Đang sử dụng': return 'success'
-    case 'Ngừng sử dụng': return 'secondary'
+    case 'Ngừng sử dụng': return 'default'
     case 'Tạm ngưng': return 'warning'
     default: return 'primary'
   }

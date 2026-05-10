@@ -1,102 +1,81 @@
 <template>
-  <div class="flex flex-col gap-6 p-6 min-h-screen bg-[#f5f5f9]">
-    <!-- Breadcrumbs -->
-    <div class="flex items-center gap-2 text-sm mb-2">
-      <span class="text-gray-400">Quản lý tuyển sinh</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-gray-400">Cơ sở đào tạo</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium">Danh sách đã xóa</span>
-    </div>
-
-    <!-- Table Section -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <!-- Header -->
-      <div class="flex justify-between items-center p-6 border-b border-gray-100">
-        <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Cơ sở đào tạo đã xóa</h2>
-        <a-button @click="$router.back()" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md">
-          <NavIcon name="BxArrowBack" size="14" />
-          <span class="text-xs font-medium">Quay Lại</span>
-        </a-button>
-      </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Danh sách Thông tin cơ sở đã xóa" padded>
+      <template #actions>
+        <ButtonBack @click="$router.back()" />
+      </template>
 
       <!-- Filter Bar -->
-      <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
-        <div class="flex-1 min-w-[200px]">
-          <a-input v-model:value="searchQuery" placeholder="Tìm tên cơ sở / địa chỉ" class="!h-10 !border-[#d9dee3]">
-            <template #prefix>
-              <NavIcon name="BxSearch" class-name="w-4 h-4 text-gray-400" />
-            </template>
-          </a-input>
-        </div>
+      <div class="flex flex-wrap items-center gap-3 mb-6">
+        <InputSearch v-model="searchQuery" placeholder="Tìm tên cơ sở / địa chỉ" class="flex-1 min-w-[200px]" />
+        
         <div class="flex items-center gap-2">
-          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10 px-6">
-            Tìm Kiếm
-          </a-button>
-          <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !w-10 !h-10 !p-0 !min-w-0 flex items-center justify-center rounded-lg shadow-sm" 
-            @click="resetFilters"
-          >
-            <NavIcon name="BxReset" class-name="w-6 h-6 text-white" />
-          </a-button>
+          <ButtonSearch text="Tìm Kiếm" />
+          <ButtonReset @click="resetFilters" />
         </div>
       </div>
 
       <!-- Table Container -->
-      <div class="overflow-x-auto">
-        <a-table 
+      <div class="overflow-hidden border border-gray-100 rounded-lg">
+        <AppTable 
           :columns="columns" 
           :data-source="deletedData" 
-          :pagination="{ 
-            current: 1, 
-            pageSize: 5, 
-            total: deletedData.length, 
-            showSizeChanger: false,
-          }"
-          class="pvf-table"
+          :pagination="false"
         >
           <template #bodyCell="{ column, record, index }">
             <template v-if="column.key === 'stt'">
-              {{ index + 1 }}
+              <TableIndex :index="index + 1" />
             </template>
-            <template v-if="column.key === 'action'">
-              <div class="flex items-center gap-3">
-                <a-tooltip title="Khôi phục">
-                  <NavIcon 
-                    name="BxReset" 
-                    class-name="w-5 h-5 text-green-500 cursor-pointer hover:text-green-600" 
-                    @click="handleRestore(record)"
-                  />
-                </a-tooltip>
-                <a-tooltip title="Xóa vĩnh viễn">
-                  <NavIcon 
-                    name="BxTrash" 
-                    class-name="w-5 h-5 text-red-500 cursor-pointer hover:text-red-600" 
-                    @click="handlePermanentDelete(record)"
-                  />
-                </a-tooltip>
-              </div>
+            <template v-else-if="column.key === 'action'">
+              <TableActions :actions="getActions(record)" />
             </template>
           </template>
-        </a-table>
+          <template #pagination>
+            <div class="flex justify-end p-4">
+              <BasePagination 
+                :total="deletedData.length" 
+                :current="currentPage" 
+                :page-size="5" 
+                @change="handlePageChange" 
+              />
+            </div>
+          </template>
+        </AppTable>
       </div>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import AppTable from '@/components/organisms/AppTable.vue'
+import TableIndex from '@/components/atoms/display/TableIndex.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import TableActions from '@/components/molecules/TableActions.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+
+const breadcrumbs = [
+  { title: 'Quản lý tuyển sinh', path: '#' },
+  { title: 'Thông tin cơ sở', path: '/recruitment/facility/list' },
+  { title: 'Danh sách đã xóa', path: '#' }
+]
 
 const searchQuery = ref('')
+const currentPage = ref(1)
 
 const columns = [
-  { title: 'STT', key: 'stt', width: 70 },
-  { title: 'TÊN CƠ SỞ ĐÀO TẠ', dataIndex: 'name', key: 'name' },
+  { title: '#', key: 'stt', width: '60px', align: 'center' },
+  { title: 'TÊN CƠ SỞ ĐÀO TẠO', dataIndex: 'name', key: 'name' },
   { title: 'ĐỊA CHỈ', dataIndex: 'address', key: 'address' },
   { title: 'THÔNG TIN LIÊN HỆ', dataIndex: 'contact', key: 'contact' },
   { title: 'NGÀY XÓA', dataIndex: 'deletedAt', key: 'deletedAt', width: 150 },
-  { title: 'HÀNH ĐỘNG', key: 'action', width: 150 }
+  { title: 'HÀNH ĐỘNG', key: 'action', width: 150, align: 'center' }
 ]
 
 const deletedData = ref([
@@ -120,35 +99,15 @@ const resetFilters = () => {
   searchQuery.value = ''
 }
 
-const handleRestore = (record: any) => {
-  console.log('Restoring facility:', record.name)
-}
+const getActions = (record: any) => [
+  { label: 'Khôi phục', icon: 'BxReset', onClick: () => console.log('Restoring facility:', record.name) },
+  { label: 'Xóa vĩnh viễn', icon: 'BxTrash', danger: true, onClick: () => console.log('Permanently deleting facility:', record.name) }
+]
 
-const handlePermanentDelete = (record: any) => {
-  console.log('Permanently deleting facility:', record.name)
+const handlePageChange = (page: number) => {
+  currentPage.value = page
 }
 </script>
 
 <style scoped>
-:deep(.ant-select-selector) {
-  height: 40px !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-  display: flex;
-  align-items: center;
-}
-:deep(.pvf-table .ant-table-thead > tr > th) {
-  background-color: #fcfcfd;
-  color: #566a7f;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 12px;
-}
-:deep(.ant-pagination-item-active) {
-  background-color: #696cff !important;
-  border-color: #696cff !important;
-}
-:deep(.ant-pagination-item-active a) {
-  color: white !important;
-}
 </style>

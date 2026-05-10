@@ -1,16 +1,15 @@
 <template>
-  <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ pageTitle }}</span>
-      </p>
+  <div class="flex flex-col gap-6">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm mb-2">
+      <span class="text-gray-400">{{ moduleTitle }}</span>
+      <span class="text-gray-400">/</span>
+      <span class="text-gray-400 font-medium">{{ pageTitle }}</span>
     </div>
 
     <CulturalClassForm
       title="Thêm mới Lớp học văn hóa"
-      submit-label="Thêm mới"
+      submit-label="Thêm Mới"
       @submit="handleSubmit"
     />
   </div>

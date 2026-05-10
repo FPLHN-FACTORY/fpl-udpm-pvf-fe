@@ -13,25 +13,18 @@
         <slot name="actions" />
       </div>
     </header>
-
-    <slot />
+    
+    <!-- Content -->
+    <div>
+      <slot />
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-
-const props = withDefaults(defineProps<{
+defineProps<{
   title?: string
   padded?: boolean
-  titleSize?: 'md' | 'lg' | 'xl'
-}>(), {
-  padded: false,
-  titleSize: 'lg'
-})
-
-const titleClass = computed(() => [
-  'font-bold text-[#566a7f]',
-  props.titleSize === 'xl' ? 'text-xl' : props.titleSize === 'lg' ? 'text-lg' : 'text-base'
-])
+  titleClass?: string
+}>()
 </script>

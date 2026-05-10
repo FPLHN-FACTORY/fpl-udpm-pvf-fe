@@ -33,13 +33,9 @@
           <a-select v-model:value="filters.status" placeholder="Chọn trạng thái" class="flex-1 !h-full border-none" />
         </div>
         
-        <div class="flex items-center gap-[10px]">
-          <button class="btn-search-primary" @click="handleSearch">
-            <i class="bx bx-search text-[18px] mr-2"></i> Tìm Kiếm
-          </button>
-          <button class="btn-reset-gray" @click="handleReset">
-            <i class="bx bx-rotate-left text-[20px]"></i>
-          </button>
+        <div class="flex items-center gap-2">
+          <ButtonSearch @click="handleSearch" />
+          <ButtonReset @click="handleReset" />
         </div>
       </div>
 
@@ -88,11 +84,7 @@
               <td class="px-[24px] py-[18px] text-[#475569] border-r border-[#F1F5F9] last:border-r-0">{{ item.creator }}</td>
               <td class="px-[24px] py-[18px] text-[#475569] border-r border-[#F1F5F9] last:border-r-0">{{ item.deletedDate }}</td>
               <td class="px-[24px] py-[18px]">
-                <div class="flex justify-center gap-[16px] text-[#64748B]">
-                    <i @click="handleView(item.id)" class="bx bx-show hover:text-[#696CFF] cursor-pointer text-[20px] transition-all" title="Xem chi tiết"></i>
-                    <i @click="handleRestore(item.id)" class="bx bx-reset hover:text-[#71DD37] cursor-pointer text-[22px] transition-all" title="Khôi phục"></i>
-                    <i @click="handleDelete(item.id)" class="bx bx-trash hover:text-[#EF4444] cursor-pointer text-[20px] transition-all" title="Xóa vĩnh viễn"></i>
-                </div>
+                <TableActions :actions="getActions(item)" />
               </td>
             </tr>
           </tbody>
@@ -101,31 +93,12 @@
 
       <!-- 4. Pagination -->
       <div class="px-[24px] py-[24px] flex justify-end">
-        <div class="flex items-center gap-[10px]">
-          <button class="pagin-btn" @click="changePage(1)" :disabled="currentPage === 1">
-            <i class="bx bx-chevrons-left"></i>
-          </button>
-          <button class="pagin-btn" @click="changePage(currentPage - 1)" :disabled="currentPage === 1">
-            <i class="bx bx-chevron-left"></i>
-          </button>
-          
-          <button 
-            v-for="page in totalPages" 
-            :key="page" 
-            class="pagin-btn"
-            :class="{ 'active': currentPage === page }"
-            @click="changePage(page)"
-          >
-            {{ page }}
-          </button>
-
-          <button class="pagin-btn" @click="changePage(currentPage + 1)" :disabled="currentPage === totalPages">
-            <i class="bx bx-chevron-right"></i>
-          </button>
-          <button class="pagin-btn" @click="changePage(totalPages)" :disabled="currentPage === totalPages">
-            <i class="bx bx-chevrons-right"></i>
-          </button>
-        </div>
+        <BasePagination 
+          :total="totalPages * 10" 
+          :current="currentPage" 
+          :page-size="10" 
+          @change="changePage" 
+        />
       </div>
     </div>
   </div>
@@ -282,6 +255,10 @@ import { ref, reactive, computed, createVNode } from 'vue'
 import { useRouter } from 'vue-router'
 import { Modal, message } from 'ant-design-vue'
 import { ExclamationCircleOutlined, QuestionCircleOutlined } from '@ant-design/icons-vue'
+import TableActions from '@/components/molecules/TableActions.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
 
 const router = useRouter()
 const filters = reactive({ keyword: '', user: undefined, status: undefined })
@@ -294,6 +271,14 @@ const deletedDecisions = ref([
 
 const handleView = (id: string) => {
   router.push(`/discipline/discipline-decisions/detail/${id}`)
+}
+
+const getActions = (record: any) => {
+  return [
+    { label: 'Xem chi tiết', icon: 'BxShow', onClick: () => handleView(record.id) },
+    { label: 'Khôi phục', icon: 'BxReset', onClick: () => handleRestore(record.id) },
+    { label: 'Xóa vĩnh viễn', icon: 'BxTrash', danger: true, onClick: () => handleDelete(record.id) },
+  ]
 }
 
 const handleRestore = (id: string) => {

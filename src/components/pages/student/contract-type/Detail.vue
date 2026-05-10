@@ -12,7 +12,7 @@
         <h2 class="text-[20px] font-bold text-gray-700 m-0">Chi tiết Loại hợp đồng</h2>
         <div class="flex gap-2">
           <ButtonBack @click="$router.push('/student/contract-type')" />
-          <ButtonEdit @click="$router.push(`/student/contract-type/edit/${$route.params.id}`)" />
+          <ButtonEditNoIcon @click="$router.push(`/student/contract-type/edit/${$route.params.id}`)" />
         </div>
       </div>
 
@@ -130,11 +130,6 @@
         </template>
       </a-table>
 
-      <!-- Footer -->
-      <div class="flex items-center justify-between mt-12 border-t pt-4 border-gray-100">
-        <span class="text-sm text-gray-500">2025 © PVF VN</span>
-        <span class="text-sm text-gray-500">Design & Develop by FPT POLYTECHNIC</span>
-      </div>
     </a-card>
   </div>
 </template>
@@ -144,7 +139,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import BaseTag from '../../../atoms/display/BaseTag.vue'
-import ButtonEdit from '../../../atoms/buttons/ButtonEdit.vue'
+import ButtonEditNoIcon from '../../../atoms/buttons/ButtonEditNoIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
 import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
 import InputSearch from '../../../atoms/inputs/InputSearch.vue'

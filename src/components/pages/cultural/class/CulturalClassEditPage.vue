@@ -1,28 +1,27 @@
 <template>
-  <div class="space-y-6 pb-6">
-    <div class="space-y-1">
-      <p class="text-sm text-slate-400">
-        {{ moduleTitle }}
-        <span class="px-2 text-slate-300">/</span>
-        <span class="font-medium text-slate-500">{{ pageTitle }}</span>
-      </p>
+  <div class="flex flex-col gap-6">
+    <!-- Breadcrumbs -->
+    <div class="flex items-center gap-2 text-sm mb-2">
+      <span class="text-gray-400">{{ moduleTitle }}</span>
+      <span class="text-gray-400">/</span>
+      <span class="text-gray-400 font-medium">{{ pageTitle }}</span>
     </div>
 
     <template v-if="initialValues">
       <CulturalClassForm
         title="Điều chỉnh Lớp học văn hóa"
-        submit-label="Cập nhật"
+        submit-label="Cập Nhật"
         :initial-values="initialValues"
         @submit="handleSubmit"
       />
     </template>
 
-    <section
+    <div
       v-else
-      class="rounded-2xl border border-slate-200 bg-white px-6 py-10 text-center text-sm text-slate-400 shadow-sm"
+      class="bg-white rounded-xl shadow-sm border border-gray-100 px-6 py-10 text-center text-sm text-gray-400"
     >
       Không tìm thấy lớp học văn hóa phù hợp.
-    </section>
+    </div>
   </div>
 </template>
 

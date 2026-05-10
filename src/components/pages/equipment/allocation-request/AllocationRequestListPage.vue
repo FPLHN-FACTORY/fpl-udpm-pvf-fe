@@ -253,7 +253,7 @@ const handleRestore = async (_id: string) => {
   }
 }
 
-const handleDelete = (id: string) => {
+const handleDelete = (_id: string) => {
   const isPermanent = isDeletedView.value
   Modal.confirm({
     title: isPermanent ? 'Xác nhận xóa vĩnh viễn' : 'Xác nhận xóa',

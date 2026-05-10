@@ -20,8 +20,8 @@
     <!-- BxsUserDetail -->
     <path v-if="name === 'BxsUserDetail'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm9 11v-1a7 7 0 0 0-7-7h-4a7 7 0 0 0-7 7v1h2v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1z" />
     
-    <!-- BxSpreadsheet -->
-    <path v-if="name === 'BxSpreadsheet'" d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 16H5V5h14v14z"/><path v-if="name === 'BxSpreadsheet'" d="M7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z"/>
+    <!-- BxSpreadsheet / BxTemplate -->
+    <path v-if="name === 'BxSpreadsheet' || name === 'BxTemplate'" d="M19 3H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2h14c1.103 0 2-.897 2-2V5c0-1.103-.897-2-2-2zm0 16H5V5h14v14z"/><path v-if="name === 'BxSpreadsheet' || name === 'BxTemplate'" d="M7 7h10v2H7zm0 4h10v2H7zm0 4h7v2H7z"/>
     
     <!-- BxFile -->
     <path v-if="name === 'BxFile'" d="M6 2a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6H6zm8 7V4l5 5h-5z" />
@@ -38,8 +38,8 @@
     <!-- BxsPen -->
     <path v-if="name === 'BxsPen'" d="m16.303 4.303 3.394 3.394a.999.999 0 0 0 1.414 0l1.586-1.586a.999.999 0 0 0 0-1.414l-3.394-3.394a.999.999 0 0 0-1.414 0l-1.586 1.586a.999.999 0 0 0 0 1.414zM3 17.586V21h3.414l9.293-9.293-3.414-3.414L3 17.586z" />
 
-    <!-- BxBookAlt -->
-    <path v-if="name === 'BxBookAlt'" d="M19 2H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 18H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h12v16z"/><path v-if="name === 'BxBookAlt'" d="M8 7h8v2H8zm0 4h8v2H8zm0 4h5v2H8z"/>
+    <!-- BxBookAlt / BxBook -->
+    <path v-if="name === 'BxBookAlt' || name === 'BxBook'" d="M19 2H6a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h13a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1zm-1 18H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h12v16z"/><path v-if="name === 'BxBookAlt' || name === 'BxBook'" d="M8 7h8v2H8zm0 4h8v2H8zm0 4h5v2H8z"/>
 
     <!-- BxlZoom -->
     <path v-if="name === 'BxlZoom'" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/><circle v-if="name === 'BxlZoom'" cx="12" cy="12" r="5"/>
@@ -84,7 +84,17 @@
     <path v-if="name === 'BxLogInWrapper'" d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8zm4-9h-4V7l-5 5 5 5v-4h4v-2z" />
 
     <!-- BxSearch -->
-    <path v-if="name === 'BxSearch'" d="M10 18a7.952 7.952 0 0 0 4.897-1.688l4.396 4.396 1.414-1.414-4.396-4.396A7.952 7.952 0 0 0 18 10c0-4.411-3.589-8-8-8s-8 3.589-8 8 3.589 8 8 8zm0-14c3.309 0 6 2.691 6 6s-2.691 6-6 6-6-2.691-6-6 2.691-6 6-6z" />
+    <g
+      v-if="name === 'BxSearch'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.6"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="10" cy="10" r="7.2" />
+      <path d="m15.55 15.55 4.95 4.95" />
+    </g>
 
     <!-- BxReset -->
     <path v-if="name === 'BxReset'" d="M12 16a4 4 0 1 1 4-4 4 4 0 0 1-4 4zm0-6a2 2 0 1 0 2 2 2 2 0 0 0-2-2z" />
@@ -182,6 +192,82 @@
     <!-- BxAward -->
     <path v-if="name === 'BxAward'" d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 8a3 3 0 1 1 3-3 3 3 0 0 1-3 3zm7 11H5v-2a3 3 0 0 1 3-3h8a3 3 0 0 1 3 3v2z" />
 
+
+    <!-- BxStatsTile -->
+    <path v-if="name === 'BxStatsTile'" d="M4 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 2v12h16V6H4z" />
+    <path v-if="name === 'BxStatsTile'" d="M9 6h2v12H9zM13 8h5v2h-5zM13 12h5v2h-5z" />
+
+    <!-- BxCalendarCheck -->
+    <path v-if="name === 'BxCalendarCheck'" d="M7 2h2v2h6V2h2v2h2a2 2 0 0 1 2 2v13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2V2zm12 7H5v10h14V9zM5 7h14V6H5v1z" />
+    <path v-if="name === 'BxCalendarCheck'" d="m10.2 16.4-2.1-2.1 1.4-1.4 1 1 3.4-3.4 1.4 1.4z" />
+
+    <!-- BxLayerStack -->
+    <g
+      v-if="name === 'BxLayerStack'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.7"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 6.25 5.5 2.75L12 11.75 6.5 9 12 6.25Z" />
+      <path d="m6.5 11.9 5.5 2.75 5.5-2.75" />
+      <path d="m6.5 15.1 5.5 2.75 5.5-2.75" />
+      <path d="m16.45 5.05 2.35 1.15-2.35 1.2-2.35-1.2 2.35-1.15Z" />
+    </g>
+
+    <!-- BxLayersMinus -->
+    <g
+      v-if="name === 'BxLayersMinus'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 5.3 6.35 3.15L12 11.6 5.65 8.45 12 5.3Z" />
+      <path d="m5.65 11.2 6.35 3.15 6.35-3.15" />
+      <path d="m5.65 14.55 6.35 3.15 6.35-3.15" />
+      <path d="M17.95 5.15h3.1" />
+    </g>
+
+    <!-- BxLayersPlus -->
+    <g
+      v-if="name === 'BxLayersPlus'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.8"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="m12 5.3 6.35 3.15L12 11.6 5.65 8.45 12 5.3Z" />
+      <path d="m5.65 11.2 6.35 3.15 6.35-3.15" />
+      <path d="m5.65 14.55 6.35 3.15 6.35-3.15" />
+      <path d="M19.5 3.6v3.1" />
+      <path d="M17.95 5.15h3.1" />
+    </g>
+
+    <!-- BxAverageAngle -->
+    <g
+      v-if="name === 'BxAverageAngle'"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.9"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <path d="M8.2 6.85h7.6l3.55 5.15-3.55 5.15H8.2" />
+      <path d="m8.2 6.85 3.55 5.15-3.55 5.15" />
+    </g>
+
+    <!-- BxUndo / BxRotateLeft -->
+    <path v-if="name === 'BxUndo' || name === 'BxRotateLeft'" d="M9 10h6c1.654 0 3 1.346 3 3s-1.346 3-3 3h-3v2h3c2.757 0 5-2.243 5-5s-2.243-5-5-5H9V5L4 9l5 4v-3z" />
+
+    <!-- BxListUl -->
+    <path v-if="name === 'BxListUl'" d="M4 6h2v2H4zm0 5h2v2H4zm0 5h2v2H4zm16-8V6H8v2h12zM8 13h12v-2H8v2zm0 5h12v-2H8v2z" />
+
+    <!-- BxUserPlus -->
+    <path v-if="name === 'BxUserPlus'" d="M15 11h2V9h2v2h2v2h-2v2h-2v-2h-2zM7 9a4 4 0 1 1 4 4 4 4 0 0 1-4-4zm6 4a2 2 0 1 0-2-2 2 2 0 0 0 2 2zM4 18a6 6 0 0 1 12 0v1H4z" />
 
   </svg>
 </template>
