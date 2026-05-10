@@ -38,25 +38,9 @@
       </div>
 
       <div class="flex justify-center gap-4">
-        <a-button 
-          variant="primary" 
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-8 !h-10"
-          @click="handleUpdate"
-        >
-          Cập Nhật
-        </a-button>
-        <a-button 
-          class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !px-8 !h-10"
-          @click="handleReset"
-        >
-          Đặt Lại
-        </a-button>
-        <a-button 
-          class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !px-8 !h-10"
-          @click="handleResetDefault"
-        >
-          Đặt Lại Mặc Định
-        </a-button>
+        <ButtonSaveNoIcon text="Cập Nhật" @click="handleUpdate" />
+        <ButtonResetYellow text="Đặt Lại" @click="handleReset" />
+        <ButtonResetDefault text="Đặt Lại Mặc Định" @click="handleResetDefault" />
       </div>
     </div>
   </div>
@@ -65,6 +49,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { message } from 'ant-design-vue'
+import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
+import ButtonResetDefault from '@/components/atoms/buttons/ButtonResetDefault.vue'
 
 const policy = ref({
   maxFailedAttempts: 5,

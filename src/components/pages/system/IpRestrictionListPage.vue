@@ -27,11 +27,7 @@
 
         <div class="flex items-center gap-2">
           <ButtonSearch text="Tìm Kiếm" />
-          <IconButton 
-            name="BxReset" 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] text-white" 
-            @click="resetFilters" 
-          />
+          <ButtonReset @click="resetFilters" />
         </div>
       </div>
 
@@ -87,7 +83,7 @@ import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
 import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
 import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
-import IconButton from '@/components/atoms/buttons/IconButton.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 

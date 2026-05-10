@@ -1,6 +1,6 @@
 <template>
   <AdminPage :breadcrumbs="breadcrumbs">
-    <AdminCard title="Chính sách mật khẩu" padded>
+    <AdminCard title="Chính sách bảo mật" padded>
       <p class="text-[#697a8d] mb-8 leading-relaxed">
         Chính sách mật khẩu là một tập hợp các quy tắc được định nghĩa để tăng cường bảo mật tài khoản và khuyến khích người dùng đặt mật khẩu mạnh.
         Quản lý thiết lập thời gian đổi mật khẩu định kỳ của các tài khoản trên hệ thống.
@@ -28,7 +28,7 @@
       <div class="flex justify-center gap-4">
         <ButtonSaveNoIcon text="Cập Nhật" @click="handleUpdate" />
         <ButtonResetYellow text="Đặt Lại" @click="handleReset" />
-        <ButtonReset text="Đặt Lại Mặc Định" @click="handleResetDefault" />
+        <ButtonResetDefault text="Đặt Lại Mặc Định" @click="handleResetDefault" />
       </div>
     </AdminCard>
   </AdminPage>
@@ -43,7 +43,7 @@ import AdminCard from '@/components/molecules/AdminCard.vue'
 import InputForm from '@/components/atoms/inputs/InputForm.vue'
 import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
 import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
-import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import ButtonResetDefault from '@/components/atoms/buttons/ButtonResetDefault.vue'
 
 const breadcrumbs = [
   { title: 'Bảo mật & Phân quyền', path: '#' },

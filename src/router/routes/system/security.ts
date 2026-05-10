@@ -5,7 +5,7 @@ export const securityPoliciesRoutes: RouteRecordRaw[] = [
     path: 'password-policy',
     name: 'password-policy',
     component: () => import('../../../components/pages/system/PasswordPolicyPage.vue'),
-    meta: { title: 'Chính sách mật khẩu', icon: 'BxLock' }
+    meta: { title: 'Chính sách bảo mật', icon: 'BxLock' }
   },
   {
     path: 'login-policy',
