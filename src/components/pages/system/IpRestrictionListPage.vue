@@ -13,7 +13,9 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Giới hạn địa chỉ IP</h2>
         <a-button 
-          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !text-white !border-none flex items-center gap-2"
+          type="primary"
+          class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none flex items-center justify-center gap-2 font-medium !h-10 px-6"
+          style="color: #ffffff !important;"
           @click="$router.push('/system/security/ip-restriction/add')"
         >
           <template #icon>
@@ -48,7 +50,9 @@
         </div>
         <div class="flex items-center gap-2">
           <a-button 
-            class="!bg-[#696cff] hover:!bg-[#5f61e6] !text-white !border-none !h-10 flex items-center gap-2"
+            type="primary"
+            class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10 flex items-center justify-center gap-2 font-medium px-4"
+            style="color: #ffffff !important;"
           >
             <template #icon>
               <NavIcon name="BxSearch" class-name="w-4 h-4" />

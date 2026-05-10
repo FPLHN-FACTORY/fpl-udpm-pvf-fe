@@ -15,24 +15,24 @@
         <div class="flex items-center gap-2">
           <a-button 
             @click="$router.push('/extracurricular/classes/deleted')"
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal"
           >
             <NavIcon name="BxTrash" size="14" />
             Danh Sách Đã Xóa
           </a-button>
           <a-button 
             type="primary" 
-            class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+            class="!bg-[#e31a1a] hover:!bg-[#c41616] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal"
             @click="$router.push('/extracurricular/classes/create')"
           >
             <NavIcon name="BxPlus" size="14" />
             Thêm Mới
           </a-button>
-          <a-button class="!bg-[#71dd37] hover:!bg-[#63c130] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium">
+          <a-button class="!bg-[#71dd37] hover:!bg-[#63c130] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal">
             <NavIcon name="BxExport" size="14" />
             Xuất Danh Sách
           </a-button>
-          <a-button class="!bg-[#03c3ec] hover:!bg-[#02af00] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium">
+          <a-button class="!bg-[#03c3ec] hover:!bg-[#02af00] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal">
             <NavIcon name="BxImport" size="14" />
             Nhập Danh Sách
           </a-button>

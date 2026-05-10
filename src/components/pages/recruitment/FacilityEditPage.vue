@@ -15,7 +15,7 @@
         Điều chỉnh Cơ sở đào tạo
       </h2>
       <div class="flex items-center space-x-3">
-        <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md h-9 text-xs font-medium">
+        <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md h-9 text-xs font-normal">
           <NavIcon name="BxArrowBack" size="14" />
           <span>Quay Lại</span>
         </a-button>
@@ -44,10 +44,10 @@
           
           <div class="flex items-center justify-center space-x-3 mt-8">
             <a-button type="primary" danger size="large" class="px-10 rounded-lg bg-[#e31a1a] border-[#e31a1a] h-11 flex items-center" @click="handleUpdate">
-              <span class="text-sm font-medium uppercase">Cập Nhật</span>
+              <span class="text-sm font-normal uppercase">Cập Nhật</span>
             </a-button>
             <a-button size="large" class="px-10 rounded-lg bg-[#ffab00] text-white border-[#ffab00] hover:bg-[#e69a00] h-11 flex items-center" @click="handleReset">
-              <span class="text-sm font-medium uppercase">Đặt Lại</span>
+              <span class="text-sm font-normal uppercase">Đặt Lại</span>
             </a-button>
           </div>
         </a-form>

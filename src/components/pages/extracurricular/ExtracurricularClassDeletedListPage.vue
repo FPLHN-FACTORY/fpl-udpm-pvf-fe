@@ -13,7 +13,7 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Lớp học ngoại khóa đã xóa</h2>
         <div class="flex items-center gap-2">
-          <a-button @click="$router.back()" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md h-9 text-xs font-medium">
+          <a-button @click="$router.back()" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md h-9 text-xs font-normal">
             <NavIcon name="BxArrowBack" size="14" />
             <span>Quay Lại</span>
           </a-button>

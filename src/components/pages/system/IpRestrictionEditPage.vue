@@ -12,7 +12,7 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Điều chỉnh Địa chỉ IP được cấp phép truy cập</h2>
         <a-button 
-          class="!bg-[#e7e7ff] !text-[#696cff] !border-none !h-9 flex items-center gap-2"
+          class="!bg-[#e7e7ff] !text-[#696cff] !border-none !h-9 flex items-center justify-center gap-2 font-medium px-4"
           @click="$router.back()"
         >
           <template #icon>
@@ -46,14 +46,16 @@
 
         <div class="flex justify-center gap-4 mt-4">
           <a-button 
-            variant="primary" 
-            class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !text-white !border-none !px-10 !h-10"
+            type="primary" 
+            class="!bg-[#ff3e1d] hover:!bg-[#e6381a] !border-none !px-10 !h-10 flex items-center justify-center font-medium"
+            style="color: #ffffff !important;"
             @click="handleSubmit"
           >
             Cập Nhật
           </a-button>
           <a-button 
-            class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !px-10 !h-10"
+            class="!bg-[#ffab00] hover:!bg-[#e69a00] !border-none !px-10 !h-10 flex items-center justify-center font-medium"
+            style="color: #ffffff !important;"
             @click="handleReset"
           >
             Đặt Lại

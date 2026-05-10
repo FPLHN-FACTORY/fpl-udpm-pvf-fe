@@ -16,7 +16,7 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Cơ sở đào tạo đã xóa</h2>
         <a-button @click="$router.back()" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md">
           <NavIcon name="BxArrowBack" size="14" />
-          <span class="text-xs font-medium">Quay Lại</span>
+          <span class="text-xs font-normal">Quay Lại</span>
         </a-button>
       </div>
 

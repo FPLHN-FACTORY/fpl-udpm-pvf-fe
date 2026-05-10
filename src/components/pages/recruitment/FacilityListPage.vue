@@ -14,7 +14,7 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Cơ sở đào tạo</h2>
         <div class="flex items-center gap-2">
           <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal"
             @click="$router.push('/recruitment/facility/deleted')"
           >
             <NavIcon name="BxTrash" size="14" />
@@ -22,7 +22,7 @@
           </a-button>
           <a-button 
             type="primary" 
-            class="!bg-[#e31a1a] hover:!bg-[#c41616] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
+            class="!bg-[#e31a1a] hover:!bg-[#c41616] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal"
             @click="$router.push('/recruitment/facility/create')"
           >
             <NavIcon name="BxPlus" size="14" />

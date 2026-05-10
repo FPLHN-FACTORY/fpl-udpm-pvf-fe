@@ -15,13 +15,13 @@ export const classesRoute: RouteRecordRaw = {
       path: 'create',
       name: 'extracurricular-classes-create',
       component: () => import('../../../components/pages/extracurricular/ExtracurricularClassCreatePage.vue'),
-      meta: { title: 'Thêm mới', hidden: true }
+      meta: { title: 'Thêm mới', hidden: true, hideMenu: true }
     },
     {
       path: 'edit/:id',
       name: 'extracurricular-classes-edit',
       component: () => import('../../../components/pages/extracurricular/ExtracurricularClassEditPage.vue'),
-      meta: { title: 'Điều chỉnh', hidden: true }
+      meta: { title: 'Điều chỉnh', hidden: true, hideMenu: true }
     },
     {
       path: 'deleted',
@@ -33,7 +33,7 @@ export const classesRoute: RouteRecordRaw = {
       path: 'detail/:id',
       name: 'extracurricular-classes-detail',
       component: () => import('../../../components/pages/extracurricular/ExtracurricularClassDetailPage.vue'),
-      meta: { title: 'Chi tiết', hidden: true }
+      meta: { title: 'Chi tiết', hidden: true, hideMenu: true }
     },
     {
       path: 'attendance',

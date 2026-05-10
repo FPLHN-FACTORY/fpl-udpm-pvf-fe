@@ -13,7 +13,8 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Thông tin chi tiết địa chỉ IP</h2>
         <div class="flex gap-3">
           <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none !h-9 flex items-center gap-2"
+            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !h-9 flex items-center justify-center gap-2 font-medium px-4"
+            style="color: #ffffff !important;"
             @click="$router.back()"
           >
             <template #icon>
@@ -22,7 +23,10 @@
             Quay Lại
           </a-button>
           <a-button 
-            class="!bg-[#ffab00] hover:!bg-[#e69a00] !text-white !border-none !h-9"
+            type="primary"
+            class="!bg-[#ffab00] hover:!bg-[#e69a00] !border-none !h-9 flex items-center justify-center font-medium px-4"
+            style="color: #ffffff !important;"
+            @click="$router.push(`/system/security/ip-restriction/edit/1`)"
           >
             Chỉnh Sửa
           </a-button>

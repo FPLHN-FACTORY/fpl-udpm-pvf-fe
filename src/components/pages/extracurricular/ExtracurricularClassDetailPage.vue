@@ -13,14 +13,14 @@
         Chi tiết Lớp học ngoại khóa
       </h2>
       <div class="flex items-center space-x-3">
-        <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md h-9 text-xs font-medium">
+        <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md h-9 text-xs font-normal">
           <NavIcon name="BxArrowBack" size="14" />
           <span>Quay Lại</span>
         </a-button>
         <a-button 
           type="primary" 
           @click="$router.push(`/extracurricular/classes/edit/1`)"
-          class="bg-[#ffab00] border-[#ffab00] hover:bg-[#e69a00] text-white rounded-md h-9 px-4 flex items-center text-xs font-medium uppercase"
+          class="bg-[#ffab00] border-[#ffab00] hover:bg-[#e69a00] text-white rounded-md h-9 px-4 flex items-center text-xs font-normal uppercase"
         >
           Chỉnh Sửa
         </a-button>
@@ -52,15 +52,15 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Học viên tham gia lớp học</h2>
         <div class="flex items-center gap-2">
-          <a-button type="primary" class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium">
+          <a-button type="primary" class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal">
             <NavIcon name="BxPlus" size="14" />
             Thêm Học Viên
           </a-button>
-          <a-button class="!bg-[#71dd37] hover:!bg-[#63c130] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium">
+          <a-button class="!bg-[#71dd37] hover:!bg-[#63c130] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal">
             <NavIcon name="BxExport" size="14" />
             Xuất Danh Sách
           </a-button>
-          <a-button class="!bg-[#03c3ec] hover:!bg-[#02af00] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium">
+          <a-button class="!bg-[#03c3ec] hover:!bg-[#02af00] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-normal">
             <NavIcon name="BxImport" size="14" />
             Nhập Danh Sách
           </a-button>

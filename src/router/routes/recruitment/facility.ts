@@ -14,19 +14,19 @@ export const facilityRoute: RouteRecordRaw = {
       path: 'info',
       name: 'facility-info',
       component: () => import('../../../components/pages/recruitment/FacilityInfoPage.vue'),
-      meta: { title: 'Chi tiết cơ sở', hidden: true }
+      meta: { title: 'Chi tiết cơ sở', hidden: true, hideMenu: true }
     },
     {
       path: 'create',
       name: 'facility-create',
       component: () => import('../../../components/pages/recruitment/FacilityCreatePage.vue'),
-      meta: { title: 'Thêm mới cơ sở', icon: 'BxPlusCircle' }
+      meta: { title: 'Thêm mới cơ sở', icon: 'BxPlusCircle', hideMenu: true }
     },
     {
       path: 'edit/:id',
       name: 'facility-edit',
       component: () => import('../../../components/pages/recruitment/FacilityEditPage.vue'),
-      meta: { title: 'Điều chỉnh cơ sở', hidden: true }
+      meta: { title: 'Điều chỉnh cơ sở', hidden: true, hideMenu: true }
     },
     {
       path: 'deleted',
