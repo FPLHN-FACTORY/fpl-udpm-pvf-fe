@@ -30,7 +30,7 @@
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Vòng Tuyển sinh</h2>
         <div class="flex items-center gap-2">
           <a-button 
-            @click="$router.push('/admission/rounds/deleted')"
+            @click="$router.push({ name: 'admission-rounds-deleted' })"
             class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
           >
             <NavIcon name="BxTrash" size="14" />
@@ -39,7 +39,7 @@
           <a-button 
             type="primary" 
             class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
-            @click="$router.push('/admission/rounds/create')"
+            @click="$router.push({ name: 'admission-rounds-create' })"
           >
             <NavIcon name="BxPlus" size="14" />
             Thêm Mới
@@ -103,12 +103,12 @@
                 <NavIcon 
                   name="BxShow" 
                   class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#696cff]" 
-                  @click="$router.push(`/admission/rounds/detail/${record.key}`)"
+                  @click="$router.push({ name: 'admission-rounds-detail', params: { id: record.key } })"
                 />
                 <NavIcon 
                   name="BxEditAlt" 
                   class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#ffab00]" 
-                  @click="$router.push(`/admission/rounds/edit/${record.key}`)"
+                  @click="$router.push({ name: 'admission-rounds-edit', params: { id: record.key } })"
                 />
                 <NavIcon 
                   name="BxTrash" 

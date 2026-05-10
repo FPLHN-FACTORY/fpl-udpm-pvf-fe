@@ -8,14 +8,7 @@
     </div>
     <div class="flex items-center gap-2">
       <ButtonSearch @click="$emit('search')" />
-      <a-button
-        class="!bg-[#8592a3] hover:!bg-[#788393] !text-white !border-none !rounded-md !h-[38px] !w-[38px] flex items-center justify-center shadow-sm"
-        @click="onReset"
-      >
-        <template #icon>
-          <NavIcon name="BxRefresh" size="20" />
-        </template>
-      </a-button>
+      <ButtonReset @click="onReset" />
     </div>
   </div>
 </template>
@@ -24,6 +17,7 @@
 import { reactive, watch } from 'vue'
 import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const props = defineProps<{
   initialFilters: { search: string; status: any }

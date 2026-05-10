@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">Quản lý tuyển sinh</span>
       <span class="text-gray-400">/</span>
-      <span class="text-[#566a7f] font-medium cursor-pointer hover:underline" @click="$router.push('/admission/rounds')">Vòng tuyển sinh</span>
+      <span class="text-[#566a7f] font-medium cursor-pointer hover:underline" @click="$router.push({ name: 'admission-rounds' })">Vòng tuyển sinh</span>
     </div>
 
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
@@ -12,7 +12,7 @@
       <div class="p-6 border-b border-gray-100 flex justify-between items-center">
         <h2 class="text-lg font-bold text-[#566a7f]">Thêm mới Vòng tuyển sinh</h2>
         <a-button 
-          @click="$router.push('/admission/rounds')"
+          @click="$router.push({ name: 'admission-rounds' })"
           class="!bg-[#f1f1f2] hover:!bg-[#e1e1e2] !text-[#566a7f] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
         >
           <NavIcon name="BxArrowBack" size="14" />
@@ -123,7 +123,7 @@ const handleCreate = async () => {
       form: { ...formState } as any
     })
     message.success('Thêm mới vòng tuyển sinh thành công')
-    router.push(`/admission/rounds`)
+    router.push({ name: 'admission-rounds' })
   } catch (error) {
     message.error('Lỗi khi thêm mới')
   }

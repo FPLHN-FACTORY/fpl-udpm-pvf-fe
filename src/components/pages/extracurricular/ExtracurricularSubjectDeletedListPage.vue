@@ -76,7 +76,7 @@
                   @click="$router.push(`/extracurricular/subjects/${record.id}`)"
                 />
                 <NavIcon 
-                  name="BxUndo" 
+                  name="BxReset" 
                   class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#71dd37]" 
                   @click="handleRestore(record.id)"
                 />

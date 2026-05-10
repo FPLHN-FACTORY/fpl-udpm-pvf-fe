@@ -57,102 +57,76 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Môn học ngoại khoá</h2>
         <div class="flex items-center gap-2">
-          <a-button 
-            @click="$router.push('/extracurricular/subjects/deleted')"
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !text-white !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
-          >
-            <NavIcon name="BxTrash" size="14" />
-            Danh Sách Đã Xóa
-          </a-button>
-          <a-button 
-            type="primary" 
-            class="!bg-[#e31a1a] hover:!bg-[#c41616] !border-none flex items-center gap-2 h-9 px-4 rounded-md text-xs font-medium"
-            @click="$router.push('/extracurricular/subjects/create')"
-          >
-            <NavIcon name="BxPlus" size="14" />
-            Thêm Mới
-          </a-button>
+          <ButtonDeleteList @click="handleGoToDeleted" />
+          <ButtonAdd @click="handleCreate" />
         </div>
       </div>
 
       <!-- Filter Bar -->
-      <div class="p-6 flex flex-wrap items-center gap-3 bg-white border-b border-gray-100">
+      <div class="p-6 flex flex-wrap items-center gap-3 bg-[#fcfcfd] border-b border-gray-100">
         <div class="flex-1 min-w-[200px]">
-          <a-input v-model:value="searchQuery" placeholder="Tìm kiếm" class="!h-10 !border-[#d9dee3] rounded-md">
-          </a-input>
+          <InputSearch v-model="searchQuery" placeholder="Tìm kiếm" />
         </div>
         <div class="w-[200px]">
-          <a-date-picker placeholder="Chọn thời gian" class="w-full !h-10" />
-        </div>
-        <div class="w-[200px]">
-          <a-select v-model:value="statusFilter" placeholder="Chọn trạng thái" class="w-full !h-10">
-            <a-select-option value="Đang hoạt động">Đang hoạt động</a-select-option>
-            <a-select-option value="Tạm ngưng">Tạm ngưng</a-select-option>
-          </a-select>
+          <SelectFilter :value="statusFilter" @update:value="statusFilter = $event" placeholder="Chọn trạng thái" :options="statusOptions" />
         </div>
         <div class="flex items-center gap-2">
-          <a-button type="primary" class="!bg-[#696cff] hover:!bg-[#5f61e6] !border-none !h-10 px-6 rounded-md flex items-center gap-2" @click="fetchData">
-            <NavIcon name="BxSearch" size="16" />
-            Tìm Kiếm
-          </a-button>
-          <a-button 
-            class="!bg-[#8592a3] hover:!bg-[#717d8c] !border-none !w-10 !h-10 !p-0 !min-w-0 flex items-center justify-center rounded-md shadow-sm" 
-            @click="resetFilters"
-          >
-            <NavIcon name="BxReset" class-name="w-6 h-6 text-white" />
-          </a-button>
+          <ButtonSearch @click="fetchData" />
+          <ButtonReset @click="resetFilters" />
         </div>
       </div>
 
       <!-- Table Container -->
       <div class="overflow-x-auto">
-        <a-table 
-          :columns="columns" 
-          :data-source="tableData" 
-          :pagination="false"
-          :row-selection="{}"
-          class="pvf-table"
-        >
-          <template #bodyCell="{ column, record, index }">
-            <template v-if="column.key === 'stt'">
-              <span class="text-[#696cff]">{{ index + 1 }}</span>
-            </template>
-            <template v-if="column.key === 'code'">
-              <span class="font-bold text-[#566a7f]">{{ record.code }}</span>
-            </template>
-            <template v-if="column.key === 'status'">
-              <div class="flex items-center">
-                <span :class="record.status === 'Đang hoạt động' ? 'bg-[#e7f5e9] text-[#71dd37]' : 'bg-[#fff2e1] text-[#ffab00]'" class="px-3 py-1 rounded-md text-[11px] font-bold uppercase whitespace-nowrap">
+        <table class="w-full">
+          <thead class="bg-[#fcfcfd] border-b border-gray-100">
+            <tr>
+              <th class="px-6 py-4 text-left text-[11px] font-bold text-[#566a7f] uppercase tracking-wider">#</th>
+              <th class="px-6 py-4 text-left text-[11px] font-bold text-[#566a7f] uppercase tracking-wider">MÃ MÔN</th>
+              <th class="px-6 py-4 text-left text-[11px] font-bold text-[#566a7f] uppercase tracking-wider">TÊN MÔN</th>
+              <th class="px-6 py-4 text-left text-[11px] font-bold text-[#566a7f] uppercase tracking-wider">MÔ TẢ MÔN</th>
+              <th class="px-6 py-4 text-left text-[11px] font-bold text-[#566a7f] uppercase tracking-wider">TRẠNG THÁI</th>
+              <th class="px-6 py-4 text-left text-[11px] font-bold text-[#566a7f] uppercase tracking-wider">HÀNH ĐỘNG</th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-100">
+            <tr v-for="(record, index) in tableData" :key="record.id" class="hover:bg-gray-50">
+              <td class="px-6 py-4 text-[13px] text-[#696cff] font-medium">{{ index + 1 }}</td>
+              <td class="px-6 py-4 text-[13px] text-[#566a7f] font-bold">{{ record.code }}</td>
+              <td class="px-6 py-4 text-[13px] text-[#566a7f]">{{ record.name }}</td>
+              <td class="px-6 py-4 text-[13px] text-[#566a7f]">{{ record.description }}</td>
+              <td class="px-6 py-4">
+                <BaseTag :type="record.status === 'Đang hoạt động' ? 'success' : 'warning'">
                   {{ record.status }}
-                </span>
-              </div>
-            </template>
-            <template v-if="column.key === 'action'">
-              <div class="flex items-center gap-3">
-                <NavIcon 
-                  name="BxShow" 
-                  class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#696cff]" 
-                  @click="$router.push(`/extracurricular/subjects/${record.id}`)"
-                />
-                <NavIcon 
-                  name="BxEditAlt" 
-                  class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#ffab00]" 
-                  @click="$router.push(`/extracurricular/subjects/${record.id}/edit`)"
-                />
-                <NavIcon 
-                  name="BxTrash" 
-                  class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#ff3e1d]" 
-                  @click="handleDelete(record.id)"
-                />
-              </div>
-            </template>
-          </template>
-        </a-table>
+                </BaseTag>
+              </td>
+              <td class="px-6 py-4">
+                <div class="flex items-center gap-3">
+                  <NavIcon 
+                    name="BxShow" 
+                    class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#696cff] transition-colors" 
+                    @click="handleView(record.id)"
+                  />
+                  <NavIcon 
+                    name="BxEditAlt" 
+                    class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#71dd37] transition-colors" 
+                    @click="handleEdit(record.id)"
+                  />
+                  <NavIcon 
+                    name="BxTrash" 
+                    class-name="w-5 h-5 text-gray-400 cursor-pointer hover:text-[#ff3e1d] transition-colors" 
+                    @click="handleDelete(record.id)"
+                  />
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
-      <!-- Custom Pagination -->
+      <!-- Pagination -->
       <div class="p-6 flex justify-end bg-white border-t border-gray-100">
-        <a-pagination :current="3" :total="60" :pageSize="10" show-less-items class="custom-pagination" />
+        <BasePagination :current="currentPage" :total="60" :pageSize="10" @change="handlePageChange" />
       </div>
     </div>
   </div>
@@ -160,22 +134,29 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import BasePagination from '@/components/atoms/display/BasePagination.vue'
+import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
+import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
+import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
+import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
+import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
+import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import { mhnkService } from '@/services/extracurricular/mhnkapi'
 
+const router = useRouter()
 const searchQuery = ref('')
 const statusFilter = ref(undefined)
 const tableData = ref<any[]>([])
 const summary = ref({ total: 0, active: 0, paused: 0 })
+const currentPage = ref(1)
 
-const columns = [
-  { title: '#', key: 'stt', width: 60 },
-  { title: 'MÃ MÔN', dataIndex: 'code', key: 'code', width: 120 },
-  { title: 'TÊN MÔN', dataIndex: 'name', key: 'name', width: 250 },
-  { title: 'MÔ TẢ MÔN', dataIndex: 'description', key: 'description' },
-  { title: 'TRẠNG THÁI', dataIndex: 'status', key: 'status', width: 150 },
-  { title: 'HÀNH ĐỘNG', key: 'action', width: 130 }
+const statusOptions = [
+  { label: 'Đang hoạt động', value: 'Đang hoạt động' },
+  { label: 'Tạm ngưng', value: 'Tạm ngưng' }
 ]
 
 const fetchData = async () => {
@@ -197,6 +178,22 @@ const resetFilters = () => {
   fetchData()
 }
 
+const handleCreate = () => {
+  router.push({ name: 'extracurricular-subjects-create' })
+}
+
+const handleGoToDeleted = () => {
+  router.push({ name: 'extracurricular-subjects-deleted' })
+}
+
+const handleView = (id: string) => {
+  router.push({ name: 'extracurricular-subjects-detail', params: { id } })
+}
+
+const handleEdit = (id: string) => {
+  router.push({ name: 'extracurricular-subjects-edit', params: { id } })
+}
+
 const handleDelete = async (id: string) => {
   try {
     await mhnkService.softDelete(id)
@@ -207,48 +204,16 @@ const handleDelete = async (id: string) => {
   }
 }
 
+const handlePageChange = (page: number) => {
+  currentPage.value = page
+  fetchData()
+}
+
 onMounted(() => {
   fetchData()
 })
 </script>
 
 <style scoped>
-:deep(.ant-select-selector) {
-  height: 40px !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-  display: flex;
-  align-items: center;
-}
-:deep(.ant-picker) {
-  height: 40px !important;
-  border-radius: 6px !important;
-  border-color: #d9dee3 !important;
-}
-:deep(.pvf-table .ant-table-thead > tr > th) {
-  background-color: #fcfcfd;
-  color: #566a7f;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 11px;
-  border-bottom: 1px solid #d9dee3;
-}
-:deep(.pvf-table .ant-table-tbody > tr > td) {
-  color: #566a7f;
-  font-size: 13px;
-  padding: 12px 16px;
-}
-:deep(.ant-pagination-item-active) {
-  background-color: #e31a1a !important;
-  border-color: #e31a1a !important;
-}
-:deep(.ant-pagination-item-active a) {
-  color: white !important;
-}
-:deep(.ant-pagination-item) {
-  border-radius: 4px;
-}
-:deep(.ant-pagination-prev), :deep(.ant-pagination-next) {
-  border-radius: 4px;
-}
+/* No custom styles needed - using base components */
 </style>
