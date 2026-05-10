@@ -23,9 +23,7 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
 import InputSearch from '@/components/atoms/inputs/InputSearch.vue'
-import SelectFilter from '@/components/atoms/inputs/SelectFilter.vue'
 import ButtonSearch from '@/components/atoms/buttons/ButtonSearch.vue'
-import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const props = defineProps<{
   initialFilters: { search: string; status: any }

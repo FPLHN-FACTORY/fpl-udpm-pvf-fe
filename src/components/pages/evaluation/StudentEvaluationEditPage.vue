@@ -34,7 +34,6 @@
             :disabled="!canSubmit"
             @click="handleSubmit"
           >
-            <EvaluationIcon name="BxEditAlt" class-name="h-4 w-4" />
             Chỉnh Sửa
           </button>
         </div>

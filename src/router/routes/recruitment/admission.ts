@@ -44,7 +44,7 @@ export const admissionRoute: RouteRecordRaw = {
     {
       path: 'evaluation',
       name: 'admission-evaluation',
-      component: () => import('../../../components/pages/dashboard/DashboardPage.vue'),
+      component: () => import('../../../components/pages/recruitment/CandidateEvaluationPage.vue'),
       meta: { title: 'Đánh giá thí sinh' }
     }
   ]

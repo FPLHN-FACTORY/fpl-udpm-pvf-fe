@@ -134,6 +134,7 @@ import ButtonReset from '@/components/atoms/buttons/ButtonReset.vue'
 
 const router = useRouter()
 
+
 // Stats Data
 const stats = [
   { 
@@ -241,11 +242,11 @@ const getStatusType = (status: string) => {
 }
 
 const handleView = (id: string) => {
-  console.log('View:', id)
+  router.push(`/student/equipment/chi-tiet/${id}`)
 }
 
 const handleEdit = (id: string) => {
-  console.log('Edit:', id)
+  router.push(`/student/equipment/chinh-sua/${id}`)
 }
 
 const handleDelete = (id: string) => {
@@ -253,11 +254,11 @@ const handleDelete = (id: string) => {
 }
 
 const handleAdd = () => {
-  console.log('Add new')
+  router.push('/student/equipment/them-moi')
 }
 
 const handleDeletedList = () => {
-  console.log('View deleted list')
+  router.push('/student/equipment/da-xoa')
 }
 
 const handleSearch = () => {

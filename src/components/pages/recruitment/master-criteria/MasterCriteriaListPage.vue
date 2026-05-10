@@ -11,7 +11,7 @@
           </div>
         </div>
         <div :class="card.iconWrapperClass" class="w-10 h-10 rounded-lg flex items-center justify-center">
-          <NavIcon :name="card.icon" :size="20" />
+          <MasterCriteriaIcon :name="card.icon" class-name="w-5 h-5" />
         </div>
       </div>
     </div>
@@ -52,7 +52,7 @@ import AdminPage from '@/components/templates/AdminPage.vue'
 import AdminCard from '@/components/molecules/AdminCard.vue'
 import ButtonAdd from '@/components/atoms/buttons/ButtonAdd.vue'
 import ButtonDeleteList from '@/components/atoms/buttons/ButtonDeleteList.vue'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+import MasterCriteriaIcon from './MasterCriteriaIcon.vue'
 import MasterCriteriaFilter from '@/components/molecules/recruitment/MasterCriteriaFilter.vue'
 import MasterCriteriaTable from '@/components/organisms/recruitment/MasterCriteriaTable.vue'
 import {
@@ -91,38 +91,38 @@ const summary = reactive<MasterCriteriaSummary>({
   active: 0,
 })
 
-const summaryHintClass = "text-[rgba(113,221,55,1)]";
+const summaryHintClass = "text-[rgba(113,221,55,1)]"
 
 const summaryCards = computed(() => [
   {
     label: "Tổng số bộ tiêu chí",
     value: summary.total,
-    icon: "BxBarChartAlt2",
-    iconWrapperClass: "bg-blue-50 text-blue-500",
+    icon: "BxPanelSplit",
+    iconWrapperClass: "bg-[rgba(105,108,255,0.16)] text-[rgba(105,108,255,1)]",
   },
   {
     label: "Số bộ đang sử dụng",
     value: summary.inUse,
     hint: summary.total ? `(${Math.round((summary.inUse / summary.total) * 100)}%)` : "",
-    hintClass: "text-green-500",
+    hintClass: summaryHintClass,
     icon: "BxCalendarCheck",
-    iconWrapperClass: "bg-red-50 text-red-500",
+    iconWrapperClass: "bg-[rgba(255,62,29,0.16)] text-[rgba(255,62,29,1)]",
   },
   {
     label: "Số bộ chưa sử dụng",
     value: summary.unused,
     hint: summary.total ? `(${Math.round((summary.unused / summary.total) * 100)}%)` : "",
-    hintClass: "text-orange-500",
-    icon: "BxLayers",
-    iconWrapperClass: "bg-orange-50 text-orange-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersMinus",
+    iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
   },
   {
     label: "Số bộ đang active",
     value: summary.active,
     hint: summary.total ? `(${Math.round((summary.active / summary.total) * 100)}%)` : "",
-    hintClass: "text-yellow-500",
-    icon: "BxCheckShield",
-    iconWrapperClass: "bg-yellow-50 text-yellow-500",
+    hintClass: summaryHintClass,
+    icon: "BxLayersPlus",
+    iconWrapperClass: "bg-[rgba(255,171,0,0.16)] text-[rgba(255,171,0,1)]",
   },
 ])
 

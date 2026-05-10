@@ -11,6 +11,12 @@ export const expensesManagementRoutes: RouteRecordRaw[] = [
 
 export const expensesManagementHiddenRoutes: RouteRecordRaw[] = [
   {
+    path: 'withdrawal/create',
+    name: 'expenses-create',
+    component: () => import('../../../components/pages/expenses/ExpensesCreate.vue'),
+    meta: { title: 'Thêm mới yêu cầu rút sinh hoạt phí', hidden: true }
+  },
+  {
     path: 'withdrawal/detail/:id',
     name: 'expenses-detail',
     component: () => import('../../../components/pages/expenses/ExpensesDetail.vue'),

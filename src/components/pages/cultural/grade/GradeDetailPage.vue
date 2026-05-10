@@ -10,7 +10,7 @@
     <!-- Page Header Section -->
     <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
       <div class="flex justify-between items-center mb-6">
-        <h1 class="text-lg font-bold text-[#566a7f] bg-[#fcf3d7] px-2 py-1 rounded inline-block">Chi tiết Khối lớp</h1>
+        <h1 class="text-lg font-bold text-[#566a7f] inline-block">Chi tiết Khối lớp</h1>
         <div class="flex items-center gap-3">
           <ButtonBack @click="$router.back()" />
           <ButtonEdit @click="$router.push(`/cultural/grade/edit/${$route.params.id}`)" />
@@ -48,11 +48,6 @@
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="flex justify-between items-center text-[12px] text-gray-400 mt-auto pt-6">
-      <span>2025 © PVF VN</span>
-      <span>Design & Develop by FPT POLYTECHNIC</span>
-    </div>
   </div>
 </template>
 

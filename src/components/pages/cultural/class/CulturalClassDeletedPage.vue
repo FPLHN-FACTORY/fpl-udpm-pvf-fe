@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">{{ moduleTitle }}</span>
       <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">{{ pageTitle }}</span>
+      <span class="text-gray-400 font-medium">{{ pageTitle }}</span>
     </div>
 
     <!-- Main Content Section -->
@@ -96,7 +96,7 @@
                   title="Khôi phục"
                   @click="restoreRow(record.id)"
                 >
-                  <NavIcon name="BxRevision" class-name="w-[18px] h-[18px]" />
+                  <NavIcon name="BxReset" class-name="w-[18px] h-[18px]" />
                 </button>
                 <button
                   class="p-1 text-[#a1acb8] hover:text-[#ff3e1d] transition-colors"

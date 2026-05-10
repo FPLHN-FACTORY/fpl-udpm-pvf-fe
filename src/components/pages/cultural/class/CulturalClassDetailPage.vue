@@ -4,7 +4,7 @@
     <div class="flex items-center gap-2 text-sm mb-2">
       <span class="text-gray-400">{{ moduleTitle }}</span>
       <span class="text-gray-400">/</span>
-      <span class="bg-[#fcf3d7] text-[#f6c23e] px-2 py-0.5 rounded font-medium">{{ pageTitle }}</span>
+      <span class="text-gray-400 font-medium">{{ pageTitle }}</span>
     </div>
 
     <template v-if="record">
@@ -15,7 +15,7 @@
           <h2 class="text-lg font-bold text-[#566a7f]">Chi tiết Lớp học văn hóa</h2>
           <div class="flex gap-3">
             <ButtonBack @click="goBack" />
-            <ButtonEdit @click="goToEdit" />
+            <ButtonEditNoIcon @click="goToEdit" />
           </div>
         </div>
 
@@ -187,7 +187,7 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
-import ButtonEdit from '../../../atoms/buttons/ButtonEdit.vue'
+import ButtonEditNoIcon from '../../../atoms/buttons/ButtonEditNoIcon.vue'
 import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
 import ButtonExport from '../../../atoms/buttons/ButtonExport.vue'
 import ButtonImport from '../../../atoms/buttons/ButtonImport.vue'

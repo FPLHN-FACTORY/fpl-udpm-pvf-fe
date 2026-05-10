@@ -2,7 +2,7 @@
   <a-select
     :value="value"
     :placeholder="placeholder"
-    class="custom-filter-select"
+    class="custom-filter-select w-full"
     :allow-clear="allowClear"
     @change="$emit('update:value', $event)"
   >

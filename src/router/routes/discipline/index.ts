@@ -1,18 +1,18 @@
 import type { RouteRecordRaw } from 'vue-router'
 import { levelsRoute, levelsHiddenRoute } from './levels'
-import { disciplineDecisionRoute, disciplineSubRoutes } from './discipline-decisions' 
-import { templatesHiddenRoute, templatesRoute } from './templates'
-import { rewardDecisionRoute } from './reward-decisions'
+import { templatesRoute, templatesHiddenRoute } from './templates'
+import { disciplineDecisionRoute, disciplineSubRoutes } from './discipline-decisions'
+import { rewardDecisionRoutes } from './reward-decisions'
 
 export const disciplineRoutes: RouteRecordRaw[] = [
   {
     path: '/discipline',
     meta: { title: 'Quản lý kỷ luật - khen thưởng', icon: 'BxInfoCircle', isHeader: true },
     children: [
-      levelsRoute,           
-      templatesRoute,        
-      disciplineDecisionRoute, 
-      rewardDecisionRoute    
+      levelsRoute,
+      templatesRoute,
+      disciplineDecisionRoute,
+      ...rewardDecisionRoutes
     ]
   },
   ...disciplineSubRoutes.map(route => ({
@@ -20,7 +20,6 @@ export const disciplineRoutes: RouteRecordRaw[] = [
     path: `/discipline/${route.path}`
   }))
 ]
-  
 
 export const disciplineHiddenRoutes: RouteRecordRaw[] = [
   {

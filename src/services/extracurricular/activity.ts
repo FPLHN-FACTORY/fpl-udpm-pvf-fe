@@ -72,7 +72,7 @@ export const activityService = {
   },
 
   // Lấy danh sách đã xóa
-  async getDeletedList(filters: any, page: number = 1, pageSize: number = 10) {
+  async getDeletedList(_filters: any, page: number = 1, pageSize: number = 10) {
     await new Promise(resolve => setTimeout(resolve, DELAY))
     return {
       data: [...mockDeletedActivities],
@@ -91,31 +91,31 @@ export const activityService = {
   },
 
   // Thêm mới
-  async create(payload: any) {
+  async create(_payload: any) {
     await new Promise(resolve => setTimeout(resolve, DELAY))
     return { success: true, message: 'Thêm mới thành công' }
   },
 
   // Cập nhật
-  async update(id: string, payload: any) {
+  async update(_id: string, _payload: any) {
     await new Promise(resolve => setTimeout(resolve, DELAY))
     return { success: true, message: 'Cập nhật thành công' }
   },
 
   // Xóa tạm (đưa vào thùng rác)
-  async softDelete(id: string) {
+  async softDelete(_id: string) {
     await new Promise(resolve => setTimeout(resolve, DELAY))
     return { success: true }
   },
 
   // Khôi phục
-  async restore(id: string) {
+  async restore(_id: string) {
     await new Promise(resolve => setTimeout(resolve, DELAY))
     return { success: true }
   },
 
   // Xóa vĩnh viễn
-  async hardDelete(id: string) {
+  async hardDelete(_id: string) {
     await new Promise(resolve => setTimeout(resolve, DELAY))
     return { success: true }
   }

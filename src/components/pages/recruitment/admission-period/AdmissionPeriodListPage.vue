@@ -62,8 +62,8 @@
       <div class="flex justify-between items-center p-6 border-b border-gray-100">
         <h2 class="text-lg font-bold text-[#566a7f]">Danh sách Kỳ tuyển sinh</h2>
         <div class="flex gap-3">
-          <ButtonDeleteList @click="$router.push('/recruitment/admission-periods/deleted')" />
-          <ButtonAdd text="Thêm Mới" @click="$router.push('/recruitment/admission-periods/create')" />
+          <ButtonDeleteList @click="$router.push({ name: 'admission-period-deleted' })" />
+          <ButtonAdd text="Thêm Mới" @click="$router.push({ name: 'admission-period-create' })" />
         </div>
       </div>
 
@@ -122,13 +122,13 @@
               <div class="flex items-center gap-2 justify-center">
                 <button 
                   class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-                  @click="$router.push(`/recruitment/admission-periods/detail/${record.key}`)"
+                  @click="$router.push({ name: 'admission-period-detail', params: { id: record.key } })"
                 >
                   <NavIcon name="BxShow" class-name="w-[18px] h-[18px]" />
                 </button>
                 <button 
                   class="p-1 text-[#a1acb8] hover:text-[#566a7f] transition-colors"
-                  @click="$router.push(`/recruitment/admission-periods/edit/${record.key}`)"
+                  @click="$router.push({ name: 'admission-period-edit', params: { id: record.key } })"
                 >
                   <NavIcon name="BxEdit" class-name="w-[18px] h-[18px]" />
                 </button>

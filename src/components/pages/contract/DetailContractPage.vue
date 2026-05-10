@@ -10,18 +10,6 @@
             @click="$router.back()" 
             class="group flex items-center gap-2 px-4 py-2 bg-[#f1f3f5] text-[#748293] rounded-lg font-medium hover:bg-[#e9ecef] transition-all duration-200"
             >
-                <!-- Icon mũi tên thanh mảnh giống ảnh -->
-                <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    class="w-5 h-5 transform group-hover:-translate-x-1 transition-transform" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke="currentColor" 
-                    stroke-width="2"
-                >
-                <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-  
                 <span class="text-[15px]">Quay Lại</span>
             </button>
         <button @click="router.push(`/student/signed-contract/edit/${contractId}`)" class="px-4 py-2 bg-[#ffab00] text-white rounded-md hover:bg-[#e69a00] transition shadow-sm font-medium">
@@ -67,7 +55,7 @@
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-semibold text-[#566a7f]">Các điều khoản, quyền lợi, nghĩa vụ, ...</h3>
         <button @click="addNewClause" class="px-3 py-1.5 bg-[#ff3e1d] text-white text-sm rounded-md hover:bg-[#e6381a] shadow-sm flex items-center gap-1">
-          <i class='bx bx-plus'></i> Thêm Mới
+          Thêm Mới
         </button>
       </div>
       <table class="w-full text-sm border-t border-[#d9dee3]">
@@ -98,7 +86,7 @@
       <div class="flex justify-between items-center mb-4">
         <h3 class="font-semibold text-[#566a7f]">Trợ cấp</h3>
         <button @click="addNewAllowance" class="px-3 py-1.5 bg-[#ff3e1d] text-white text-sm rounded-md hover:bg-[#e6381a] shadow-sm flex items-center gap-1">
-          <i class='bx bx-plus'></i> Thêm Mới
+          Thêm Mới
         </button>
       </div>
       <table class="w-full text-sm border-t border-[#d9dee3]">

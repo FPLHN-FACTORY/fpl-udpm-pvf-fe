@@ -12,7 +12,7 @@
         <h2 class="text-[20px] font-bold text-gray-700 m-0">Chi tiết Phiên bản hợp đồng</h2>
         <div class="flex gap-2">
           <ButtonBack @click="$router.push('/student/contract-version')" />
-          <ButtonEdit @click="$router.push(`/student/contract-version/edit/${$route.params.id}`)" />
+          <ButtonEditNoIcon @click="$router.push(`/student/contract-version/edit/${$route.params.id}`)" />
         </div>
       </div>
 
@@ -29,7 +29,9 @@
     <a-card :bordered="false" class="shadow-sm rounded-xl mt-6">
       <div class="flex items-center justify-between pb-4">
         <h2 class="text-[18px] font-bold text-gray-700 m-0">Các điều khoản, quyền lợi, nghĩa vụ, ...</h2>
-        <ButtonAdd @click="handleAddTerm" />
+        <a-button type="primary" class="!bg-[#71DD37] hover:!bg-[#65c731] !border-none !rounded-md font-medium px-4" @click="handleAddTerm">
+          Thêm Điều Khoản
+        </a-button>
       </div>
 
       <a-table 
@@ -38,7 +40,7 @@
         :pagination="false"
         class="custom-table"
       >
-        <template #bodyCell="{ column, record, index }">
+        <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
@@ -60,7 +62,9 @@
     <a-card :bordered="false" class="shadow-sm rounded-xl mt-6">
       <div class="flex items-center justify-between pb-4">
         <h2 class="text-[18px] font-bold text-gray-700 m-0">Trợ cấp</h2>
-        <ButtonAdd @click="handleAddAllowance" />
+        <a-button type="primary" class="!bg-[#71DD37] hover:!bg-[#65c731] !border-none !rounded-md font-medium px-4" @click="handleAddAllowance">
+          Thêm Trợ Cấp
+        </a-button>
       </div>
 
       <a-table 
@@ -69,7 +73,7 @@
         :pagination="false"
         class="custom-table"
       >
-        <template #bodyCell="{ column, record, index }">
+        <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
@@ -91,7 +95,9 @@
     <a-card :bordered="false" class="shadow-sm rounded-xl mt-6 mb-10">
       <div class="flex items-center justify-between pb-4">
         <h2 class="text-[18px] font-bold text-gray-700 m-0">Dụng cụ của phiên bản hợp đồng</h2>
-        <ButtonAdd @click="handleAddEquipment" />
+        <a-button type="primary" class="!bg-[#71DD37] hover:!bg-[#65c731] !border-none !rounded-md font-medium px-4" @click="handleAddEquipment">
+          Thêm Dụng Cụ
+        </a-button>
       </div>
 
       <a-table 
@@ -100,7 +106,7 @@
         :pagination="false"
         class="custom-table"
       >
-        <template #bodyCell="{ column, record, index }">
+        <template #bodyCell="{ column, index }">
           <template v-if="column.key === 'index'">
             <span class="font-medium text-[#696cff]">{{ index + 1 }}</span>
           </template>
@@ -117,11 +123,6 @@
         </template>
       </a-table>
 
-      <!-- Footer -->
-      <div class="flex items-center justify-between mt-8 border-t pt-4 border-gray-100">
-        <span class="text-sm text-gray-500">2025 © PVF VN</span>
-        <span class="text-sm text-gray-500">Design & Develop by FPT POLYTECHNIC</span>
-      </div>
     </a-card>
 
   </div>
@@ -129,15 +130,12 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import NavIcon from '../../../atoms/icons/NavIcon.vue'
 import BaseTag from '../../../atoms/display/BaseTag.vue'
-import ButtonEdit from '../../../atoms/buttons/ButtonEdit.vue'
+import ButtonEditNoIcon from '../../../atoms/buttons/ButtonEditNoIcon.vue'
 import ButtonBack from '../../../atoms/buttons/ButtonBack.vue'
-import ButtonAdd from '../../../atoms/buttons/ButtonAdd.vue'
 import DetailList from '../../../molecules/DetailList.vue'
 
-const router = useRouter()
 
 const detailItems = [
   { label: 'Tên phiên bản hợp đồng', value: 'Phiên bản chuẩn PVF v1.0' },

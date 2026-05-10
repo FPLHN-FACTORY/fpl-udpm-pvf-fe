@@ -76,8 +76,8 @@ const rowSelection = {
   },
 };
 
-const getStatusType = (status: string) => {
-  const types: Record<string, string> = {
+const getStatusType = (status: string): 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger' => {
+  const types: Record<string, 'success' | 'warning' | 'error' | 'processing' | 'default' | 'primary' | 'info' | 'danger'> = {
     pending: 'warning',
     approved: 'success',
     rejected: 'danger'
