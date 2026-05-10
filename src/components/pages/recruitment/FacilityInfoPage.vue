@@ -1,86 +1,38 @@
 <template>
-  <div class="space-y-6">
-    <!-- Breadcrumb -->
-    <div class="flex items-center text-[13px] text-gray-500 space-x-2 px-1">
-      <span>Quản lý tuyển sinh</span>
-      <span class="text-gray-400">/</span>
-      <span>Thông tin đào tạo</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-gray-800">Chi tiết cơ sở</span>
-    </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard :title="isEditing ? 'Điều chỉnh Thông tin đào tạo' : 'Chi tiết Thông tin đào tạo'" padded title-size="xl">
+      <template #actions>
+        <ButtonBack @click="handleBack" />
+        <ButtonEditNoIcon v-if="!isEditing" text="Chỉnh Sửa" @click="isEditing = true" />
+      </template>
 
-    <!-- Header Section -->
-    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center justify-between">
-      <h2 class="text-lg font-bold text-gray-800">
-        {{ isEditing ? 'Điều chỉnh Thông tin đào tạo' : 'Chi tiết Thông tin đào tạo' }}
-      </h2>
-      <div class="flex items-center space-x-3">
-        <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md">
-          <NavIcon name="BxArrowBack" size="14" />
-          <span class="text-xs font-normal">Quay Lại</span>
-        </a-button>
-        <a-button 
-          v-if="!isEditing"
-          type="primary" 
-          @click="isEditing = true"
-          class="bg-[#ffab00] border-[#ffab00] hover:bg-[#e69a00] text-white rounded-md h-8 px-4 flex items-center"
-        >
-          <span class="text-xs font-normal uppercase">Chỉnh Sửa</span>
-        </a-button>
-      </div>
-    </div>
-
-    <!-- Content Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
       <!-- View Mode -->
       <div v-if="!isEditing" class="p-0">
-        <div class="divide-y divide-gray-100">
-          <div v-for="(item, index) in facilityDetails" :key="index" class="grid grid-cols-12 p-4 hover:bg-gray-50 transition-colors">
-            <div class="col-span-3 text-sm font-semibold text-gray-700">{{ item.label }}</div>
-            <div class="col-span-9 text-sm text-gray-600">
-              <template v-if="item.key === 'status'">
-                <a-tag color="success" class="rounded-full px-3">
-                  {{ item.value }}
-                </a-tag>
-              </template>
-              <template v-else>
-                {{ item.value }}
-              </template>
-            </div>
-          </div>
-        </div>
+        <DetailList :items="facilityDetails">
+          <template #value-status="{ item }">
+            <BaseTag type="success">{{ item.value }}</BaseTag>
+          </template>
+        </DetailList>
       </div>
 
       <!-- Edit Mode -->
-      <div v-else class="p-8 max-w-4xl mx-auto">
-        <a-form layout="vertical" :model="editForm" class="space-y-4">
-          <a-form-item label="Tên cơ sở đào tạo">
-            <a-input v-model:value="editForm.name" />
-          </a-form-item>
-          <a-form-item label="Địa chỉ cơ sở">
-            <a-input v-model:value="editForm.address" />
-          </a-form-item>
-          <a-form-item label="Thông tin liên hệ">
-            <a-input v-model:value="editForm.contact" />
-          </a-form-item>
-          <a-form-item label="Trạng thái">
-            <a-select v-model:value="editForm.status">
-              <a-select-option value="active">Đang hoạt động</a-select-option>
-              <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
-            </a-select>
-          </a-form-item>
-          
-          <div class="flex items-center justify-center space-x-3 mt-8">
-            <a-button type="primary" danger size="large" class="px-10 rounded-lg bg-[#e31a1a] border-[#e31a1a] h-11 flex items-center" @click="handleUpdate">
-              <span class="text-sm font-normal uppercase">Cập Nhật</span>
-            </a-button>
-            <a-button size="large" class="px-10 rounded-lg bg-[#ffab00] text-white border-[#ffab00] hover:bg-[#e69a00] h-11 flex items-center" @click="handleReset">
-              <span class="text-sm font-normal uppercase">Đặt Lại</span>
-            </a-button>
-          </div>
-        </a-form>
+      <div v-else class="flex flex-col gap-6 max-w-full mt-4">
+        <InputForm v-model="editForm.name" label="Tên cơ sở đào tạo" />
+        <InputForm v-model="editForm.address" label="Địa chỉ cơ sở" />
+        <InputForm v-model="editForm.contact" label="Thông tin liên hệ" />
+        <SelectForm v-model:value="editForm.status" label="Trạng thái">
+          <a-select-option value="active">Đang hoạt động</a-select-option>
+          <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
+        </SelectForm>
+        
+        <div class="flex items-center justify-center gap-4 mt-4">
+          <ButtonSaveNoIcon text="Cập Nhật" @click="handleUpdate" />
+          <ButtonResetYellow text="Đặt Lại" @click="handleReset" />
+        </div>
       </div>
-    </div>
+    </AdminCard>
+
+    <div class="mt-6"></div>
 
     <!-- Stats Section (Only show in view mode) -->
     <div v-if="!isEditing" class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -100,17 +52,17 @@
       </div>
     </div>
 
+    <div class="mt-6"></div>
+
     <!-- Chart Section (Only show in view mode) -->
-    <div v-if="!isEditing" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-      <div class="flex items-center justify-between mb-6">
-        <h3 class="text-lg font-bold text-gray-800">Thống kê</h3>
+    <AdminCard v-if="!isEditing" title="Thống kê" padded>
+      <template #actions>
         <a-select defaultValue="month" size="small" class="w-32">
           <a-select-option value="month">Tháng</a-select-option>
           <a-select-option value="year">Năm</a-select-option>
         </a-select>
-      </div>
-      
-      <div class="h-[300px] w-full">
+      </template>
+      <div class="h-[300px] w-full mt-4">
         <apexchart 
           type="line" 
           height="100%" 
@@ -118,8 +70,8 @@
           :series="chartSeries"
         />
       </div>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
@@ -127,8 +79,25 @@ import { ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import NavIcon from '@/components/atoms/icons/NavIcon.vue'
 
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import DetailList from '@/components/molecules/DetailList.vue'
+import BaseTag from '@/components/atoms/display/BaseTag.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonEditNoIcon from '@/components/atoms/buttons/ButtonEditNoIcon.vue'
+import ButtonSaveNoIcon from '@/components/atoms/buttons/ButtonSaveNoIcon.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
+
 const router = useRouter()
 const isEditing = ref(false)
+
+const breadcrumbs = [
+  { title: 'Quản lý tuyển sinh', path: '#' },
+  { title: 'Thông tin đào tạo', path: '/recruitment/facility/list' },
+  { title: 'Chi tiết cơ sở', path: '#' }
+]
 
 const facilityDetails = computed(() => [
   { label: 'Tên cơ sở đào tạo', value: 'Cơ sở đào tạo FPT Hà Nội', key: 'name' },
@@ -221,11 +190,4 @@ const chartSeries = [
 </script>
 
 <style scoped>
-:deep(.ant-btn-primary) {
-  box-shadow: none;
-}
-:deep(.ant-form-item-label label) {
-  font-weight: 500;
-  color: #4b5563;
-}
 </style>

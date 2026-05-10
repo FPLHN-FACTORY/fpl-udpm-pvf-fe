@@ -1,67 +1,63 @@
 <template>
-  <div class="space-y-6">
-    <!-- Breadcrumb -->
-    <div class="flex items-center text-[13px] text-gray-500 space-x-2 px-1">
-      <span>Quản lý tuyển sinh</span>
-      <span class="text-gray-400">/</span>
-      <span>Thông tin đào tạo</span>
-      <span class="text-gray-400">/</span>
-      <span class="text-gray-800">Thêm mới</span>
-    </div>
+  <AdminPage :breadcrumbs="breadcrumbs">
+    <AdminCard title="Thêm mới Thông tin đào tạo" padded title-size="xl">
+      <template #actions>
+        <ButtonBack @click="$router.back()" />
+      </template>
 
-    <!-- Header Section -->
-    <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-100 flex items-center justify-between">
-      <h2 class="text-lg font-bold text-gray-800">
-        Thêm mới Thông tin đào tạo
-      </h2>
-      <div class="flex items-center space-x-3">
-        <a-button @click="handleBack" class="flex items-center space-x-2 border-gray-300 text-gray-600 rounded-md">
-          <NavIcon name="BxArrowBack" size="14" />
-          <span class="text-xs font-normal">Quay Lại</span>
-        </a-button>
+      <div class="flex flex-col gap-6 max-w-full mt-4">
+        <InputForm 
+          v-model="createForm.name" 
+          label="Tên cơ sở đào tạo"
+          placeholder="Nhập tên cơ sở đào tạo" 
+        />
+        <InputForm 
+          v-model="createForm.address" 
+          label="Địa chỉ cơ sở"
+          placeholder="Nhập địa chỉ cơ sở" 
+        />
+        <InputForm 
+          v-model="createForm.contact" 
+          label="Thông tin liên hệ"
+          placeholder="Nhập số điện thoại / email" 
+        />
+        <SelectForm 
+          v-model:value="createForm.status" 
+          label="Trạng thái"
+          placeholder="Chọn trạng thái"
+        >
+          <a-select-option value="active">Đang hoạt động</a-select-option>
+          <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
+        </SelectForm>
+        
+        <div class="flex items-center justify-center gap-4 mt-4">
+          <ButtonAddNoIcon text="Thêm Mới" @click="handleCreate" />
+          <ButtonResetYellow text="Đặt Lại" @click="handleReset" />
+        </div>
       </div>
-    </div>
-
-    <!-- Content Card -->
-    <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-      <div class="p-8 max-w-4xl mx-auto">
-        <a-form layout="vertical" :model="createForm" class="space-y-4">
-          <a-form-item label="Tên cơ sở đào tạo">
-            <a-input v-model:value="createForm.name" placeholder="Nhập tên cơ sở đào tạo" />
-          </a-form-item>
-          <a-form-item label="Địa chỉ cơ sở">
-            <a-input v-model:value="createForm.address" placeholder="Nhập địa chỉ cơ sở" />
-          </a-form-item>
-          <a-form-item label="Thông tin liên hệ">
-            <a-input v-model:value="createForm.contact" placeholder="Nhập số điện thoại / email" />
-          </a-form-item>
-          <a-form-item label="Trạng thái">
-            <a-select v-model:value="createForm.status" placeholder="Chọn trạng thái">
-              <a-select-option value="active">Đang hoạt động</a-select-option>
-              <a-select-option value="inactive">Ngừng hoạt động</a-select-option>
-            </a-select>
-          </a-form-item>
-          
-          <div class="flex items-center justify-center space-x-3 mt-8">
-            <a-button type="primary" danger size="large" class="px-10 rounded-lg bg-[#e31a1a] border-[#e31a1a] h-11 flex items-center" @click="handleCreate">
-              <span class="text-sm font-normal uppercase">Thêm Mới</span>
-            </a-button>
-            <a-button size="large" class="px-10 rounded-lg bg-[#ffab00] text-white border-[#ffab00] hover:bg-[#e69a00] h-11 flex items-center" @click="handleReset">
-              <span class="text-sm font-normal uppercase">Đặt Lại</span>
-            </a-button>
-          </div>
-        </a-form>
-      </div>
-    </div>
-  </div>
+    </AdminCard>
+  </AdminPage>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import NavIcon from '@/components/atoms/icons/NavIcon.vue'
+
+import AdminPage from '@/components/templates/AdminPage.vue'
+import AdminCard from '@/components/molecules/AdminCard.vue'
+import InputForm from '@/components/atoms/inputs/InputForm.vue'
+import SelectForm from '@/components/atoms/inputs/SelectForm.vue'
+import ButtonBack from '@/components/atoms/buttons/ButtonBack.vue'
+import ButtonAddNoIcon from '@/components/atoms/buttons/ButtonAddNoIcon.vue'
+import ButtonResetYellow from '@/components/atoms/buttons/ButtonResetYellow.vue'
 
 const router = useRouter()
+
+const breadcrumbs = [
+  { title: 'Quản lý tuyển sinh', path: '#' },
+  { title: 'Thông tin đào tạo', path: '/recruitment/facility/list' },
+  { title: 'Thêm mới', path: '#' }
+]
 
 const createForm = ref({
   name: '',
@@ -69,10 +65,6 @@ const createForm = ref({
   contact: '',
   status: 'active'
 })
-
-const handleBack = () => {
-  router.back()
-}
 
 const handleCreate = () => {
   // Logic to add new facility
@@ -91,11 +83,4 @@ const handleReset = () => {
 </script>
 
 <style scoped>
-:deep(.ant-btn-primary) {
-  box-shadow: none;
-}
-:deep(.ant-form-item-label label) {
-  font-weight: 500;
-  color: #4b5563;
-}
 </style>
